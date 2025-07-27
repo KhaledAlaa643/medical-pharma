@@ -1,0 +1,22 @@
+
+
+::ng-deep {
+  .toast-container {
+    font-size: xx-large !important;
+    position: fixed !important;
+    bottom: 0;
+    margin: 7px auto;
+    right: 0;
+    left: 0;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .toast-container .ngx-toastr {
+    width: 500px !important;
+
+    @media screen and (max-width:550px) {
+      width: 90vw !important
+    }
+  }
+}

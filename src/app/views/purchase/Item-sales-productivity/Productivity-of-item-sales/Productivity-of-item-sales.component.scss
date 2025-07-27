@@ -1,0 +1,102 @@
+
+@import 'generalTableStyle.scss';
+@import 'generalInputsStyle.scss';
+@import 'generalPaginationStyle.scss';
+
+@font-face {
+  font-family: NOTO;
+  src: local("Noto"),
+    url("../../../../../assets/fonts/NotoSansArabic-VariableFont_wdth\,wght.ttf") format("truetype");
+}
+
+
+.centeringCSS {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.centeringCSS:active {
+  background-color: var(--darkGreen);
+  font-size: 14px;
+}
+
+.btnStyling {
+  background-color: var(--darkGreen);
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+.ProductivityOfItemSalesTable {
+
+
+    .backShadow {
+      box-shadow: 0px 0px 1px 20px #ccc;
+    }
+  
+    .netsalescolor {
+      color: var(--darkGreen) !important
+    }
+  
+  
+    .tableHeader {
+      background-color: #3F497F;
+      color: white;
+      border: 0px 15px 0px 0px;
+      border-radius: 0px 15px 0px 0px;
+      border-width: 0 0 1px 0;
+    }
+  
+    .tableHeader2 {
+      background-color: #3F497F;
+      color: white;
+      border: 15px 0px 0px 0px;
+      border-radius: 15px 0px 0px 0px;
+    }
+  
+  
+    .marginFix {
+      margin: 1px;
+    }
+  
+    .height-50px {
+      height: 50px;
+    }
+  
+    .centeringCSS {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    .centeringCSS:active {
+      background-color: var(--darkGreen);
+      font-size: 14px;
+    }
+  
+    .btnStyling {
+      background-color: var(--darkGreen);
+      border-radius: 10px;
+      font-size: 18px;
+    }
+  
+  
+
+  
+    .font-type {
+      font-family: MONTSERRAT;
+      src: local("MONTSERRAT"),
+        url("../../../../../assets/fonts//Montserrat-VariableFont_wght.ttf") format("truetype");
+    }
+
+  
+  
+    .merged-cell .merge-container {
+      display: flex;
+      justify-content: space-between;
+    }
+  
+    .merged-cell .merge-container>div {
+      width: calc(50% - 1em);
+    }
+  }

@@ -1,0 +1,97 @@
+<div class="main_card_margen">
+  <div class="card boxShadow-15 borderRadius_20px p-3">
+    <form
+      [formGroup]="safeForm"
+      (ngSubmit)="onSubmit()"
+      class="d-flex flex-column gap-4 p-3"
+    >
+      <div class="d-flex gap-2 flex-wrap align-items-end">
+        <div class="width-10 d-flex flex-column">
+          <label class="mb-2">رقم الخزينة </label>
+          <input
+            type="text"
+            formControlName="number"
+            class="form-control disabled"
+            placeholder=" "
+            readOnly
+          />
+        </div>
+        <div class="flex-fill d-flex flex-column">
+          <label class="mb-2">اسم الخزينة </label>
+          <input
+            type="text"
+            formControlName="name"
+            [readOnly]="id"
+            class="form-control"
+            [ngClass]="{
+              disabled: id
+            }"
+            placeholder=" "
+          />
+        </div>
+        <div class="flex-fill d-flex flex-column">
+          <label class="mb-2"> نوع الخزينة</label>
+          <p-dropdown
+            [showClear]="true"
+            [readonly]="id ? true : false"
+            formControlName="type"
+            [options]="safeTypes"
+            [ngClass]="{
+              disabled: id
+            }"
+            placeholder=" "
+            optionLabel="name"
+            optionValue="value"
+          ></p-dropdown>
+        </div>
+        <div class="width-20">
+          <div class="radiobutton d-flex">
+            <input
+              style="width: 40px !important; height: 40px !important"
+              class="form-check-input mx-1 borderRadius_10px"
+              name="is_private"
+              type="checkbox"
+              formControlName="is_private"
+            />
+            <label class="form-check-label d-flex align-items-center">
+              خزينة خاصة
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex gap-2 flex-wrap align-items-end">
+        <div class="width-30 d-flex flex-column">
+          <label class="mb-2"> موظفي الخزينة</label>
+          <p-dropdown
+            [showClear]="true"
+            formControlName="safe_employee_id"
+            [options]="safe_employees"
+            (onChange)="AddEmployee($event)"
+            placeholder=" "
+            optionLabel="name"
+            optionValue="id"
+          ></p-dropdown>
+
+          <div class="employee-list mt-2">
+            <ul>
+              <li *ngFor="let user of users; let i = index">
+                <div class="d-flex justify-content-between align-items-center">
+                  <p>{{ user.name }}</p>
+                  <button (click)="deleteEmployee(user, i)">x</button>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-end my-2">
+        <button
+          type="submit"
+          class="green_bg_black_txt_btn px-4 p-2 h-40px borderRadius_10px border-0"
+        >
+          حفظ
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

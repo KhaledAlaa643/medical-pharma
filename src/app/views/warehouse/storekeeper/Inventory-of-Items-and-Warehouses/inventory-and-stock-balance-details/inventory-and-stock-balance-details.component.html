@@ -1,0 +1,288 @@
+<div class="main_card_margen">
+  <div
+    class="inventory-stock-balance-details card boxShadow-10 borderRadius_10px responsiveTabs p-4"
+  >
+    <div class="upper-Button my-3">
+      <div class="bottomHolder d-flex justify-content-start w-30">
+        <div class="add-prohibited-item">
+          <div class="totals d-flex align-items-center">
+            <div class="add-prohibited-button d-flex justify-content-end">
+              <button
+                appDisableButton
+                type="submit"
+                placeholder=" "
+                class="form-control"
+                data-bs-toggle="modal"
+                data-bs-target="#AddProhibitedBatchmodel"
+              >
+                بيانات اساسية
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <form [formGroup]="productDataForm">
+      <div class="inventory-stock-balance-data">
+        <div class="row" formGroupName="name">
+          <div class="col-6">
+            <div class="w-100 my-2">
+              <label class="mb-2">اسم الصنف عربي </label>
+              <input
+                type="text"
+                placeholder=" "
+                readonly
+                class="disabled form-control"
+                formControlName="ar"
+              />
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="w-100 my-2">
+              <label class="mb-2"> اسم الصنف انجليزي</label>
+              <input
+                type="text"
+                placeholder=" "
+                readonly
+                class="disabled form-control"
+                formControlName="en"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <div class="w-100 my-2">
+              <label class="mb-2"> المادة الفعالة </label>
+
+              <!-- [readonly]="true" -->
+              <p-dropdown
+                [readonly]="true"
+                class="disabled-with-bg readonly disabled"
+                [options]="activeIngredient"
+                formControlName="active_ingredient_id"
+                optionLabel="name"
+                optionValue="id"
+                display="chip"
+              ></p-dropdown>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="w-100 my-2">
+              <label class="mb-2"> بديل المادة الفعالة </label>
+              <p-multiSelect
+                [readonly]="true"
+                class="disabled-with-bg"
+                [options]="activeIngredient"
+                formControlName="ingredient_alternative_ids"
+                optionLabel="name"
+                optionValue="id"
+                display="chip"
+                [panelStyle]="{ 'max-height': '300px' }"
+              ></p-multiSelect>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="w-100 my-2">
+                <label class="mb-2"> الشركة المصنعه </label>
+                <p-dropdown
+                  [options]="Manufacturers"
+                  formControlName="manufacturer_id"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="w-100 my-2">
+                <label class="mb-2"> نوع التصنيع </label>
+                <p-dropdown
+                  [options]="allFixedData.product_manufacturing_types"
+                  formControlName="manufacturing_type"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="value"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="w-100 my-2">
+              <label class="mb-2"> التصنيف </label>
+              <p-dropdown
+                [options]="allFixedData.product_type"
+                formControlName="type"
+                class="d-block"
+                optionLabel="name"
+                optionValue="value"
+                placeholder=" "
+                [filter]="true"
+              ></p-dropdown>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="w-100 my-2">
+              <label class="mb-2">الباكت </label>
+              <input
+                type="number"
+                placeholder=" "
+                class="form-control"
+                formControlName="items_number_in_packet"
+              />
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="w-100 my-2">
+              <label class="mb-2"> الكرتونة </label>
+              <input
+                type="number"
+                placeholder=" "
+                class="form-control"
+                formControlName="packets_number_in_package"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row gap-1">
+          <div class="col-md-12 col-lg-5">
+            <label class="mt-3">موقع الصنف الافتراضي</label>
+            <div class="col-md-12 col-lg-5 d-flex gap-2 my-2 displayblock">
+              <div class="w-100 my-2">
+                <label class="mb-2">رف</label>
+                <p-dropdown
+                  [showClear]="true"
+                  [options]="shelves"
+                  formControlName="shelf"
+                  class="d-block"
+                  optionLabel="number"
+                  optionValue="number"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+              <div class="w-100 my-2">
+                <label class="mb-2">استاند</label>
+                <p-dropdown
+                  [showClear]="true"
+                  [options]="stands"
+                  formControlName="stand"
+                  class="d-block"
+                  optionLabel="number"
+                  optionValue="number"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+              <div class="w-100 my-2">
+                <label class="mb-2">محطة</label>
+                <p-dropdown
+                  [showClear]="true"
+                  [options]="corridors"
+                  formControlName="corridor_id"
+                  class="d-block"
+                  optionLabel="number"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-lg-8">
+            <label class="mb-2">حالة البيع</label>
+            <div class="radiobuttons d-flex gap-5">
+              <div *ngFor="let radioBtn of allFixedData.product_selling_status">
+                <div class="radiobutton">
+                  <input
+                    class="form-check-input mx-1"
+                    formControlName="selling_status"
+                    name="selling_status"
+                    type="radio"
+                    id="radio1"
+                    [value]="radioBtn.value"
+                  />
+                  <label class="form-check-label" for="radio1">
+                    {{ radioBtn.name }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-8">
+            <label class="mb-2">حالة الشراء</label>
+            <div class="radiobuttons d-flex gap-5">
+              <div *ngFor="let radioBtn of allFixedData.product_buying_status">
+                <div class="radiobutton">
+                  <input
+                    class="form-check-input mx-1"
+                    formControlName="buying_status"
+                    name="buying_status"
+                    type="radio"
+                    id="radio2"
+                    [value]="radioBtn.value"
+                  />
+                  <label class="form-check-label" for="radio2">
+                    {{ radioBtn.name }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="barcode">
+          <div class="barcode-area my-4 col-md-4">
+            <div class="form-group">
+              <label class="mb-2"> الباركود الدولي </label>
+              <input
+                type="text"
+                readonly
+                formControlName="global_barcode"
+                class="disabled form-control"
+                placeholder=" "
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="notes">
+          <div class="form-group">
+            <label class="mb-2"> ملاحظات علي الصنف </label>
+            <textarea
+              class="form-control resize-none"
+              formControlName="note"
+              rows="4"
+              placeholder="  "
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="button my-3 d-flex">
+          <div class="add-prohibited-button">
+            <button
+              appDisableButton
+              (click)="editProductData()"
+              type="submit"
+              placeholder=" "
+              class="form-control borderRadius_20px darkGreen-bg h-50px text-white fw-bolder fs-18"
+            >
+              تعديل الصنف
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

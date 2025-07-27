@@ -1,0 +1,52 @@
+@import "generalInputsStyle.scss";
+@import "generalTableStyle.scss";
+@import 'generalPaginationStyle.scss';
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.order_number{
+    @media screen and (max-width:1024px) {
+        flex-direction: column-reverse !important;
+    }
+}
+
+#calculateBonusAndTaxModal {
+    .modal-dialog {
+        //padding-top: 7% !important;
+        max-width: 75vw !important;
+
+        @media only screen and (max-width:426px) {
+            max-width: 100% !important;
+            // margin: 4% auto !important;
+        }
+        // .modal-body{
+        //     ::ng-deep .p-datatable-wrapper{
+        //       height: 407px;
+        //     }
+        // }
+    }
+
+}
+
+// ::ng-deep .p-column-filter-row .p-column-filter-menu-button{
+//     // display: none !important;
+// }
+
+::ng-deep .p-inputtext{
+    height: 40px !important;
+    width: 100% !important;
+    direction: rtl !important;
+}
+
+::ng-deep .p-column-filter-clear-button{
+    width: 0% !important;
+    margin: 0px !important; 
+}
+
+::ng-deep .p-datatable .p-sortable-column:focus {
+    box-shadow: none !important;
+}

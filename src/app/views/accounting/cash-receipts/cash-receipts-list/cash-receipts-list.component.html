@@ -1,0 +1,317 @@
+<div class="main_card_margen">
+  <div class="card borderRadius_10px boxShadow-10 p-3">
+    <div id="header" class="mb-3">
+      <form [formGroup]="searchForm">
+        <div class="d-flex gap-2 flex-wrap align-items-end my-3">
+          <div class="d-flex flex-column width-25">
+            <label class="mb-2">الخزينة</label>
+            <p-dropdown
+              [options]="safes"
+              [readonly]="safes.length === 1"
+              [showClear]="true"
+              placeholder=" "
+              formControlName="safe_id"
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+          </div>
+          <div class="d-flex flex-column width-25">
+            <label class="mb-2"> اسم المندوب</label>
+            <p-dropdown
+              [showClear]="true"
+              formControlName="delivery_id"
+              [options]="deliveries"
+              optionLabel="name"
+              optionValue="id"
+              placeholder=" "
+            ></p-dropdown>
+          </div>
+          <div class="d-flex flex-column width-25">
+            <label class="mb-2"> اسم السائق</label>
+            <p-dropdown
+              [showClear]="true"
+              formControlName="driver_id"
+              [options]="deliveries"
+              optionLabel="name"
+              optionValue="id"
+              placeholder=" "
+            ></p-dropdown>
+          </div>
+          <div class="d-flex flex-column flex-fill">
+            <label class="mb-2"> خط السير</label>
+            <p-dropdown
+              [showClear]="true"
+              [options]="tracks"
+              optionLabel="name"
+              optionValue="id"
+              formControlName="track_id"
+              placeholder=" "
+            ></p-dropdown>
+          </div>
+        </div>
+        <div class="d-flex gap-2 flex-wrap align-items-end my-3">
+          <div class="width-30 d-flex align-items-end gap-1">
+            <div class="width-50">
+              <label class="m-2">التاريخ </label>
+              <div class="calendar-holder position-relative">
+                <p-calendar
+                  #calendarFrom
+                  [dir]="'ltr'"
+                  formControlName="from"
+                  placeholder=" من"
+                  dateFormat="yy-mm-dd"
+                  [showClear]="true"
+                >
+                </p-calendar>
+                <img
+                  (click)="calendarFrom.toggle()"
+                  class="cursor-pointer position-absolute top_5px end-0"
+                  src="../../../../assets/images/input/calender.svg"
+                  alt=""
+                />
+              </div>
+            </div>
+            <div class="width-50">
+              <div class="calendar-holder position-relative">
+                <p-calendar
+                  #calendarTo
+                  [dir]="'ltr'"
+                  placeholder=" الي"
+                  dateFormat="yy-mm-dd"
+                  formControlName="to"
+                  [showClear]="true"
+                >
+                </p-calendar>
+                <img
+                  (click)="calendarTo.toggle()"
+                  class="cursor-pointer position-absolute top_5px end-0"
+                  src="../../../../assets/images/input/calender.svg"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+          <div class="width-20 d-flex align-items-end gap-1">
+            <div class="width-50">
+              <label class="m-2">المبلغ </label>
+              <input
+                formControlName="amount_from"
+                placeholder="من"
+                type="number"
+                class="form-control"
+              />
+            </div>
+            <div class="width-50">
+              <input
+                formControlName="amount_to"
+                placeholder="الي"
+                type="number"
+                class="form-control"
+              />
+            </div>
+          </div>
+          <div class="d-flex flex-column width-20">
+            <label class="m-2">رقم الإيصال </label>
+            <div class="d-flex align-items-end gap-1">
+              <div class="width-50">
+                <input
+                  formControlName="cash_receipt_from"
+                  placeholder="من"
+                  type="number"
+                  class="form-control"
+                />
+              </div>
+              <div class="width-50">
+                <input
+                  formControlName="cash_receipt_to"
+                  placeholder="الي"
+                  type="number"
+                  class="form-control"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="d-flex flex-column flex-fill">
+            <label class="mb-2"> الكاتب</label>
+            <p-dropdown
+              [showClear]="true"
+              formControlName="created_by"
+              placeholder=" "
+              [options]="created_by"
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+          </div>
+        </div>
+        <div class="d-flex gap-2 flex-wrap align-items-end my-3">
+          <div class="width-20 d-flex flex-column">
+            <label class="mb-2"> نوع الحساب</label>
+            <p-dropdown
+              [showClear]="true"
+              formControlName="account_type"
+              placeholder=" "
+              [options]="accountTypes"
+              (onChange)="getAccountsDropdown()"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+          </div>
+          <div class="width-20 d-flex flex-column">
+            <label class="mb-2"> اسم الحساب</label>
+            <p-dropdown
+              [showClear]="true"
+              formControlName="account_id"
+              placeholder=" "
+              [options]="accounts"
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+          </div>
+          <div class="width-20 d-flex flex-column">
+            <label class="mb-2"> اسم العميل</label>
+            <p-dropdown
+              [showClear]="true"
+              formControlName="pharmacy_id"
+              placeholder=" "
+              [options]="updatedPharmacyNames"
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+          </div>
+
+          <div class="d-flex flex-column width-16">
+            <label class="m-2">رقم الإذن </label>
+
+            <div class="d-flex align-items-end gap-1">
+              <div class="width-50">
+                <input
+                  formControlName="receipt_from"
+                  placeholder="من"
+                  type="number"
+                  class="form-control"
+                />
+              </div>
+              <div class="width-50">
+                <input
+                  formControlName="receipt_to"
+                  placeholder="الي"
+                  type="number"
+                  class="form-control"
+                />
+              </div>
+            </div>
+          </div>
+          <div
+            class="flex-fill d-flex gap-1 justify-content-between align-items-center"
+          >
+            <button
+              (click)="filter()"
+              type="button"
+              class="green_bg_black_txt_btn h-40px borderRadius_10px width-70"
+            >
+              بحث
+            </button>
+            <div id="print">
+              <button
+                (click)="openModal()"
+                appDisableButton
+                data-bs-toggle="modal"
+                data-bs-target="#type5PopUp"
+                class="btn-none fw-bold"
+              >
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 32 32"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_5900_794)">
+                    <path
+                      d="M22.6667 22.6667H25.3333C26.0406 22.6667 26.7189 22.3857 27.219 21.8856C27.719 21.3855 28 20.7072 28 20V14.6667C28 13.9594 27.719 13.2811 27.219 12.781C26.7189 12.281 26.0406 12 25.3333 12H6.66667C5.95942 12 5.28115 12.281 4.78105 12.781C4.28095 13.2811 4 13.9594 4 14.6667V20C4 20.7072 4.28095 21.3855 4.78105 21.8856C5.28115 22.3857 5.95942 22.6667 6.66667 22.6667H9.33333"
+                      stroke="#3F497F"
+                      stroke-width="2.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M22.6673 12V6.66667C22.6673 5.95942 22.3864 5.28115 21.8863 4.78105C21.3862 4.28095 20.7079 4 20.0007 4H12.0007C11.2934 4 10.6151 4.28095 10.115 4.78105C9.61494 5.28115 9.33398 5.95942 9.33398 6.66667V12"
+                      stroke="#3F497F"
+                      stroke-width="2.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M9.33398 19.9997C9.33398 19.2924 9.61494 18.6142 10.115 18.1141C10.6151 17.614 11.2934 17.333 12.0007 17.333H20.0007C20.7079 17.333 21.3862 17.614 21.8863 18.1141C22.3864 18.6142 22.6673 19.2924 22.6673 19.9997V25.333C22.6673 26.0403 22.3864 26.7185 21.8863 27.2186C21.3862 27.7187 20.7079 27.9997 20.0007 27.9997H12.0007C11.2934 27.9997 10.6151 27.7187 10.115 27.2186C9.61494 26.7185 9.33398 26.0403 9.33398 25.333V19.9997Z"
+                      stroke="#3F497F"
+                      stroke-width="2.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_5900_794">
+                      <rect width="32" height="32" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div id="table" class="mb-3">
+      <app-shared_table
+        [columnsArray]="columnsArray"
+        [columnsNames]="columnsName"
+        [RowsData]="data"
+        (openModalEvent)="getReceiptFromId($event)"
+      ></app-shared_table>
+    </div>
+    <div class="w-100 ps-4 pe-4">
+      <div
+        class="row m-2 p-2 align-items-center d-flex justify-content-between"
+      >
+        <div class="col-lg-3 mt-2">
+          <div
+            class="h-60px borderRadius_20px justify-content-center p-2 lightGreen-border d-flex align-items-center"
+          >
+            العدد : {{ additional_data.count }}
+          </div>
+        </div>
+
+        <div class="col-lg-6 mt-2">
+          <p-paginator
+            #paginator
+            [first]="1"
+            [rows]="rows"
+            (onPageChange)="changepage($event)"
+            [totalRecords]="total"
+          ></p-paginator>
+        </div>
+
+        <div class="col-lg-3 mt-2">
+          <div
+            class="h-60px borderRadius_20px p-2 justify-content-center lightGreen-border d-flex align-items-center"
+          >
+            اجمالي المبلغ : {{ additional_data.total }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- print model -->
+<button
+  hidden
+  #OpenOptionsModal
+  type="button"
+  (click)="choosePrintTypePopup.openAddModal()"
+></button>
+<app-printing-options-popup
+  [paginated]="true"
+  (printData)="print($event)"
+  #choosePrintTypePopup
+></app-printing-options-popup>

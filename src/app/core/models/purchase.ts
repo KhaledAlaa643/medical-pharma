@@ -1,0 +1,31 @@
+export interface purchase_cart {
+  id: number;
+  discount: number;
+  discount_value: number;
+  taxes: number;
+  subtotal: number;
+  total: number;
+  bonus: number | null;
+  quantity: number;
+  product_name: string;
+  public_price: number;
+  supply_price: number | null;
+  purchase_number: number | null;
+  status: string;
+  expired_at: string;
+  operating_number: string;
+  is_supplier: number;
+  pharmacy_id: number;
+  status_value: number;
+  note: string | null;
+  inventoried_quantity: number;
+  inventoried_quantity_price: number;
+  quantity_difference: number;
+  created_at: string;
+  created_by: { name: string; id: number };
+  return: any[];
+  warehouse_id?: number;
+  supplier_id?: number;
+  price?: number;
+  product_id?: number;
+}

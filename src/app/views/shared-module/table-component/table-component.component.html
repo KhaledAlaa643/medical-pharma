@@ -1,0 +1,295 @@
+<div class="w-100">
+  <div class="d-flex float-end w-100 responsiveFixTables">
+    <div
+      class="w-100"
+      [ngClass]="{ tableBorderRight1: isLeft, tableBorderLeft2: !isLeft }"
+    >
+      <div
+        [ngClass]="{ 'left-table': isLeft, 'right-table': !isLeft }"
+        class="w-100 titleBGColor titleBoderRadiusLeft-20px text-white"
+      >
+        <span
+          class="w-100 d-flex justify-content-center align-items-center h-60px overflow-visible h5 text-center tableHeader"
+        >
+          {{ title }}</span
+        >
+      </div>
+
+      <div class="cityClientSalesTable w-100">
+        <p-table
+          [responsive]="true"
+          [scrollable]="true"
+          [value]="apidata"
+          [columns]="apidata"
+        >
+          <ng-template pTemplate="header">
+            <tr class="mb-1">
+              <th>مسلسل</th>
+              <th>اسم العميل</th>
+              <th>التاريخ والوقت</th>
+              <th>الحساب السابق</th>
+              <th *ngIf="TabPage == 1 && !isLeft">المبلغ المستلم</th>
+              <th *ngIf="TabPage == 1 && isLeft">المبلغ المدفوع</th>
+
+              <th *ngIf="TabPage == 2 && !isLeft">قيمة مبيعات</th>
+              <th *ngIf="TabPage == 2 && isLeft">قيمة مرتجعات مبيعات</th>
+              <th *ngIf="TabPage == 3 && !isLeft">قيمة مشتريات</th>
+              <th *ngIf="TabPage == 3 && isLeft">قيمة مرتجعات مشتريات</th>
+              <th *ngIf="TabPage == 4 && !isLeft">قيمة اشعار خصم</th>
+              <th *ngIf="TabPage == 4 && isLeft">قيمة اشعار اضافة</th>
+              <th *ngIf="TabPage == 5 && !isLeft">المبلغ المحول له</th>
+              <th *ngIf="TabPage == 5 && isLeft">المبلغ المحول عليه</th>
+
+              <th
+                *ngIf="
+                  TabPage == 1 || TabPage == 3 || TabPage == 4 || TabPage == 5
+                "
+              >
+                المبلغ المتبقي
+              </th>
+              <th *ngIf="TabPage == 2">اجمالي بعد</th>
+
+              <th>الكاتب</th>
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-agentProduction let-i="rowIndex">
+            <tr>
+              <td *ngIf="TabPage == 1 && !isLeft" class="fw-600 color-black">
+                {{ cashRecievedTotal - ((currentPageRecieved - 1) * 10 + i) }}
+              </td>
+              <td *ngIf="TabPage == 1 && isLeft" class="fw-600 color-black">
+                {{ cashPaymentTotal - ((currentPagePayment - 1) * 10 + i) }}
+              </td>
+
+              <td *ngIf="TabPage == 2 && !isLeft" class="fw-600 color-black">
+                {{ salesTotal - ((currentPageSales - 1) * 10 + i) }}
+              </td>
+
+              <td *ngIf="TabPage == 2 && isLeft" class="fw-600 color-black">
+                {{ returnSalesTotal - ((currentPageReturnSales - 1) * 10 + i) }}
+              </td>
+
+              <td *ngIf="TabPage == 3 && !isLeft" class="fw-600 color-black">
+                {{ purchaseTotal - ((currentPagePurchase - 1) * 10 + i) }}
+              </td>
+              <td *ngIf="TabPage == 3 && isLeft" class="fw-600 color-black">
+                {{
+                  returnPurchaseTotal -
+                    ((currentPageReturnPurchase - 1) * 10 + i)
+                }}
+              </td>
+
+              <td *ngIf="TabPage == 4 && !isLeft" class="fw-600 color-black">
+                {{
+                  notificationDisountTotal -
+                    ((notificationDisountCurrentPage - 1) * 10 + i)
+                }}
+              </td>
+              <td *ngIf="TabPage == 4 && isLeft" class="fw-600 color-black">
+                {{
+                  NotifiationAdditionTotal -
+                    ((notificationAdditionCurrentPage - 1) * 10 + i)
+                }}
+              </td>
+
+              <td *ngIf="TabPage == 5 && !isLeft" class="fw-600 color-black">
+                {{
+                  BalanceReceivedTotal -
+                    ((BalanceReceivedTotalCurrentPage - 1) * 10 + i)
+                }}
+              </td>
+              <td *ngIf="TabPage == 5 && isLeft" class="fw-600 color-black">
+                {{
+                  balanceTransferredDataTotal -
+                    ((balanceTransferredDataCurrentPage - 1) * 10 + i)
+                }}
+              </td>
+
+              <td
+                *ngIf="TabPage === 2"
+                class="fw-600 color-black text-decoration-underline cursor-pointer"
+                (click)="
+                  emitOpenEvent({
+                    pharmacy_id: agentProduction?.pharmacy_id,
+                    id: agentProduction.id
+                  })
+                "
+              >
+                {{ agentProduction?.pharmacy_name }}
+              </td>
+              <td
+                *ngIf="agentProduction.hasOwnProperty('supplier_name')"
+                class="fw-600 color-black text-decoration-underline cursor-pointer"
+                (click)="
+                  emitOpenEvent({
+                    pharmacy_id: agentProduction?.pharmacy_id,
+                    id: agentProduction.id
+                  })
+                "
+              >
+                {{ agentProduction?.supplier_name }}
+              </td>
+              <td
+                *ngIf="
+                  agentProduction.hasOwnProperty('pharmacy_name') &&
+                  TabPage != 2
+                "
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.pharmacy_name }}
+              </td>
+              <td
+                *ngIf="agentProduction.hasOwnProperty('created_at')"
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.created_at }}
+              </td>
+
+              <td
+                *ngIf="agentProduction.hasOwnProperty('balance_before')"
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.balance_before }}
+              </td>
+              <td
+                *ngIf="agentProduction.hasOwnProperty('amount')"
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.amount }}
+              </td>
+              <td
+                *ngIf="agentProduction.hasOwnProperty('balance_after')"
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.balance_after }}
+              </td>
+              <td
+                *ngIf="agentProduction.hasOwnProperty('created_by_name')"
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.created_by_name }}
+              </td>
+              <td
+                *ngIf="
+                  agentProduction.pharmacy?.hasOwnProperty('balance') &&
+                  TabPage == 4
+                "
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.pharmacy?.balance }}
+              </td>
+
+              <td
+                *ngIf="agentProduction.hasOwnProperty('previous_balance')"
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.previous_balance }}
+              </td>
+              <td
+                *ngIf="
+                  agentProduction.hasOwnProperty('last_balance') && TabPage == 3
+                "
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.last_balance }}
+              </td>
+              <td
+                *ngIf="agentProduction.hasOwnProperty('from_previous_balance')"
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.from_previous_balance }}
+              </td>
+
+              <td
+                *ngIf="
+                  agentProduction.hasOwnProperty('notification_value') &&
+                  TabPage == 4
+                "
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.notification_value }}
+              </td>
+
+              <td
+                *ngIf="agentProduction.hasOwnProperty('received_amount')"
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.received_amount }}
+              </td>
+              <td
+                *ngIf="agentProduction.hasOwnProperty('paid_amount')"
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.paid_amount }}
+              </td>
+              <td
+                *ngIf="
+                  agentProduction.hasOwnProperty('total_price') && TabPage == 3
+                "
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.total_price }}
+              </td>
+              <td
+                *ngIf="
+                  agentProduction.hasOwnProperty('current_balance') &&
+                  (TabPage == 2 || TabPage == 3)
+                "
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.current_balance }}
+              </td>
+
+              <td
+                *ngIf="agentProduction.hasOwnProperty('total') && TabPage == 2"
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.total }}
+              </td>
+
+              <td
+                *ngIf="agentProduction.hasOwnProperty('remaining_amount')"
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.remaining_amount }}
+              </td>
+
+              <td
+                *ngIf="agentProduction.hasOwnProperty('from_remaining_amount')"
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.from_remaining_amount }}
+              </td>
+
+              <td
+                *ngIf="agentProduction.hasOwnProperty('user')"
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.user?.name }}
+              </td>
+              <td
+                *ngIf="
+                  (TabPage == 3 || TabPage == 2) &&
+                  agentProduction.hasOwnProperty('created_by')
+                "
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.created_by }}
+              </td>
+
+              <td
+                *ngIf="
+                  agentProduction.hasOwnProperty('accountant') && TabPage == 4
+                "
+                class="fw-600 color-black"
+              >
+                {{ agentProduction?.accountant.name }}
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+</div>

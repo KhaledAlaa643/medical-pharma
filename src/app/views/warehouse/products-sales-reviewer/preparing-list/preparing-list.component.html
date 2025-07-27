@@ -1,0 +1,143 @@
+<div class="preparingList main_card_margen">
+  <div class="preparingLostPage card borderRadius_10px boxShadow-10 p-2">
+    <form [formGroup]="preparingListFilter">
+      <div class="w-100 d-flex flex-wrap justify-content-between">
+        <div
+          class="gap-2 width-75 d-flex flex-wrap justify-content-start align-items-end"
+        >
+          <div
+            *ngIf="
+              permission.includes('listing_retail_sales_reviewer') &&
+              !containsBulk
+            "
+            class="width-25 dropdown-area"
+          >
+            <div
+              class="w-100 justify-content-start align-items-start d-flex flex-column"
+            >
+              <label class=" "> التحضير </label>
+              <p-dropdown
+                [options]="dropdownOptions"
+                formControlName="storage_id"
+                class="d-block"
+                optionLabel="name"
+                optionValue="id"
+                placeholder=" "
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+          </div>
+          <div
+            *ngIf="permission.includes('bulk_reviewer') && containsBulk"
+            class="width-25 dropdown-area"
+          >
+            <div class="w-100">
+              <label class="mb-2"> رقم الأذن </label>
+              <input
+                type="text"
+                placeholder=" "
+                class="form-control"
+                formControlName="invoice_number"
+              />
+            </div>
+          </div>
+          <div
+            *ngIf="permission.includes('bulk_reviewer') && containsBulk"
+            class="width-25 dropdown-area"
+          >
+            <label class="form-label"
+              ><span class="red_color">*</span> التاريخ
+            </label>
+            <div
+              class="d-flex justify-content-end align-content-center flex-wrap"
+            >
+              <p-calendar
+                [dir]="'ltr'"
+                #calendarFrom
+                dateFormat="mm-dd-yy"
+                class="w-100 h-50px borderRadius_10px position-relative"
+                formControlName="from"
+                placeholder=" من "
+                [showClear]="this.preparingListFilter.controls['from'].value"
+                class="w-100"
+              >
+              </p-calendar>
+              <img
+                (click)="calendarFrom.toggle()"
+                class="calendar-icon position-absolute me-4 p-2"
+                src="../../../../assets/images/input/calender.svg"
+                alt=""
+              />
+              <app-Form-errors
+                [control]="this.preparingListFilter.controls['from']"
+              ></app-Form-errors>
+            </div>
+          </div>
+          <div
+            *ngIf="permission.includes('bulk_reviewer') && containsBulk"
+            class="width-30 dropdown-area"
+          >
+            <div class="w-100">
+              <label class="mb-2"> اسم العميل </label>
+              <p-dropdown
+                [options]="groupPharmacied"
+                formControlName="client_id"
+                optionLabel="name"
+                optionValue="id"
+                placeholder=" "
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="width-20 buttonarea-area justify-content-end align-items-end d-flex"
+        >
+          <button
+            appDisableButton
+            (click)="
+              getPreparingListData(
+                preparingListFilter.controls['storage_id'].value
+              )
+            "
+            style="
+              background-color: var(--darkGreen);
+              height: 40px;
+              width: 50%;
+              border-radius: 10px;
+            "
+            type="button"
+            class="btn buttonResponsiveFix ms-auto"
+          >
+            <p class="fw-400 fs-5">بحث</p>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div class="table-area">
+      <app-shared_table
+        [columnsArray]="columnsArray"
+        [columnsNames]="columnsName"
+        [RowsData]="toReviewOrders"
+        (openModalEvent)="ViewOrderDetails($event)"
+      ></app-shared_table>
+    </div>
+
+    <div class="lower-area d-flex mt-2">
+      <div class="lower-area-box d-flex gap-2">
+        <div class="lower-area-title">
+          <span class="d-flex justify-content-center align-items-center p-2">
+            اجمالي عدد الأذونات
+          </span>
+        </div>
+        <div class="numbers">
+          <span class="d-flex justify-content-center align-items-center p-2">{{
+            total
+          }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

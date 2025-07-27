@@ -1,0 +1,21 @@
+<!-- Button trigger modal -->
+<button hidden #OpenModalBtn type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#popupModal">
+
+</button>
+
+<!-- Modal -->
+<div  class="modal fade "  id="popupModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"  aria-hidden="true">
+  
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body d-flex justify-content-center text-center align-items-center">
+        <h1 class="modal-title fs-5" > {{popupMessage}}</h1> 
+      </div>
+      <div class="modal-footer border-0 d-flex justify-content-center">
+        <button *ngIf="ok_button_name!=''" #ok_button id="ok_button" (click)="emitChoosenEvent(true,false)" class="green_bg_black_txt_btn width-45 h-50px borderRadius_20px">{{ok_button_name}}</button>
+         <button (click)="emitChoosenEvent(false,true)" class="red_bg_black_txt_btn width-45 h-50px borderRadius_20px ">{{cancle_button_name}}</button>
+        <button hidden  #closeModal type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+    </div>
+  </div>
+</div>

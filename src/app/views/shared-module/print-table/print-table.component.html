@@ -1,0 +1,85 @@
+<div *ngIf="!type" #pharmacyInvoice id="pharmacyInvoice" dir="rtl">
+  <div #fullTable2 id="fulltable2">
+    <table #table id="table" style="background-color: white; width: 100%;text-align: center; border-collapse: collapse;">
+      <thead style="padding: 4px 4px;">
+        <tr>
+          <th *ngFor="let colItem of columnsArray" style="border: 2px solid #AAAAAA;font-size: 12px;font-weight: bold;text-align: center;"> 
+            {{ colItem.name }}  
+          </th>
+        </tr>
+      </thead>
+      <tbody style="font-size: 12px;">
+        <tr *ngFor="let rowData of RowsData">
+          <td *ngFor="let columnValue of columnsNames" style="border: 2px solid #AAAAAA;font-size: 12px;font-weight: bold;text-align: center;">
+            {{ rowData[columnValue.name] }}
+          </td>
+        </tr>
+      </tbody>
+      <tfoot *ngIf="showFooter">
+        {{showFooter}}
+        <tr style="font-size: 12px;font-weight: bold;">
+          <td style="border: 1px solid #AAAAAA;text-align: center;">اسم المورد </td>
+          <td style="border: 1px solid #AAAAAA;text-align: center;">{{RowsData[0]['supplier']}}</td>
+          <td style="border: 1px solid #AAAAAA;text-align: center;">  المخزن </td>
+          <td style="border: 1px solid #AAAAAA;text-align: center;">{{RowsData[0]['warehouse']}}</td>
+          <td style="border: 1px solid #AAAAAA;text-align: center;">ملاحظه على طلب التوريد </td>
+          <td style="border: 1px solid #AAAAAA;text-align: center;" colspan="3">{{RowsData[0]['order_note']}}</td>
+        </tr>
+        <tr style="font-size: 12px;font-weight: bold;">
+          <td style="border: 1px solid #AAAAAA;text-align: center;">اجمالي عدد االصناف </td>
+          <td style="border: 1px solid #AAAAAA;text-align: center;">{{RowsData[0]['total_cart_items']}}</td>
+          <td style="border: 1px solid #AAAAAA;text-align: center;">اجمالي سعر الجمهور </td>
+          <td style="border: 1px solid #AAAAAA;text-align: center;">{{RowsData[0]['total_price']}}</td>
+          <td style="border: 1px solid #AAAAAA;text-align: center;">اجمالي الضريبة </td>
+          <td style="border: 1px solid #AAAAAA;text-align: center;">{{RowsData[0]['total_tax']}}</td>
+          <td style="border: 1px solid #AAAAAA;text-align: center;">اجمالي سعر التوريد </td>
+          <td style="border: 1px solid #AAAAAA;text-align: center;">{{RowsData[0]['total_supply_price']}}</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<div *ngIf="type==2" #pharmacyInvoice id="pharmacyInvoice" dir="rtl">
+  <div >
+
+  <div class="d-flex w-100">
+    <div class="d-flex flex-column w-50">
+    <div *ngFor="let colItem of columnsArray" >
+      <div [ngClass]="{'without_seperator':colItem.name=='',
+      'seperator':colItem.name!=''
+    }" >
+
+        {{ colItem.name }} 
+      </div>
+    </div>
+
+  </div>
+    <div *ngFor="let rowData of RowsData" class="d-flex flex-column w-50">
+      <div *ngFor="let columnValue of columnsNames" >
+        <div  [ngClass]="{'without_seperator':columnValue.name=='',
+        'seperator':columnValue.name!=''
+      }">
+            <span *ngIf="columnValue?.name=='q'">
+              الكمية 
+           </span> 
+           <span *ngIf="columnValue?.name!='q'">
+            {{ rowData[columnValue.name] }}
+          </span> 
+
+
+            
+
+        </div>
+      </div>
+   
+
+  </div>
+  </div>
+  
+  </div>
+</div>
+
+
+
+

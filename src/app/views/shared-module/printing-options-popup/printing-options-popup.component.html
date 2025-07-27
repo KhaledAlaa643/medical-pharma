@@ -1,0 +1,499 @@
+<button
+  hidden
+  #PintingOptionsModal
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#choosePrintingTypeModel"
+></button>
+<div
+  *ngIf="!inSharedTable"
+  class="modal fade"
+  id="choosePrintingTypeModel"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="chooseTypeModelLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header mb-4">
+        <div class="d-flex justify-content-center w-100">
+          <span class="text-center fs-16 fw-600">نوع الطباعه</span>
+        </div>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div
+          class="d-flex flex-wrap justify-content-center align-items-center gap-5"
+        >
+          <div
+            class="d-flex cursor-pointer flex-column justify-content-center align-items-center"
+          >
+            <div
+              (click)="selectType(1)"
+              [ngClass]="{ selected: selectionArray[1] == true }"
+              class="typeCards borderRadius_15px d-flex justify-content-center align-items-center card"
+            >
+              <svg
+                [ngClass]="{ 'text-white': selectionArray[1] == true }"
+                width="44"
+                height="44"
+                viewBox="0 0 44 44"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g clip-path="url(#clip0_8852_648)">
+                  <path
+                    d="M25.6665 5.5V12.8333C25.6665 13.3196 25.8597 13.7859 26.2035 14.1297C26.5473 14.4735 27.0136 14.6667 27.4998 14.6667H34.8332"
+                    stroke="#2C3E50"
+                    stroke-width="2.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M31.1665 38.5H12.8332C11.8607 38.5 10.9281 38.1137 10.2404 37.4261C9.55281 36.7384 9.1665 35.8058 9.1665 34.8333V9.16667C9.1665 8.19421 9.55281 7.26158 10.2404 6.57394C10.9281 5.88631 11.8607 5.5 12.8332 5.5H25.6665L34.8332 14.6667V34.8333C34.8332 35.8058 34.4469 36.7384 33.7592 37.4261C33.0716 38.1137 32.139 38.5 31.1665 38.5Z"
+                    stroke="#2C3E50"
+                    stroke-width="2.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M14.6665 20.1665H29.3332V32.9998H14.6665V20.1665Z"
+                    stroke="#2C3E50"
+                    stroke-width="2.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M14.6665 27.5H29.3332"
+                    stroke="#2C3E50"
+                    stroke-width="2.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M20.1665 20.1665V32.9998"
+                    stroke="#2C3E50"
+                    stroke-width="2.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_8852_648">
+                    <rect width="44" height="44" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+
+              <span class="my-1 fw-700 fs-24">Excel</span>
+            </div>
+          </div>
+          <div
+            class="d-flex cursor-pointer flex-column justify-content-center align-items-center"
+          >
+            <div
+              (click)="selectType(0)"
+              [ngClass]="{ selected: selectionArray[0] == true }"
+              class="typeCards borderRadius_15px d-flex justify-content-center align-items-center card"
+            >
+              <svg
+                [ngClass]="{ 'text-white': selectionArray[0] == true }"
+                width="44"
+                height="44"
+                viewBox="0 0 44 44"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g
+                  clip-path="url(#clip0_9001_121)"
+                  filter="url(#filter0_d_9001_121)"
+                >
+                  <path
+                    d="M18.3335 14.6665V29.3332H22.0002C22.9726 29.3332 23.9053 28.9469 24.5929 28.2592C25.2805 27.5716 25.6668 26.639 25.6668 25.6665V18.3332C25.6668 17.3607 25.2805 16.4281 24.5929 15.7404C23.9053 15.0528 22.9726 14.6665 22.0002 14.6665H18.3335Z"
+                    stroke="#2C3E50"
+                    stroke-width="2.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M5.5 21.9998H9.16667C10.1391 21.9998 11.0718 21.6135 11.7594 20.9259C12.447 20.2383 12.8333 19.3056 12.8333 18.3332C12.8333 17.3607 12.447 16.4281 11.7594 15.7404C11.0718 15.0528 10.1391 14.6665 9.16667 14.6665H5.5V29.3332"
+                    stroke="#2C3E50"
+                    stroke-width="2.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M31.1665 22H36.6665"
+                    stroke="#2C3E50"
+                    stroke-width="2.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M38.4998 14.6665H31.1665V29.3332"
+                    stroke="#2C3E50"
+                    stroke-width="2.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </g>
+                <defs>
+                  <filter
+                    id="filter0_d_9001_121"
+                    x="-4"
+                    y="0"
+                    width="52"
+                    height="52"
+                    filterUnits="userSpaceOnUse"
+                    color-interpolation-filters="sRGB"
+                  >
+                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                    <feColorMatrix
+                      in="SourceAlpha"
+                      type="matrix"
+                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                      result="hardAlpha"
+                    />
+                    <feOffset dy="4" />
+                    <feGaussianBlur stdDeviation="2" />
+                    <feComposite in2="hardAlpha" operator="out" />
+                    <feColorMatrix
+                      type="matrix"
+                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
+                    />
+                    <feBlend
+                      mode="normal"
+                      in2="BackgroundImageFix"
+                      result="effect1_dropShadow_9001_121"
+                    />
+                    <feBlend
+                      mode="normal"
+                      in="SourceGraphic"
+                      in2="effect1_dropShadow_9001_121"
+                      result="shape"
+                    />
+                  </filter>
+                  <clipPath id="clip0_9001_121">
+                    <rect width="44" height="44" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+              <span class="my-1 fw-700 fs-24">PDF</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!paginated" class="modal-footer">
+        <button
+          hidden
+          #closeModal
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+        <div class="w-100 d-flex justify-content-center">
+          <button
+            appDisableButton
+            (click)="emitPrintData(2)"
+            style="height: 60px; color: white; border: none"
+            class="darkGreen-bg borderRadius_20px w-75"
+          >
+            تأكيد
+          </button>
+        </div>
+      </div>
+      <div *ngIf="paginated" class="modal-footer w-100">
+        <div class="d-flex justify-content-between w-100">
+          <button
+            hidden
+            #closeModal
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+          <div class="width-30 d-flex justify-content-center">
+            <button
+              (click)="emitPrintData(1)"
+              appDisableButton
+              style="height: 60px; color: white; border: none"
+              class="darkGreen-bg borderRadius_20px w-75"
+            >
+              طباعة الصفحة الحالية
+            </button>
+          </div>
+          <div class="width-30 d-flex justify-content-center">
+            <button
+              (click)="emitPrintData(2)"
+              appDisableButton
+              style="height: 60px; color: white; border: none"
+              class="darkGreen-bg borderRadius_20px w-75"
+            >
+              طباعة الكل
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--for shared table-->
+
+<button
+  hidden
+  #PintingOptionssharedTableModal
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#PintingOptionssharedTableModal"
+></button>
+<div
+  class="modal fade"
+  *ngIf="inSharedTable"
+  id="PintingOptionssharedTableModal"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="chooseTypeModelLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header mb-4">
+        <div class="d-flex justify-content-center w-100">
+          <span class="text-center fs-16 fw-600">نوع الطباعه</span>
+        </div>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div
+          class="d-flex flex-wrap justify-content-center align-items-center gap-5"
+        >
+          <div
+            class="d-flex cursor-pointer flex-column justify-content-center align-items-center"
+          >
+            <div
+              (click)="selectType(1)"
+              [ngClass]="{ selected: selectionArray[1] == true }"
+              class="typeCards borderRadius_15px d-flex justify-content-center align-items-center card"
+            >
+              <svg
+                [ngClass]="{ 'text-white': selectionArray[1] == true }"
+                width="44"
+                height="44"
+                viewBox="0 0 44 44"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g clip-path="url(#clip0_8852_648)">
+                  <path
+                    d="M25.6665 5.5V12.8333C25.6665 13.3196 25.8597 13.7859 26.2035 14.1297C26.5473 14.4735 27.0136 14.6667 27.4998 14.6667H34.8332"
+                    stroke="#2C3E50"
+                    stroke-width="2.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M31.1665 38.5H12.8332C11.8607 38.5 10.9281 38.1137 10.2404 37.4261C9.55281 36.7384 9.1665 35.8058 9.1665 34.8333V9.16667C9.1665 8.19421 9.55281 7.26158 10.2404 6.57394C10.9281 5.88631 11.8607 5.5 12.8332 5.5H25.6665L34.8332 14.6667V34.8333C34.8332 35.8058 34.4469 36.7384 33.7592 37.4261C33.0716 38.1137 32.139 38.5 31.1665 38.5Z"
+                    stroke="#2C3E50"
+                    stroke-width="2.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M14.6665 20.1665H29.3332V32.9998H14.6665V20.1665Z"
+                    stroke="#2C3E50"
+                    stroke-width="2.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M14.6665 27.5H29.3332"
+                    stroke="#2C3E50"
+                    stroke-width="2.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M20.1665 20.1665V32.9998"
+                    stroke="#2C3E50"
+                    stroke-width="2.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_8852_648">
+                    <rect width="44" height="44" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+
+              <span class="my-1 fw-700 fs-24">Excel</span>
+            </div>
+          </div>
+          <div
+            class="d-flex cursor-pointer flex-column justify-content-center align-items-center"
+          >
+            <div
+              (click)="selectType(0)"
+              [ngClass]="{ selected: selectionArray[0] == true }"
+              class="typeCards borderRadius_15px d-flex justify-content-center align-items-center card"
+            >
+              <svg
+                [ngClass]="{ 'text-white': selectionArray[0] == true }"
+                width="44"
+                height="44"
+                viewBox="0 0 44 44"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g
+                  clip-path="url(#clip0_9001_121)"
+                  filter="url(#filter0_d_9001_121)"
+                >
+                  <path
+                    d="M18.3335 14.6665V29.3332H22.0002C22.9726 29.3332 23.9053 28.9469 24.5929 28.2592C25.2805 27.5716 25.6668 26.639 25.6668 25.6665V18.3332C25.6668 17.3607 25.2805 16.4281 24.5929 15.7404C23.9053 15.0528 22.9726 14.6665 22.0002 14.6665H18.3335Z"
+                    stroke="#2C3E50"
+                    stroke-width="2.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M5.5 21.9998H9.16667C10.1391 21.9998 11.0718 21.6135 11.7594 20.9259C12.447 20.2383 12.8333 19.3056 12.8333 18.3332C12.8333 17.3607 12.447 16.4281 11.7594 15.7404C11.0718 15.0528 10.1391 14.6665 9.16667 14.6665H5.5V29.3332"
+                    stroke="#2C3E50"
+                    stroke-width="2.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M31.1665 22H36.6665"
+                    stroke="#2C3E50"
+                    stroke-width="2.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                  <path
+                    d="M38.4998 14.6665H31.1665V29.3332"
+                    stroke="#2C3E50"
+                    stroke-width="2.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </g>
+                <defs>
+                  <filter
+                    id="filter0_d_9001_121"
+                    x="-4"
+                    y="0"
+                    width="52"
+                    height="52"
+                    filterUnits="userSpaceOnUse"
+                    color-interpolation-filters="sRGB"
+                  >
+                    <feFlood flood-opacity="0" result="BackgroundImageFix" />
+                    <feColorMatrix
+                      in="SourceAlpha"
+                      type="matrix"
+                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+                      result="hardAlpha"
+                    />
+                    <feOffset dy="4" />
+                    <feGaussianBlur stdDeviation="2" />
+                    <feComposite in2="hardAlpha" operator="out" />
+                    <feColorMatrix
+                      type="matrix"
+                      values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
+                    />
+                    <feBlend
+                      mode="normal"
+                      in2="BackgroundImageFix"
+                      result="effect1_dropShadow_9001_121"
+                    />
+                    <feBlend
+                      mode="normal"
+                      in="SourceGraphic"
+                      in2="effect1_dropShadow_9001_121"
+                      result="shape"
+                    />
+                  </filter>
+                  <clipPath id="clip0_9001_121">
+                    <rect width="44" height="44" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+              <span class="my-1 fw-700 fs-24">PDF</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!paginatedSharedTable" class="modal-footer">
+        <button
+          hidden
+          #closeModal
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+        <div class="w-100 d-flex justify-content-center">
+          <button
+            appDisableButton
+            (click)="emitPrintDataSharedTable(2)"
+            style="height: 60px; color: white; border: none"
+            class="darkGreen-bg borderRadius_20px w-75"
+          >
+            تأكيد
+          </button>
+        </div>
+      </div>
+      <div *ngIf="paginatedSharedTable" class="modal-footer w-100">
+        <div class="d-flex justify-content-between w-100">
+          <button
+            hidden
+            #closeModal
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+          <div class="width-30 d-flex justify-content-center">
+            <button
+              (click)="emitPrintDataSharedTable(1)"
+              appDisableButton
+              style="height: 60px; color: white; border: none"
+              class="darkGreen-bg borderRadius_20px w-75"
+            >
+              طباعة الصفحة الحالية
+            </button>
+          </div>
+          <div class="width-30 d-flex justify-content-center">
+            <button
+              (click)="emitPrintDataSharedTable(2)"
+              appDisableButton
+              style="height: 60px; color: white; border: none"
+              class="darkGreen-bg borderRadius_20px w-75"
+            >
+              طباعة الكل
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

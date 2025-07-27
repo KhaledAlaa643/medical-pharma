@@ -1,0 +1,99 @@
+<div class="contDiv main_card_margen">
+  <div class="card boxShadow-15 borderRadius_20px">
+    <div class="header">
+      <form [formGroup]="OrderDetailsForm" class="h-100">
+        <div class="align-items-center h-100 p-4 gap-2 d-flex flex-wrap">
+          <div class="width-15">
+            <label class="mb-2">كود العميل</label>
+            <input [(ngModel)]="selectedPharmacy.code" 
+              (keydown.enter)="getClientData('code');focusWarehouse(clients)" (input)="checkSelectedClient('code')" [ngModelOptions]="{standalone: true}" 
+              class="form-control w-100 filterInput" type="text" />
+              {{selectedPharmacy.id}}
+
+          </div>
+          <div class="width-30">
+            <label class="mb-2">اسم العميل</label>
+            <p-dropdown #clients [options]="groupPharmacies" (onChange)="checkSelectedClient('id')" (click)="getClientData('id');focusWarehouse(clients)" (keydown.enter)="getClientData('id');focusWarehouse(clients)" formControlName="pharmacy_id" [showClear]="true" 
+             placeholder=" " optionLabel="name" optionValue="id"></p-dropdown>
+          </div>
+          <div class="width-20">
+            <label class="mb-2">المندوب</label>
+            <input readonly placeholder="بدون مندوب" class="disabled form-control w-100 filterInput" type="text" />
+          </div>
+          <div class="width-15">
+            <label class="mb-2">المخزن</label>
+            <p-dropdown (click)="focudProducts(warehouseDropdown)" (keydown.enter)="focudProducts(warehouseDropdown)"
+              #warehouseDropdown [showClear]="OrderDetailsForm.controls['pharmacy_id'].value" [options]="warehouses"
+              formControlName="warehouse_id" placeholder=" " optionLabel="name" optionValue="id"></p-dropdown>
+          </div>
+        </div>
+
+      </form>
+      <span class="my-2 p-3 fw-bold">المرتجعات</span>
+    </div>
+    <form [formGroup]="addReturnProductForm" class="h-100">
+      <div class="h-100 p-4 gap-2 d-flex flex-wrap">
+        <div class="width-22">
+          <label class="mb-2">اسم الصنف</label>
+          <p-dropdown (click)="setProductData(productsDropdown)" (keydown.enter)="setProductData(productsDropdown)"
+            (onChange)="setNewTotal()" #productsDropdown [options]="products" formControlName="returnable_id"
+            placeholder=" " optionLabel="name" optionValue="id"></p-dropdown>
+        </div>
+        <div class="width-7">
+          <label class="mb-2">الصلاحية </label>
+          <input formControlName="expired_at" (keydown.enter)="focusOperatingNum($event)" #expired_at
+            class=" form-control w-100 filterInput" type="text" />
+        </div>
+        <div class="width-7">
+          <label class="mb-2">التشغيلة </label>
+          <input formControlName="operating_number" (keydown.enter)="focusQuantity($event)" #operating_num
+            class=" form-control w-100 filterInput" type="text" />
+        </div>
+        <div class="width-7">
+          <label class="mb-2">الكمية</label>
+          <input formControlName="quantity" min="1" (change)="setNewTotal()"
+            (keydown.enter)="setNewTotal();focusDiscount($event)" #quantity class="form-control w-100 filterInput"
+            type="number" />
+          <app-Form-errors class="error" [control]="addReturnProductForm.controls['quantity']"></app-Form-errors>
+        </div>
+        <div class="width-15">
+          <label class="mb-2">السعر</label>
+          <input readonly formControlName="price" class="disabled form-control w-100 filterInput" type="text" />
+        </div>
+        <div class="width-7">
+          <label class="mb-2">الخصم</label>
+          <input formControlName="discount" (change)="setNewTotal()" (keydown.enter)="setNewTotal();focusReason()"
+            #discount class=" form-control w-100 filterInput" type="number" />
+        </div>
+        <div class="width-13">
+          <label class="mb-2">سبب المرتجع</label>
+          <p-dropdown formControlName="reason" (click)="focusSubmit(reasonDropdown)"
+            (keydown.enter)="focusSubmit(reasonDropdown)" #reasonDropdown [options]="reasons" placeholder=" "
+            optionLabel="name" optionValue="value"></p-dropdown>
+        </div>
+
+        <div class="flex-fill d-flex align-items-end">
+          <div class="w-100 d-flex  justify-content-end">
+            <button appDisableButton (click)="addReturn()" #submitbtn [disabled]="addReturnProductForm.invalid"
+              appDisableButton class="searchBtn">اضافة</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div *ngIf="returnList.length>0" class="my-2 p-4 d-flex justify-content-between">
+      <label class="fw-bold">أصناف المرتجع</label>
+      <span (click)="deleteAll()" class="text-decoration-underline red-color cursor-pointer">حذف جميع الأصناف</span>
+    </div>
+    <div *ngIf="returnList.length>0" class=" p-4 pt-0">
+      <app-shared_table [columnsArray]="columnsArray" [columnsNames]="columnsName" [RowsData]="returnList"
+        (deleteEvent)="deleteReturn($event)"></app-shared_table>
+
+      <div class="w-100 my-2 p-3">
+        <div class="w-100 d-flex justify-content-end">
+          <button appDisableButton (click)="finishReturnPermission()" class appDisableButton
+            class="searchBtn text-white">حفظ الاشعار</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,9 @@
+::ng-deep .p-progressbar {
+    border: 0 none;
+    height: 0.5rem;
+    background: white !important;
+    border-radius: 6px;
+  }
+  ::ng-deep .p-progressbar .p-progressbar-value{
+    background-color: #3F497F !important;
+  }

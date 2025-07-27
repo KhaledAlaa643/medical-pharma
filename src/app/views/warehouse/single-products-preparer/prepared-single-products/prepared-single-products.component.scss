@@ -1,0 +1,393 @@
+@import 'generalTableStyle.scss';
+@import 'generalInputsStyle.scss';
+
+
+.preparedSingleProducts {
+
+    .distribution-agent {
+
+        .lightGreen-border {
+            border: 1px solid var(--lightGreen);
+
+
+        }
+
+        .buttonStyling {
+            background-color: var(--darkGreen);
+            color: white;
+            height: 40px;
+            font-weight: 600;
+            margin-top: 10px;
+            width: 60%;
+            border-radius: 20px;
+
+            @media screen and (max-width:769px) {
+                height: 70px;
+                width: 100%;
+
+
+            }
+        }
+
+        .submitArea {
+            width: 75%;
+            text-align: left;
+
+            @media screen and (max-width:769px) {
+                width: 100% !important;
+                text-align: center !important;
+            }
+        }
+
+        .totalarea {
+            border: 1px solid var(--lightGreen);
+            margin-top: 10px;
+            border-radius: 20px;
+        }
+
+
+
+        .leftarea {
+            @media screen and (max-width:769px) {
+                height: 60px;
+
+            }
+        }
+
+        .h-80vh {
+            height: 80vh !important;
+        }
+
+        .responsiveTabs {
+            font-size: 18px;
+            font-weight: 600;
+
+            .border-radius-20px {
+                border-radius: 20px 20px;
+            }
+
+            .station-one-color {
+                color: #333333;
+            }
+
+            .station-two-color {
+                color: #BB0000;
+            }
+
+            .station-three-color {
+                color: #008253;
+            }
+
+            .station-four-color {
+                color: #1700A7;
+            }
+
+            .station-five-color {
+                color: #F6C000;
+            }
+
+            .active {
+                background-color: var(--darkGreen);
+                color: black;
+                font-weight: 600;
+            }
+
+            .btn {
+                outline: none !important;
+                box-shadow: none !important;
+                border: none !important;
+                border-color: none !important;
+                transition: none;
+            }
+
+            .pop-up {
+                width: 30px;
+                height: 30px;
+                top: -12px;
+                right: -8px;
+                left: unset;
+
+                font-weight: 400;
+                font-size: 12px;
+                background-color: #FFEF5C;
+                border-radius: 50%;
+            }
+
+
+            .filter-width {
+                width: 12.5%;
+                border-radius: 20px 20px !important;
+                color: var(--darkGreen);
+                font-weight: 600;
+
+                @media screen and (max-width:769px) {
+                    width: 100% !important;
+                }
+            }
+
+
+            .responsiveFix {
+                @media screen and (max-width:769px) {
+                    width: 100% !important;
+                }
+            }
+
+            .clickable-text {
+                text-decoration: underline !important;
+                color: #3F497F !important;
+                cursor: pointer;
+            }
+
+
+
+        }
+
+    }
+
+    ::ng-deep {
+        .p-checkbox .p-checkbox-box {
+            border: 2px solid #ced4da;
+            background: #ffffff;
+            width: 22px;
+            height: 22px;
+            color: #495057;
+            border-radius: 6px !important;
+            transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .p-checkbox .p-checkbox-box.p-highlight {
+            border-color: #2ab514;
+            background: #2ab514;
+        }
+
+        .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+            border-color: #2ab514;
+            background: #2ab514;
+            color: #FFFFFF;
+        }
+
+        .bottomArea {
+            @media screen and (max-width:769px) {
+                flex-direction: column;
+            }
+        }
+
+
+        .table-area {
+            width: 100%;
+        }
+
+        .box-container {
+            display: flex;
+            justify-content: space-evenly;
+        }
+
+        .box {
+            width: 90px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            background-color: #3F497F;
+            color: white;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .box .close {
+            position: absolute;
+            top: 29%;
+            left: 15%;
+            cursor: pointer;
+
+        }
+
+
+
+        .sub-div {
+            flex: 1;
+            border: 1px solid #e4e4e4;
+            position: relative;
+            border-top-right-radius: 10px;
+            border-top-left-radius: 10px;
+
+
+        }
+
+
+
+        .basket-title {
+            background-color: #3F497F;
+            text-align: center;
+            padding: 10px;
+            color: white;
+            font-size: 16px;
+            width: 100%;
+            border-radius: 0px 0px 0px 0px;
+        }
+
+
+
+        .basket-content {
+            background-color: white;
+            padding: 10px;
+            display: flex;
+            gap: 5px;
+            height: 70px;
+        }
+
+        .small-box {
+            background-color: #3F497F;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            border-radius: 10px;
+        }
+
+        .sub-div:last-child {
+            border-right: none;
+        }
+
+
+        .sub-div:first-child .basket-title {
+            border-top-right-radius: 10px;
+        }
+
+        .sub-div:first-child .basket-content {
+            border-bottom-right-radius: 10px;
+        }
+
+        .sub-div:last-child .basket-title {
+            border-top-left-radius: 10px;
+        }
+
+        .sub-div:last-child .basket-content {
+            border-bottom-left-radius: 10px;
+        }
+
+    }
+
+    ::ng-deep .highlighted-text {
+        background-color: #28DF99;
+
+    }
+
+    .submitArea {
+        width: 75%;
+        text-align: left;
+
+        @media screen and (max-width:769px) {
+            width: 100% !important;
+            text-align: center !important;
+        }
+    }
+
+    .totalarea {
+        border: 1px solid var(--lightGreen);
+        margin-top: 10px;
+        border-radius: 20px;
+    }
+
+
+
+    .leftarea {
+
+
+        @media screen and (max-width:769px) {
+            height: 60px;
+        }
+    }
+
+    .lightGreen-border {
+        border: 1px solid var(--lightGreen);
+
+
+    }
+
+    .buttonStyling {
+        background-color: var(--darkGreen);
+        color: white;
+        height: 40px;
+        font-weight: 600;
+        margin-top: 10px;
+        width: 60%;
+        border-radius: 20px;
+
+        @media screen and (max-width:769px) {
+            height: 70px;
+            width: 100%;
+        }
+    }
+
+    .modalContent {
+        --bs-modal-width: 85% !important;
+    }
+
+    ::ng-deep .p-calendar {
+        width: 100%;
+    }
+
+
+    .flexFix {
+        display: flex;
+
+        @media screen and (max-width:769px) {
+            display: block;
+        }
+    }
+
+
+    #exampleModal {
+
+        .modal-dialog {
+            padding-top: 10% !important;
+            max-width: 50vw !important;
+            @media screen and (max-width:765px) {
+                max-width: 100% !important;
+            }
+
+            .modal-content {
+                border-radius: 30px !important;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+
+                .modal-header {
+                    border-bottom: none !important;
+                    border: none !important;
+                }
+
+                .modal-body {
+                    padding: 0% 5% 5vh 5%;
+
+                    .Title {
+                        width: 100%;
+                        text-align: center;
+                    }
+                }
+            }
+
+        }
+
+
+    }
+
+    // ::ng-deep {
+    //     .p-dropdown .p-dropdown-clear-icon {
+    //         color: #6c757d;
+    //         /* right: 14px; */
+    //         left: 34px !important;
+    //         right: unset !important;
+    //     }
+    // }
+
+    .disabled-div {
+        pointer-events: none;
+    }
+}
+
+.bulkPreparer {
+    width: max-content;
+}

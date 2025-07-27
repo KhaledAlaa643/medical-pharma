@@ -1,0 +1,585 @@
+<div class="main_card_margen">
+  <div class="card card boxShadow-15 borderRadius_20px">
+    <div id="filter" class="p-2">
+      <form [formGroup]="filterForm" action="">
+        <div class="d-flex flex-wrap align-items-end gap-2">
+          <div class="width-25">
+            <label class="mb-2">المخزن المحول منه</label>
+            <p-dropdown
+              [options]="warehouses"
+              [disabled]="disableWarehouse"
+              formControlName="warehouse_from_id"
+              optionLabel="name"
+              optionValue="id"
+              placeholder=" "
+              [showClear]="true"
+              [filter]="true"
+            ></p-dropdown>
+          </div>
+          <div class="width-25">
+            <label class="mb-2">المخزن المحول اليه</label>
+            <p-dropdown
+              [options]="warehouses"
+              [disabled]="disableWarehouse"
+              formControlName="warehouse_to_id"
+              optionLabel="name"
+              optionValue="id"
+              placeholder=" "
+              [showClear]="true"
+              [filter]="true"
+            ></p-dropdown>
+          </div>
+          <div class="width-27 d-flex flex-column align-items-end">
+            <label class="m-2 w-100">تاريخ متوسط الاستهلاك </label>
+            <div class="d-flex w-100 align-items-end gap-2">
+              <div class="width-50">
+                <div class="calendar-holder position-relative">
+                  <p-calendar
+                    #calendarFrom
+                    [dir]="'ltr'"
+                    formControlName="from"
+                    placeholder=" من"
+                    dateFormat="yy-mm-dd"
+                    [showClear]="true"
+                  >
+                  </p-calendar>
+                  <img
+                    (click)="calendarFrom.toggle()"
+                    class="cursor-pointer position-absolute top_5px end-0"
+                    src="../../../../assets/images/input/calender.svg"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="width-50">
+                <div class="calendar-holder position-relative">
+                  <p-calendar
+                    #calendarTo
+                    [dir]="'ltr'"
+                    placeholder=" الي"
+                    formControlName="to"
+                    dateFormat="yy-mm-dd"
+                    [showClear]="true"
+                  >
+                  </p-calendar>
+                  <img
+                    (click)="calendarTo.toggle()"
+                    class="cursor-pointer position-absolute top_5px end-0"
+                    src="../../../../assets/images/input/calender.svg"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex flex-fill justify-content-end">
+            <button
+              (click)="filter()"
+              appDisableButton
+              [disabled]="filterForm.invalid"
+              type="button"
+              class="green_bg_black_txt_btn h-40px borderRadius_10px width-40-lg"
+            >
+              <span class="fw-600">بحث</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!--product statistics-->
+    <!--product statistics section-->
+    <div class="p-2">
+      <header class="mb-2">متوسط استهلاك الصنف</header>
+      <!--first row-->
+      <form [formGroup]="statisticsForm" action="">
+        <div class="w-100 align-items-end d-flex flex-wrap gap-2 mb-2">
+          <div class="width-13">
+            <label class="mb-2">اجمالي البيع</label>
+            <input
+              readonly
+              formControlName="total_quantity_sold"
+              type="number"
+              class="form-control readonly-input"
+            />
+          </div>
+          <div class="width-13">
+            <label class="mb-2">اجمالي مردود البيع</label>
+            <input
+              readonly
+              formControlName="total_quantity_returned"
+              type="number"
+              class="form-control readonly-input"
+            />
+          </div>
+          <div class="width-13">
+            <label class="mb-2">اجمالي المشتريات</label>
+            <input
+              readonly
+              formControlName="total_quantity_purchase"
+              type="number"
+              class="form-control readonly-input"
+            />
+          </div>
+          <div class="width-13">
+            <label class="mb-2">اجمالي مردود المشتريات</label>
+            <input
+              readonly
+              formControlName="total_quantity_purchase_returns"
+              type="number"
+              class="form-control readonly-input"
+            />
+          </div>
+          <div class="width-13">
+            <label class="mb-2">صافي البيع</label>
+            <input
+              readonly
+              formControlName="total_quantity_cleared_sold"
+              type="number"
+              class="form-control darkGreen-bg readonly"
+            />
+          </div>
+          <!-- <div class="width-13">
+            <label class="mb-2">كمية المخزن</label>
+            <input readonly  warehouse_quantity type="number" class="form-control readonly-input">
+          </div> -->
+          <div class="width-13">
+            <label class="mb-2">اجمالي كمية المخازن</label>
+            <input
+              readonly
+              formControlName="total_warehouses_quantity"
+              type="number"
+              class="form-control readonly-input"
+            />
+          </div>
+          <div class="width-16">
+            <label class="mb-2">تصنيع شركة</label>
+            <input
+              readonly
+              formControlName="manufacturer_name"
+              type="text"
+              class="form-control readonly-input"
+            />
+          </div>
+        </div>
+
+        <!--secound row-->
+
+        <div class="w-100 align-items-end d-flex flex-wrap gap-2 mb-2">
+          <div class="width-13">
+            <label class="mb-2">خصم مرجح</label>
+            <input
+              readonly
+              formControlName="suggested_discount"
+              type="number"
+              class="form-control readonly-input"
+            />
+          </div>
+          <div class="width-13">
+            <label class="mb-2">اخر خصم شراء</label>
+            <input
+              readonly
+              formControlName="last_discount"
+              type="number"
+              class="form-control readonly-input"
+            />
+          </div>
+          <div class="width-13">
+            <label class="mb-2">اعلي خصم شراء</label>
+            <input
+              readonly
+              formControlName="highest_discount"
+              type="number"
+              class="form-control readonly-input"
+            />
+          </div>
+          <div class="width-13">
+            <label class="mb-2">التكلفة</label>
+            <input
+              readonly
+              formControlName="public_price"
+              type="number"
+              class="form-control readonly-input"
+            />
+          </div>
+          <div class="width-8">
+            <label class="mb-2">السعر القديم</label>
+            <input
+              readonly
+              formControlName="after_discount_price"
+              type="number"
+              class="form-control readonly-input"
+            />
+          </div>
+          <div class="width-6">
+            <label class="mb-2">باكت</label>
+            <input
+              readonly
+              formControlName="items_number_in_packet"
+              type="number"
+              class="form-control readonly-input"
+            />
+          </div>
+          <div class="width-6">
+            <label class="mb-2">كرتونة</label>
+            <input
+              readonly
+              formControlName="packets_number_in_package"
+              type="number"
+              class="form-control readonly-input"
+            />
+          </div>
+          <div class="width-21">
+            <label class="mb-2">ملاحظات علي الصنف</label>
+            <input
+              readonly
+              formControlName="note"
+              type="text"
+              class="form-control readonly-input"
+            />
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="HLine"></div>
+
+    <!--last ordered quantity-->
+    <div class="p-2">
+      <header>اخر كمية مطلوبة</header>
+      <app-shared_table
+        [columnsArray]="columnsArray1"
+        [columnsNames]="columnsName1"
+        [RowsData]="lastSupplyRequest"
+      ></app-shared_table>
+    </div>
+    <div class="HLine"></div>
+
+    <!-- add product section -->
+    <div class="p-2">
+      <form [formGroup]="addProductForm">
+        <div class="d-flex flex-wrap align-items-end gap-2">
+          <div class="width-20">
+            <label>اسم الصنف</label>
+            <p-dropdown
+              #productsDropdown
+              id="productsDropdown"
+              (keydown.enter)="productChangeEvent(productsDropdown)"
+              (click)="productChangeEvent(productsDropdown)"
+              formControlName="product_id"
+              [options]="products"
+              optionLabel="name"
+              optionValue="id"
+              placeholder=" "
+              [showClear]="true"
+              [filter]="true"
+            ></p-dropdown>
+          </div>
+
+          <div class="width-20">
+            <label>التاريخ والتشغيلة</label>
+            <p-dropdown
+              #batchesDropdown
+              (click)="focus('quantity')"
+              (keydown.enter)="focus('quantity')"
+              (onChange)="getQuantityOfWarehouse()"
+              id="batchesDropdown"
+              formControlName="batch_id"
+              [options]="product_batches"
+              optionLabel="name"
+              optionValue="id"
+              placeholder=" "
+              [showClear]="true"
+              [filter]="true"
+            ></p-dropdown>
+          </div>
+
+          <div class="width-7">
+            <label class="mb-2">كمية المخزن المحول منه</label>
+            <input
+              readonly
+              formControlName="warehouse_from_quantity"
+              type="number"
+              class="form-control readonly-input"
+            />
+          </div>
+
+          <div class="width-7">
+            <label class="mb-2">خصم المخزن المحول منه</label>
+            <input
+              [readonly]="!showDiscountInput"
+              type="number"
+              (input)="calcDifference()"
+              (keydown.enter)="focus('quantity', $event)"
+              [ngClass]="{ 'readonly-input': !showDiscountInput }"
+              (click)="showDiscountInput = true"
+              formControlName="warehouse_from_discount"
+              class="form-control"
+            />
+          </div>
+
+          <div class="width-7">
+            <label class="mb-2">كمية المخزن المحول اليه</label>
+            <input
+              readonly
+              type="number"
+              formControlName="warehouse_to_quantity"
+              class="form-control readonly-input"
+            />
+          </div>
+
+          <div class="width-7">
+            <label class="mb-2">خصم المخزن المحول اليه</label>
+            <input
+              readonly
+              type="number"
+              formControlName="warehouse_to_discount"
+              class="form-control readonly-input"
+            />
+          </div>
+
+          <div class="width-5">
+            <label class="mb-2">الكمية</label>
+            <input
+              type="number"
+              formControlName="quantity"
+              (input)="calcDifference(); calcWeightedDiscount()"
+              (keydown.enter)="focus('addbtn', $event)"
+              #quantity
+              id="quantity"
+              class="form-control"
+            />
+          </div>
+          <div class="width-5">
+            <label class="mb-2">الخصم المرجح</label>
+            <input
+              readonly
+              type="number"
+              formControlName="weighted_discount"
+              class="form-control readonly-input"
+            />
+          </div>
+
+          <div class="width-5">
+            <label class="mb-2">الفرق</label>
+            <input
+              readonly
+              type="number"
+              formControlName="discount_difference"
+              class="form-control readonly-input"
+            />
+          </div>
+
+          <div
+            class="flex-fill d-flex justify-content-end flex-wrap align-items-end"
+          >
+            <button
+              (click)="addProductToCart()"
+              appDisableButton
+              type="button"
+              #addbtn
+              id="addbtn"
+              class="green_bg_black_txt_btn h-40px borderRadius_10px w-100"
+            >
+              <span class="fw-600">إضافة</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- cart table -->
+    <div class="p-2">
+      <div class="borderRadius_20px border border-1 mx-3 p-2">
+        <div
+          #scrollMe
+          style="max-height: 285px; overflow-y: auto"
+          class="h-100"
+        >
+          <p-table [value]="cartData">
+            <ng-template pTemplate="header">
+              <tr>
+                <th
+                  style="
+                    display: table-cell !important;
+                    width: 250px !important;
+                  "
+                >
+                  <div class="d-flex flex-wrap gap-2 align-items-center">
+                    <div class="d-flex">
+                      <span class="fw-500 fs-18">الاسم عربي</span>
+                      <!-- (click)="sortByName()" -->
+                      <div (click)="sortByName()" class="cursor-pointer">
+                        <i
+                          *ngIf="direction === 'asc'"
+                          class="p-sortable-column-icon pi pi-fw pi-sort-amount-up-alt"
+                        ></i>
+                        <i
+                          *ngIf="direction === 'desc'"
+                          class="p-sortable-column-icon pi pi-fw pi-sort-amount-down"
+                        ></i>
+                        <i
+                          *ngIf="!direction"
+                          class="p-sortable-column-icon pi pi-fw pi-sort-alt"
+                        ></i>
+                      </div>
+                    </div>
+                    <!-- [disabled]="cartData.length==0 && searchWord==''" -->
+                    <input
+                      type="text"
+                      [disabled]="cartData.length == 0 && searchWord == ''"
+                      (input)="product_search()"
+                      (keydown.enter)="product_search()"
+                      [(ngModel)]="searchWord"
+                      placeholder="بحث بأسم الدواء"
+                      class="form-control defaultBg borderRadius_10px mx-0 width-48-lg"
+                    />
+                    <!-- <i *ngIf="loaderBooleans['search']" class="pi pi-spin pi-spinner"></i> -->
+                  </div>
+                </th>
+                <th style="display: table-cell !important">
+                  التاريخ والتشغيلة
+                </th>
+                <th style="display: table-cell !important">سعر الجمهور</th>
+                <th style="display: table-cell !important">
+                  اجمالي سعر الجمهور
+                </th>
+                <th style="display: table-cell !important">
+                  خصم المخزن المحول منه
+                </th>
+                <th style="display: table-cell !important">الصافي</th>
+                <th style="display: table-cell !important">
+                  الكمية قبل التحويل
+                </th>
+                <th style="display: table-cell !important">الكمية المحولة</th>
+                <th style="display: table-cell !important">اجمالي الكمية</th>
+                <th style="display: table-cell !important">الخصم المرجح</th>
+                <th style="display: table-cell !important">الفرق</th>
+                <th style="display: table-cell !important">حذف صنف</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-batch let-index="rowIndex">
+              <tr
+                style="
+                  background: #ffffff;
+                  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+                  border-radius: 20px;
+                "
+              >
+                <td class="fs-14 fw-700 color-black x-small-sm">
+                  {{ batch?.product_name }}
+                </td>
+                <td class="fw-600 color-black">
+                  {{ batch.expiration_operation }}
+                </td>
+                <td class="fw-600 color-black">
+                  {{ batch.price }}
+                </td>
+                <td class="fw-600 color-black">
+                  {{ batch.total_price }}
+                </td>
+                <td class="fw-600 color-black">
+                  {{ batch.discount }}
+                </td>
+                <td class="fw-600 color-black">
+                  {{ batch.total }}
+                </td>
+                <td class="fw-600 color-black">
+                  {{ batch?.quantity_before_transfer }}
+                </td>
+                <td class="fw-600 color-black">
+                  {{ batch?.quantity_transferred }}
+                </td>
+                <td class="fw-600 color-black">
+                  {{
+                    batch?.quantity_before_transfer -
+                      batch?.quantity_transferred
+                  }}
+                </td>
+                <td class="fw-600 color-black">
+                  {{ batch.weighted_discount }}
+                </td>
+                <td class="fw-600 color-black">
+                  {{ batch?.diff_discount }}
+                </td>
+                <td>
+                  <button
+                    appDisableButton
+                    (click)="openModel(1, index)"
+                    class="redWithWiteText borderRadius_10px border-0 w-100 h-31px fw-600 fs-18"
+                  >
+                    حذف
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+
+    <div id="totals" class="p-2 flex-wrap d-flex align-items-center gap-2">
+      الاجمالى
+      <div
+        class="d-flex width-20 h-50px text-center lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600"> عدد الأصناف </span>
+        <span class="fw-600">{{ transferRequestTotals?.total_count }}</span>
+      </div>
+      <div
+        class="d-flex width-20 h-50px text-center lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600"> سعر الجمهور</span>
+        <span class="fw-600">{{
+          transferRequestTotals?.total_public_price
+        }}</span>
+      </div>
+      <div
+        class="d-flex width-20 h-50px text-center lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600"> الصافي </span>
+        <span class="fw-600">{{
+          transferRequestTotals?.total_supply_price
+        }}</span>
+      </div>
+      <div
+        class="d-flex width-20 h-50px text-center lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600">الفرق </span>
+        <span class="fw-600">{{ transferRequestTotals?.diff_discount }}</span>
+      </div>
+      <div class="h-50px width-11">
+        <button
+          (click)="openModel(2)"
+          [disabled]="!transfer_id"
+          data-bs-toggle="modal"
+          data-bs-target="#saveModal"
+          type="button"
+          class="green_bg_black_txt_btn text-center h-50px borderRadius_10px w-100"
+        >
+          <span class="fw-600">تحويل الكل</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-shared_popup
+  (ChoosenEvent)="Popupevent($event)"
+  [cancle_button_name]="cancle_button_name"
+  [ok_button_name]="ok_button_name"
+  [popupMessage]="popupMessage"
+  #Popup
+></app-shared_popup>
+<button
+  hidden
+  #popupModalOpen
+  type="button"
+  (click)="Popup.openModel()"
+></button>
+<button
+  hidden
+  #PopupModalClose
+  type="button"
+  (click)="Popup.closeModalClick()"
+></button>

@@ -1,0 +1,276 @@
+<div class="main_card_margen">
+  <div class="card borderRadius_10px boxShadow-10 p-3">
+    <div id="header" class="mb-3">
+      <form id="header" [formGroup]="receiveForm">
+        <div class="d-flex gap-2 flex-wrap align-items-end my-3">
+          <div class="width-15 d-flex flex-column">
+            <label class="mb-2">نوع الحساب</label>
+            <p-dropdown
+              #accountTypeInput
+              [showClear]="true"
+              placeholder=" "
+              [options]="accountType"
+              formControlName="account_type"
+              (click)="getAccounts(accountTypeInput)"
+              (keydown.enter)="getAccounts(accountTypeInput)"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+          </div>
+          <div class="flex-fill d-flex flex-column">
+            <label class="mb-2">اسم الحساب</label>
+            <p-dropdown
+              [showClear]="true"
+              placeholder=" "
+              #accountInput
+              formControlName="account_id"
+              (onChange)="getPharmacyFromDropdown()"
+              (keydown.enter)="getPharmacyFromDropdown()"
+              optionLabel="name"
+              [options]="updatedPharmacyNames"
+              optionValue="id"
+            ></p-dropdown>
+          </div>
+          <div class="flex-fill d-flex flex-column">
+            <label class="mb-2">التاريخ والوقت</label>
+            <input
+              type="text"
+              readonly
+              class="form-control disabled"
+              placeholder=" "
+              formControlName="dateAndTime"
+            />
+          </div>
+          <div class="width-20 d-flex flex-column">
+            <label class="mb-2"> المندوب </label>
+            <input
+              type="text"
+              readonly
+              class="form-control disabled"
+              placeholder=" "
+              formControlName="delivery"
+            />
+          </div>
+          <div class="width-20 d-flex flex-column">
+            <label class="mb-2"> السائق </label>
+            <input
+              type="text"
+              readonly
+              class="form-control disabled"
+              placeholder=" "
+              formControlName="driver"
+            />
+          </div>
+        </div>
+        <div class="d-flex gap-2 flex-wrap align-items-end my-3">
+          <!-- <div class="width-15 d-flex flex-column">
+            <label class="mb-2">كود العميل</label>
+            <input
+              type="text"
+              #clientCodeInput
+              (keydown.enter)="getPharmacyFromCode()"
+              class="form-control"
+              formControlName="code"
+              placeholder=" "
+            />
+          </div> -->
+        </div>
+        <div class="d-flex gap-2 flex-wrap align-items-end my-3">
+          <div class="width-15 d-flex flex-column">
+            <label class="mb-2">الحساب السابق</label>
+            <input
+              type="text"
+              class="form-control disabled"
+              readonly
+              placeholder=" "
+              formControlName="balance"
+            />
+          </div>
+
+          <div class="width-20 d-flex flex-column">
+            <label class="mb-2"> المبلغ بالأرقام</label>
+            <input
+              type="text"
+              #amountInput
+              (keydown.enter)="getBalanceAfter()"
+              class="form-control"
+              placeholder=" "
+              formControlName="amount"
+            />
+          </div>
+
+          <div class="flex-fill d-flex flex-column">
+            <label class="mb-2"> المبلغ مكتوب</label>
+            <input
+              type="text"
+              readonly
+              class="form-control disabled"
+              placeholder=" "
+              formControlName="amount_in_words"
+            />
+          </div>
+          <div class="width-15 d-flex flex-column">
+            <label class="mb-2"> الرصيد الحالي</label>
+            <input
+              type="text"
+              readonly
+              class="form-control disabled"
+              placeholder=" "
+              formControlName="balance_after"
+            />
+          </div>
+        </div>
+        <div class="d-flex gap-2 flex-wrap align-items-end my-3">
+          <div class="width-15 d-flex flex-column">
+            <label class="mb-2">مناديب المبيعات</label>
+            <input
+              type="text"
+              readonly
+              class="form-control disabled"
+              placeholder=" "
+              formControlName="sales"
+            />
+          </div>
+          <div class="flex-fill d-flex flex-column">
+            <label class="mb-2">ملاحظات </label>
+            <input
+              #noteInput
+              type="text"
+              class="form-control"
+              placeholder=" "
+              formControlName="notes"
+            />
+          </div>
+          <div class="width-20">
+            <button
+              #receiveBtn
+              *ngIf="type === 'add'"
+              (click)="addCashPayment()"
+              type="button"
+              class="green_bg_black_txt_btn h-40px borderRadius_10px w-100"
+            >
+              دفع الإشعار
+            </button>
+            <button
+              #editBtn
+              *ngIf="type === 'edit'"
+              (click)="editCashPayment()"
+              type="button"
+              class="green_bg_black_txt_btn h-40px borderRadius_10px w-100"
+            >
+              تعديل الإشعار
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div id="table" class="mb-3">
+      <app-shared_table
+        [columnsArray]="columnsArray"
+        [columnsNames]="columnsName"
+        [RowsData]="data"
+        (openModalEvent)="getReceiptFromId($event)"
+      ></app-shared_table>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex width-60 gap-2 justify-content-start">
+        <div
+          class="h-60px width-30 borderRadius_20px lightGreen-border d-flex justify-content-center align-items-center"
+        >
+          <span
+            class="fw-600 fs-16 d-flex justify-content-center text-center m-2"
+          >
+            عدد الأذونات : {{ additional_data?.count }}
+          </span>
+        </div>
+        <div
+          class="h-60px width-30 borderRadius_20px lightGreen-border d-flex justify-content-center align-items-center"
+        >
+          <span
+            class="fw-600 fs-16 d-flex justify-content-center text-center m-2"
+          >
+            الإجمالي : {{ additional_data?.total }}
+          </span>
+        </div>
+      </div>
+      <div class="width-20">
+        <button
+          type="button"
+          data-bs-toggle="modal"
+          data-bs-target="#receiveManyModel"
+          class="greenbtnStyles h-40px borderRadius_10px w-100"
+        >
+          حفظ
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- receive all  model -->
+
+<button
+  hidden
+  #receiveManyOpen
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#receiveManyModel"
+></button>
+
+<div
+  class="modal fade"
+  id="receiveManyModel"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+  #myModal
+>
+  <div class="modal-dialog p-3 w-100">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex justify-content-center w-100">
+          <h3 class="text-center fs-16 fw-600">تأكيد دفع النقدية</h3>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="d-flex justify-content-center py-5">
+          <h4 class="text-center fs-16 fw-600">
+            هل أنت متأكد من إتمام هذة العملية ؟
+          </h4>
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center gap-2">
+          <button
+            appDisableButton
+            (click)="submitCashPayments()"
+            type="submit"
+            class="greenbtnStyles width-40 p-2 h-40px borderRadius_10px border-0"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            نعم
+          </button>
+          <button
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            class="redbtnStyles width-40 p-2 h-40px borderRadius_10px border-0"
+          >
+            لا
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

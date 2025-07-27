@@ -1,0 +1,147 @@
+:host::ng-deep {
+
+    // General styling for dropdowns
+    .p-dropdown {
+        width: 100%;
+        height: 40px;
+        border-radius: 10px;
+        display: flex;
+        // max-width: 150px;
+
+        //     &.disabled-dropdown {
+        //     .p-dropdown {
+        //         background-color: #e9ecef !important;
+        //     }
+
+        //     .p-dropdown:hover {
+        //         border: 1px solid #ced4da !important;
+        //     }
+        // }
+
+        &.p-dropdown-clearable .p-dropdown-label,
+        .p-dropdown-label {
+            padding-top: 0.4rem;
+            padding-right: 2rem;
+        }
+
+        .p-dropdown-clear-icon {
+            right: 0.75rem;
+        }
+    }
+
+    // Specific styling for dropdown panels and headers
+    .p-dropdown-panel {
+        max-width: 100% !important;
+
+        .p-dropdown-header {
+            .p-dropdown-filter {
+                padding-right: 0;
+                margin-right: 0;
+            }
+        }
+    }
+
+    // Calendar Area
+    .p-calendar {
+        width: 100% !important; // Important might be necessary if it's to override library styles
+        height: 40px;
+        direction: ltr;
+        cursor: pointer;
+
+        .p-inputtext {
+            direction: rtl !important;
+            padding-right: 1.2rem !important; 
+            border-radius: 10px;
+        }
+
+        &.p-calendar-clearable {
+
+            .p-calendar-clearable,
+            .p-inputtext {
+                padding-top: 0.4rem !important;
+                padding-right: 2rem !important;
+            }
+
+            .p-inputtext {
+                padding-right: 0rem;
+
+            }
+        }
+
+         .p-calendar-clear-icon {
+            color: #6c757d;
+            right: 4px !important;
+            left: unset !important;
+        }
+
+
+    }
+        .p-multiselect {
+            width: 100% !important;
+            height: 40px;
+            border-radius: 10px;
+
+
+        }
+        .p-multiselect-clear-icon {
+            color: #6c757d;
+            right: 4px !important;
+            left: unset !important;
+        }
+        .p-multiselect.p-multiselect-chip .p-multiselect-label{
+            display: flex !important;
+        }
+        .p-multiselect-panel .p-multiselect-items .p-multiselect-item .p-checkbox {
+            margin-left: 0.5rem !important;
+        }
+    
+        .p-multiselect:not(.p-disabled):hover {
+            border: 1px solid #ced4da !important;
+        }
+    
+        .p-multiselect.p-multiselect-chip .p-multiselect-token .p-multiselect-token-icon {
+            display: none !important;
+        }
+    
+        .disabled-with-bg .p-multiselect {
+            background-color: #e9ecef !important;
+        }
+    
+        .p-multiselect {
+            width: 100% !important;
+        }
+    
+        .p-multiselect-panel .p-multiselect-items .p-multiselect-item .p-checkbox {
+            margin-left: 0.5rem !important;
+        }
+    
+        .p-multiselect:not(.p-disabled):hover {
+            border: 1px solid #ced4da !important;
+        }
+    
+        .disabled-with-bg .p-multiselect {
+            background-color: #e9ecef !important;
+        }
+    
+        // .p-inputwrapper-filled .p-multiselect.p-multiselect-chip .p-multiselect-label {
+        //     display: contents !important;
+        // }
+    
+    
+    
+}
+
+// Generic input styling
+// input {
+//     border-radius: 10px !important;
+//     height: 40px !important;
+// }
+
+input:not(.form-check-input) {
+    border-radius: 10px !important;
+    height: 40px !important;      
+}
+
+input{
+    direction: rtl !important;
+}

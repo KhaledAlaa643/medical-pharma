@@ -1,0 +1,123 @@
+@import "generalInputsStyle.scss";
+
+.mainCont {
+  .fullScreenWidth {
+    @media screen and (max-width: 769px) {
+      width: 100% !important;
+    }
+  }
+}
+
+.typeCards {
+  width: 150px;
+  height: 150px;
+  background-color: #3f497f !important;
+}
+
+#chooseTypeModel {
+  .modal-dialog {
+    padding-top: 6% !important;
+    max-width: 50vw;
+
+    @media screen and (max-width: 426px) {
+      max-width: 100% !important;
+    }
+
+    .modal-content {
+      border-radius: 30px !important;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+
+      .modal-header {
+        border-bottom: none;
+      }
+
+      .modal-body {
+        padding: 0% 5% 5vh 5%;
+
+        .Title {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+.clearBtn {
+  left: 22px;
+  bottom: 108px;
+  width: 25px;
+  height: 25px;
+}
+
+#allImagesModel {
+  .modal-dialog {
+    padding-top: 6% !important;
+    max-width: 60vw;
+
+    @media screen and (max-width: 426px) {
+      max-width: 100% !important;
+    }
+
+    .modal-content {
+      border-radius: 30px !important;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+
+      .modal-header {
+        border-bottom: none;
+      }
+
+      .modal-body {
+        padding: 0% 5% 5vh 5%;
+
+        .Title {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    }
+  }
+}
+
+.height-50px {
+  height: 50px;
+}
+
+.btn-color {
+  background-color: var(--red);
+}
+
+.lightGreen-bg {
+  background-color: #28df99 !important;
+}
+
+.error {
+  right: 0 !important;
+  top: 74px;
+}
+
+.disabledDropdown {
+  ::ng-deep {
+    .p-dropdown:not(.p-disabled):hover {
+      border: 1px solid #dddddd;
+      cursor: default !important;
+    }
+
+    .p-dropdown .p-dropdown-label {
+      background: transparent;
+      border: 0 none;
+      cursor: default !important;
+    }
+  }
+}
+
+.disabled {
+  background-color: #e9ecef;
+  opacity: 1;
+}
+
+.disabled:focus {
+  border-color: #ced4da;
+  outline: 0;
+  box-shadow: none;
+}

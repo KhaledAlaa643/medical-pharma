@@ -1,0 +1,150 @@
+<div class="main_card_margen">
+  <div class="card boxShadow-15 borderRadius_20px">
+    <div class="justify-content-between d-flex flex-wrap w-100 p-3 gap-2">
+      <div
+        class="width-25 lightGreen-border h-60px borderRadius_20px text-center d-flex justify-content-center align-items-center p-1"
+      >
+        <span class="fw-bold fs-16">عدد الشركات : {{ total }}</span>
+      </div>
+
+      <button
+        placeholder=" "
+        class="white_bg_green_txt_btn width-17 white-text boxShadow-15 borderRadius_20px h-60px"
+        data-bs-toggle="modal"
+        data-bs-target="#filterModal"
+      >
+        فلتر
+      </button>
+    </div>
+
+    <div id="table">
+      <app-shared_table
+        [columnsArray]="columnsArray"
+        [columnsNames]="columnsName"
+        [RowsData]="manufacturers"
+        (openModalEvent)="editManufacturer($event)"
+      ></app-shared_table>
+    </div>
+
+    <div id="pagination" class="w-100 d-flex justify-content-center">
+      <div class="d-flex width-60 justify-content-center">
+        <p-paginator
+          #paginator
+          [first]="1"
+          [rows]="rows"
+          (onPageChange)="changePage($event)"
+          [totalRecords]="total"
+        ></p-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--filter modal-->
+
+<div
+  class="modal fade"
+  id="filterModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div
+        class="modal-header border-0 justify-content-center position-relative"
+      >
+        <h1 class="modal-title fs-5" id="exampleModalLabel">فلتر</h1>
+        <button
+          type="button"
+          class="btn-close position-absolute"
+          style="left: 3%"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body border-0">
+        <form [formGroup]="filterForm" (ngSubmit)="filter()">
+          <div class="p-2">
+            <div class="d-flex mb-2 gap-2 flex-wrap">
+              <div class="width-20 my-2">
+                <label class="mb-2">رقم الترتيب </label>
+                <input
+                  type="text"
+                  placeholder=" "
+                  class="form-control"
+                  formControlName="order"
+                  style="direction: rtl"
+                />
+              </div>
+              <div class="flex-fill my-2">
+                <label class="mb-2">اسم الشركة </label>
+                <input
+                  class="form-control w-100"
+                  formControlName="name"
+                  placeholder=" "
+                />
+              </div>
+            </div>
+            <div class="d-flex mb-2 gap-2 flex-wrap justify-content-between">
+              <div class="width-40 my-2">
+                <label class="mb-2">المحافظة </label>
+                <p-dropdown
+                  [showClear]="true"
+                  [options]="cities"
+                  class="d-block"
+                  optionLabel="name"
+                  formControlName="city_id"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+              <div class="width-40 my-2">
+                <label class="mb-2">المدينة </label>
+                <p-dropdown
+                  [showClear]="true"
+                  [options]="areas"
+                  class="d-block"
+                  formControlName="area_id"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+            <div class="d-flex mb-2 gap-2 flex-wrap">
+              <div class="flex-fill my-2">
+                <label class="mb-2">الكاتب </label>
+                <p-dropdown
+                  [showClear]="true"
+                  [options]="created_by"
+                  class="d-block"
+                  optionLabel="name"
+                  formControlName="created_by"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+            <div
+              class="d-flex flex-wrap w-100 mt-4 d-flex justify-content-center align-items-center"
+            >
+              <button
+                appDisableButton
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                type="submit"
+                class="green_bg_black_txt_btn text-white width-70 p-3 borderRadius_20px"
+              >
+                فلترة
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

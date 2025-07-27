@@ -1,0 +1,103 @@
+<!-- supply-order-list -->
+<div class="main_card_margen">
+    <div class="audit-completed-details card boxShadow-15 borderRadius_10px ">
+        <form [formGroup]="filterForm" class="form">
+            <div class="head d-flex flex-wrap w-100 gap-3">
+
+                <div class="order-number d-flex flex-column">
+                    <label class="m-2"> اسم المورد </label>
+                    <input readonly type="text" class="form-control defaultBg disabled   w-100"
+                        formControlName="supplier_id">
+
+                </div>
+
+                <div class="order-number d-flex flex-column">
+                    <label class="m-2"> رقم الطلب</label>
+                    <input readonly type="text" class="form-control defaultBg  disabled  w-100"
+                        formControlName="purchase_number">
+                </div>
+
+
+                <div class="calendar d-flex flex-column">
+                    <label class="m-2">تاريخ التوريد</label>
+                    <div class="calendar-holder position-relative">
+
+                        <input #calendarFrom type="text" placeholder=" " class="form-control disabled defaultBg   w-100"
+                            formControlName="date" style="height: 40px;">
+                        <img style="left:0;top: 0;" class="calendar-icon position-absolute  me-3 p-2"
+                            src="../../../../assets/images/input/calender.svg" alt="">
+                    </div>
+
+
+                </div>
+            </div>
+        </form>
+
+        <div class="page-switcher d-flex gap-3 my-4">
+            <div class="page-type cursor-pointer boxShadow-10" (click)="changeActiveTab(0)" [ngClass]="{'active':isActiveTapArray[0]}">
+                <span class="">أصناف الفاتورة</span>
+            </div>
+            <div class="page-type cursor-pointer boxShadow-10" (click)="changeActiveTab(1)" [ngClass]="{'active':isActiveTapArray[1]}">
+                <span class="">أصناف تم جردها</span>
+            </div>
+        </div>
+
+
+        <div class="table">
+            <app-shared_table [columnsArray]="columnsArray" [columnsNames]="columnsName"
+                [RowsData]="AuditedData"></app-shared_table>
+
+        </div>
+        <div class="lower-area d-flex ">
+            <div class=" bottomHolder d-flex  justify-content-start width-30percent">
+                <div class=" itemCount ">
+                    <div class=" totals  d-flex align-items-center ">
+                        <span class="  d-flex justify-content-center  ">
+                            عدد الأصناف التي تم جردها
+                        </span>
+                        <hr class="h-100 lightGreen-border">
+                        <span
+                            class=" d-flex justify-content-center">{{lowerAreaData.total_inventoried_cart_items}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="bottomHolder d-flex  justify-content-start width-30percent">
+                <div class=" itemCount ">
+                    <div class=" totals  d-flex align-items-center ">
+                        <span class=" smalltext  w-50 d-flex justify-content-center  ">
+                            اجمالي مبلغ الطلب
+                        </span>
+                        <hr class="h-100 lightGreen-border">
+                        <span class="d-flex justify-content-center">{{lowerAreaData.total_purchase_price}}
+                            {{'جنيه'}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="lower-area d-flex justify-content-between">
+            <div class=" bottomHolder d-flex  justify-content-start width-30percent">
+                <div class=" itemCount ">
+                    <div class=" totals  d-flex align-items-center ">
+                        <span class="  d-flex justify-content-center  ">
+                            عدد الأصناف غير المجرودة </span>
+                        <hr class="h-100 lightGreen-border">
+                        <span
+                            class=" d-flex justify-content-center">{{lowerAreaData.total_non_inventoried_cart_items}}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="bottomHolder d-flex  justify-content-end width-30percent mt-3">
+                <div class=" itemCount ">
+                    <div class=" totals  d-flex align-items-center ">
+                        <span class=" smalltext  w-50 d-flex justify-content-center  ">
+                            اسم المخزن المحول اليه
+                        </span>
+                        <hr class="h-100 lightGreen-border">
+                        <span
+                        class=" d-flex justify-content-center">{{lowerAreaData.warehouse.name}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

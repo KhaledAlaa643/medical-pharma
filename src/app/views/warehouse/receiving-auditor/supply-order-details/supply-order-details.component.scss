@@ -1,0 +1,419 @@
+@import 'generalPaginationStyle.scss';
+@import 'generalTableStyle.scss';
+@import 'generalInputsStyle.scss';
+
+.supply-order-details{
+    padding: 1%;
+
+
+    .upperFilterArea>div {
+        box-sizing: border-box;
+    }
+
+    .upperMiddleArea {
+        .title{
+            font-weight: 600;
+            font-size: 18px;
+            padding-top: 1rem;
+        }
+
+    }
+
+    .lower-area-box {
+        border: 2px solid var(--darkGreen);
+        border-radius: 20px;
+        width: 100%;
+
+        @media screen and (max-width:991px) {
+            width: 100% !important;
+        }
+    }
+
+    .lower-area-title {
+        border-left: 2px solid var(--darkGreen);
+
+        @media screen and (max-width:991px) {
+            width: 50%;
+        }
+    }
+
+
+    .orderNumberArea {
+        width: 15% !important;
+
+        @media screen and (max-width:991px) {
+            width: 100% !important;
+        }
+    }
+
+    .preparingDropdown {
+        width: 30%;
+
+        @media screen and (max-width:991px) {
+            width: 100% !important;
+        }
+    }
+
+    .displayBlockResposiveFix {
+        @media screen and (max-width:991px) {
+            width: 100% !important;
+            display: block !important;
+        }
+    }
+
+    .calendarArea {
+        width: 20% !important;
+
+        @media screen and (max-width:991px) {
+            width: 100% !important;
+        }
+    }
+
+
+    .tableArea {
+        padding: 1rem;
+        border: 1px solid #e4e4e4;
+        border-radius: 10px;
+
+    }
+
+    .btnStyling {
+        margin-top: 36px;
+        background-color: var(--darkGreen);
+        border-radius: 10px;
+        width: 150px;
+        height: 40px;
+        color: black;
+        border: none;
+        font-weight: 600;
+
+        @media screen and (max-width:991px) {
+            width: 100%;
+        }
+
+    }
+
+    .btnStylingPrint {
+        background-color: var(--darkGreen);
+        border-radius: 10px;
+        width: 100%;
+        height: 50px;
+        color: white;
+        border: none;
+        font-weight: 600;
+
+
+        @media screen and (max-width:991px) {
+            width: 100%;
+        }
+
+    }
+
+    .LowerInputArea {
+        width: 100% !important;
+
+        @media screen and (max-width:991px) {
+            width: 100% !important;
+        }
+    }
+
+    .width-15percent {
+        width: 15% !important;
+
+        @media screen and (max-width:991px) {
+            width: 100% !important;
+        }
+    }
+
+    .width-25percent {
+        width: 25% !important;
+
+        @media screen and (max-width:991px) {
+            width: 100% !important;
+        }
+    }
+
+    .width-30percent {
+        width: 30% !important;
+
+        @media screen and (max-width:991px) {
+            width: 100% !important;
+        }
+    }
+
+    .width-35percent {
+        width: 35% !important;
+
+        @media screen and (max-width:991px) {
+            width: 100% !important;
+        }
+    }
+
+    .width-10percent {
+        width: 10% !important;
+
+        @media screen and (max-width:991px) {
+            width: 100% !important;
+        }
+    }
+
+    .tabStyling {
+        width: 75%;
+        text-align: center;
+        padding: 20px;
+        border: 1px solid #e4e4e4;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 20px;
+
+        @media screen and (max-width:991px) {
+            width: 100% !important;
+            flex-direction: column;
+        }
+
+    }
+
+    .lowerTripleArea {
+        @media screen and (max-width:991px) {
+            width: 100% !important;
+            flex-direction: column;
+            gap: 0.5rem !important;
+        }
+    }
+
+    .btnStylingConfirm {
+        margin-top: 36px;
+        background-color: var(--darkBlue);
+        border-radius: 10px;
+        width: 150px;
+        height: 50px;
+        color: white;
+        border: none;
+        font-weight: 500;
+
+        @media screen and (max-width:991px) {
+            width: 100%;
+        }
+
+    }
+
+    .printButton {
+        width: 30% !important;
+
+        @media screen and (max-width:991px) {
+            width: 100% !important;
+
+        }
+    }
+
+    .inputSize {
+        width: 100px
+    }
+
+    .inputLabelWidth {
+        width: 100px;
+    }
+
+    .buttonResponsiveFix {
+        width: 50%;
+
+        @media screen and (max-width:769px) {
+            width: 100%;
+        }
+    }
+
+    .itemInfoAreatitle {
+        @media (max-width: 991px) {
+            flex-direction: column-reverse;
+        }
+    }
+
+    // ::ng-deep {
+    //     // .p-dropdown-clear-icon {
+    //     //     right: 5% !important;
+
+    //     //     @media screen and (max-width:992px) {
+    //     //         right: 1% !important;
+    //     //     }
+    //     // }
+
+    //     // .p-dropdown.p-dropdown-clearable .p-dropdown-label {
+    //     //     padding-right: 2.5rem !important;
+    //     //     padding-top: 0.5rem;
+    //     // }
+
+    //     .p-calendar {
+    //         width: 100%;
+    //     }
+
+    //     .p-calendar .p-inputtext {
+    //         direction: rtl !important;
+    //     }
+
+    //     // .p-dropdown {
+    //     //     width: 100%;
+    //     //     border-radius: 10px;
+    //     //     height: 50px;
+    //     // }
+
+    //     .p-dropdown-panel {
+    //         max-width: 100% !important;
+    //     }
+
+    //     // .p-dropdown-panel .p-dropdown-header .p-dropdown-filter {
+    //     //     margin-right: 0rem;
+    //     // }
+
+    //     // .p-dropdown-clear-icon {
+    //     //     left: 2.1rem;
+    //     //     right: unset !important;
+    //     // }
+
+    //     // .p-inputtext {
+    //     //     border-radius: 10px;
+    //     // }
+
+    //     .p-checkbox .p-checkbox-box {
+    //         border: 2px solid #ced4da;
+    //         background: #ffffff;
+    //         width: 22px;
+    //         height: 22px;
+    //         color: #495057;
+    //         border-radius: 6px !important;
+    //         transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    //     }
+
+    //     .p-checkbox .p-checkbox-box.p-highlight {
+    //         border-color: black;
+    //         background: black;
+    //     }
+
+    //     .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+    //         border-color: black;
+    //         background: black;
+    //         color: #FFFFFF;
+    //     }
+    // }
+
+    .active {
+        background-color: var(--lightGreen);
+        color: black;
+    }
+
+
+
+
+    #exampleModal {
+        .modal-dialog {
+            padding-top: 4% !important;
+            max-width: 45vw !important;
+
+            @media only screen and (max-width:768px) {
+                max-width: 100% !important;
+                margin: 4% auto !important;
+            }
+
+            .modal-content {
+                border-radius: 30px !important;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+                overflow: auto !important;
+
+                .modal-header {
+                    border-bottom: none;
+                }
+
+                .modal-body {
+                    padding: 0% 5% 5vh 5%;
+
+                    .Title {
+                        width: 100%;
+                        text-align: center;
+                    }
+
+                    ::ng-deep .p-dropdown {
+                        width: 100%;
+                        height: 45px;
+                        border-radius: 10px !important;
+
+                        :hover {
+                            border: 1px solid #FCFCFC !important;
+
+                        }
+                    }
+                }
+
+                .modal-footer {
+                    border-top: 0;
+                }
+            }
+        }
+
+    }
+
+    .btn-color {
+        background-color: var(--red);
+    }
+
+    .brightGreen-bg {
+        background-color: #1DD23A !important;
+    }
+
+    .lightGreen-bg {
+        background-color: #28DF99 !important;
+    }
+
+    .w-40 {
+        width: 40%;
+    }
+
+    .disabled {
+        background-color: #e9ecef;
+        opacity: 1;
+    }
+
+    .disabled:focus {
+        border-color: #ced4da;
+        outline: 0;
+        box-shadow: none;
+    }
+}
+
+.highlightRproduct {
+    font-family: "NOTO";
+    border: 3px solid !important;
+    border-radius: 40px !important;
+    margin-bottom: 5px !important;
+}
+
+.disabled {
+    background-color: #e9ecef;
+    opacity: 1;
+}
+
+.disabled:focus {
+    border-color: #ced4da;
+    outline: 0;
+    box-shadow: none;
+}
+
+
+
+.highlightRproduct {
+    font-family: "NOTO";
+    border: 3px solid !important;
+    border-radius: 40px !important;
+    margin-bottom: 5px !important;
+}
+
+.highlightRproduct2 {
+    font-family: "NOTO";
+    border: 3px solid !important;
+    border-radius: 40px !important;
+    margin-bottom: 5px !important;
+}
+
+.highlightProductReviewer {
+    font-family: "NOTO";
+    border: 3px solid !important;
+    border-radius: 40px !important;
+    margin-bottom: 5px !important;
+}

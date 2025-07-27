@@ -1,0 +1,231 @@
+<div class="main_card_margen">
+  <div class="card boxShadow-15 borderRadius_20px">
+    <div id="header" class="d-flex flex-wrap gap-2 justify-content-between p-4">
+      <div
+        class="d-flex width-20 h-50px lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+      >
+        <span class="fw-600">عدد المخازن : {{ warehouses_count }}</span>
+      </div>
+
+      <button
+        data-bs-toggle="modal"
+        data-bs-target="#filterModel"
+        type="button"
+        class="white_bg_green_txt_btn boxShadow-15 h-60px borderRadius_20px width-14"
+      >
+        <span class="fw-600">فلتر</span>
+      </button>
+    </div>
+    <div id="table" class="p-3">
+      <app-shared_table
+        [columnsArray]="columnsArray"
+        [columnsNames]="columnsName"
+        [RowsData]="warehouses"
+        (openModalEvent)="navigateToEdit($event)"
+      ></app-shared_table>
+    </div>
+    <div id="pagination" class="w-100">
+      <p-paginator
+        #paginator
+        class="d-flex justify-content-center mb-2"
+        (onPageChange)="changePage($event)"
+        [first]="1"
+        [rows]="rows"
+        [totalRecords]="warehouses_count"
+      ></p-paginator>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="filterModel"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog p-3">
+    <div class="modal-content" style="border-radius: 20px">
+      <div class="modal-header border-0 d-flex justify-content-center">
+        <div class="d-flex justify-content-center mb-1 w-100">
+          <span class="text-center fs-24 fw-700">فلتر</span>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="filterForm" (ngSubmit)="filter()" action="">
+          <div class="w-100 d-flex flex-wrap align-items-end mb-2 gap-2">
+            <div class="width-17">
+              <label class="mb-2">الكود</label>
+              <input
+                type="text"
+                formControlName="id"
+                placeholder=" "
+                class="form-control"
+              />
+            </div>
+            <div class="flex-fill">
+              <label class="mb-2">اسم المخزن</label>
+              <p-dropdown
+                [options]="warehouses_all"
+                [showClear]="true"
+                placeholder=" "
+                optionLabel="name_ar"
+                optionValue="id"
+              ></p-dropdown>
+            </div>
+          </div>
+
+          <div
+            class="d-flex flex-wrap align-items-center w-100 mb-2 justify-content-between"
+          >
+            <div class="width-40-lg">
+              <label class="mb-2">المحافظة</label>
+              <p-dropdown
+                [filter]="true"
+                [options]="cities"
+                #citiesDropdown
+                (click)="getArea(citiesDropdown)"
+                placeholder=" "
+                optionLabel="name"
+                optionValue="id"
+              ></p-dropdown>
+            </div>
+            <div class="width-40-lg">
+              <label class="mb-2">المدينة</label>
+              <p-dropdown
+                [filter]="true"
+                [options]="area"
+                placeholder=" "
+                optionLabel="name"
+                optionValue="id"
+              ></p-dropdown>
+            </div>
+          </div>
+
+          <!-- <div class="w-100 mb-2">
+              <label class="mb-2">يظهر في</label>
+              <p-dropdown   [showClear]="true" placeholder=" "
+                 optionLabel="name_ar" optionValue="id"></p-dropdown>
+          </div> -->
+
+          <div class="w-100 mb-5">
+            <label class="mb-2">شاشات الظهور</label>
+            <div class="radiobuttons d-flex flex-wrap gap-5">
+              <div class="radiobutton d-flex align-items-center">
+                <input
+                  class="form-check-input mx-1 borderRadius_10px"
+                  style="width: 40px; height: 40px"
+                  name="selling_status"
+                  type="checkbox"
+                  formControlName="retail_sales"
+                />
+                <label class="form-check-label"> مبيعات قطاعي </label>
+              </div>
+              <div class="radiobutton d-flex align-items-center">
+                <input
+                  class="form-check-input mx-1 borderRadius_10px"
+                  style="width: 40px; height: 40px"
+                  name="selling_status"
+                  type="checkbox"
+                  formControlName="bulk_sales"
+                />
+                <label class="form-check-label"> مبيعات جملة </label>
+              </div>
+              <div class="radiobutton d-flex align-items-center">
+                <input
+                  class="form-check-input mx-1 borderRadius_10px"
+                  style="width: 40px; height: 40px"
+                  name="selling_status"
+                  type="checkbox"
+                  formControlName="sales_return"
+                />
+                <label class="form-check-label"> مردود مبيعات </label>
+              </div>
+              <div class="radiobutton d-flex align-items-center">
+                <input
+                  class="form-check-input mx-1 borderRadius_10px"
+                  style="width: 40px; height: 40px"
+                  name="selling_status"
+                  type="checkbox"
+                  formControlName="purchases"
+                />
+                <label class="form-check-label"> مشتريات </label>
+              </div>
+              <div class="radiobutton d-flex align-items-center">
+                <input
+                  class="form-check-input mx-1 borderRadius_10px"
+                  style="width: 40px; height: 40px"
+                  name="selling_status"
+                  type="checkbox"
+                  formControlName="purchases_return"
+                />
+                <label class="form-check-label"> مردود مشتريات </label>
+              </div>
+              <div class="radiobutton d-flex align-items-center">
+                <input
+                  class="form-check-input mx-1 borderRadius_10px"
+                  style="width: 40px; height: 40px"
+                  name="selling_status"
+                  type="checkbox"
+                  formControlName="transfers"
+                />
+                <label class="form-check-label"> تحويلات </label>
+              </div>
+              <div class="radiobutton d-flex align-items-center">
+                <input
+                  class="form-check-input mx-1 borderRadius_10px"
+                  style="width: 40px; height: 40px"
+                  name="selling_status"
+                  type="checkbox"
+                  formControlName="inventory"
+                />
+                <label class="form-check-label"> جرد </label>
+              </div>
+              <div class="radiobutton d-flex align-items-center">
+                <input
+                  class="form-check-input mx-1 borderRadius_10px"
+                  style="width: 40px; height: 40px"
+                  name="selling_status"
+                  type="checkbox"
+                  formControlName="is_main"
+                />
+                <label class="form-check-label"> افتراضي في المبيعات </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="w-100 mb-2">
+            <label class="mb-2">حالة المخزن</label>
+            <p-dropdown
+              [showClear]="true"
+              placeholder=" "
+              [options]="warehouseStatus"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+          </div>
+
+          <div class="d-flex flex-wrap justify-content-center">
+            <button
+              appDisableButton
+              data-bs-dismiss="modal"
+              aria-label="Close"
+              type="submit"
+              class="green_bg_black_txt_btn text-white width-70 p-3 borderRadius_20px"
+            >
+              فلترة
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

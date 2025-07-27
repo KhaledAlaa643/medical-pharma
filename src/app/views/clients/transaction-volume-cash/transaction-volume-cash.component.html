@@ -1,0 +1,1159 @@
+<div class="main_card_margen">
+  <div class="m-2 p-3 card mainCard borderRadius_20px boxShadow-15">
+    <form [formGroup]="clientDataForm">
+      <div class="d-flex gap-1 responsiveFixInputs align-items-end">
+        <div class="width-15 d-flex">
+          <div class="w-100">
+            <label class="mb-2">كود </label>
+            <input
+              *ngIf="!supplier_reports"
+              #userCode
+              type="text"
+              placeholder=" "
+              (keydown.enter)="getClientidFromCode('code')"
+              formControlName="client_code"
+              class="form-control"
+            />
+            <input
+              *ngIf="supplier_reports"
+              [(ngModel)]="supplier.id"
+              #userCode
+              type="number"
+              placeholder=" "
+              formControlName="supplier_code"
+              class="form-control"
+            />
+          </div>
+        </div>
+
+        <div *ngIf="!supplier_reports" class="width-20 d-flex">
+          <div class="w-100">
+            <label class="form-label fw-500 fs-16">اسم العميل</label>
+            <p-dropdown
+              [filter]="true"
+              [showClear]="true"
+              #userDropdown
+              (click)="getclientDrop('client_id', userDropdown)"
+              (keydown.enter)="getclientDrop('client_id', userDropdown)"
+              optionLabel="name"
+              optionValue="id"
+              placeholder=" "
+              formControlName="client_id"
+              [options]="clientsData"
+            >
+            </p-dropdown>
+          </div>
+        </div>
+        <div *ngIf="supplier_reports" class="width-35 d-flex">
+          <div class="w-100">
+            <label class="form-label fw-500 fs-16">اسم المورد</label>
+            <p-dropdown
+              [filter]="true"
+              [showClear]="true"
+              #userDropdown
+              [(ngModel)]="supplier.id"
+              optionLabel="name"
+              optionValue="id"
+              placeholder=" "
+              formControlName="supplier_id"
+              [options]="suppliers"
+            >
+            </p-dropdown>
+          </div>
+        </div>
+
+        <div *ngIf="!supplier_reports" class="width-20 d-flex">
+          <div class="w-100">
+            <label class="mb-2"> فروع العميل / وعملاء المندوب الحر </label>
+            <p-dropdown
+              (onChange)="onPageChangeRemoveCode($event)"
+              [filter]="true"
+              [showClear]="true"
+              optionLabel="name"
+              optionValue="id"
+              placeholder=" "
+              formControlName="pharmacy_id"
+              [options]="pharmaciesData"
+            >
+            </p-dropdown>
+          </div>
+        </div>
+
+        <div class="width-15 position-relative">
+          <label class="form-label"> التاريخ </label>
+          <div class="d-flex w-100">
+            <p-calendar
+              [dir]="'ltr'"
+              [showClear]="clientDataForm.controls['from'].value"
+              #calendarFrom
+              dateFormat="yy-mm-dd"
+              formControlName="from"
+              class="w-100"
+              placeholder=" من "
+            >
+            </p-calendar>
+            <img
+              style="left: -7px"
+              (click)="calendarFrom.toggle()"
+              class="calendar-icon position-absolute p-2"
+              src="../../../../assets/images/input/calender.svg"
+              alt=""
+            />
+          </div>
+        </div>
+
+        <div class="width-15 position-relative">
+          <label class="mb-2"> </label>
+          <div class="d-flex w-100">
+            <p-calendar
+              [dir]="'ltr'"
+              [showClear]="clientDataForm.controls['to'].value"
+              #calendarTo
+              dateFormat="yy-mm-dd"
+              class="calendar-icon position-relative"
+              formControlName="to"
+              placeholder=" الى "
+              class="w-100"
+            >
+            </p-calendar>
+            <img
+              style="left: -7px"
+              (click)="calendarTo.toggle()"
+              class="calendar-icon position-absolute p-2"
+              src="../../../../assets/images/input/calender.svg"
+              alt=""
+            />
+          </div>
+        </div>
+
+        <div class="flex-fill d-flex justify-content-end">
+          <button
+            appDisableButton
+            placeholder=" "
+            *ngIf="activeTab <= 0"
+            class="btnStylingDisabled width-60 form-control h-40px"
+          >
+            <p class="fw-semibold fs-4 m-auto">بحث</p>
+          </button>
+          <!-- (click)="transactionCashPayment()" -->
+          <button
+            appDisableButton
+            type="button"
+            *ngIf="activeTab > 0 && activeTab <= 5"
+            (click)="changeParam(activeTab)"
+            placeholder=" "
+            class="btnStyling m-auto form-control width-60 h-40px"
+          >
+            <p class="fw-semibold fs-4 m-auto">بحث</p>
+          </button>
+
+          <button
+            appDisableButton
+            type="button"
+            *ngIf="activeTab == 6"
+            (click)="transcationReport()"
+            placeholder=" "
+            class="btnStyling m-auto form-control width-60"
+          >
+            <p class="fw-semibold fs-4 m-auto">بحث</p>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div
+      class="d-flex flex-wrap justify-content-between text-center p-1 overflow-auto displayMediaFix"
+    >
+      <div
+        (click)="changeTab(1)"
+        [ngClass]="{ active: activeTab === 1 }"
+        class="w-15 responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+      >
+        <p class="text-center m-auto">النقدية</p>
+      </div>
+
+      <div
+        (click)="changeTab(2)"
+        [ngClass]="{ active: activeTab === 2 }"
+        class="w-15 responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+      >
+        <p class="text-center m-auto">المبيعات</p>
+      </div>
+
+      <div
+        (click)="changeTab(3)"
+        [ngClass]="{ active: activeTab === 3 }"
+        class="w-15 responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+      >
+        <p class="text-center m-auto">المشتريات</p>
+      </div>
+
+      <div
+        (click)="changeTab(4)"
+        [ngClass]="{ active: activeTab === 4 }"
+        class="w-15 responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+      >
+        <p class="text-center m-auto">الاشعارات</p>
+      </div>
+
+      <div
+        (click)="changeTab(5)"
+        [ngClass]="{ active: activeTab === 5 }"
+        class="w-15 responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+      >
+        <p class="text-center m-auto">أرصدة المحولة</p>
+      </div>
+
+      <div
+        (click)="changeTab(6)"
+        [ngClass]="{ active: activeTab === 6 }"
+        class="w-15 responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+      >
+        <p class="text-center m-auto">التقارير</p>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab == 1" class="TableResoponsiveFix">
+      <div class="width-50Percent">
+        <app-table-component
+          class="d-flex mainTable"
+          [apidata]="cashRecievedData?.data"
+          [cashRecievedTotal]="cashRecievedData?.meta?.total"
+          [currentPageRecieved]="cashRecievedData?.meta?.current_page"
+          [title]="'استلام النقدية'"
+          [firstLowerTab]="'اجمالي عدد العمليات '"
+          [TabPage]="activeTab"
+          [secondLowerTab]="' اجمالي المبلغ استلام نقدية'"
+          [isLeft]="false"
+        >
+        </app-table-component>
+        <p-paginator
+          (onPageChange)="changePage($event, 'cashRecieve')"
+          [first]="1"
+          [rows]="cashRecievedData?.meta?.per_page"
+          [totalRecords]="cashRecievedData?.meta?.total"
+        ></p-paginator>
+
+        <div class="d-flex tabResponsiveFix gap-1 w-100 m-2 p-2">
+          <div
+            class="d-flex justify-content-center align-items-center flex-fill"
+          >
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center w-100"
+            >
+              <span
+                class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center"
+                >اجمالي عدد العمليات</span
+              >
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">
+                {{ cashRecievedData?.additional_data?.count }}
+              </span>
+            </div>
+          </div>
+
+          <div
+            class="d-flex justify-content-center align-items-center flex-fill"
+          >
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center w-100"
+            >
+              <span
+                class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center p-1"
+              >
+                اجمالي المبلغ استلام نقدية</span
+              >
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">
+                {{
+                  cashRecievedData?.additional_data?.total
+                    ? cashRecievedData?.additional_data?.total
+                    : 0
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="width-50Percent">
+        <app-table-component
+          class="d-flex mainTable"
+          [apidata]="cashPaymentData.data"
+          [cashPaymentTotal]="cashPaymentData?.meta?.total"
+          [currentPagePayment]="cashPaymentData?.meta?.current_page"
+          [title]="'دفع النقدية '"
+          [firstLowerTab]="'اجمالي عدد العمليات'"
+          [secondLowerTab]="'اجمالي المبلغ دفع نقدية'"
+          [isLeft]="true"
+          [TabPage]="activeTab"
+        >
+        </app-table-component>
+
+        <p-paginator
+          (onPageChange)="changePage($event, 'cashPayment')"
+          [first]="1"
+          [rows]="cashPaymentData?.meta?.per_page"
+          [totalRecords]="cashPaymentData?.meta?.total"
+        ></p-paginator>
+
+        <div class="d-flex tabResponsiveFix gap-1 w-100 m-2 p-2">
+          <div
+            class="d-flex justify-content-center align-items-center flex-fill"
+          >
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center w-100"
+            >
+              <span
+                class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center"
+              >
+                اجمالي عدد العمليات
+              </span>
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">
+                {{ cashPaymentData?.additional_data?.count }}
+              </span>
+            </div>
+          </div>
+
+          <div
+            class="d-flex justify-content-center align-items-center flex-fill"
+          >
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center w-100"
+            >
+              <span
+                class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center p-1"
+              >
+                اجمالي المبلغ دفع نقدية</span
+              >
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">
+                {{
+                  cashPaymentData?.additional_data?.total
+                    ? cashPaymentData?.additional_data?.total
+                    : 0
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab == 2" class="TableResoponsiveFix">
+      <div class="width-50Percent">
+        <app-table-component
+          class="mainTable"
+          (openInvoiceDetails)="openInvoicePopup($event)"
+          [TabPage]="activeTab"
+          [apidata]="salesData?.data"
+          [title]="'المبيعات '"
+          [salesTotal]="salesData?.meta?.total"
+          [currentPageSales]="salesData?.meta?.current_page"
+          [firstLowerTab]="'اجمالي عدد العمليات'"
+          [secondLowerTab]="' اجمالي المبيعات  '"
+          [isLeft]="false"
+          [TabPage]="activeTab"
+        >
+        </app-table-component>
+        <p-paginator
+          (onPageChange)="changePage($event, 'sales')"
+          [first]="1"
+          [rows]="salesData?.meta?.per_page"
+          [totalRecords]="salesData?.meta?.total"
+        ></p-paginator>
+        <div class="d-flex tabResponsiveFix gap-1 w-100 m-2 p-2">
+          <div
+            class="d-flex justify-content-center align-items-center flex-fill"
+          >
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center w-100"
+            >
+              <span
+                class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center"
+                >اجمالي عدد العمليات
+              </span>
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">
+                {{ salesData?.additional_data?.count }}
+              </span>
+            </div>
+          </div>
+
+          <div
+            class="d-flex justify-content-center align-items-center flex-fill"
+          >
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center w-100"
+            >
+              <span
+                class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center p-1"
+              >
+                اجمالي مبيعات
+              </span>
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">
+                {{
+                  salesData?.additional_data?.total
+                    ? salesData?.additional_data.total
+                    : 0
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--
+          [returnSalesTotal]="returnsSalesTotal" [currentPageSales]="ReturnsSalesCurrentPage"
+   -->
+
+      <div class="width-50Percent">
+        <app-table-component
+          class="d-flex mainTable"
+          [apidata]="returnsSalesData?.data"
+          [title]="'مرتجعات المبيعات  '"
+          [returnSalesTotal]="returnsSalesData?.meta?.total"
+          [currentPageReturnSales]="returnsSalesData?.meta?.current_page"
+          [firstLowerTab]="'اجمالي عدد العمليات'"
+          [secondLowerTab]="'اجمالي المبلغ دفع نقدية'"
+          [isLeft]="true"
+          [TabPage]="activeTab"
+          (openInvoiceDetails)="openInvoicePopup($event)"
+        >
+        </app-table-component>
+        <p-paginator
+          (onPageChange)="changePage($event, 'salesReturns')"
+          [first]="1"
+          [rows]="returnsSalesData?.meta?.per_page"
+          [totalRecords]="returnsSalesData?.meta?.total"
+        ></p-paginator>
+
+        <div class="d-flex tabResponsiveFix gap-1 w-100 m-2 p-2">
+          <div
+            class="d-flex justify-content-center align-items-center flex-fill"
+          >
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center w-100"
+            >
+              <span
+                class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center"
+              >
+                اجمالي عدد العمليات
+              </span>
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">
+                {{ returnsSalesData?.additional_data?.count }}
+              </span>
+            </div>
+          </div>
+
+          <div
+            class="d-flex justify-content-center align-items-center flex-fill"
+          >
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center w-100"
+            >
+              <span
+                class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center p-1"
+              >
+                اجمالي مردود المبيعات</span
+              >
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">
+                {{
+                  returnsSalesData?.additional_data?.total
+                    ? returnsSalesData?.additional_data?.total
+                    : 0
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab == 3" class="TableResoponsiveFix">
+      <div class="width-50Percent">
+        <app-table-component
+          class="mainTable"
+          [apidata]="purchaseData?.data"
+          [title]="' المشتريات'"
+          [purchaseTotal]="purchaseData?.additional_data?.count"
+          [currentPagePurchase]="purchaseData?.meta?.current_page"
+          [firstLowerTab]="'       اجمالي عدد العمليات     '"
+          [secondLowerTab]="' اجمالي المشتريات     '"
+          [isLeft]="false"
+          [TabPage]="activeTab"
+        ></app-table-component>
+
+        <p-paginator
+          (onPageChange)="changePage($event, 'purchases')"
+          [first]="1"
+          [rows]="purchaseData?.meta?.per_page"
+          [totalRecords]="purchaseData?.meta?.total"
+        ></p-paginator>
+
+        <div class="d-flex tabResponsiveFix gap-1 w-100 m-2 p-2">
+          <div
+            class="d-flex justify-content-center align-items-center flex-fill"
+          >
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center w-100"
+            >
+              <span
+                class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center"
+              >
+                اجمالي عدد العمليات
+              </span>
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">
+                {{ purchaseData?.meta?.total }}
+              </span>
+            </div>
+          </div>
+
+          <div
+            class="d-flex justify-content-center align-items-center flex-fill"
+          >
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center w-100"
+            >
+              <span
+                class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center p-1"
+              >
+                اجمالي مشتريات
+              </span>
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">
+                {{
+                  purchaseData?.additional_data?.total
+                    ? purchaseData?.additional_data.total
+                    : 0
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="width-50Percent">
+        <app-table-component
+          class="mainTable"
+          [apidata]="purchaseReturnData?.data"
+          [title]="' مرتجعات المشتريات'"
+          [returnPurchaseTotal]="purchaseReturnData?.meta?.total"
+          [currentPageReturnPurchase]="purchaseReturnData?.meta?.current_page"
+          [firstLowerTab]="'اجمالي عدد العمليات  '"
+          [secondLowerTab]="' اجمالي مردود المشتريات   '"
+          [isLeft]="true"
+          [TabPage]="activeTab"
+        ></app-table-component>
+
+        <p-paginator
+          (onPageChange)="changePage($event, 'purchasesReturns')"
+          [first]="1"
+          [rows]="purchaseReturnData?.meta?.per_page"
+          [totalRecords]="purchaseReturnData?.meta?.total"
+        ></p-paginator>
+
+        <div class="d-flex tabResponsiveFix gap-1 w-100 m-2 p-2">
+          <div
+            class="d-flex justify-content-center align-items-center flex-fill"
+          >
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center w-100"
+            >
+              <span
+                class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center"
+                >اجمالي عدد العمليات
+              </span>
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">
+                {{ purchaseReturnData?.meta?.total }}
+              </span>
+            </div>
+          </div>
+
+          <div
+            class="d-flex justify-content-center align-items-center flex-fill"
+          >
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center w-100"
+            >
+              <span
+                class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center p-1"
+              >
+                اجمالي مردود مشتريات
+              </span>
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">
+                {{
+                  purchaseReturnData?.additional_data?.total
+                    ? purchaseReturnData?.additional_data.total
+                    : 0
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab == 4" class="TableResoponsiveFix">
+      <div class="width-50Percent">
+        <app-table-component
+          class="mainTable"
+          [TabPage]="activeTab"
+          [apidata]="notificationDisountData?.data"
+          [title]="' اشعارات الخصم'"
+          [notificationDisountTotal]="notificationDisountData?.meta?.total"
+          [notificationDisountCurrentPage]="
+            notificationDisountData?.meta?.current_page
+          "
+          [firstLowerTab]="' اجمالي عدد العمليات'"
+          [secondLowerTab]="' اجمالي  اشعارات الخصم '"
+          [isLeft]="false"
+        ></app-table-component>
+
+        <p-paginator
+          (onPageChange)="changePage($event, 'notificationDiscount')"
+          [first]="1"
+          [rows]="notificationDisountData?.meta?.per_page"
+          [totalRecords]="notificationDisountData?.meta?.total"
+        ></p-paginator>
+
+        <div class="d-flex tabResponsiveFix gap-1 w-100 m-2 p-2">
+          <div
+            class="d-flex justify-content-center align-items-center flex-fill"
+          >
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center w-100"
+            >
+              <span
+                class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center"
+              >
+                اجمالي عدد العمليات
+              </span>
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">
+                {{ notificationDisountData?.additional_data?.count }}
+              </span>
+            </div>
+          </div>
+
+          <div
+            class="d-flex justify-content-center align-items-center flex-fill"
+          >
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center w-100"
+            >
+              <span
+                class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center p-1"
+              >
+                اجمالي اشعارات الخصم
+              </span>
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">
+                {{
+                  notificationDisountData?.additional_data?.total
+                    ? notificationDisountData?.additional_data?.total
+                    : 0
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="width-50Percent">
+        <app-table-component
+          class="mainTable"
+          [TabPage]="activeTab"
+          [apidata]="NotifiationAdditionData?.data"
+          [title]="' اشعارات الاضافة'"
+          [NotifiationAdditionTotal]="NotifiationAdditionData?.meta?.total"
+          [notificationAdditionCurrentPage]="
+            NotifiationAdditionData?.meta?.current_page
+          "
+          [firstLowerTab]="' اجمالي عدد العمليات'"
+          [secondLowerTab]="' اجمالي اشعارات الاضافة'"
+          [isLeft]="true"
+        ></app-table-component>
+
+        <p-paginator
+          (onPageChange)="changePage($event, 'notificationAddition')"
+          [first]="1"
+          [rows]="NotifiationAdditionData?.meta?.per_page"
+          [totalRecords]="NotifiationAdditionData?.meta?.total"
+        ></p-paginator>
+
+        <div class="d-flex tabResponsiveFix gap-1 w-100 m-2 p-2">
+          <div
+            class="d-flex justify-content-center align-items-center flex-fill"
+          >
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center w-100"
+            >
+              <span
+                class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center"
+                >اجمالي عدد العمليات
+              </span>
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">
+                {{ NotifiationAdditionData?.additional_data?.count }}
+              </span>
+            </div>
+          </div>
+
+          <div
+            class="d-flex justify-content-center align-items-center flex-fill"
+          >
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center w-100"
+            >
+              <span
+                class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center p-1"
+              >
+                اجمالي اشعارات الاضافة</span
+              >
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">
+                {{
+                  NotifiationAdditionData?.additional_data?.total
+                    ? NotifiationAdditionData?.additional_data?.total
+                    : 0
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab == 5" class="TableResoponsiveFix">
+      <div class="width-50Percent">
+        <app-table-component
+          class="responsiveFix mainTable"
+          [title]="' رصيد صادر منه الي'"
+          [firstLowerTab]="' اجمالي عدد العمليات'"
+          [secondLowerTab]="' اجمالي  اشعارات الخصم '"
+          [TabPage]="activeTab"
+          [apidata]="balanceTransferredData?.data"
+          [balanceTransferredDataTotal]="balanceTransferredData?.meta?.total"
+          [balanceTransferredDataCurrentPage]="
+            balanceTransferredData?.meta?.current_page
+          "
+          [isLeft]="true"
+        ></app-table-component>
+
+        <p-paginator
+          (onPageChange)="changePage($event, 'balanceRecieved')"
+          [first]="1"
+          [rows]="balanceTransferredData?.meta?.per_page"
+          [totalRecords]="balanceTransferredData?.meta?.total"
+        ></p-paginator>
+
+        <div class="d-flex tabResponsiveFix gap-1 w-100 m-2 p-2">
+          <div
+            class="d-flex justify-content-center align-items-center flex-fill"
+          >
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center w-100"
+            >
+              <span
+                class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center"
+              >
+                اجمالي عدد العمليات
+              </span>
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">
+                {{ balanceTransferredData?.additional_data?.count }}
+              </span>
+            </div>
+          </div>
+
+          <div
+            class="d-flex justify-content-center align-items-center flex-fill"
+          >
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center w-100"
+            >
+              <span
+                class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center p-1"
+              >
+                اجمالي المبلغ المحول له</span
+              >
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">
+                {{
+                  balanceTransferredData?.additional_data?.total
+                    ? balanceTransferredData.additional_data?.total
+                    : 0
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="width-50Percent responsiveFix">
+        <app-table-component
+          class="responsiveFix mainTable"
+          [title]="'رصيد محول عليه من '"
+          [firstLowerTab]="' اجمالي عدد العمليات'"
+          [secondLowerTab]="' اجمالي اشعارات الاضافة'"
+          [TabPage]="activeTab"
+          [apidata]="BalanceReceivedData?.data"
+          [BalanceReceivedTotal]="BalanceReceivedData?.meta?.total"
+          [BalanceReceivedTotalCurrentPage]="
+            BalanceReceivedData?.meta?.current_page
+          "
+          [isLeft]="false"
+        ></app-table-component>
+
+        <p-paginator
+          (onPageChange)="changePage($event, 'balanceTransferred')"
+          [first]="1"
+          [rows]="BalanceReceivedData?.meta?.per_page"
+          [totalRecords]="BalanceReceivedData?.meta?.total"
+        ></p-paginator>
+
+        <div class="d-flex tabResponsiveFix gap-1 w-100 m-2 p-2">
+          <div
+            class="d-flex justify-content-center align-items-center flex-fill"
+          >
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center w-100"
+            >
+              <span
+                class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center"
+                >اجمالي عدد العمليات
+              </span>
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">
+                {{ BalanceReceivedData?.additional_data?.count }}
+              </span>
+            </div>
+          </div>
+
+          <div
+            class="d-flex justify-content-center align-items-center flex-fill"
+          >
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center w-100"
+            >
+              <span
+                class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center p-1"
+              >
+                اجمالي المبلغ المحول عليه
+              </span>
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">
+                {{
+                  BalanceReceivedData?.additional_data?.total
+                    ? BalanceReceivedData?.additional_data?.total
+                    : 0
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="activeTab == 6">
+      <app-transaction-volume-reports
+        [ReportData]="reportData"
+        [tabIndex]="activeTab"
+      ></app-transaction-volume-reports>
+    </div>
+  </div>
+</div>
+
+<button
+  hidden
+  #invoiceDetailsModel
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#invoiceDetailsModel"
+></button>
+
+<div
+  class="modal fade"
+  id="invoiceDetailsModel"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog p-3">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex justify-content-center w-100">
+          <span class="text-center fs-16 fw-600">محتويات الفاتورة</span>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="borderRadius_20px mx-3 p-2 row">
+          <div #scrollMe class="h-100 col-md-12">
+            <p-table class="mainTable" [value]="cartData">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th
+                    style="
+                      display: table-cell !important;
+                      width: 250px !important;
+                    "
+                  >
+                    <div class="d-flex thSearch gap-2 align-items-center">
+                      <div class="d-flex">
+                        <span class="fw-500 fs-18">الاسم عربي</span>
+                        <svg
+                          width="25"
+                          height="25"
+                          viewBox="0 0 20 20"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <g clip-path="url(#clip0_242_3954)">
+                            <path
+                              d="M2.5 7.50001L5.83333 4.16667M5.83333 4.16667L9.16667 7.50001M5.83333 4.16667V15.8333"
+                              stroke="#333333"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                            <path
+                              d="M17.4987 12.5L14.1654 15.8333M14.1654 15.8333L10.832 12.5M14.1654 15.8333V4.16667"
+                              stroke="#333333"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            />
+                          </g>
+
+                          <defs>
+                            <clipPath id="clip0_242_3954">
+                              <rect width="30" height="30" fill="white" />
+                            </clipPath>
+                          </defs>
+                        </svg>
+                      </div>
+                    </div>
+                  </th>
+                  <th style="display: table-cell !important">
+                    الصلاحية والتشغيلة
+                  </th>
+                  <th style="display: table-cell !important">الكمية</th>
+                  <th style="display: table-cell !important">البونص</th>
+                  <th style="display: table-cell !important">السعر</th>
+                  <th style="display: table-cell !important">الضريبة</th>
+                  <th style="display: table-cell !important">الخصم</th>
+                  <th
+                    *ngIf="ClientType == 1"
+                    style="display: table-cell !important"
+                  >
+                    خصم المندوب
+                  </th>
+                  <th
+                    *ngIf="ClientType == 1"
+                    style="display: table-cell !important"
+                  >
+                    فرق خصم المندوب
+                  </th>
+                  <th style="display: table-cell !important">الاجمالي</th>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="body" let-invoices>
+                <tr
+                  style="
+                    background: #ffffff;
+                    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+                    border-radius: 20px;
+                  "
+                >
+                  <td class="fs-14 fw-700 color-black x-small-sm">
+                    {{ invoices.name }}
+                  </td>
+                  <td class="fw-600 color-black">
+                    <span>
+                      {{ invoices.expired_at }}
+                      <br />
+                      {{ invoices.operating_number }}
+                    </span>
+                  </td>
+
+                  <td class="fw-600 color-black">{{ invoices.quantity }}</td>
+                  <td class="fw-600 color-black">{{ invoices.bonus }}</td>
+                  <td class="fw-600 color-black">{{ invoices.price }}</td>
+                  <td class="fw-600 color-black">{{ invoices.taxes }}</td>
+                  <td class="fw-600 color-black">{{ invoices.discount }}</td>
+                  <td *ngIf="ClientType == 1" class="fw-600 color-black">
+                    <span *ngIf="invoices.client_discount_difference > 0">
+                      {{
+                        invoices.discount - invoices.client_discount_difference
+                      }}
+                    </span>
+                    <span *ngIf="invoices.client_discount_difference <= 0"
+                      >0</span
+                    >
+                  </td>
+                  <td *ngIf="ClientType == 1" class="fw-600 color-black">
+                    {{ invoices.client_discount_difference }}
+                  </td>
+                  <td class="fw-600 color-black">{{ invoices.total }}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+
+          <div>
+            <div class="d-flex flex-wrap gap-3 align-items-center mt-3 mx-3">
+              <div
+                class="width-20 fullScreen-1024px h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+              >
+                <span
+                  class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center"
+                  >عدد الأصناف</span
+                >
+                <hr class="h-100 lightGreen-border" />
+                <span
+                  class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center"
+                  >{{ totals?.items_number }}</span
+                >
+              </div>
+
+              <div
+                class="width-16 fullScreen-1024px h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+              >
+                <span
+                  class="fw-600 smalltext fs-19 w-50 d-flex justify-content-center text-center"
+                  >اجمالي الفاتورة
+                </span>
+                <hr class="h-100 lightGreen-border" />
+                <span
+                  class="fw-600 smalltext fs-16 w-50 d-flex justify-content-center"
+                  >{{ totals?.total }}</span
+                >
+              </div>
+
+              <div
+                class="width-16 fullScreen-1024px h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+              >
+                <span
+                  class="fw-600 fs-19 smalltext w-50 d-flex justify-content-center text-center"
+                  >اجمالي الضريبة
+                </span>
+                <hr class="h-100 lightGreen-border" />
+                <span
+                  class="fw-600 smalltext fs-16 w-50 d-flex justify-content-center"
+                  >{{ totals?.taxes }}</span
+                >
+              </div>
+
+              <div
+                class="width-18 fullScreen-1024px h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+              >
+                <span
+                  class="fw-600 smalltext fs-16 w-50 d-flex justify-content-center text-center"
+                >
+                  صافي بعد الضريبة
+                </span>
+                <hr class="h-100 lightGreen-border" />
+                <span
+                  class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center"
+                  >{{ totals?.net_price }}</span
+                >
+              </div>
+
+              <div
+                class="width-18 fullScreen-1024px h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+              >
+                <span
+                  class="fw-600 fs-12 smallertext w-50 d-flex justify-content-center text-center"
+                >
+                  صافي ربح فرق خصم المندوب
+                </span>
+                <hr class="h-100 lightGreen-border" />
+                <span
+                  class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center"
+                  >{{ totals?.extra_discount_value }}</span
+                >
+              </div>
+            </div>
+
+            <div
+              class="d-flex flex-wrap gap-3 align-items-center justify-content-center mt-3 mx-3 mb-3"
+            >
+              <div
+                class="width-19 fullScreen-1024px h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+              >
+                <span
+                  class="fw-600 fs-15 smalltext w-50 d-flex justify-content-center text-center"
+                  >خصم نقدي اضافي
+                </span>
+                <hr class="h-100 lightGreen-border" />
+                <span
+                  class="fw-600 fs-18 smalltext w-50 d-flex justify-content-center"
+                  >{{ totals?.extra_discount_value }}</span
+                >
+              </div>
+
+              <div
+                class="width-20 fullScreen-1024px h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+              >
+                <span
+                  class="fw-600 smalltext fs-14 w-50 d-flex justify-content-center text-center"
+                  >اجمالي سعر الجمهور</span
+                >
+                <hr class="h-100 lightGreen-border" />
+                <span
+                  class="fw-600 fs-16 smalltext w-50 d-flex justify-content-center"
+                  >{{ totals?.subtotal }}</span
+                >
+              </div>
+
+              <div
+                class="width-16 fullScreen-1024px h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+              >
+                <span
+                  class="fw-600 smalltext fs-14 w-50 d-flex justify-content-center text-center"
+                  >الحساب السابق
+                </span>
+                <hr class="h-100 lightGreen-border" />
+                <span
+                  class="fw-600 fs-16 smalltext w-50 d-flex justify-content-center"
+                  >{{ totals?.previous_balance }}</span
+                >
+              </div>
+              <div
+                class="width-20 fullScreen-1024px h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+              >
+                <span
+                  class="fw-600 smalltext fs-16 w-50 d-flex justify-content-center text-center"
+                  >الرصيد الحالي</span
+                >
+                <hr class="h-100 lightGreen-border" />
+                <span
+                  class="fw-600 fs-18 smalltext w-50 d-flex justify-content-center"
+                  >{{ totals?.current_balance }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

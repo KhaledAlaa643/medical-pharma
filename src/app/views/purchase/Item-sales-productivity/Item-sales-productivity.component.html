@@ -1,0 +1,74 @@
+<!-- <div class="shadow m-3 rounded-4 text-center"> -->
+  <div class="main_card_margen">
+    <div  class="card boxShadow-10 borderRadius_20px responsiveTabs ">
+      <div class=" d-flex flex-wrap  text-center p-1  overflow-auto displayMediaFix ">
+        <div  (click)="changeActiveTap(0)"
+          class=" responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 px-3 py-2   defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{'active':isActiveTapArray[0]}">
+          <p class="text-center   m-auto ">انتاجية مبيعات الأصناف</p>
+        </div>
+        <div  (click)="changeActiveTap(1)"
+          class=" responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 px-3 py-2   defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{'active':isActiveTapArray[1]}">
+          <p class="text-center  m-auto "> مبيعات صنف</p>
+        </div>
+        <div  (click)="changeActiveTap(2)"
+          class=" responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 px-3 py-2   defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{'active':isActiveTapArray[2]}">
+          <p class="text-center  m-auto ">مبيعات شركة مصنعه</p>
+        </div>
+        <div  (click)="changeActiveTap(3)"
+          class=" responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 px-3 py-2  defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{'active':isActiveTapArray[3]}">
+          <p class="text-center  m-auto ">مبيعات الأصناف بالمادة الفعالة</p>
+        </div>
+        <div  (click)="changeActiveTap(4)"
+          class=" responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 px-3 py-2   defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{'active':isActiveTapArray[4]}">
+          <p class="text-center  m-auto "> انتاجية المحافظات </p>
+        </div>
+        <div  (click)="changeActiveTap(5)"
+          class=" responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 px-3 py-2   defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{'active':isActiveTapArray[5]}">
+          <p class="text-center  m-auto "> انتاجية المدن
+          </p>
+        </div>
+        <div  (click)="changeActiveTap(6)"
+        class=" responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 px-3 py-2  defaultBg d-flex align-items-center justify-content-center"
+        [ngClass]="{'active':isActiveTapArray[6]}">
+        <p class="text-center  m-auto "> مبيعات المدينة</p>
+      </div>
+        <div  (click)="changeActiveTap(7)"
+          class=" responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 px-3 py-2   defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{'active':isActiveTapArray[7]}">
+          <p class="text-center  m-auto "> انتاجية خطوط السير
+    
+          </p>
+        </div>
+    
+        <div  (click)="changeActiveTap(8)"
+          class=" responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 px-3 py-2   defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{'active':isActiveTapArray[8]}">
+          <p class="text-center  m-auto "> مبيعات
+            خط السير  </p>
+        </div>
+
+      </div>
+    
+    
+      <div class="row mx-3 revert-sm ms-3">
+        <div class="col-xs-2 h-100">
+           <app-Productivity-of-item-sales *ngIf="isActiveTapArray[0]"></app-Productivity-of-item-sales>
+           <app-item-sales *ngIf="isActiveTapArray[1]"></app-item-sales>
+           <app-Productivity-of-company *ngIf="isActiveTapArray[2]"></app-Productivity-of-company>
+           <app-Sales-of-items-by-active-ingredient *ngIf="isActiveTapArray[3]"></app-Sales-of-items-by-active-ingredient>
+           <app-productivity-of-city *ngIf="isActiveTapArray[4]"></app-productivity-of-city>
+           <app-productivity-of-area *ngIf="isActiveTapArray[5]"></app-productivity-of-area>
+           <app-area-sales *ngIf="isActiveTapArray[6]"></app-area-sales>
+           <app-productivity-of-track *ngIf="isActiveTapArray[7]"></app-productivity-of-track>
+           <app-track-sales *ngIf="isActiveTapArray[8]"></app-track-sales>
+        </div>
+      </div>
+    </div>
+
+  </div>

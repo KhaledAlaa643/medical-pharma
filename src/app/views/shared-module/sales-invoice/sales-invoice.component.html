@@ -1,0 +1,416 @@
+<!-- Button -->
+<!-- table area  -->
+
+<div #pharmacyInvoice id="pharmacyInvoice" dir="rtl" style="display: flex;width:280mm; padding:2%;gap: 2mm;">
+    <div #fullTable1 id="fulltable1" style=" width: 92mm; font-family: Arial, Helvetica, sans-serif;">
+        <!-- upper info -->
+
+
+        <table #table1 id="table1"
+            style="background-color: white; width: 100%;text-align: center; border-collapse: collapse;">
+            <thead style="padding: 1mm 1mm; font-size: 2.7mm;font-weight: bold;">
+                <tr>
+                    <th colspan="6">
+                        <div #upperArea1 id="upperArea1" dir="rtl" style="border: none; ">
+                            <div style=" display: flex; flex-direction: column;">
+                                <div style="width: 100%; display: flex; justify-content: space-between;">
+                                    <span style="text-align: start;">اذن الصرف : {{invoiceData.data.order_number}}
+                                    </span>
+                                </div>
+                                <span style="text-align: start;">اسم العميل: {{invoiceData.data.client.name}} </span>
+                                <span style="text-align: start;">العنوان : {{invoiceData.data.pharmacy.address}}</span>
+
+                                <div style="display: flex;justify-content: space-between;">
+                                    <span style="text-align: start;"> المندوب : {{invoiceData.data.created_by.name}}
+                                    </span>
+                                    <span style="text-align: center;"> {{invoiceData.data.created_at| date:
+                                        'dd/MM/yyyy' }}</span>
+                                    <span style="text-align: end;">{{invoiceData.data.created_at| date: 'HH:mm:ss'
+                                        }}</span>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </th>
+                </tr>
+                <tr style="font-size: 9px;font-weight: bold;">
+
+                    <th style="border: 1px solid #AAAAAA;text-align: center;">الصنف
+                    </th>
+                    <th style="border: 1px solid #AAAAAA;text-align: center;">موقع
+                        الصنف
+                    </th>
+                    <th style="border: 1px solid #AAAAAA;text-align: center;">الكمية
+                    </th>
+                    <th style="border: 1px solid #AAAAAA;text-align: center;background-color: rgba(81, 79, 79, 0.455);">
+                        بونص
+                    </th>
+                    <th style="border: 1px solid #AAAAAA;text-align: center;">السعر
+                    </th>
+                    <th style="border: 1px solid #AAAAAA;text-align: center;">الخصم
+                    </th>
+                    <th style="border: 1px solid #AAAAAA;text-align: center;">الاجمالي
+                    </th>
+                </tr>
+            </thead>
+            <tfoot style="font-size: 9px;font-weight: bold;color: black;line-height: 1.6;">
+                <tr>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">عدد
+                        الاصناف </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">السابق
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">الصافي
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">الاجمالي
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">المسدد
+                    </td>
+                    <td colspan="2" style="border: 1px solid #AAAAAA;text-align: center;">الرصيد
+                        الحالي </td>
+
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoiceData.additional_data.totals.items_number}}</td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoiceData.additional_data.totals.previous_balance}}
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoiceData.additional_data.totals.net_price}}
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoiceData.additional_data.totals.total}}
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        0</td>
+                    <td colspan="2" style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoiceData.additional_data.totals.current_balance}}
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">إشعار
+                        الخصم </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center; ">
+                        {{invoiceData.additional_data.totals.extra_discount}}</td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;" colspan="2"> إجمالي جمهور </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center; " colspan="3">
+                        {{invoiceData.additional_data.totals.subtotal}}</td>
+                </tr>
+
+                <tr>
+                    <td colspan="4" style="border: none; text-align: start; ">
+                        {{invoiceData.data.invoice.printed_num}}
+                    </td>
+                    <td colspan="3" style="border: none; ">
+                        {{invoiceData.data.created_by.name}}
+                    </td>
+                </tr>
+
+ 
+            </tfoot>
+            <tbody style="font-size: 10px;font-weight: bold; line-height: 1.4;">
+                <tr *ngFor="let invoice of invoiceData.data.cart ">
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        <span style="font-weight: 700; "> {{invoice.product_name }}</span>
+                        <div style="display: flex;justify-content: space-between;">
+                            <!-- <span style="width: 30%;font-size: 8px">  </span> -->
+                            <span style="width: 100%;font-size: 8px">
+                                {{invoice.expired_at}}  {{invoice.operating_number}}</span>
+                             <!-- <span style="width: 30%;font-size: 8px"> {{invoice.batches[0].operating_number }}</span> -->
+
+                        </div>
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoice.location}}
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoice.quantity}}</td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoice.bonus}}</td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoice.price}}
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoice.discount}}
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoice.total}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div #fullTable2 id="fulltable2" style=" width: 92mm;font-family: Arial, Helvetica, sans-serif;">
+        <!-- upper info -->
+
+
+        <table #table2 id="table2"
+            style="background-color: white; width: 100%;text-align: center; border-collapse: collapse;">
+            <thead style="padding: 1mm 1mm; font-size: 2.7mm;font-weight: bold;">
+                <tr>
+                    <th colspan="7">
+                        <div id="upperArea2" #upperArea2 dir="rtl"
+                            style="flex-wrap: wrap;justify-content: space-between;">
+                            <div style="display: flex; flex-direction: column;">
+                                <div style="width: 100%; display: flex; justify-content: space-between;">
+                                    <span>اذن الصرف : {{invoiceData.data.order_number}} </span>
+                                    <span> خدمة المبيعات</span>
+                                </div>
+                                <span style="text-align: start;">اسم العميل: {{invoiceData.data.pharmacy.name}} </span>
+                                <span style="text-align: start;">العنوان : {{invoiceData.data.pharmacy.address}}</span>
+
+                                <div style="display: flex;justify-content: space-between;">
+                                    <span style="text-align: start;"> المندوب : {{invoiceData.data.created_by.name}}
+                                    </span>
+                                    <span style="text-align: center;"> {{invoiceData.data.created_at| date:
+                                        'dd/MM/yyyy' }}</span>
+                                    <span style="text-align: end;">{{invoiceData.data.created_at| date: 'HH:mm:ss'
+                                        }}</span>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </th>
+
+                </tr>
+
+                <tr style="font-size: 9px;font-weight: bold;">
+                    <th style="border: 1px solid #AAAAAA;text-align: center;">الصنف
+                    </th>
+                    <th style="border: 1px solid #AAAAAA;text-align: center;">الكمية
+                    </th>
+                    <th style="border: 1px solid #AAAAAA;text-align: center;background-color: rgba(81, 79, 79, 0.455);">
+                        بونص
+                    </th>
+                    <th style="border: 1px solid #AAAAAA;text-align: center;">السعر
+                    </th>
+                    <th style="border: 1px solid #AAAAAA;text-align: center;">الخصم
+                    </th>
+                    <th style="border: 1px solid #AAAAAA;text-align: center;">الخصم
+                    </th>
+                    <th style="border: 1px solid #AAAAAA;text-align: center;">الاجمالي
+                    </th>
+                </tr>
+            </thead>
+            <tfoot style="font-size: 9px;font-weight: bold;line-height: 1.6;">
+                <tr>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">عدد
+                        الاصناف </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">السابق
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">الصافي
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">الاجمالي
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">المسدد
+                    </td>
+                    <td colspan="2" style="border: 1px solid #AAAAAA;text-align: center;">الرصيد
+                        الحالي </td>
+
+                </tr>
+                <tr style="font-size: 9px;font-weight: bold;">
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoiceData.additional_data.totals.items_number}}</td>
+
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoiceData.additional_data.totals.previous_balance}}
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoiceData.additional_data.totals.net_price}}
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoiceData.additional_data.totals.total}}
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        0</td>
+                    <td colspan="2" style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoiceData.additional_data.totals.current_balance}}
+                    </td>
+
+                </tr>
+
+                <tr style="font-size: 9px;font-weight: bold;">
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">إشعار
+                        الخصم </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: start;">
+                        {{invoiceData.additional_data.totals.extra_discount}}</td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;" colspan="2"> إجمالي جمهور </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;" colspan="3">
+                        {{invoiceData.additional_data.totals.subtotal}}</td>
+                </tr>
+
+                <tr style="font-size: 9px;font-weight: bold">
+                    <td style="border: none;text-align: start" colspan="2">
+                        {{invoiceData.additional_data.totals.net_price}}</td>
+                    <td style="border: none;text-align: start" colspan="2">{{invoiceData.additional_data.totals.total}}
+                    </td>
+                    <td style="border: none;text-align: end;" colspan="3"> حساب ٣</td>
+                </tr>
+                <tr style="font-size: 9px;font-weight: bold;">
+                    <td style="border: none;text-align: end" colspan="2">{{invoiceData.data.invoice.printed_by.name}}
+                    </td>
+
+                    <td style="border: none;" colspan="2"> {{invoiceData.data.created_by.name}}</td>
+                    <td style="border: none;text-align: end" colspan="3">175.505</td>
+                </tr>
+            </tfoot>
+            <tbody style="font-size: 10px;font-weight: bold;line-height: 1.4">
+                <tr *ngFor="let invoice of invoiceData.data.cart ">
+                    <td style="border: 1px solid #AAAAAA;font-weight: bold;text-align: center;">
+                        <span style="font-weight: 700; "> {{invoice.product_name}}</span>
+                        <div style="display: flex;justify-content: space-between;">
+                            <!-- <span style="width: 30%;font-size: 8px"> </span> -->
+                            <!-- <span style="width: 30%;font-size: 8px">
+                                {{invoice.batches[0].expired_at}}</span> -->
+                                <span style="width: 100%;font-size: 8px">
+                                    {{invoice.expired_at}}  {{invoice.operating_number
+                                    }}</span>
+                            <!-- <span style="width: 30%;font-size: 8px"> {{invoice.batches[0].operating_number }}</span> -->
+
+                        </div>
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoice.quantity}}</td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoice.bonus}}</td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoice.price}}
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoice.discount}}
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center; ">
+                        {{invoice.discount - invoice.client_discount_difference}}
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoice.total}}
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+
+    <div #fullTable3 id="fulltable3" style=" width: 92mm;font-family: Arial, Helvetica, sans-serif;">
+        <!-- upper info -->
+
+
+        <table #table3 id="table3"
+            style="background-color: white; width: 100%;text-align: center; border-collapse: collapse;">
+            <thead style="padding: 1mm 1mm; font-size: 2.7mm;font-weight: bold;">
+                <tr>
+                    <th colspan="6">
+                        <div #upperArea3 id="upperArea3" dir="rtl">
+                            <div style="display: flex; flex-direction: column;">
+                                <span style="text-align: start;">اذن الصرف : {{invoiceData.data.order_number}}
+                                </span>
+                                <span style="text-align: start;">اسم العميل:
+                                    {{invoiceData.data.pharmacy.name}}</span>
+
+                                <div style="display: flex;justify-content: space-between;align-items: end;width: 100%;">
+                                    <div style="display: flex;flex-direction: column;">
+                                        <span style="text-align: start;"> العنوان</span>
+                                        <span>..........................................................</span>
+                                    </div>
+
+                                    <span style="text-align: end;">{{invoiceData.data.created_at| date: 'HH:mm:ss'
+                                        }}</span>
+                                    <span style="text-align: center;"> {{invoiceData.data.created_at| date:
+                                        'dd/MM/yyyy' }}</span>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </th>
+                </tr>
+                <tr style="font-size: 9px;font-weight: bold;">
+                    <th style="border: 1px solid #AAAAAA;text-align: center;">الصنف
+                    </th>
+                    <th style="border: 1px solid #AAAAAA;text-align: center;">الكمية
+                    </th>
+                    <th style="border: 1px solid #AAAAAA;text-align: center;background-color: rgba(81, 79, 79, 0.455);">
+                        بونص
+                    </th>
+                    <th style="border: 1px solid #AAAAAA;text-align: center;">السعر
+                    </th>
+                    <th style="border: 1px solid #AAAAAA;text-align: center;">الخصم
+                    </th>
+                    <th style="border: 1px solid #AAAAAA;text-align: center;">الاجمالي
+                    </th>
+                </tr>
+            </thead>
+            <tfoot style="font-size: 9px;font-weight: bold;line-height: 1.6">
+                <tr>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">عدد
+                        الاصناف </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoiceData.additional_data.totals.items_number}}</td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;" colspan="3">الصافي الفاتورة </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoiceData.additional_data.totals.net_price}}
+                    </td>
+
+                </tr>
+                <tr style="font-size: 9px;font-weight: bold;">
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">الاجمالي
+                        جمهور</td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoiceData.additional_data.totals.subtotal}}
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;" colspan="3">الرصيد الحالي </td>
+                    <td style="border: 1px solid #AAAAAA;text-align: center;">
+                        {{invoiceData.additional_data.totals.current_balance}} </td>
+                </tr>
+                <tr>
+                    <td colspan="6" style="border: 0;">
+                        <div style="padding: 2px">
+                            <span style="display: flex;width: 100%;padding-top:2px;">استلمت انا
+                                ................................................</span>
+                            <span style="display: flex;width: 100%;padding-top: 2px;">الكميات الموضحة بالفاتورة بعد
+                                المراجعة توقيع العميل /ختم
+                                المنشأة</span>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+            <tbody style="font-size: 10px ;font-weight: bold;line-height: 1.4">
+                <tr *ngFor="let invoice of invoiceData.data.cart ">
+                    <td style="border: 1px solid #AAAAAA;font-weight: bold;text-align: center;">
+                        <span style="font-weight: 700; "> {{invoice.product_name }}</span>
+                        <div style="display: flex;justify-content: space-between;">
+                            <!-- <span style="width: 30%;font-size: 8px"> </span>
+                            <span style="width: 30%;font-size: 8px">
+                                {{invoice.batches[0].expired_at}}</span> -->
+                                <span style="width: 100%;font-size: 8px">
+                                    {{invoice.expired_at}}  {{invoice.operating_number
+                                    }}</span>
+                            <!-- <span style="width: 30%;font-size: 8px"> {{invoice.batches[0].operating_number }}</span> -->
+
+                        </div>
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;font-weight: bold;text-align: center;">
+                        {{invoice.quantity}}</td>
+                    <td style="border: 1px solid #AAAAAA;font-weight: bold;text-align: center;">
+                        {{invoice.bonus}}</td>
+                    <td style="border: 1px solid #AAAAAA;font-weight: bold;text-align: center;">
+                        {{invoice.price}}
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;font-weight: bold;text-align: center;">
+                        {{invoice.client_discount_difference}}
+                    </td>
+                    <td style="border: 1px solid #AAAAAA;font-weight: bold;text-align: center;">
+                        {{invoice.total}}
+                    </td>
+                </tr>
+            </tbody>
+
+        </table>
+    </div>
+</div>

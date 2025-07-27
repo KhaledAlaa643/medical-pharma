@@ -1,0 +1,974 @@
+<div class="main_card_margen">
+  <div class="card card boxShadow-15 borderRadius_20px">
+    <!-- filter section -->
+    <div id="filter" class="p-2">
+      <form [formGroup]="requestDataForm" action="">
+        <div class="d-flex flex-wrap align-items-end gap-2">
+          <div class="width-10">
+            <label class="mb-2">كود المورد</label>
+            <input
+              [(ngModel)]="supply_request_details.supplier"
+              [ngClass]="{ 'readonly-input': disableSupplier }"
+              [readonly]="disableSupplier"
+              [ngModelOptions]="{ standalone: true }"
+              type="number"
+              class="form-control"
+            />
+          </div>
+          <div class="width-27">
+            <label class="mb-2">اسم المورد</label>
+            <p-dropdown
+              [options]="suppliers"
+              (onChange)="openModel(4)"
+              (click)="disableSupplier = false"
+              [readonly]="disableSupplier"
+              [ngClass]="{ 'readonly-input': disableSupplier }"
+              formControlName="supplier_id"
+              [(ngModel)]="supply_request_details.supplier"
+              optionLabel="name"
+              optionValue="id"
+              placeholder=" "
+              [showClear]="true"
+              [filter]="true"
+            ></p-dropdown>
+          </div>
+          <div class="width-17">
+            <label class="mb-2">المخزن</label>
+            <p-dropdown
+              [options]="warehouses"
+              (onChange)="openModel(5)"
+              (click)="disableWarehouse = false"
+              [readonly]="disableWarehouse"
+              [ngClass]="{ 'readonly-input': disableWarehouse }"
+              formControlName="warehouse_id"
+              optionLabel="name"
+              optionValue="id"
+              placeholder=" "
+              [showClear]="true"
+              [filter]="true"
+            ></p-dropdown>
+          </div>
+          <div class="width-29">
+            <label class="mb-2">ملاحظة علي طلب التوريد</label>
+            <input formControlName="note" type="text" class="form-control" />
+          </div>
+          <div
+            class="flex-fill order_number d-flex justify-content-end gap-2 flex-wrap align-items-end"
+          >
+            <!-- (click)="filter()" -->
+            <div
+              class="d-flex width-50 h-70px text-center lightGreen-border borderRadius_10px p-2 flex-column justify-content-center align-items-center"
+            >
+              <span class="fs-14 fw-600">رقم الطلب</span>
+              <span class="fw-600">{{ purchase_id }}</span>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="HLine"></div>
+
+    <!--return section (edit only)-->
+    <div class="p-2">
+      <header class="mb-2">المرتجع</header>
+      <div class="borderRadius_20px border border-1 mx-3 p-2">
+        <div
+          #scrollMe
+          style="max-height: 285px; overflow-y: auto"
+          class="h-100"
+        >
+          <p-table [value]="returns">
+            <ng-template pTemplate="header">
+              <tr>
+                <th
+                  style="
+                    display: table-cell !important;
+                    width: 250px !important;
+                  "
+                >
+                  <div class="d-flex flex-wrap gap-2 align-items-center">
+                    <div class="d-flex">
+                      <span class="fw-500 fs-18">الاسم عربي</span>
+
+                      <div (click)="sortReturnByName()" class="cursor-pointer">
+                        <i
+                          *ngIf="returnDirection === 'asc'"
+                          class="p-sortable-column-icon pi pi-fw pi-sort-amount-up-alt"
+                        ></i>
+                        <i
+                          *ngIf="returnDirection === 'desc'"
+                          class="p-sortable-column-icon pi pi-fw pi-sort-amount-down"
+                        ></i>
+                        <i
+                          *ngIf="!returnDirection"
+                          class="p-sortable-column-icon pi pi-fw pi-sort-alt"
+                        ></i>
+                      </div>
+                    </div>
+                    <input
+                      type="text"
+                      [disabled]="returns.length == 0 && returnSearchWord == ''"
+                      (input)="product_return_search()"
+                      (keydown.enter)="product_return_search()"
+                      [(ngModel)]="returnSearchWord"
+                      placeholder="بحث بأسم الدواء"
+                      class="form-control defaultBg borderRadius_10px mx-0 width-48-lg"
+                    />
+                    <!-- <i *ngIf="loaderBooleans['search']" class="pi pi-spin pi-spinner"></i> -->
+                  </div>
+                </th>
+                <th style="display: table-cell !important">سبب المرتجع</th>
+                <th style="display: table-cell !important">الكمية</th>
+                <th style="display: table-cell !important">السعر</th>
+                <th style="display: table-cell !important">الخصم</th>
+                <th style="display: table-cell !important">الضريبة</th>
+                <th style="display: table-cell !important">الصافي</th>
+                <th style="display: table-cell !important">الكاتب</th>
+                <th style="display: table-cell !important">حذف صنف</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product let-index="rowIndex">
+              <tr
+                style="
+                  background: #ffffff;
+                  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+                  border-radius: 20px;
+                "
+              >
+                <td class="fs-14 fw-700 color-black x-small-sm">
+                  {{ product.product_name }}
+                </td>
+                <td class="fw-600 color-black">
+                  {{ product.reason?.name }}
+                </td>
+                <td class="fw-600 color-black">
+                  {{ product.quantity }}
+                </td>
+                <td class="fw-600 color-black">
+                  {{ product.public_price }}
+                </td>
+                <td class="fw-600 color-black">
+                  {{ product.discount }}
+                </td>
+                <td class="fw-600 color-black">
+                  {{ product.taxes }}
+                </td>
+                <td class="fw-600 color-black">
+                  {{ product.total }}
+                </td>
+                <td class="fw-600 color-black">
+                  {{ product.created_by?.name }}
+                </td>
+                <td>
+                  <button
+                    appDisableButton
+                    (click)="cancleReturn(product.id, index)"
+                    class="redWithWiteText borderRadius_10px border-0 w-100 h-31px fw-600 fs-18"
+                  >
+                    تراجع
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+    <!-- add product section -->
+    <div class="p-2">
+      <form [formGroup]="addProductForm">
+        <div class="d-flex flex-wrap align-items-end gap-2">
+          <div class="width-13">
+            <label class="mb-2">التاريخ والتشغيلة</label>
+            <div
+              class="form-control h-40px borderRadius_10px d-flex flex-column justify-content-center align-items-center"
+            >
+              <span class="text-center">{{
+                addProductForm.controls["expired_at"].value
+              }}</span>
+              <span class="text-center">{{
+                addProductForm.controls["operating_number"].value
+              }}</span>
+            </div>
+          </div>
+
+          <div class="width-8">
+            <label class="mb-2">الضريبة</label>
+            <input
+              formControlName="taxes"
+              readonly
+              type="number"
+              class="form-control"
+            />
+          </div>
+
+          <div class="width-13">
+            <label class="mb-2">ملاحظات</label>
+            <input
+              formControlName="note"
+              type="text"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <div class="width-8">
+            <label class="mb-2">السعر</label>
+            <input type="number" formControlName="price" class="form-control" />
+          </div>
+
+          <div class="width-31">
+            <div
+              class="d-flex justify-content-between align-items-end mb-1 p-1"
+            >
+              <label
+                (click)="navigateToEditProduct()"
+                class="text-decoration-underline fw-bold cursor-pointer mainBlue-text"
+                >اسم الصنف</label
+              >
+              <button
+                (click)="
+                  getcalculateBonusAndTax({ page: 0 });
+                  openCalculateBonusAndTax()
+                "
+                type="button"
+                class="blue_bg_white_txt_btn h-40px borderRadius_10px w-50"
+              >
+                <span class="fw-600 fs-12">حساب البونص والضريبة</span>
+              </button>
+            </div>
+            <p-dropdown
+              [options]="products"
+              #productsDropdown
+              (keydown.enter)="productChangeEvent(productsDropdown)"
+              (click)="productChangeEvent(productsDropdown)"
+              formControlName="product_id"
+              optionLabel="name"
+              optionValue="id"
+              placeholder=" "
+              [showClear]="true"
+              [filter]="true"
+            ></p-dropdown>
+          </div>
+
+          <div class="width-7">
+            <label class="mb-2">الخصم</label>
+            <input
+              type="number"
+              formControlName="discount"
+              class="form-control"
+            />
+          </div>
+
+          <div class="width-8">
+            <label class="mb-2">الكمية</label>
+            <input
+              type="number"
+              #quantity
+              id="quantity"
+              (keydown.enter)="focus('addbtn', $event)"
+              formControlName="quantity"
+              class="form-control"
+            />
+          </div>
+
+          <div
+            class="flex-fill d-flex flex-column gap-2 flex-wrap align-items-end"
+          >
+            <!-- (click)="filter()" -->
+            <button
+              data-bs-toggle="modal"
+              data-bs-target="#filterModel"
+              type="button"
+              class="white_bg_green_txt_btn boxShadow-15 h-40px borderRadius_10px w-100"
+            >
+              <span class="fw-600">فلتر</span>
+            </button>
+
+            <button
+              (click)="addProductToCart()"
+              #addbtn
+              id="addbtn"
+              type="button"
+              class="green_bg_black_txt_btn h-40px borderRadius_10px w-100"
+            >
+              <span class="fw-600">إضافة</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- cart table -->
+    <div class="p-2">
+      <div class="borderRadius_20px border border-1 mx-3 p-2">
+        <div
+          #scrollMe
+          style="max-height: 285px; overflow-y: auto"
+          class="h-100"
+        >
+          <p-table [value]="cartData">
+            <ng-template pTemplate="header">
+              <tr>
+                <th
+                  style="
+                    display: table-cell !important;
+                    width: 250px !important;
+                  "
+                >
+                  <div class="d-flex flex-wrap gap-2 align-items-center">
+                    <div class="d-flex">
+                      <span class="fw-500 fs-18">الاسم عربي</span>
+
+                      <div (click)="sortByName()" class="cursor-pointer">
+                        <i
+                          *ngIf="direction === 'asc'"
+                          class="p-sortable-column-icon pi pi-fw pi-sort-amount-up-alt"
+                        ></i>
+                        <i
+                          *ngIf="direction === 'desc'"
+                          class="p-sortable-column-icon pi pi-fw pi-sort-amount-down"
+                        ></i>
+                        <i
+                          *ngIf="!direction"
+                          class="p-sortable-column-icon pi pi-fw pi-sort-alt"
+                        ></i>
+                      </div>
+                    </div>
+                    <input
+                      type="text"
+                      [disabled]="cartData.length == 0 && searchWord == ''"
+                      (input)="product_search()"
+                      (keydown.enter)="product_search()"
+                      [(ngModel)]="searchWord"
+                      placeholder="بحث بأسم الدواء"
+                      class="form-control defaultBg borderRadius_10px mx-0 width-48-lg"
+                    />
+                    <!-- <i *ngIf="loaderBooleans['search']" class="pi pi-spin pi-spinner"></i> -->
+                  </div>
+                </th>
+                <th style="display: table-cell !important">التاريخ</th>
+                <th style="display: table-cell !important">التشغيلة</th>
+                <th style="display: table-cell !important">ملاحظات</th>
+                <th style="display: table-cell !important">الكمية</th>
+                <th style="display: table-cell !important">السعر</th>
+                <th style="display: table-cell !important">الخصم</th>
+                <th style="display: table-cell !important">الضريبة</th>
+                <th style="display: table-cell !important">الصافي</th>
+                <th style="display: table-cell !important">المراجع</th>
+                <th style="display: table-cell !important">أمر</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product let-index="rowIndex">
+              <tr
+                style="
+                  background: #ffffff;
+                  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+                  border-radius: 20px;
+                "
+              >
+                <td class="fs-14 fw-700 color-black x-small-sm">
+                  {{ product.product_name }}
+                </td>
+                <td class="fw-600 color-black">
+                  <!-- {{product.expired_at}} -->
+                  <input
+                    [(ngModel)]="product.expired_at"
+                    (keydown.enter)="goToNext(index, 'operating_number')"
+                    [id]="'expired_at-' + index"
+                    type="text"
+                    class="form-control text-center"
+                  />
+                </td>
+                <td class="fw-600 color-black">
+                  <!-- {{product.operating_number}} -->
+                  <input
+                    [(ngModel)]="product.operating_number"
+                    (keydown.enter)="goToNext(index, 'expired_at')"
+                    [id]="'operating_number-' + index"
+                    type="text"
+                    class="form-control text-center"
+                  />
+                </td>
+                <td
+                  (click)="showEditNoteModal(index)"
+                  class="fw-600 text-decoration-underline fw-bold cursor-pointer mainBlue-text"
+                >
+                  ملاحظة
+                </td>
+                <td class="fw-600 color-black">
+                  <input
+                    [(ngModel)]="product.quantity"
+                    (input)="calcTotal(index)"
+                    (keydown.enter)="goToNext(index, 'quantity')"
+                    [id]="'quantity-' + index"
+                    type="text"
+                    class="form-control text-center"
+                  />
+                </td>
+                <td class="fw-600 color-black">
+                  <input
+                    [(ngModel)]="product.public_price"
+                    (input)="calcTotal(index)"
+                    (keydown.enter)="goToNext(index, 'price')"
+                    [id]="'price-' + index"
+                    type="text"
+                    class="form-control text-center"
+                  />
+                </td>
+                <td class="fw-600 color-black">
+                  <input
+                    [(ngModel)]="product.discount"
+                    (input)="calcTotal(index)"
+                    (keydown.enter)="goToNext(index, 'discount')"
+                    [id]="'discount-' + index"
+                    type="text"
+                    class="form-control text-center"
+                  />
+                </td>
+                <td class="fw-600 color-black">{{ product.taxes }}</td>
+                <td class="fw-600 color-black">{{ product.total }}</td>
+                <td class="fw-600 color-black">
+                  {{ product.created_by.name }}
+                </td>
+                <td class="gap-1 d-flex flex-column">
+                  <button
+                    appDisableButton
+                    (click)="openModel(1, index)"
+                    class="redWithWiteText borderRadius_10px border-0 w-100 h-31px fw-600 fs-18"
+                  >
+                    حذف
+                  </button>
+                  <button
+                    appDisableButton
+                    (click)="setReturnData(product)"
+                    data-bs-toggle="modal"
+                    data-bs-target="#returnModel"
+                    class="blue_bg_white_txt_btn borderRadius_10px border-0 w-100 h-31px fw-600 fs-18"
+                  >
+                    مرتجع
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+
+    <div id="totals" class="p-2 flex-wrap d-flex align-items-end gap-2">
+      <div
+        class="d-flex width-14 h-50px text-center lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600">عدد الاصناف</span>
+        <span class="fw-600">{{ supplyRequestTotals.total_products }}</span>
+      </div>
+      <div
+        class="d-flex width-14 h-50px text-center lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600">اجمالي سعر الجمهور</span>
+        <span class="fw-600">{{ supplyRequestTotals.total_public_price }}</span>
+      </div>
+      <div
+        class="d-flex width-14 h-50px text-center lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600">اجمالي الضريبة</span>
+        <span class="fw-600">{{ supplyRequestTotals.total_taxes }}</span>
+      </div>
+      <div
+        class="d-flex width-14 h-50px text-center lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600">اجمالي طلب التوريد</span>
+        <span class="fw-600">{{ supplyRequestTotals.total_supply_price }}</span>
+      </div>
+      <div
+        class="d-flex width-14 h-50px text-center lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600">صافي الطلب</span>
+        <span class="fw-600">{{ supplyRequestTotals.total_net }}</span>
+      </div>
+      <div class="d-flex gap-2 justify-content-end flex-fill">
+        <div class="h-50px width-15">
+          <button
+            (click)="openModel(2)"
+            type="button"
+            class="green_bg_black_txt_btn text-white text-center h-50px borderRadius_20px w-100"
+          >
+            <span class="fw-600">حفظ</span>
+          </button>
+        </div>
+        <div
+          (click)="openModel(3)"
+          class="d-flex cursor-pointer width-24 h-50px lightGreen-border-2px text-center darkGreen-color borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+        >
+          <span class="fs-14 fw-600">تحويل الي فاتورة شراء</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- edit notes modal -->
+  <app-notes-modal
+    [notesModalData]="productNote"
+    [editable]="true"
+    (editNoteEvent)="editNote($event)"
+    #notesModal
+  ></app-notes-modal>
+
+  <!--filter modal-->
+  <div
+    class="modal fade"
+    id="filterModel"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog p-3">
+      <div class="modal-content" style="border-radius: 20px">
+        <div class="modal-header border-0 d-flex justify-content-center">
+          <div class="d-flex justify-content-center mb-1 w-100">
+            <span class="text-center fs-24 fw-700">فلتر</span>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <!-- <form [formGroup]="filterForm" (ngSubmit)="filter()" action=""> -->
+          <div
+            class="w-100 d-flex flex-wrap justify-content-between align-items-end mb-5 gap-4"
+          >
+            <div class="width-47">
+              <label class="mb-2">تصنيع شركة</label>
+              <p-dropdown
+                [options]="Manufacturers"
+                [showClear]="true"
+                placeholder=" "
+                optionLabel="name"
+                optionValue="id"
+              ></p-dropdown>
+            </div>
+            <div class="width-47">
+              <label class="mb-2">التصنيف</label>
+              <p-dropdown
+                [showClear]="true"
+                placeholder=" "
+                optionLabel="name_ar"
+                optionValue="id"
+              ></p-dropdown>
+            </div>
+          </div>
+          <div
+            class="d-flex flex-wrap align-items-end justify-content-between mb-4"
+          >
+            <div class="p-field-checkbox d-flex gap-2 align-items-center">
+              <input
+                class="form-check-input check_input"
+                name="quantity"
+                type="checkbox"
+                value=""
+                id="quantityCheckDefault"
+              />
+              <label class="mb-2">الكمية أكبر من صفر</label>
+            </div>
+            <div class="p-field-checkbox d-flex gap-2 align-items-center">
+              <input
+                class="form-check-input check_input"
+                name="supplierData"
+                checked
+                type="checkbox"
+                value=""
+                id="supplierCheckDefault"
+              />
+              <label class="mb-2">أصناف ملف المورد</label>
+            </div>
+          </div>
+          <div
+            class="d-flex flex-wrap align-items-end justify-content-between mb-3"
+          >
+            <div
+              class="width-45 d-flex flex-wrap justify-content-between align-items-end gap-2"
+            >
+              <div class="width-45">
+                <label class="mb-2">الخصم</label>
+                <input type="text" placeholder="من" class="form-control" />
+              </div>
+              <div class="width-45">
+                <input type="text" placeholder="الي" class="form-control" />
+              </div>
+            </div>
+            <div class="width-45 d-flex flex-wrap align-items-end gap-3">
+              <div class="width-45">
+                <label class="mb-2">سعر الجمهور</label>
+                <input type="text" placeholder="من" class="form-control" />
+              </div>
+              <div class="width-45">
+                <input type="text" placeholder="الي" class="form-control" />
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="d-flex h-100 flex-wrap align-items-end justify-content-between mb-3"
+          >
+            <div class="width-45">
+              <label class="mb-2">ترتيب الدواء</label>
+              <p-dropdown
+                [showClear]="true"
+                placeholder=" "
+                optionLabel="name"
+                optionValue="value"
+              ></p-dropdown>
+            </div>
+            <!-- (change)="onItemChange($event.target)" -->
+            <div
+              class="d-flex justify-content-between width-45 h-100 align-items-center gap-3"
+            >
+              <div class="p-field-checkbox d-flex gap-2 align-items-center">
+                <input
+                  name="sortRadios"
+                  checked
+                  id="sortRadios2"
+                  class="form-check-input check_input"
+                  style="width: 2.4em; height: 2.4em"
+                  type="radio"
+                  value="asc"
+                />
+                <label class="">تصاعدي</label>
+              </div>
+              <div class="p-field-checkbox d-flex gap-2 align-items-center">
+                <input
+                  name="sortRadios"
+                  id="sortRadios1"
+                  class="form-check-input check_input"
+                  style="width: 2.4em; height: 2.4em; border-radius: 10px"
+                  type="radio"
+                  value="desc"
+                />
+                <label class="">تنازلي </label>
+              </div>
+            </div>
+          </div>
+          <div
+            class="d-flex flex-wrap align-items-end justify-content-center gap-5"
+          >
+            <div style="width: 40%">
+              <button
+                (click)="getProducts()"
+                appDisableButton
+                type="submit"
+                class="w-100 h-60px border-0 borderRadius_20px text-white darkGreen-bg"
+              >
+                فلترة
+              </button>
+            </div>
+          </div>
+          <!-- </form> -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--return modal-->
+  <div
+    class="modal fade"
+    id="returnModel"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog p-3">
+      <div class="modal-content" style="border-radius: 20px">
+        <div class="modal-header border-0 d-flex justify-content-center">
+          <div class="d-flex justify-content-center mb-1 w-100">
+            <span class="text-center fs-24 fw-700">تسجيل مرتجع</span>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button
+              #closeReturnbtn
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="returnForm" action="">
+            <div class="p-2">
+              <div class="w-100">
+                <label class="mb-2">اسم الصنف</label>
+                <input
+                  [ngModelOptions]="{ standalone: true }"
+                  [(ngModel)]="return_product_name"
+                  [readOnly]="true"
+                  type="text"
+                  placeholder=" "
+                  class="form-control readonly-input"
+                />
+              </div>
+              <div class="w-100">
+                <label class="mb-2">الكمية</label>
+                <input
+                  formControlName="quantity"
+                  type="number"
+                  placeholder=" "
+                  class="form-control"
+                />
+              </div>
+              <div class="w-100">
+                <label class="mb-2">سبب المرتجع</label>
+                <p-dropdown
+                  formControlName="reason"
+                  [options]="returns_reasons"
+                  [showClear]="true"
+                  placeholder=" "
+                  optionLabel="name"
+                  optionValue="value"
+                ></p-dropdown>
+              </div>
+              <div class="w-100 d-flex justify-content-between mt-3">
+                <button
+                  (click)="addReturn()"
+                  class="green_bg_black_txt_btn width-45 h-50px borderRadius_10px"
+                >
+                  حفظ
+                </button>
+                <button
+                  (click)="resetReturnForm()"
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                  class="red_bg_black_txt_btn width-45 h-50px borderRadius_10px"
+                >
+                  الغاء
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--calculate bonus and tax-->
+
+  <button
+    hidden
+    data-bs-toggle="modal"
+    #openCalculateBonusAndTaxModal
+    data-bs-target="#calculateBonusAndTaxModal"
+    type="button"
+  ></button>
+
+  <div
+    class="modal fade"
+    #calculateBonusAndTaxModal
+    id="calculateBonusAndTaxModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content" style="border-radius: 20px">
+        <div
+          class="modal-header border-0 d-flex justify-content-center position-relative"
+        >
+          <h2 class="modal-title fs-5 text-center" id="exampleModalLabel">
+            حاسبة البونص والضريبة
+          </h2>
+          <button
+            type="button"
+            class="btn-close m-0 position-absolute"
+            data-bs-dismiss="modal"
+            style="left: 3%"
+            aria-label="Close"
+          ></button>
+        </div>
+        <form [formGroup]="calculateBonusAndTaxForm">
+          <div
+            class="modal-body border-0 p-0 d-flex flex-column justify-content-center"
+          >
+            <div class="w-100 align-items-end p-3 d-flex flex-wrap gap-4 mb-2">
+              <div class="width-9 position-relative">
+                <label class="mb-2">الكمية</label>
+                <input
+                  (keydown.enter)="calculateDiscount(bonus, $event, 'quantity')"
+                  #quantity_input
+                  formControlName="quantity"
+                  type="number"
+                  class="form-control"
+                />
+                <app-Form-errors
+                  class="position-absolute error"
+                  [control]="calculateBonusAndTaxForm.controls['quantity']"
+                ></app-Form-errors>
+              </div>
+              <div class="width-9">
+                <label class="mb-2">البونص</label>
+                <input
+                  (keydown.enter)="calculateDiscount(taxes, $event, 'bonus')"
+                  #bonus
+                  formControlName="bonus"
+                  type="number"
+                  class="form-control"
+                />
+                <app-Form-errors
+                  class="position-absolute error"
+                  [control]="calculateBonusAndTaxForm.controls['bonus']"
+                ></app-Form-errors>
+              </div>
+              <div class="width-9">
+                <label class="mb-2">الضريبة</label>
+                <input
+                  (keydown.enter)="
+                    calculateDiscount(main_discount, $event, 'taxes')
+                  "
+                  #taxes
+                  formControlName="taxes"
+                  type="number"
+                  class="form-control"
+                />
+                <app-Form-errors
+                  class="position-absolute error"
+                  [control]="calculateBonusAndTaxForm.controls['taxes']"
+                ></app-Form-errors>
+              </div>
+              <div class="width-9 position-relative">
+                <label class="mb-2">الخصم الاساسي</label>
+                <input
+                  (keydown.enter)="
+                    calculateDiscount(additional_discount1, $event, 'discount')
+                  "
+                  #main_discount
+                  formControlName="discount"
+                  type="number"
+                  class="form-control"
+                />
+                <app-Form-errors
+                  class="position-absolute error"
+                  [control]="calculateBonusAndTaxForm.controls['discount']"
+                ></app-Form-errors>
+              </div>
+              <div class="width-9">
+                <label class="mb-2">خصم اضافي 1</label>
+                <input
+                  (keydown.enter)="
+                    calculateDiscount(
+                      additional_discount2,
+                      $event,
+                      'additional_discount1'
+                    )
+                  "
+                  #additional_discount1
+                  formControlName="additional_discount1"
+                  type="number"
+                  class="form-control"
+                />
+              </div>
+              <div class="width-9">
+                <label class="mb-2">خصم اضافي 2</label>
+                <input
+                  (keydown.enter)="
+                    calculateDiscount(
+                      additional_discount3,
+                      $event,
+                      'additional_discount2'
+                    )
+                  "
+                  #additional_discount2
+                  formControlName="additional_discount2"
+                  type="number"
+                  class="form-control"
+                />
+              </div>
+              <div class="width-9">
+                <label class="mb-2">خصم اضافي 3</label>
+                <input
+                  (keydown.enter)="
+                    calculateDiscount(
+                      addDiscount,
+                      $event,
+                      'additional_discount3'
+                    )
+                  "
+                  #additional_discount3
+                  formControlName="additional_discount3"
+                  type="text"
+                  class="form-control"
+                />
+              </div>
+              <div class="width-9">
+                <label class="mb-2">الخصم الصافي</label>
+                <input
+                  [(ngModel)]="total_discount"
+                  readonly
+                  [ngModelOptions]="{ standalone: true }"
+                  type="text"
+                  class="form-control readonly-input"
+                />
+              </div>
+              <div class="flex-fill d-flex justify-content-center">
+                <button
+                  appDisableButton
+                  (click)="saveDiscount(quantity_input)"
+                  type="button"
+                  #addDiscount
+                  class="green_bg_black_txt_btn text-white text-center border-0 borderRadius_20px p-2 w-100"
+                >
+                  <span class="fw-600">تسجيل</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="HLine"></div>
+
+            <div style="height: 460px" class="p-5">
+              <app-shared_table
+                [columnsArray]="columnsArray3"
+                [columnsNames]="columnsName3"
+                [RowsData]="calculateBonusAndDiscount"
+              ></app-shared_table>
+            </div>
+
+            <div #pagination class="d-flex justify-content-center">
+              <p-paginator
+                #paginator
+                [first]="1"
+                [rows]="rows"
+                (onPageChange)="getcalculateBonusAndTax($event)"
+                [totalRecords]="total"
+              ></p-paginator>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <app-shared_popup
+    (ChoosenEvent)="Popupevent($event)"
+    [cancle_button_name]="cancle_button_name"
+    [ok_button_name]="ok_button_name"
+    [popupMessage]="popupMessage"
+    #Popup
+  ></app-shared_popup>
+  <button
+    hidden
+    #popupModalOpen
+    type="button"
+    (click)="Popup.openModel()"
+  ></button>
+  <button
+    hidden
+    #PopupModalClose
+    type="button"
+    (click)="Popup.closeModalClick()"
+  ></button>
+</div>

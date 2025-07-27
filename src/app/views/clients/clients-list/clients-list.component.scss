@@ -1,0 +1,152 @@
+@import 'generalPaginationStyle.scss';
+@import 'generalTableStyle.scss';
+
+@import 'generalInputsStyle.scss';
+.contDiv {
+
+
+    .buttons {
+        @media screen and (max-width:768px) {
+            display: flex;
+            justify-content: center !important;
+        }
+    }
+
+    .tables {
+        @media screen and (max-width:426px) {
+            display: flex;
+            justify-content: center !important;
+        }
+    }
+}
+.filterBtn{
+    width:215px;
+    height:60px;
+}
+
+::ng-deep {
+
+
+    // .p-component {
+    //     font-family: NOTO;
+    // }
+
+
+    .p-calendar-w-btn .p-datepicker-trigger {
+        width: 10%;
+        background: transparent;
+        color: black;
+        border: none;
+
+        span {
+            font-size: 19px;
+        }
+    }
+
+
+
+
+}
+
+
+#Listmodel {
+    .modal-dialog {
+        padding-top: 6% !important;
+        max-width: 45vw !important;
+
+        @media only screen and (max-width: 1024px) {
+            max-width: 65vw !important;
+        }
+    }
+
+    background-color: transparent;
+
+    .modal-content {
+        border-radius: 30px !important;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+        .modal-header {
+            border-bottom: none;
+        }
+
+        .modal-body {
+            padding: 0% 5% 5vh 5%;
+
+            .Title {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    }
+
+
+    @media only screen and (max-width:768px) {
+        max-width: 100% !important;
+        margin: 4% auto !important;
+
+        ::ng-deep .p-datatable-tbody>tr {
+
+            :first-child {
+                font-size: small;
+            }
+        }
+    }
+
+
+}
+
+
+
+.h-35px {
+    height: 35px;
+}
+
+.borders {
+    border: 1px solid #28DF99;
+}
+
+.filterButton {
+    width: 50%;
+    height: 55px;
+    background-color: white !important;
+    color: #28DF99 !important;
+    border-radius: 20px !important;
+    box-shadow: 1px 1px 10px #E4E4E4;
+
+    @media screen and (max-width:769px) {
+        width: 100% !important;
+        display: block !important;
+    }
+}
+
+
+
+.resposnivefix {
+    @media screen and (max-width:769px) {
+        width: 100% !important;
+        display: block !important;
+    }
+}
+
+.discountButton {
+    height: 55px;
+    color: white;
+    border: none;
+
+    @media screen and (max-width:769px) {
+        width: 100% !important;
+        display: block !important;
+    }
+}
+
+.clientcountbox {
+    height: 55px;
+    background-color: white;
+    white-space: nowrap;
+    cursor: default;
+
+    @media screen and (max-width:769px) {
+        width: 100% !important;
+        display: block !important;
+
+    }
+}

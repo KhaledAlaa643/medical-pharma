@@ -1,0 +1,132 @@
+@import 'generalPaginationStyle.scss';
+@import 'generalInputsStyle.scss';
+
+
+.contDiv {
+
+
+    .buttons {
+        @media screen and (max-width:768px) {
+            display: flex;
+            justify-content: center !important;
+        }
+    }
+
+    .tables {
+        @media screen and (max-width:426px) {
+            display: flex;
+            justify-content: center !important;
+        }
+    }
+
+}
+
+// ::ng-deep {
+
+//     .p-calendar-w-btn .p-datepicker-trigger {
+//         width: 10%;
+//         background: transparent;
+//         color: black;
+//         border: none;
+
+//         span {
+//             font-size: 19px;
+//         }
+//     }
+// }
+
+.salesManClientsTable{
+    ::ng-deep{
+
+        .p-datatable-thead>tr>th {
+            background-color: transparent !important;
+            border: none !important;
+        }
+    
+        .p-datatable-tbody>tr>td {
+            background-color: transparent !important;
+            border-bottom: none !important;
+            border-left: 1px solid #E4E4E4 !important;
+            text-align: center !important;
+        }
+    
+        .p-datatable-tbody>tr {
+    
+            :first-child {
+                border-radius: 0 20px 20px 0;
+            }
+    
+            :last-child {
+                border-radius: 20px 0 0 20px;
+            }
+        }
+    
+        .p-datatable .p-datatable-tbody>tr>td {
+            padding: 0.5rem !important;
+        }
+    
+        .p-datatable table {
+            border-collapse: separate !important;
+            border-spacing: 0 10px !important;
+            border-radius: 20px !important;
+        }
+    
+        @media screen and (max-width: 960px) {
+            .p-datatable-tbody>tr>td {
+                display: table-cell !important;
+                width: 40% !important;
+            }
+    
+            .p-datatable-wrapper {
+                overflow-x: scroll;
+            }
+        }
+    }
+}
+
+
+#Listmodel {
+    .modal-dialog {
+        padding-top: 6% !important;
+        max-width: 35vw !important;
+        .modal-content {
+            border-radius: 30px !important;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+            .modal-header {
+                border-bottom: none;
+            }
+
+            .modal-body {
+                padding: 0% 5% 5vh 5%;
+
+                .Title {
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+        }
+
+
+    }
+
+}
+
+.h-35px {
+    height: 35px;
+}
+
+.width-160px {
+    width: 160px;
+
+    @media screen and (max-width:769px) {
+        width: 100% !important;
+    }
+}
+
+.width-200px {
+    width: 200px;
+
+    @media screen and (max-width:426px) {
+        width: 100% !important;
+    }
+}

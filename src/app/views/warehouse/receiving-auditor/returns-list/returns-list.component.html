@@ -1,0 +1,140 @@
+<!-- supply-order-list -->
+<div class="main_card_margen">
+    <div class="supply-order-list card boxShadow-15 borderRadius_10px ">
+        <form [formGroup]="filterForm" class="form">
+            <div class="head d-flex flex-wrap w-100 gap-3 justify-content-between">
+
+                <div class="name d-flex flex-column">
+                    <label class="m-2"> اسم المورد </label>
+                    <p-dropdown [options]="suppliers" optionLabel="name" optionValue="id" placeholder=" "
+                        formControlName="supplier_id" [showClear]="true" [filter]="true" class="dropdown-style">
+                    </p-dropdown>
+                </div>
+
+
+                <div class="calendar d-flex flex-column">
+                    <label class="m-2">التاريخ </label>
+                    <div class="calendar-holder position-relative">
+                        <p-calendar #calendarFrom [dir]="'ltr'" [showClear]="this.filterForm.controls[ 'from' ].value"
+                            placeholder=" من" formControlName="from">
+
+                        </p-calendar>
+                        <img (click)="calendarFrom.toggle()" class="cursor-pointer position-absolute top-0 end-0"
+                            src="../../../../assets/images/input/calender.svg" alt="">
+                    </div>
+
+
+                </div>
+                <div class="calendar d-flex flex-column">
+                    <label class="toCalenderLabelFix"> </label>
+                    <div class="calendar-holder position-relative">
+                        <p-calendar #calendarTo [dir]="'ltr'" [showClear]="this.filterForm.controls[ 'to' ].value"
+                            class="w-100  " placeholder=" الي" formControlName="to">
+
+                        </p-calendar>
+                        <img (click)="calendarTo.toggle()" class="cursor-pointer position-absolute top-0 end-0"
+                            src="../../../../assets/images/input/calender.svg" alt="">
+                    </div>
+                </div>
+                <div class="name d-flex flex-column">
+                    <label class="m-2"> المخزن </label>
+
+                    <p-dropdown [options]="warehouses" [showClear]="true" optionLabel="name" optionValue="id"
+                        placeholder=" " formControlName="warehouse_id" [filter]="true" class="dropdown-style">
+                    </p-dropdown>
+                </div>
+                <div class="worker d-flex flex-column">
+                    <label class="m-2"> الكاتب </label>
+
+                    <p-dropdown [options]="receiversAuditorStoreKeepers" optionLabel="name" optionValue="id"
+                        placeholder=" " formControlName="created_by" [showClear]="true" [filter]="true"
+                        class="dropdown-style">
+                    </p-dropdown>
+                </div>
+                <div class="reviewer d-flex flex-column">
+                    <label class="m-2"> المراجع </label>
+
+                    <p-dropdown [options]="receiversAuditor" optionLabel="name" optionValue="id" placeholder=" "
+                        formControlName="reviewed_by" [showClear]="true" [filter]="true" class="dropdown-style">
+                    </p-dropdown>
+                </div>
+                <div class="filter-button ">
+                    <label class="buttonlabelfix"></label>
+                    <button appDisableButton type="submit" (click)="filter()" placeholder=" " class="  form-control  ">
+                        <p class="fw-semibold  ">بحث</p>
+                    </button>
+                </div>
+                <div (click)="openModal()"
+                    class="print-button d-flex align-items-center ms-auto boxShadow-15 cursor-pointer">
+                    <div class="textarea d-flex">
+                        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_5900_794)">
+                                <path
+                                    d="M22.6667 22.6667H25.3333C26.0406 22.6667 26.7189 22.3857 27.219 21.8856C27.719 21.3855 28 20.7072 28 20V14.6667C28 13.9594 27.719 13.2811 27.219 12.781C26.7189 12.281 26.0406 12 25.3333 12H6.66667C5.95942 12 5.28115 12.281 4.78105 12.781C4.28095 13.2811 4 13.9594 4 14.6667V20C4 20.7072 4.28095 21.3855 4.78105 21.8856C5.28115 22.3857 5.95942 22.6667 6.66667 22.6667H9.33333"
+                                    stroke="#3F497F" stroke-width="2.75" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path
+                                    d="M22.6673 12V6.66667C22.6673 5.95942 22.3864 5.28115 21.8863 4.78105C21.3862 4.28095 20.7079 4 20.0007 4H12.0007C11.2934 4 10.6151 4.28095 10.115 4.78105C9.61494 5.28115 9.33398 5.95942 9.33398 6.66667V12"
+                                    stroke="#3F497F" stroke-width="2.75" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                                <path
+                                    d="M9.33398 19.9997C9.33398 19.2924 9.61494 18.6142 10.115 18.1141C10.6151 17.614 11.2934 17.333 12.0007 17.333H20.0007C20.7079 17.333 21.3862 17.614 21.8863 18.1141C22.3864 18.6142 22.6673 19.2924 22.6673 19.9997V25.333C22.6673 26.0403 22.3864 26.7185 21.8863 27.2186C21.3862 27.7187 20.7079 27.9997 20.0007 27.9997H12.0007C11.2934 27.9997 10.6151 27.7187 10.115 27.2186C9.61494 26.7185 9.33398 26.0403 9.33398 25.333V19.9997Z"
+                                    stroke="#3F497F" stroke-width="2.75" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_5900_794">
+                                    <rect width="32" height="32" fill="white" />
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        <span class="fw-bold ">طباعة</span>
+
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+        <div class="table">
+
+            <app-shared_table [columnsArray]="columnsArray" [columnsNames]="columnsName" [RowsData]="returnsListData"
+                (openModalEvent)="showNotesModalWithData($event)"
+                (navigateEvent)="onEyeIconClicked($event)"></app-shared_table>
+
+        </div>
+
+        <div class="lower-area d-flex ">
+            <div class="d-flex  justify-content-start width-30percent">
+                <div class=" itemCount width-fix">
+                    <div class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center ">
+                        <span
+                            class="fw-600 smalltext responsive-fix fs-16  d-flex justify-content-center text-center m-2">
+                            اجمالي عدد الأصناف المرتجع
+                        </span>
+                        <hr class="h-100 lightGreen-border">
+                        <span
+                            class="fw-600 fs-18 w-50 d-flex justify-content-center">{{additionalData.total_returned_items}}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pagination-area d-flex w-50 justify-content-center">
+                <p-paginator #paginator [first]="first" [rows]="rows" [totalRecords]="total"
+                    (onPageChange)="changePage($event)"></p-paginator>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<app-notes-modal [notesModalData]="notesData" #notesModal></app-notes-modal>
+
+
+<button hidden #OpenOptionsModal2 type="button" (click)="choosePrintTypePopup.openAddModal()">
+
+</button>
+<app-printing-options-popup [paginated]="true" (printData)="print($event)" [RowsData]="returnsListData"
+    #choosePrintTypePopup></app-printing-options-popup>

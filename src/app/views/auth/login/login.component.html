@@ -1,0 +1,83 @@
+<div class="h-100 rowHeight m-0 row w-100">
+   <div 
+      class="col-xs-12 col-md-12 col-lg-6 h-100 overflow-hidden mainBlue-bg responsivnessFixUpper">
+      <div class="mainBlue-bg h-100 p-2" >
+         <div class="w-100 d-flex justify-content-center align-items-start flex-wrap">
+            <div class="upperImage positioning position-absolute w-60 ">
+               <img class="smallIconLogo sidelogo" src="../../../../assets/images/login/path3220.png" alt="medicalicon">
+            </div>
+         </div>
+
+         <div class="w-100  h-100  ">
+            <div class=" d-flex justify-content-center align-items-center  flex-wrap  h-100" >
+               <img class=" mainlogo img-fluid upperImage" src="../../../../assets/images/login/Group 685.png"
+                  alt="medicine">
+            </div>
+         </div>
+      </div> 
+   </div>
+
+   <div 
+      class="col-xs-12 col-md-12 col-lg-6 h-100 responsivnessFixBottom overflow-hidden lightBlue_login">
+
+      <div class="lightBlue_login h-100 w-100 d-flex justify-content-center align-items-center p-5 h-responsive-fix">
+         <div class="">
+            <div class=" w-100 ">
+               <div class="">
+                  <span class="">
+                     <p class="h1">تسجيل الدخول</p>
+                  </span>
+                  <span class="">
+                     <p>قم بتسجيل دخول الان</p>
+                  </span>
+               </div>
+
+               <div>
+                  <form [formGroup]="loginForm" (ngSubmit)="login($event)">
+                     <label class="w-100 my-3">
+                        <p> بريد إلكتروني</p>
+                        <span class=" w-100">
+                           <input class="h-50px form-control my-1 mx-0 py-1 w-100 " type="text" formControlName="email"
+                              pInputText />
+                        </span>
+                        <span class="text-danger  " *ngIf="this?.loginForm?.get('email')?.touched && this?.loginForm?.get('email')?.invalid " > برجاء ادخال البريد او رقم الهاتف *</span>
+
+                     </label>
+                     <label class="w-100 my-3  ">
+                        <p>الرقم السري</p>
+                        <span class="p-input-icon-left w-100 ">
+                           <input  class="h-50px form-control my-1 mx-0 py-1 w-100 "
+                              [type]="showPassword ? 'text' : 'password'" formControlName="password" pInputText />
+                           <i alt="show" class=" far fa-eye eye-show" (click)="showPassword = !showPassword"
+                              [class.hide]="showPassword"></i>
+                           <i alt="hide" class=" far fa-eye-slash eye-hide" (click)="showPassword = !showPassword"
+                              [class.hide]="!showPassword"></i>
+                        </span>
+                        <span class="text-danger fs-6 w-25" *ngIf="this?.loginForm?.get('password')?.touched && !this?.loginForm?.get('password')?.valid " > برجاء ادخال الرمز السري *</span>
+                     </label>
+                     <div class="d-flex">
+                        <button appDisableButton type="submit" placeholder=" " [disabled]="isButtonDisabled"
+                           class="btnStyling h-50px form-control my-1 mx-0 py-1 w-100 ">
+                           <div class="d-flex align-items-center">
+                              <p class="fw-semibold  fs-4 m-auto ">تسجيل الدخول</p>
+                              <i *ngIf="activateLoader" class="pi pi-spin pi-spinner"></i>
+                           </div>
+                        </button>
+
+                     </div>
+
+
+                  </form>
+               </div>
+
+            </div>
+
+         </div>
+
+      </div>
+   </div>
+
+</div>
+
+
+

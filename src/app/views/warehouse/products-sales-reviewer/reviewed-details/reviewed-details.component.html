@@ -1,0 +1,185 @@
+<div class="singleProductsReviewerPage main_card_margen">
+
+
+    <div class="singleProductsReviewer card boxShadow-10 borderRadius_10px p-2">
+        <div class="upperArea">
+            <form [formGroup]="warehouseFilter">
+
+                <div class="upperFilterArea displayBlockResposiveFix d-flex justify-content-evenly gap-2">
+                    <div class="orderNumberArea  my-2">
+                        <label class=" fw-500 fs-16 mb-1"> رقم الأذن </label>
+                        <input type="text" readonly placeholder=" "
+                            class="disabled h-50px form-control defaultBg borderRadius_10px  w-100"
+                            formControlName="invoice_number">
+                    </div>
+
+                    <div class="calendarArea d-block  position-relative mt-2">
+                        <label class="form-label mb-1"> التاريخ </label>
+                        <input type="text" readonly placeholder=" "
+                            class="disabled h-50px form-control defaultBg borderRadius_10px  w-100"
+                            formControlName="created_at">
+                    </div>
+
+                    <div class="my-2 preparingDropdown">
+                        <label class=" fw-500 fs-16 mb-1"> اسم العميل </label>
+                        <input type="text" readonly placeholder=" "
+                            class=" disabled h-50px form-control defaultBg borderRadius_10px  w-100"
+                            formControlName="pharmacy_id">
+                    </div>
+                    <div class="orderNumberArea  my-2">
+                        <label class=" fw-500 fs-16 mb-1"> المراجع </label>
+                        <input type="text" readonly placeholder=" "
+                            class="disabled h-50px form-control defaultBg borderRadius_10px  w-100"
+                            formControlName="auditor_name">
+                    </div>
+
+                </div>
+            </form>
+
+            <div class="upperMiddleArea">
+            </div>
+
+        </div>
+
+
+
+
+        <div class="threeTabsArea p-3 displayBlockResposiveFix">
+            <div class="threeTabBox d-flex justify-content-start  w-75 gap-2 displayBlockResposiveFix">
+
+                <div (click)="changeActiveTab(0)" [ngClass]="{'active':isActiveTapArray[0]}"
+                    class="invoiceItems cursor-pointer tabStyling">
+                    <span>
+                        أصناف الفاتورة
+                    </span>
+                </div>
+                <div (click)="changeActiveTab(1)" [ngClass]="{'active':isActiveTapArray[1]}"
+                    class="listedItems cursor-pointer tabStyling">
+                    <span>
+                        أصناف تم جردها
+                    </span>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="tableArea ">
+            <app-shared_table *ngIf="isActiveTapArray[0]" [columnsArray]="columnsArray" [columnsNames]="columnsName"
+                [RowsData]="alldata"></app-shared_table>
+            <app-shared_table *ngIf="isActiveTapArray[1]" [columnsArray]="columnsArray" [columnsNames]="columnsName"
+                [RowsData]="reviewed"></app-shared_table>
+
+        </div>
+
+        <div [ngClass]="{'justify-content-around': !containsBulk, 'justify-content-start': containsBulk}"
+            class="lowerTripleArea d-flex align-items-center">
+            <div class="itemCount py-5 width-25percent">
+                <div class="h-60px borderRadius_20px lightGreen-border mb-3 d-flex align-items-center">
+                    <span class="fw-600 smalltext fs-16 w-50 d-flex justify-content-center text-center"> عدد الأصناف
+                        التي تم جردها</span>
+                    <hr class="h-100 lightGreen-border">
+                    <span class="fw-600 fs-18 w-50 d-flex justify-content-center">{{reviewed.length}}</span>
+                </div>
+                <div class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center">
+                    <span class="fw-600 smalltext fs-16 w-50 d-flex justify-content-center text-center"> عدد الأصناف
+                        المتبقية</span>
+                    <hr class="h-100 lightGreen-border">
+                    <span
+                        class="fw-600 fs-18 w-50 d-flex justify-content-center">{{alldata.length-reviewed.length}}</span>
+                </div>
+            </div>
+            <form *ngIf="!containsBulk" [formGroup]="packagingData" action="">
+                <div class="inputcount">
+                    <div class="LowerInputArea d-flex  my-2">
+                        <label style="width: 70px;"
+                            class="text-start  d-flex align-items-center  fw-500 fs-16 mb-1 me-2 inputLabelWidth"> عدد
+                            الشنط
+                        </label>
+                        <input type="text" readonly formControlName="bags_num" placeholder=" "
+                            class="disabled inputSize h-50px form-control defaultBg borderRadius_10px  w-100">
+                    </div>
+                    <div class="LowerInputArea d-flex  my-2">
+                        <label style="width: 70px;"
+                            class="text-start   d-flex align-items-center  fw-500 fs-16 mb-1 me-2 inputLabelWidth"> عدد
+                            الكراتين
+                        </label>
+                        <input type="text" readonly formControlName="cartons_num" placeholder=" "
+                            class="disabled h-50px form-control defaultBg borderRadius_10px  w-100">
+                    </div>
+                    <div class="LowerInputArea d-flex  my-2">
+                        <label style="width: 70px;"
+                            class="text-start   d-flex align-items-center  fw-500 fs-16 mb-1 me-2 inputLabelWidth"> عدد
+                            الثلاجة
+                        </label>
+                        <input readonly type="text" formControlName="fridges_num" placeholder=" "
+                            class="disabled h-50px form-control defaultBg borderRadius_10px  w-100">
+                    </div>
+                    <div class="LowerInputArea d-flex  my-2">
+                        <label style="width: 70px;"
+                            class="text-start   d-flex align-items-center  fw-500 fs-16 mb-1 me-2 inputLabelWidth"> داخل
+                            فاتورة
+                            رقم </label>
+                        <input readonly type="text" formControlName="invoices_num" placeholder=" "
+                            class="disabled h-50px form-control defaultBg borderRadius_10px  w-100">
+                    </div>
+                </div>
+
+            </form>
+
+            <div *ngIf="!containsBulk" class="submitArea  text-center d-flex flex-column gap-3 w-25 ">
+                <button hidden #closeModal type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+                <button appDisableButton (click)="ModalChooser('printInvoice')" type=" text"
+                    class="btn  fs-4 print-btn-color" data-bs-toggle="modal" data-bs-target="#confirmation1Model">
+                    طباعة الفاتورة
+                </button>
+                <button appDisableButton (click)="ModalChooser('printSticker')" type=" text"
+                    class="btn  fs-4 qrcode-btn-color" data-bs-toggle="modal" data-bs-target="#confirmation1Model">
+                    طباعة الأستيكر
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<button hidden #openConfirmation1Model type="button" class="btn btn-primary" data-bs-toggle="modal"
+    data-bs-target="#confirmation1Model">
+
+</button>
+<div class="modal fade" id="confirmation1Model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content " style="margin-top: 30%;">
+            <div class="modal-header border-0">
+                <h1 class="modal-title fs-5 text-center w-100" id="confirmationModalLabel">تأكيد العملية</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div style="height: 10vh;" class=" d-flex justify-content-center align-items-center ">
+                <span (click)="navigateToInvoicePrint()" class="text-center fs-4 fw-bold "
+                    *ngIf="clickedButton === 'printInvoice'"> هل انت متأكد من طباعة
+                    الفاتورة؟
+                </span>
+                <span (click)="navigateToQRCodePrint()" class="text-center fs-4 fw-bold"
+                    *ngIf="clickedButton === 'printSticker'"> هل انت متأكد من طباعة
+                    الأستيكر؟
+                </span>
+            </div>
+            <div class="modal-footer d-flex justify-content-around gap-2 border-0">
+                <button *ngIf="clickedButton === 'printInvoice'" (click)="navigateToInvoicePrint()"
+                    class="btn width-40 h-60px border-0 borderRadius_20px text-white  brightGreen-bg fs-4 "
+                    data-bs-dismiss="modal">
+                    تأكيد وطباعة
+                </button>
+                <button *ngIf="clickedButton === 'printSticker'" (click)="navigateToQRCodePrint()"
+                    class="btn width-40 h-60px border-0 borderRadius_20px text-white  brightGreen-bg fs-4 "
+                    data-bs-dismiss="modal">
+                    تأكيد وطباعة
+                </button>
+
+                <button type="button" class="width-40 h-60px btn-color border-0 borderRadius_20px text-white redBG fs-5"
+                    data-bs-dismiss="modal">الغاء</button>
+            </div>
+        </div>
+    </div>
+</div>

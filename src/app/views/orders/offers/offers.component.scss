@@ -1,0 +1,148 @@
+@import 'generalPaginationStyle.scss';
+@import 'generalInputsStyle.scss';
+
+
+.offersContainer {
+    ::ng-deep .p-datatable table {
+
+        //min-width: 100% !important;
+        @media only screen and (max-width: 768px) {
+            //min-width: 50% !important;
+
+        }
+    }
+
+    ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
+        text-align: center !important;
+    }
+
+    ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+        text-align: center !important;
+    }
+
+    ::ng-deep .p-datatable-thead>tr>th {
+        background-color: transparent !important;
+        border: none !important;
+        padding: 0 10px !important;
+    }
+
+    ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
+        background-color: transparent !important;
+        border-bottom: none !important;
+        border-left: 1px solid #E4E4E4 !important;
+        padding: 18px 5px !important;
+    }
+
+    ::ng-deep .p-datatable-tbody>tr {
+
+        :first-child {
+            border-radius: 0 10px 10px 0;
+        }
+
+        :last-child {
+            border-radius: 10px 0 0 10px;
+        }
+    }
+
+    ::ng-deep .p-datatable table {
+        border-collapse: separate !important;
+        border-spacing: 0 23px !important;
+        border-radius: 20px !important;
+
+        @media screen and (max-width:1472px) {
+            border-spacing: 0 15px !important;
+
+        }
+    }
+
+    @media screen and (max-width: 961px) {
+        ::ng-deep .p-datatable-tbody>tr>td {
+            display: table-cell !important;
+            width: 40% !important;
+        }
+
+        ::ng-deep .p-datatable-wrapper {
+            height: 280px;
+            overflow-x: auto;
+        }
+    }
+
+    ::ng-deep .p-datatable-wrapper {
+        height: 280px;
+        overflow-x: auto;
+    }
+
+    .table1 {
+        border-left: 1px solid #E1E1E1;
+
+        @media screen and (max-width:769px) {
+            border-bottom: 1px solid #E1E1E1;
+            border-left: none;
+        }
+    }
+
+}
+
+.flex-col-sm {
+    @media screen and (max-width:768px) {
+        flex-direction: column !important;
+    }
+}
+
+
+p-table .offer-name {
+    width: 290px;
+}
+
+
+::ng-deep {
+    p-table .offer-name {
+        width: 290px;
+    }
+}
+
+.titleSearch {
+    @media screen and (max-width:426px) {
+        flex-wrap: wrap !important;
+    }
+
+
+}
+
+::ng-deep .p-datatable.p-datatable-gridlines .p-paginator-bottom {
+    border-width: none;
+}
+
+@media screen and (max-width:320px) {
+    .smallText {
+        font-size: x-small !important;
+    }
+}
+
+.pagination {
+    width: 101%;
+    display: flex;
+    justify-content: center;
+}
+
+
+::ng-deep .p-paginator .p-paginator-pages .p-paginator-page {
+    @media screen and (max-width:357px) {
+        min-width: 2rem;
+        height: 2rem;
+    }
+}
+
+::ng-deep .p-paginator .p-paginator-first {
+    @media screen and (max-width:376px) {
+        min-width: 1rem;
+        margin: 0px;
+    }
+}
+
+::ng-deep .p-paginator .p-paginator-last {
+    @media screen and (max-width:376px) {
+        min-width: 1rem;
+        margin: 0px;
+    }
+}

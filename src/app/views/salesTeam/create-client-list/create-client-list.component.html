@@ -1,0 +1,242 @@
+<div class="createClinetListCont main_card_margen">
+  <div class="card boxShadow-15 borderRadius_20px p-4">
+    <div class="title my-3">
+      <h5 *ngIf="isCreate" class="fw-bold">انشاء قائمة</h5>
+      <h5 *ngIf="isEdit" class="fw-bold">تعديل قائمة</h5>
+    </div>
+    <div class="body">
+      <form [formGroup]="EditListForm">
+        <div class="row1 d-flex align-items-center flex-wrap w-100">
+          <div class="inputField fullScreenWidth">
+            <label class="mb-2">اسم قائمة العملاء</label>
+            <input
+              [(ngModel)]="listTitle"
+              type="text"
+              [ngClass]="{ disabled: disableType }"
+              placeholder=" "
+              [readonly]="disableType"
+              formControlName="list_name"
+              class="form-control"
+            />
+          </div>
+          <div class="dropdowns fullScreenWidth">
+            <label class="mb-2">النوع</label>
+            <p-dropdown
+              [filter]="true"
+              [options]="ShiftType"
+              placeholder=" "
+              [showClear]="true"
+              formControlName="type"
+              (onChange)="resetSelectedPharmacies()"
+              class="topDropdown"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+          </div>
+          <div class="dropdowns fullScreenWidth">
+            <label class="mb-2"> مندوب </label>
+            <p-dropdown
+              [filter]="true"
+              [showClear]="true"
+              [options]="sales"
+              placeholder=" "
+              formControlName="user_id"
+              class="topDropdown"
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+          </div>
+        </div>
+        <div class="filterTitle my-3">
+          <h5 class="fw-bold">فلتر قائمة العملاء</h5>
+        </div>
+
+        <div class="row2 d-flex align-items-end flex-wrap w-100">
+          <div class="lgDropdown fullScreenWidth">
+            <label class="mb-2">المحافظة</label>
+            <p-dropdown
+              [filter]="true"
+              [showClear]="EditListForm.controls['city_id'].value"
+              placeholder=" "
+              [options]="citiesData"
+              (onChange)="getAreaData()"
+              formControlName="city_id"
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+          </div>
+          <div class="lgDropdown fullScreenWidth">
+            <label class="mb-2">المدينة</label>
+            <p-dropdown
+              [filter]="true"
+              [showClear]="true"
+              placeholder=" "
+              [options]="areasData"
+              formControlName="area_id"
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+          </div>
+          <div class="lgDropdown fullScreenWidth">
+            <label class="mb-2">خط السير</label>
+            <p-dropdown
+              [filter]="true"
+              [showClear]="true"
+              placeholder=" "
+              [options]="trackData"
+              formControlName="track_id"
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+          </div>
+          <div class="smDropdown fullScreenWidth">
+            <label class="mb-2">المتابعة التلقائية</label>
+            <p-dropdown
+              [filter]="true"
+              [showClear]="true"
+              placeholder=" "
+              [options]="follow_up"
+              formControlName="follow_up"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+          </div>
+          <div class="width-20">
+            <label class="mb-2">ميعاد الاتصال</label>
+            <p-dropdown
+              [filter]="true"
+              [showClear]="true"
+              formControlName="call_shift"
+              [options]="call_time"
+              optionLabel="name"
+              optionValue="value"
+              placeholder="   "
+            ></p-dropdown>
+          </div>
+
+          <div class="searchbtn fullScreenWidth">
+            <button
+              appDisableButton
+              (click)="filter()"
+              type="submit"
+              class="w-100 borderRadius_10px darkGreen-bg border-0 fw-bold"
+            >
+              بحث
+            </button>
+          </div>
+        </div>
+
+        <div class="pickList">
+          <div>
+            <p-pickList
+              [source]="sourcePharmacies"
+              [target]="targetPharmacies"
+              sourceHeader="Available"
+              targetHeader="Selected"
+              [dragdrop]="true"
+              [responsive]="true"
+              [sourceStyle]="{ height: '30rem' }"
+              (onTargetDoubleClick)="moveItem($event)"
+              [targetStyle]="{ height: '30rem' }"
+              (onMoveToTarget)="updateTargetLength($event)"
+              (onMoveToSource)="updateSourceLength($event)"
+              filterBy="name"
+              sourceFilterPlaceholder="بحث باسم العميل"
+              targetFilterPlaceholder="بحث باسم العميل"
+              sourceHeader="قائمة العملاء"
+              [targetHeader]="listTitle ? listTitle : listTitleFilled"
+            >
+              <ng-template let-pharmacy pTemplate="item">
+                <div
+                  [ngClass]="{
+                    'disabled-item': checkDisablePharmacy(pharmacy)
+                  }"
+                  class="flex flex-wrap p-2 align-items-center gap-3"
+                >
+                  <div class="flex-1 flex flex-column gap-2">
+                    <span class="font-bold"
+                      >{{ pharmacy.clients[0]?.name }} - {{ pharmacy.name }} -
+                      {{ pharmacy.target }}</span
+                    >
+                  </div>
+                </div>
+              </ng-template>
+            </p-pickList>
+          </div>
+        </div>
+        <div
+          class="width-95 totalNumbers justify-content-between d-flex flex-wrap mt-4 gap-1"
+        >
+          <div
+            class="me-auto width-25 h-60px borderRadius_20px darkBlue-border justify-content-start d-flex align-items-center"
+          >
+            <span
+              class="fw-600 fs-16 smalltext w-50 d-flex justify-content-center text-center"
+              >عدد العملاء بدون قائمة</span
+            >
+            <hr class="h-100 darkBlue-border" />
+            <span class="fw-600 fs-18 w-50 d-flex justify-content-center">{{
+              sourcePharmaciesLength
+            }}</span>
+          </div>
+
+          <div
+            class="ms-auto width-23 h-60px borderRadius_20px darkBlue-border justify-content-end d-flex align-items-center"
+          >
+            <span
+              class="fw-600 fs-16 smalltext w-50 d-flex justify-content-center text-center"
+              >عدد عملاء القائمة</span
+            >
+            <hr class="h-100 darkBlue-border" />
+            <span class="fw-600 fs-18 w-50 d-flex justify-content-center">{{
+              targetPharmaciesLength
+            }}</span>
+          </div>
+
+          <div
+            class="marginResponsiveFix width-23 h-60px borderRadius_20px darkBlue-border justify-content-end d-flex align-items-center"
+          >
+            <span
+              class="fw-600 fs-16 smalltext w-50 d-flex justify-content-center text-center"
+            >
+              تارجت القائمة</span
+            >
+            <hr class="h-100 darkBlue-border" />
+            <span
+              *ngIf="isEdit"
+              class="fw-600 fs-18 w-50 d-flex justify-content-center"
+              >{{ pharmacyTargetTotal }}</span
+            >
+            <span
+              *ngIf="isCreate"
+              class="fw-600 fs-18 w-50 d-flex justify-content-center"
+              >{{ pharmacyTargetTotal }}</span
+            >
+          </div>
+        </div>
+        <div
+          class="w-100 mt-4 d-flex justify-content-center align-items-center"
+        >
+          <div *ngIf="isCreate" class="width-30 fullScreenWidth mx-0">
+            <button
+              appDisableButton
+              (click)="createList()"
+              class="w-100 borderRadius_20px darkGreen-bg border-0 text-light fw-bold h-60px"
+            >
+              حفط
+            </button>
+          </div>
+          <div *ngIf="isEdit" class="width-30 fullScreenWidth mx-0">
+            <button
+              appDisableButton
+              (click)="updateList()"
+              class="w-100 borderRadius_20px darkGreen-bg border-0 text-light fw-bold h-60px"
+            >
+              تعديل
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

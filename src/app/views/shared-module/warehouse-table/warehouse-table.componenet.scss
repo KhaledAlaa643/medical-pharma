@@ -1,0 +1,84 @@
+::ng-deep {
+    .greenBG #detailsModel .modal-dialog .p-datatable .p-datatable-tbody>tr>td {
+        background-color: #28DF99 !important;
+        border-bottom: none !important;
+        border-left: 1px solid #E4E4E4 !important;
+        padding: 12px !important;
+    }
+}
+
+.clickable-text {
+    text-decoration: underline !important;
+    color: #3F497F !important;
+    cursor: pointer;
+}
+
+.highlighted {
+    background-color: #28DF99 !important;
+}
+
+.highlightedRed {
+    background-color: #FF252B !important;
+}
+.curser-pointer {
+    cursor: pointer;
+}
+
+.dark-blue-btn {
+
+    height: 35px;
+    color: white;
+    border-radius: 10px !important;
+    border: none;
+    width: 100%;
+    padding: 7px;
+    background-color: rgb(63, 73, 127);
+}
+
+.darkBlueColor {
+    color: #3F497F;
+}
+
+::ng-deep .p-datatable .p-sortable-column:not(.p-highlight):hover {
+    background-color: white;
+}
+
+::ng-deep .p-datatable .p-sortable-column:focus {
+    box-shadow: none;
+}
+
+::ng-deep .p-datatable table {
+    border-collapse: separate !important;
+    border-spacing: 0 10px !important;
+    border-radius: 20px !important;
+}
+
+.highlightRproduct {
+    font-family: "NOTO";
+    border: 3px solid !important;
+    border-radius: 40px !important;
+    margin-bottom: 5px !important;
+}
+
+.highlightRproduct2 {
+    font-family: "NOTO";
+    border: 3px solid !important;
+    border-radius: 40px !important;
+    margin-bottom: 5px !important;
+}
+
+.highlightProductReviewer {
+    font-family: "NOTO";
+    border: 2px solid #495057 !important;
+    border-radius: 20px !important;
+    margin-bottom: 5px !important;
+}
+
+.myButtonStyles {
+    background-color: var(--darkBlue);
+    border-radius: 10px !important;
+    height: 50px;
+    color: white;
+    border: none;
+    font-weight: 500;
+}

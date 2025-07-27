@@ -1,0 +1,92 @@
+<div class="err" *ngIf="control && control.touched && control.errors">
+  <div *ngIf="control.errors.required">*Required</div>
+  <div *ngIf="control.errors.maxlength">
+    *Maximum length {{ control.errors.maxlength.requiredLength }} characters
+  </div>
+  <div *ngIf="control.errors.minlength">
+    *Minimum length {{ control.errors.minlength.requiredLength }} characters
+  </div>
+  <div *ngIf="control.errors.min">*الكمية اكبر من صفر</div>
+  <div *ngIf="control.errors.max">*Max {{ control.errors.max.max }}</div>
+  <div
+    *ngIf="
+      control.errors.email ||
+      control.errors.pattern?.requiredPattern == emailRegex
+    "
+  >
+    *Invalid email format
+  </div>
+  <div *ngIf="control.errors.pattern?.requiredPattern == phoneRegex">
+    *Invalid phone ex:(111) 111-1111
+  </div>
+  <div *ngIf="control.errors.pattern?.requiredPattern == EgyptphoneRegex">
+    *Invalid phone ex:(011) 1111 1111
+  </div>
+  <div *ngIf="control.errors.pattern?.requiredPattern == decimalValuRegex">
+    *Invalid value ex:00.00
+  </div>
+  <div *ngIf="control.errors.pattern?.requiredPattern == passwordRegex">
+    *Password should contain capital letters And small letters, numbers, and
+    special characters
+  </div>
+  <div *ngIf="control.errors.pattern?.requiredPattern == webSiteRegex">
+    *Invalid website
+  </div>
+  <div *ngIf="control.errors.pattern?.requiredPattern == alphaRegex">
+    *Letters only
+  </div>
+  <div *ngIf="control.errors.pattern?.requiredPattern == skuPattern">
+    *Sku must be lowercase letters or numbers
+  </div>
+  <div *ngIf="control.errors.passwordMismatch && control?.value">
+    *Passwords do not match
+  </div>
+  <div *ngIf="control.hasError('invalidEgyptMobile') && control?.value">
+    *Invalid phone
+  </div>
+  <div *ngIf="control.hasError('invalidPhoneOrPassword') && control?.value">
+    *Invalid phone or password
+  </div>
+  <div *ngIf="control.hasError('confirmPasswordMismatch') && control?.value">
+    *Passwords do not match
+  </div>
+
+  <div *ngIf="control.errors.pattern?.requiredPattern == numericalRegex">
+    *Digits Only
+  </div>
+
+  <div *ngIf="control.errors.pattern?.requiredPattern == liscencePattern">
+    * accepts small letters, capital letters, numbers and underscore only
+  </div>
+  <div *ngIf="control.errors.pattern?.requiredPattern == paymentRegx">
+    * Bank Account Number Doesn't Match
+  </div>
+
+  <div *ngIf="control.errors.pattern?.requiredPattern == taxIdPattern">
+    *Tax Id should be formatted as 111-11-1111
+  </div>
+
+  <div *ngIf="control.errors.pattern?.requiredPattern == preventSpaceRegex">
+    *No spaces allowed
+  </div>
+
+  <div *ngIf="control.errors.unmatchedPasswords">*Passwords do not match</div>
+  <div *ngIf="control.errors.unmatchedAccountNumber">
+    *Bank Number do not match
+  </div>
+  <div *ngIf="control.errors.fileExt">
+    *Images Only (.jpg, .jpeg, .JPG, .JPEG, .png, .PNG, .bmp, .BMP)
+  </div>
+  <div *ngIf="control.errors.fileSize">* Max file size is 2 MB</div>
+
+  <div *ngIf="control.errors.ccNumber">*Number is invalid</div>
+  <div *ngIf="control.errors.expDate">*ExpDate is invalid</div>
+  <div *ngIf="control.errors.expirationDateRegex">*ExpDate is invalid</div>
+  <div *ngIf="control.errors.positiveNumberRegex">
+    يجب ان تكون الكمية اكبر من صفر
+  </div>
+  <div *ngIf="control.errors?.exactLength">
+    يجب اختيار {{ control.errors.exactLength.requiredLength }} أيام (تم اختيار
+    {{ control.errors.exactLength.actualLength }})
+  </div>
+</div>

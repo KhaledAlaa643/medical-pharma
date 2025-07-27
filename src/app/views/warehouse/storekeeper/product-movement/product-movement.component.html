@@ -1,0 +1,502 @@
+<div class="mainContainer main_card_margen">
+  <div
+    class="card boxShadow-10 borderRadius_10px product-movement responsiveTabs p-2"
+  >
+    <div class="upper-area d-flex gap-2">
+      <form [formGroup]="productMovementfilter" class="d-flex gap-2 w-100">
+        <div class="w-100 d-flex flex-column">
+          <label class="fw-500 fs-16 mb-2">اسم الصنف </label>
+          <p-dropdown
+            [options]="products"
+            formControlName="product_id"
+            class="d-block"
+            optionLabel="name"
+            optionValue="id"
+            placeholder=" "
+            [filter]="true"
+            [showClear]="productMovementfilter.controls['product_id'].value"
+          ></p-dropdown>
+        </div>
+        <div
+          *ngIf="
+            isActiveTapArray[1] || isActiveTapArray[2] || isActiveTapArray[4]
+          "
+          class="w-100 d-flex flex-column justify-content-end"
+        >
+          <label class="fw-500 fs-16 mb-2">اسم العميل </label>
+          <p-dropdown
+            [options]="clients"
+            formControlName="pharmacy_id"
+            class="d-block"
+            optionLabel="name"
+            optionValue="id"
+            placeholder=" "
+            [filter]="true"
+            [showClear]="productMovementfilter.controls['pharmacy_id'].value"
+          ></p-dropdown>
+        </div>
+        <div
+          *ngIf="isActiveTapArray[3] || isActiveTapArray[4]"
+          class="w-100 d-flex flex-column justify-content-end"
+        >
+          <label class="fw-500 fs-16 mb-2">اسم المورد </label>
+          <p-dropdown
+            [options]="suppliers"
+            formControlName="user_id"
+            class="d-block"
+            optionLabel="name"
+            optionValue="id"
+            placeholder=" "
+            [filter]="true"
+            [showClear]="productMovementfilter.controls['user_id'].value"
+          ></p-dropdown>
+        </div>
+        <div class="w-100 d-flex flex-column justify-content-end">
+          <label class="fw-500 fs-16 mb-2">المخزن </label>
+          <p-dropdown
+            [options]="warehouses"
+            formControlName="warehouse_id"
+            class="d-block"
+            optionLabel="name"
+            optionValue="id"
+            placeholder=" "
+            [filter]="true"
+            [showClear]="productMovementfilter.controls['warehouse_id'].value"
+          ></p-dropdown>
+        </div>
+        <div class="w-100 calendar d-flex flex-column">
+          <label class="fw-500 fs-16 mb-2"> التاريخ </label>
+          <div class="d-flex position-relative">
+            <p-calendar
+              [dir]="'ltr'"
+              [showClear]="productMovementfilter.controls['from'].value"
+              #calendarFrom
+              dateFormat="yy-mm-dd"
+              class="w-100 borderRadius_10px position-relative w-100 dateDropdown"
+              formControlName="from"
+              placeholder="  "
+            >
+            </p-calendar>
+            <img
+              style="left: 0%; top: 0%"
+              (click)="calendarFrom.toggle()"
+              class="calendar-icon position-absolute cursor-pointer p-2"
+              src="../../../../assets/images/input/calender.svg"
+              alt=""
+            />
+          </div>
+        </div>
+        <div class="w-100 calendar d-flex flex-column">
+          <div class="d-flex position-relative" style="margin-top: 2rem">
+            <p-calendar
+              [dir]="'ltr'"
+              [showClear]="productMovementfilter.controls['to'].value"
+              #calendarTo
+              dateFormat="yy-mm-dd"
+              class="w-100 borderRadius_10px position-relative w-100 dateDropdown"
+              formControlName="to"
+              placeholder="  "
+            >
+            </p-calendar>
+            <img
+              style="left: 0%; top: 0%"
+              (click)="calendarTo.toggle()"
+              class="calendar-icon position-absolute cursor-pointer p-2"
+              src="../../../../assets/images/input/calender.svg"
+              alt=""
+            />
+          </div>
+        </div>
+
+        <div
+          class="width-50 d-flex flex-column justify-content-center align-items-center"
+          style="margin-top: 2rem"
+        >
+          <button
+            (click)="getUpdatedParams()"
+            [disabled]="!productMovementfilter.valid"
+            appDisableButton
+            style="height: 40px; color: white; border: none"
+            class="darkGreen-bg borderRadius_10px width-75"
+          >
+            بحث
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="tabs-print">
+      <div
+        style="overflow-x: scroll"
+        class="d-flex flex-fill text-center p-1 displayMediaFix"
+      >
+        <div
+          (click)="changeActiveTap(0)"
+          class="width-15 responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{ active: isActiveTapArray[0] }"
+        >
+          <p class="text-center m-auto">تقارير</p>
+        </div>
+        <div
+          (click)="changeActiveTap(1)"
+          class="width-15 responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{
+            active:
+              isActiveTapArray[1] &&
+              productMovementfilter.controls['product_id'].value
+          }"
+        >
+          <p class="text-center m-auto">مبيعات</p>
+        </div>
+        <div
+          (click)="changeActiveTap(2)"
+          class="width-15 responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{
+            active:
+              isActiveTapArray[2] &&
+              productMovementfilter.controls['product_id'].value
+          }"
+        >
+          <p class="text-center m-auto">مردود مبيعات</p>
+        </div>
+        <div
+          (click)="changeActiveTap(3)"
+          class="width-15 responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{
+            active:
+              isActiveTapArray[3] &&
+              productMovementfilter.controls['product_id'].value
+          }"
+        >
+          <p class="text-center m-auto">مشتريات</p>
+        </div>
+        <div
+          (click)="changeActiveTap(4)"
+          class="width-15 responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{
+            active:
+              isActiveTapArray[4] &&
+              productMovementfilter.controls['product_id'].value
+          }"
+        >
+          <p class="text-center m-auto">مردود مشتريات</p>
+        </div>
+        <div
+          (click)="changeActiveTap(5)"
+          class="width-15 responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{
+            active:
+              isActiveTapArray[5] &&
+              productMovementfilter.controls['product_id'].value
+          }"
+        >
+          <p class="text-center m-auto">الجرد</p>
+        </div>
+        <div
+          (click)="changeActiveTap(6)"
+          style="width: 18.5%"
+          class="width-25 responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{
+            active:
+              isActiveTapArray[6] &&
+              productMovementfilter.controls['product_id'].value
+          }"
+        >
+          <p class="text-center m-auto">تحويل بين المخازن</p>
+        </div>
+      </div>
+      <div
+        class="second-row d-flex flex-fill text-center p-1 my-2 overflow-auto displayMediaFix justify-content-end"
+      >
+        <div
+          class="printBtn_noWidth width-15 justify-content-center d-flex align-items-center boxShadow-15 cursor-pointer"
+        >
+          <div (click)="openModal()" class="textarea d-flex">
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_5900_794)">
+                <path
+                  d="M22.6667 22.6667H25.3333C26.0406 22.6667 26.7189 22.3857 27.219 21.8856C27.719 21.3855 28 20.7072 28 20V14.6667C28 13.9594 27.719 13.2811 27.219 12.781C26.7189 12.281 26.0406 12 25.3333 12H6.66667C5.95942 12 5.28115 12.281 4.78105 12.781C4.28095 13.2811 4 13.9594 4 14.6667V20C4 20.7072 4.28095 21.3855 4.78105 21.8856C5.28115 22.3857 5.95942 22.6667 6.66667 22.6667H9.33333"
+                  stroke="#3F497F"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M22.6673 12V6.66667C22.6673 5.95942 22.3864 5.28115 21.8863 4.78105C21.3862 4.28095 20.7079 4 20.0007 4H12.0007C11.2934 4 10.6151 4.28095 10.115 4.78105C9.61494 5.28115 9.33398 5.95942 9.33398 6.66667V12"
+                  stroke="#3F497F"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M9.33398 19.9997C9.33398 19.2924 9.61494 18.6142 10.115 18.1141C10.6151 17.614 11.2934 17.333 12.0007 17.333H20.0007C20.7079 17.333 21.3862 17.614 21.8863 18.1141C22.3864 18.6142 22.6673 19.2924 22.6673 19.9997V25.333C22.6673 26.0403 22.3864 26.7185 21.8863 27.2186C21.3862 27.7187 20.7079 27.9997 20.0007 27.9997H12.0007C11.2934 27.9997 10.6151 27.7187 10.115 27.2186C9.61494 26.7185 9.33398 26.0403 9.33398 25.333V19.9997Z"
+                  stroke="#3F497F"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_5900_794">
+                  <rect width="32" height="32" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+            <span class="fw-bold">طباعة</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="isActiveTapArray[0]" class="tables">
+      <form [formGroup]="summeryForm">
+        <div class="reports d-flex justify-content-around">
+          <div class="inputArea-right">
+            <div class="w-100 my-4">
+              <label class="fw-500 fs-16 mb-1">اجمالي المبيعات </label>
+              <input
+                type="text"
+                formControlName="sales"
+                placeholder=""
+                readonly
+                class="h-50px form-control defaultBg borderRadius_10px w-100"
+              />
+            </div>
+            <div class="w-100 my-4">
+              <label class="fw-500 fs-16 mb-1">اجمالي المشتريات </label>
+              <input
+                type="text"
+                formControlName="purchases"
+                placeholder=""
+                readonly
+                class="h-50px form-control defaultBg borderRadius_10px w-100"
+              />
+            </div>
+            <div class="w-100 my-4">
+              <label class="fw-500 fs-16 mb-1">اجمالي الزيادة الجردية </label>
+              <input
+                type="text"
+                formControlName="inventory_excess"
+                placeholder=""
+                readonly
+                class="h-50px form-control defaultBg borderRadius_10px w-100"
+              />
+            </div>
+            <div class="w-100 my-4">
+              <label class="fw-500 fs-16 mb-1">اجمالي المحول من المخزن </label>
+              <input
+                type="text"
+                formControlName="transfers_outgoing"
+                placeholder=""
+                readonly
+                class="h-50px form-control defaultBg borderRadius_10px w-100"
+              />
+            </div>
+          </div>
+          <div class="inputArea-left">
+            <div class="w-100 my-4">
+              <label class="fw-500 fs-16 mb-1">اجمالي مرتجعات البيع </label>
+              <input
+                type="text"
+                formControlName="sales_returns"
+                placeholder=""
+                readonly
+                class="h-50px form-control defaultBg borderRadius_10px w-100"
+              />
+            </div>
+            <div class="w-100 my-4">
+              <label class="fw-500 fs-16 mb-1">اجمالي مرتجعات الشراء </label>
+              <input
+                type="text"
+                formControlName="purchases_returns"
+                placeholder=""
+                readonly
+                class="h-50px form-control defaultBg borderRadius_10px w-100"
+              />
+            </div>
+            <div class="w-100 my-4">
+              <label class="fw-500 fs-16 mb-1">اجمالي العجز الجردي </label>
+              <input
+                type="text"
+                formControlName="inventory_shortage"
+                placeholder=""
+                readonly
+                class="h-50px form-control defaultBg borderRadius_10px w-100"
+              />
+            </div>
+            <div class="w-100 my-4">
+              <label class="fw-500 fs-16 mb-1">اجمالي المحول الي المخزن </label>
+              <input
+                type="text"
+                formControlName="transfers_incoming"
+                placeholder=""
+                readonly
+                class="h-50px form-control defaultBg borderRadius_10px w-100"
+              />
+            </div>
+          </div>
+        </div>
+      </form>
+      <div class="title m-3">
+        <span class="fw-bold fs-16">الكميات في المخازن</span>
+      </div>
+      <div class="reports d-flex justify-content-around">
+        <div class="inputArea-right">
+          <div
+            class="my-3 d-flex justify-content-start align-items-center w-75 m-auto"
+          >
+            <div
+              class="w-100 d-flex justify-content-between align-items-center"
+            >
+              <span class="text-center fw-bold w-100 p-3">اسم المخزن </span>
+            </div>
+            <div class="w-100 d-flex justify-content-center align-items-center">
+              <span class="text-center fw-bold p-3">الكمية</span>
+            </div>
+          </div>
+
+          <div
+            class="boxShadow-15 my-3 d-flex justify-content-start align-items-center border border-1 rounded-4 w-75 m-auto"
+            *ngFor="let item of data.quantity_per_warehouse"
+          >
+            <div
+              class="w-100 border-end d-flex justify-content-between align-items-center"
+            >
+              <span class="text-center fw-bold p-3 w-100"
+                >{{ item.name }}
+              </span>
+            </div>
+            <div class="w-100 d-flex justify-content-center align-items-center">
+              <span class="text-center fw-bold p-3">{{ item.quantity }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="inputArea-left"></div>
+      </div>
+
+      <div
+        class="lower-area d-flex justify-content-between align-items-center gap-2 w-100"
+      >
+        <div
+          class="public-price borderRadius_20px h-50px fw-bold fs-16 d-flex justify-content-center align-items-center"
+        >
+          <span class="d-flex justify-content-center align-items-center">
+            سعر الجمهور : {{ data?.product?.price }}
+          </span>
+        </div>
+        <div
+          class="public-price borderRadius_20px h-50px fw-bold fs-16 d-flex justify-content-center align-items-center"
+        >
+          <span class="d-flex justify-content-center align-items-center">
+            اجمالي كمية المخازن :
+            {{ data?.product?.quantity_sum_in_warehouses }}
+          </span>
+        </div>
+        <div
+          class="public-price borderRadius_20px h-50px fw-bold fs-16 d-flex justify-content-center align-items-center"
+        >
+          <span class="d-flex justify-content-center align-items-center">
+            موقع الصنف :
+            <span style="direction: ltr"
+              >{{ data?.product_location?.number }}/{{
+                data?.product_location?.stand
+              }}/{{ data?.product_location?.shelf }}</span
+            >
+          </span>
+        </div>
+        <div
+          class="public-price borderRadius_20px h-50px fw-bold fs-15 d-flex justify-content-center align-items-center"
+        >
+          <span
+            class="d-flex justify-content-center align-items-center text-center"
+          >
+            الشركة المصنعه : {{ data?.product?.manufacture_company?.name }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!isActiveTapArray[0]" class="tables">
+      <div class="table">
+        <app-shared_table
+          [columnsArray]="columnsArray"
+          [columnsNames]="columnsName"
+          [RowsData]="productMovementData"
+          [resetSort]="resetSort"
+          (sortEvent)="getUpdatedParams($event)"
+        ></app-shared_table>
+      </div>
+
+      <div
+        class="lower-area d-flex justify-content-between align-items-center gap-1 w-100"
+      >
+        <div
+          *ngIf="!isActiveTapArray[0]"
+          class="w-40 public-price borderRadius_20px h-50px fw-bold fs-16 d-flex justify-content-center align-items-center"
+        >
+          <span class="d-flex justify-content-center align-items-center">
+            اجمالي عدد الأذونات : {{ total_orders }}
+          </span>
+        </div>
+        <div
+          *ngIf="!isActiveTapArray[0]"
+          class="pagination-area d-flex w-60 justify-content-center"
+        >
+          <p-paginator
+            #paginator
+            [first]="1"
+            [rows]="rows"
+            [totalRecords]="total_orders"
+            (onPageChange)="changePage($event)"
+          ></p-paginator>
+        </div>
+        <div
+          [ngClass]="{ 'public-price': !isActiveTapArray[5] }"
+          class="w-40 public-price borderRadius_20px h-50px fw-bold fs-16 d-flex justify-content-center align-items-center"
+        >
+          <span
+            *ngIf="isActiveTapArray[1]"
+            class="d-flex justify-content-center align-items-center"
+          >
+            أجمالي الكمية المباعه : {{ total_quantity }}
+          </span>
+          <span
+            *ngIf="isActiveTapArray[2] || isActiveTapArray[4]"
+            class="d-flex justify-content-center align-items-center"
+          >
+            أجمالي الكمية : {{ total_quantity }}
+          </span>
+          <span
+            *ngIf="isActiveTapArray[3]"
+            class="d-flex justify-content-center align-items-center"
+          >
+            أجمالي الكمية المشتراة : {{ total_quantity }}
+          </span>
+          <span
+            *ngIf="isActiveTapArray[6]"
+            class="d-flex justify-content-center align-items-center"
+          >
+            أجمالي الكمية المحولة : {{ total_quantity }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  hidden
+  #OpenOptionsModal
+  type="button"
+  (click)="choosePrintTypePopup.openAddModal()"
+></button>
+<app-printing-options-popup
+  [paginated]="paginated"
+  (printData)="print($event)"
+  #choosePrintTypePopup
+></app-printing-options-popup>

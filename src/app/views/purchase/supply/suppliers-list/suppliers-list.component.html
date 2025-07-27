@@ -1,0 +1,345 @@
+<div class="main_card_margen">
+  <div
+    class="inventory-stock-balance card borderRadius_10px boxShadow-10 responsiveTabs m-3 p-2"
+  >
+    <div class="upper-Area d-flex justify-content-between p-4">
+      <div class="bottomHolder d-flex justify-content-between w-100">
+        <div class="add-prohibited-item">
+          <div class="w-100 d-flex"></div>
+        </div>
+        <div class="bottomHolder d-flex justify-content-start">
+          <div class="add-prohibited-item">
+            <div class="totals d-flex align-items-center">
+              <div class="filter-button d-flex justify-content-end">
+                <button
+                  appDisableButton
+                  #toggleFilter
+                  type="submit"
+                  placeholder=" "
+                  class="form-control"
+                  data-bs-toggle="modal"
+                  data-bs-target="#InventoryStockBalanceModal"
+                >
+                  فلتر
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="table">
+      <app-shared_table
+        [columnsArray]="columnsArray"
+        [columnsNames]="columnsName"
+        [RowsData]="data"
+        (productClickEvent)="openModel($event)"
+        (openModalEvent)="editSupplier($event)"
+      ></app-shared_table>
+    </div>
+
+    <div class="lower-area d-flex flex-wrap">
+      <div
+        class="h-60px width-20 borderRadius_20px lightGreen-border d-flex justify-content-center align-items-center"
+      >
+        <span
+          class="fw-600 fs-16 d-flex justify-content-center text-center m-2"
+        >
+          اجمالي الموردين : {{ total_suppliers }}
+        </span>
+      </div>
+
+      <div class="pagination-area d-flex width-60 justify-content-center">
+        <p-paginator
+          #paginator
+          [first]="1"
+          [rows]="rows"
+          (onPageChange)="changepage($event)"
+          [totalRecords]="total"
+        ></p-paginator>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="modal fade"
+    id="InventoryStockBalanceModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div
+          class="modal-header border-0 justify-content-center position-relative"
+        >
+          <h1 class="modal-title fs-5" id="exampleModalLabel">فلتر</h1>
+          <button
+            type="button"
+            class="btn-close position-absolute"
+            style="left: 3%"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body border-0">
+          <form [formGroup]="filterForm">
+            <div class="p-2">
+              <div class="d-flex mb-2 gap-2 flex-wrap">
+                <div class="width-15 my-2">
+                  <label class="mb-2">الكود </label>
+                  <input
+                    [(ngModel)]="supplier.id"
+                    [ngModelOptions]="{ standalone: true }"
+                    type="number"
+                    placeholder=" "
+                    class="form-control"
+                    style="direction: rtl"
+                  />
+                </div>
+                <div class="width-35 my-2">
+                  <label class="mb-2">اسم المورد </label>
+                  <p-dropdown
+                    [options]="suppliers"
+                    [(ngModel)]="supplier.id"
+                    formControlName="id"
+                    [showClear]="true"
+                    class="d-block"
+                    optionLabel="name"
+                    optionValue="id"
+                    placeholder=" "
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+                <div class="flex-fill my-2">
+                  <label class="mb-2">بحث بمحتوي الاسم</label>
+                  <input
+                    formControlName="name"
+                    type="text"
+                    placeholder=" "
+                    class="form-control"
+                    style="direction: rtl"
+                  />
+                </div>
+              </div>
+              <div class="d-flex mb-2 gap-2 flex-wrap">
+                <div class="width-32 my-2">
+                  <label class="mb-2">المحافظة </label>
+                  <p-dropdown
+                    #citiesDropdown
+                    [options]="cities"
+                    (click)="getArea(citiesDropdown)"
+                    formControlName="city_id"
+                    optionLabel="name"
+                    optionValue="id"
+                    [showClear]="true"
+                    class="d-block"
+                    placeholder=" "
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+                <div class="width-32 my-2">
+                  <label class="mb-2">المدينة </label>
+                  <p-dropdown
+                    [showClear]="true"
+                    class="d-block"
+                    [options]="areas"
+                    formControlName="area_id"
+                    optionLabel="name"
+                    optionValue="id"
+                    placeholder=" "
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+                <div class="width-32 my-2">
+                  <label class="mb-2">نوع المورد </label>
+                  <p-dropdown
+                    [showClear]="true"
+                    class="d-block"
+                    formControlName="type"
+                    [options]="types"
+                    [options]="types"
+                    placeholder=" "
+                    optionLabel="name"
+                    optionValue="value"
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="d-flex mb-2 gap-2 flex-wrap">
+                <div class="width-32 my-2">
+                  <label class="mb-2">ظهور / اخفاء المورد </label>
+                  <p-dropdown
+                    formControlName="active"
+                    [showClear]="true"
+                    class="d-block"
+                    [options]="active"
+                    optionLabel="name"
+                    optionValue="value"
+                    placeholder=" "
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+                <div class="width-32 my-2">
+                  <label class="mb-2">نوع التعامل </label>
+                  <p-dropdown
+                    [options]="payment_type"
+                    formControlName="payment_type"
+                    [showClear]="true"
+                    class="d-block"
+                    optionLabel="name"
+                    optionValue="value"
+                    placeholder=" "
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+                <div class="width-32 my-2">
+                  <label class="mb-2">فترة سماح التسديد </label>
+                  <p-dropdown
+                    [options]="payment_periods"
+                    formControlName="grace_period"
+                    [showClear]="true"
+                    class="d-block"
+                    optionLabel="name"
+                    optionValue="value"
+                    placeholder=" "
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="d-flex mb-2 gap-2 flex-wrap">
+                <div class="width-65 my-2">
+                  <label class="mb-2">حالة المورد </label>
+                  <p-dropdown
+                    formControlName="status"
+                    [showClear]="true"
+                    class="d-block"
+                    [options]="supplier_status"
+                    optionLabel="name"
+                    optionValue="value"
+                    placeholder=" "
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+                <div class="flex-fill my-2">
+                  <label class="mb-2">الأصناف </label>
+                  <p-dropdown
+                    [showClear]="true"
+                    class="d-block"
+                    formControlName="products_type"
+                    [options]="products_type"
+                    optionLabel="name"
+                    optionValue="value"
+                    placeholder=" "
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+
+              <div class="d-flex mb-2 gap-2 flex-wrap">
+                <div class="width-30 my-2">
+                  <label class="mb-2">شريحة الخصم </label>
+                  <p-dropdown
+                    [options]="discount_tier"
+                    formControlName="discount_tier"
+                    [showClear]="true"
+                    class="d-block"
+                    optionLabel="name"
+                    optionValue="value"
+                    placeholder=" "
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+                <div class="width-30 my-2">
+                  <label class="mb-2">الشراء </label>
+                  <p-dropdown
+                    [showClear]="true"
+                    class="d-block"
+                    [options]="has_taxes"
+                    formControlName="has_taxes"
+                    optionLabel="name"
+                    optionValue="value"
+                    placeholder=" "
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="d-flex mb-2 gap-3 flex-wrap">
+                <div class="d-flex width-45 gap-1 flex wrap">
+                  <div class="width-65 my-2">
+                    <label class="mb-2">معدل تكرار الكوتة </label>
+                    <input
+                      formControlName="quota_repeat"
+                      type="number"
+                      class="form-control"
+                    />
+                  </div>
+                  <div class="width-25 my-2">
+                    <label class="mb-2">كل </label>
+                    <input
+                      formControlName="quota_days"
+                      type="number"
+                      class="form-control"
+                    />
+                  </div>
+                </div>
+
+                <div class="width-45 my-2">
+                  <label class="mb-2">ميعاد الاتصال </label>
+
+                  <p-dropdown
+                    [showClear]="true"
+                    class="d-block"
+                    [options]="call_shifts"
+                    formControlName="call_shift"
+                    optionLabel="name"
+                    optionValue="value"
+                    placeholder=" "
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div
+                class="d-flex flex-wrap w-100 mt-4 d-flex justify-content-center align-items-center"
+              >
+                <div class="width-75 fullScreenWidth mx-0">
+                  <button
+                    appDisableButton
+                    (click)="filter()"
+                    type="button"
+                    class="w-100 borderRadius_20px darkGreen-bg border-0 text-light fw-bold h-60px"
+                    data-bs-toggle="modal"
+                    data-bs-target="#confirmationMessage"
+                  >
+                    فلترة
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <app-shared_popup
+    (ChoosenEvent)="Popupevent($event)"
+    [cancle_button_name]="cancle_button_name"
+    [ok_button_name]="ok_button_name"
+    [popupMessage]="popupMessage"
+    #Popup
+  ></app-shared_popup>
+  <button
+    hidden
+    #popupModalOpen
+    type="button"
+    (click)="Popup.openModel()"
+  ></button>
+  <button
+    hidden
+    #PopupModalClose
+    type="button"
+    (click)="Popup.closeModalClick()"
+  ></button>
+</div>

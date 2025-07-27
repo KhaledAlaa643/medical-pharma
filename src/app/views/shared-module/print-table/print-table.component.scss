@@ -1,0 +1,44 @@
+.invoiceTemplate{
+    z-index: 1;
+
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+}
+
+.vertical-table {
+    transform: rotate(90deg);
+    transform-origin: top left;
+  }
+  
+  .vertical-table th,
+  .vertical-table td {
+    transform: rotate(-90deg);
+  }
+  .seperator{
+    border: 2px solid #AAAAAA;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+  }
+  .without_seperator{
+    border:none;
+    font-size: 15px;
+    font-weight: bold;
+    text-align: center;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+  }

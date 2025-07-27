@@ -1,0 +1,140 @@
+<div class="main_card_margen">
+  <div class="card boxShadow-15 borderRadius_20px p-3">
+    <div id="header" class="mb-3">
+      <form [formGroup]="addForm">
+        <h6 class="acc-header">الحساب المحول منه</h6>
+        <div class="d-flex gap-2 flex-wrap align-items-end mb-5">
+          <div class="width-15 d-flex flex-column">
+            <label class="mb-2">نوع الحساب</label>
+            <p-dropdown
+              [showClear]="true"
+              placeholder=" "
+              [options]="accountType"
+              formControlName="account_type_from"
+              (onChange)="getAccountsFrom()"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+          </div>
+          <div class="flex-fill d-flex flex-column">
+            <label class="mb-2">اسم الحساب</label>
+            <p-dropdown
+              [showClear]="true"
+              placeholder=" "
+              #accountInput
+              formControlName="from_account_id"
+              (onChange)="getPharmacyFromDropdownFrom()"
+              optionLabel="name"
+              [options]="updatedPharmacyNamesFrom"
+              optionValue="id"
+            ></p-dropdown>
+          </div>
+          <div class="width-15 d-flex flex-column">
+            <label class="mb-2">الرصيد السابق</label>
+            <input
+              type="text"
+              class="form-control disabled"
+              readonly
+              placeholder=" "
+              formControlName="balance_from"
+            />
+          </div>
+          <div class="width-15 d-flex flex-column">
+            <label class="mb-2"> الرصيد الحالي</label>
+            <input
+              type="text"
+              readonly
+              class="form-control disabled"
+              placeholder=" "
+              formControlName="balance_after_from"
+            />
+          </div>
+        </div>
+        <h6 class="acc-header">الحساب المحول إليه</h6>
+        <div class="d-flex gap-2 flex-wrap align-items-end mb-5">
+          <div class="width-15 d-flex flex-column">
+            <label class="mb-2">نوع الحساب</label>
+            <!-- (onFocus)="onDropdownFocus($event)" -->
+            <p-dropdown
+              [showClear]="true"
+              placeholder=" "
+              [options]="accountType"
+              formControlName="account_type_to"
+              (onChange)="getAccountsTo()"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+          </div>
+          <div class="flex-fill d-flex flex-column">
+            <label class="mb-2">اسم الحساب</label>
+            <p-dropdown
+              [showClear]="true"
+              placeholder=" "
+              #accountInput
+              formControlName="to_account_id"
+              (onChange)="getPharmacyFromDropdownTo()"
+              optionLabel="name"
+              [options]="updatedPharmacyNamesTo"
+              optionValue="id"
+            ></p-dropdown>
+          </div>
+          <div class="width-15 d-flex flex-column">
+            <label class="mb-2">الرصيد السابق</label>
+            <input
+              type="text"
+              class="form-control disabled"
+              readonly
+              placeholder=" "
+              formControlName="balance_to"
+            />
+          </div>
+          <div class="width-15 d-flex flex-column">
+            <label class="mb-2"> الرصيد الحالي</label>
+            <input
+              type="text"
+              readonly
+              class="form-control disabled"
+              placeholder=" "
+              formControlName="balance_after_to"
+            />
+          </div>
+        </div>
+        <div class="d-flex gap-2 flex-wrap align-items-end mt-3">
+          <div class="width-15 d-flex flex-column">
+            <label class="mb-2"> المبلغ بالأرقام </label>
+            <input
+              type="number"
+              (keydown.enter)="getBalanceAfter()"
+              class="form-control"
+              formControlName="amount"
+            />
+          </div>
+          <div class="width-30 d-flex flex-column">
+            <label class="mb-2"> المبلغ مكتوب </label>
+            <input
+              type="text"
+              readonly
+              class="form-control disabled"
+              formControlName="amount_in_words"
+            />
+          </div>
+          <div class="flex-fill d-flex flex-column">
+            <label class="mb-2"> ملاحظات </label>
+            <input type="text" class="form-control" formControlName="notes" />
+          </div>
+        </div>
+      </form>
+      <div
+        class="d-flex align-items-end justify-content-end gap-2 flex-column mt-4"
+      >
+        <button
+          (click)="onSubmit()"
+          type="submit"
+          class="greenbtnStyles width-30 p-2 h-40px borderRadius_10px border-0"
+        >
+          تحويل
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

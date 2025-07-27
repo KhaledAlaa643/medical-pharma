@@ -1,0 +1,141 @@
+@import 'generalTableStyle.scss';
+@import 'generalInputsStyle.scss';
+
+
+.centeringCSS {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.centeringCSS:active {
+  background-color: var(--darkGreen);
+  font-size: 14px;
+}
+
+.btnStyling {
+  background-color: var(--darkGreen);
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+.gapFix {
+  gap: 3rem;
+
+}
+
+.borderline {
+  border-left: 1px solid var(--darkGreen);
+  height: 100%;
+}
+
+.titleBGColor {
+  background-color: #3F497F;
+}
+
+.titleBoderRadiusRight-20px {
+  border-top-right-radius: 20px;
+
+  @media screen and (max-width:768px) {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+}
+
+.titleBoderRadiusLeft-20px {
+  border-top-left-radius: 20px;
+
+  @media screen and (max-width:768px) {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+  }
+}
+
+
+.cityClientSalesTable {
+
+  .backShadow {
+    box-shadow: 0px 0px 10px 2px #ccc;
+  }
+
+  .tableHeader {
+    background-color: #3F497F;
+    color: white;
+    border: 0px 15px 0px 0px;
+    border-radius: 0px 15px 0px 0px;
+  }
+
+  .tableHeader2 {
+    background-color: #3F497F;
+    color: white;
+    border: 15px 0px 0px 0px;
+    border-radius: 15px 0px 0px 0px;
+  }
+
+
+  .marginFix {
+    margin: 1px;
+  }
+
+
+  .centeringCSS {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .centeringCSS:active {
+    background-color: var(--darkGreen);
+    font-size: 14px;
+  }
+
+  .btnStyling {
+    background-color: var(--darkGreen);
+    border-radius: 10px;
+    font-size: 18px;
+  }
+
+ 
+}
+
+@font-face {
+  font-family: NOTO;
+  src: local("Noto"),
+    url("../../../../../assets/fonts/NotoSansArabic-VariableFont_wdth\,wght.ttf") format("truetype");
+}
+
+
+.widthScreens {
+  width: 20%;
+
+  @media (max-width: 768px) {
+    width: 100%
+  }
+}
+
+.widthDates {
+  width: 20%;
+
+  @media (max-width: 768px) {
+    width: 100%
+  }
+}
+
+.widthButtons {
+  width: 10%;
+
+  @media (max-width: 768px) {
+    width: 100%
+  }
+}
+
+.calendar-icon {
+  cursor: pointer !important;
+}
+
+
+.responsiveFixTables {
+  @media screen and (max-width: 769px) {
+    width: 100% !important;
+  }
+}

@@ -1,0 +1,302 @@
+<div #toDownload class="storageTable w-100 m-auto">
+  <p-table [responsive]="true" [scrollable]="true" [value]="dummydata" [columns]="columns">
+
+
+    <ng-template pTemplate="header">
+      <tr>
+        <th *ngFor="let col of columns">
+
+          <!-- nomral -->
+          <div *ngIf="col.type!== 'search-sort-click'">{{ col.header }}</div>
+
+
+          <!-- search + sort + click on the item to open modal -->
+          <ng-container *ngIf="col.type == 'search-sort-click'">
+            <div class="d-flex flex-column justify-content-center align-items-center w-100">
+              <!-- Sorting icon/button -->
+              <div class="d-flex justify-content-center align-items-center ">
+                {{ col.header }}
+                <a class="cursor-pointer" (click)="onSearchSortClickSort(col.field)">
+                  <img [src]="sortStates[col.field].icon" alt="Sort Icon" />
+                </a>
+              </div>
+              <input type="text" (change)="onInputChange($event)" placeholder="بحث بأسم الدواء"
+                class="form-control rounded-pill w-100 ">
+            </div>
+          </ng-container>
+
+
+          <ng-container *ngIf="col.type == 'sortByType'">
+            <a (click)="onSort(col.field)">
+              <img
+                [src]="sortStates[col.field].icon || '../../../../assets/images/preparing-single-product/sort-icon.svg'"
+                alt="Sort Icon" />
+            </a>
+          </ng-container>
+
+          <ng-template #otherTypes>
+            <ng-container *ngIf="col.type == 'sort-icon'">
+              <p-sortIcon field="{{col.field}}"></p-sortIcon>
+            </ng-container>
+          </ng-template>
+
+
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-dummyData let-columns="columns" let-i="rowIndex">
+      <!-- {{dummydata[i] |json}} -->
+      <tr [ngClass]="
+          {
+            'highlightRproduct':(dummydata[i].batch_id == IdToHighlight && showBlueBorder && !dummydata[i].no_operation),
+            'highlightRproduct2':(dummydata[i].Product_id == ProductToHighlight && dummydata[i].indexOfHighlight == 0 && showBlueBorder && !dummydata[i].no_operation),
+            'highlightProductReviewer':((dummydata[i].id == ProductToHighlight || dummydata[i].barcode == scanToHighight ) && dummydata[i].barcode  && dummydata[i].hasHighlight ),
+            
+      }
+          ">
+        <td *ngFor="let col of columns"
+          [ngStyle]="col.type === 'price_color' && dummyData['price_color'] ? {'background': dummyData['price_color']} : {}"
+          [ngClass]="{'highlighted': col.type == 'highlighted','highlightedRed': col.type == 'highlightedRed',
+      'text-white':col.type === 'price_color' && dummyData['price_color']
+      }" class="fw-600 color-black">
+
+          <!--normal-->
+          <div #normal *ngIf="col.type=='normal'">
+            <span>{{ dummyData[col.field] }}</span>
+          </div>
+          <div *ngIf="col.type=='price_color'">
+            <span>{{ dummyData['price'] }}</span>
+          </div>
+
+          <!-- productNavName -->
+          <div *ngIf="col.type=='productNavName'"
+            (click)="sendProductData({'product_id':dummydata[i].Product_id,'batch_id':dummydata[i].batch_id})">
+            <span class="text-decoration-underline curser-pointer">{{ dummyData['name'] }}</span>
+          </div>
+
+          <div *ngIf="col.type=='productNavNameNoBatches'" (click)="sendProductData(dummydata[i])">
+            <!-- .id,'barcode':dummydata[i].barcode -->
+            <span class="text-decoration-underline curser-pointer">{{ dummyData['name'] }}</span>
+          </div>
+
+          <!-- sort-icon -->
+          <div #normal *ngIf="col.type=='sort-icon'">
+            <span>{{ dummyData[col.field] }}</span>
+          </div>
+
+
+          <div #normal *ngIf="col.type=='sortByType'">
+            <span>{{ dummyData[col.field] }}</span>
+          </div>
+
+          <!--clicableTemplate-->
+          <div *ngIf="col.type=='clickable1'" #clickableTemplate>
+            <span class="clickable-text"
+              (click)="clickedId=dummydata[i].order_id; itemClicked.emit(dummydata[i].order_id)">
+              {{ dummyData[col.field] }}</span>
+          </div>
+          <div *ngIf="col.type=='clickable'" #clickableTemplate>
+            <span class="clickable-text" (click)="clickedId=AllData[i].id; itemClicked.emit(AllData[i].id)">
+              {{ dummyData[col.field] }}</span>
+          </div>
+          <div *ngIf="col.type=='productNameClick'">
+            <span class="text-decoration-underline" (click)="productClickEvent.emit(dummyData['id'])">
+              {{ dummyData[col.field] }}</span>
+          </div>
+
+          <!--checkbox-->
+          <div *ngIf="col.type == 'checkbox'">
+            <p-checkbox name="group" [binary]="true" [(ngModel)]="dummyData.checked"
+              (onChange)="onCheckboxChange(dummyData)"></p-checkbox>
+          </div>
+          <!-- StatusChecbox -->
+          <div *ngIf="col.type == 'statusCheckbox'">
+            <p-checkbox name="group" [value]="dummyData" [(ngModel)]="checkedData" [disabled]="dummyData.completed_at"
+              [inputId]="dummyData.checked" (ngModelChange)="onStatusCheckboxChange(i)"></p-checkbox>
+          </div>
+          <div *ngIf="col.type == 'rewiewStatusCheckbox'">
+            <p-checkbox name="group" [value]="dummyData" [(ngModel)]="checkedDataReview" [disabled]="true"
+              [inputId]="dummyData.completed_at" (ngModelChange)="onStatusCheckboxChange(i)"></p-checkbox>
+          </div>
+          <!--UncheckedCheckbox-->
+          <div *ngIf="col.type == 'UncheckedBox'">
+            <p-checkbox name="group" [binary]="true" [(ngModel)]="dummyData.unchecked"
+              (onChange)="onUncheckedCheckboxChange(dummyData)"></p-checkbox>
+          </div>
+
+
+          <!--blueClickable-->
+          <div *ngIf="col.type == 'blueTextOpen'">
+            <div (click)="clickEventEmit('viewWithoutPrint')">
+              <div class="cursor-pointer text-decoration-underline" style="color: rgb(63, 73, 127);">
+                {{ dummyData[col.field] }}
+              </div>
+            </div>
+          </div>
+          <!--blueEdit-->
+          <div *ngIf="col.type == 'blueEdit'">
+            <div (click)="emitEvent('editOrderEvent',AllData[i].id)">
+              <!-- changed order status check from 5 to 0 -->
+              <button appDisableButton *ngIf="AllData[i].order_status == 0 " type="button"
+                style="width:  100%; padding: 7px; background-color: rgb(63, 73, 127);"
+                class="h-35px text-white darkBlue-bg borderRadius_10px border-0"> {{dummyData[col.field]}}</button>
+            </div>
+          </div>
+          <!--date-->
+          <div *ngIf="col.type == 'date'">
+            <div>
+              <div>
+                {{ dummyData[col.field] |date: "MM-dd-yyyy" }}
+              </div>
+            </div>
+          </div>
+
+          <!-- dateAndTime -->
+
+          <!-- Edit Order -->
+          <div *ngIf="col.type == 'modalButton'">
+            <button appDisableButton (click)="handleModalButtonClick(dummyData)"
+              [ngStyle]="modifyBatchCustomStyleButton.btnStylingConfirm">
+              {{ dummyData[col.field] }}
+            </button>
+          </div>
+
+          <div *ngIf="col.type == 'printButton'">
+            <button appDisableButton (click)="printInvoiceEvent.emit(dummyData['order_id'])" class="dark-blue-btn"
+              [ngStyle]="modifyBatchCustomStyleButton.btnStylingConfirm">{{
+              dummyData[col.field] }}</button>
+          </div>
+
+
+          <div *ngIf="col.type == 'print_only'">
+            <button appDisableButton (click)="printInvoiceEvent.emit(AllData[i].id)"
+              class="dark-blue-btn">{{dummyData[col.field]}}</button>
+          </div>
+
+          <!--date-->
+          <div *ngIf="col.type == 'openInvoiceDetails'"
+            (click)="emitEvent('orderDetailsEventEmit',AllData[i].id,AllData[i].pharmacy.id)"
+            class="cursor-pointer text-decoration-underline">
+            <div>
+              <div>
+                {{ dummyData[col.field] }}
+              </div>
+            </div>
+          </div>
+
+          <!--check sales in all orders-->
+          <div *ngIf="col.type == 'normalCheckSales'">
+            <div>
+              <div *ngIf="dummyData['sales']">
+                {{ dummyData['sales'] }}
+              </div>
+              <div *ngIf="!dummyData['sales']">
+                {{ dummyData['created_by_name'] }}
+              </div>
+            </div>
+          </div>
+
+          <!--eye Icon-->
+
+          <div *ngIf="col.type == 'eyeIcon'">
+            <span class="pi pi-eye curser-pointer fs-5 darkBlueColor" (click)="handleEyeIconClick(dummyData)">
+
+            </span>
+          </div>
+
+          <!-- navigate to page  Eye Icon-->
+          <div *ngIf="col.type == 'navigateToPage'">
+            <span class="pi pi-eye curser-pointer fs-5 darkBlueColor" (click)="eyeIconNavigateToPage(dummyData)">
+
+            </span>
+          </div>
+          <!-- navigate to page button -->
+          <div *ngIf="col.type == 'navigateToPageButton'">
+            <!-- <span class="pi pi-eye curser-pointer fs-5 darkBlueColor">
+
+            </span> -->
+            <div (click)="eyeIconNavigateToPage(dummyData)" *ngIf="col.type=='navigateToPageButton'">
+              <button appDisableButtontype="button"
+                style="width:  100%; padding: 7px; background-color: rgb(63, 73, 127);"
+                class="h-35px text-white darkBlue-bg borderRadius_10px border-0"> {{dummyData[col.field]}}</button>
+            </div>
+          </div>
+
+          <!-- notes -->
+          <div *ngIf="col.type == 'notes'">
+            <span class="cursor-pointer text-decoration-underline" style="color: rgb(63, 73, 127);"
+              (click)="openNotesModal(dummyData[col.field])">
+              {{'ملاحضات'}}
+              <!-- {{ dummyData[col.field] }} -->
+            </span>
+          </div>
+
+          <!--modifayBatch-->
+          <div *ngIf="col.type == 'modifyBatch'">
+            <button
+              (click)="handleModalButtonClick({'batch_id':dummydata[i].batch_id,'cart_id':dummydata[i]?.cart_id,'order_quantity':dummydata[i]?.order_quantity})"
+              class="myButtonStyles">{{ dummyData[col.field] }}</button>
+          </div>
+          <!-- Return Cart -->
+          <div *ngIf="col.type == 'returnCart'">
+            <!--  -->
+            <button appDisableButton *ngIf="dummydata[i].return_data == null "
+              (click)="returnCartModalButtonClicked({'quantity':dummydata[i].quantity_difference,'cart_purchase_id':dummydata[i]?.cart_purchase_id,'purchase_id':dummydata[i].purchase_id, 'purchase_return_id':dummydata[i].purchase_return_id})"
+              class="myButtonStyles">{{ 'مرتجع' }}</button>
+            <!-- -->
+            <button appDisableButton *ngIf="dummydata[i].return_data!= null"
+              (click)="cancelReturnModalButtonClicked({'purchases_return_id':dummydata[i].return_data.purchases_return_id,'cart_purchase_id':dummydata[i]?.cart_purchase_id})"
+              class="myButtonStyles bg-danger">{{ 'الغاء المرتجع' }}</button>
+          </div>
+          <div *ngIf="col.type == 'cancelBatch'">
+            <button appDisableButton
+              (click)="cancelReviewedModalButtonClick({'batch_id':dummydata[i].batch_purchase_id})"
+              class="myButtonStyles bg-danger">{{ dummyData[col.field] }}</button>
+          </div>
+
+          <!-- red modifyBatch -->
+          <div *ngIf="col.type == 'redModifyBatch'">
+            <button
+              (click)="handleModalButtonClick({'batch_id':dummydata[i].batch_id,'cart_id':dummydata[i]?.cart_id,'order_quantity':dummydata[i]?.order_quantity})"
+              class="myButtonStyles bg-danger">{{ dummyData[col.field] }}</button>
+          </div>
+
+          <!--green clickable-->
+          <div (click)="clickedId=AllData[i].id; itemClicked.emit(AllData[i].id)" *ngIf="col.type=='GreenTextOpen'">
+            <span class="lightGreen-color cursor-pointer text-decoration-underline">
+              {{dummyData[col.field]}}
+            </span>
+          </div>
+          <!--print btn-->
+          <div (click)="clickEventEmit('viewWithPrint')" *ngIf="col.type=='print_btn'">
+            <button appDisableButton type="button"
+              style="width:  100%; padding: 7px; background-color: rgb(63, 73, 127);"
+              class="h-35px text-white darkBlue-bg borderRadius_10px border-0"> {{dummyData[col.field]}}</button>
+          </div>
+
+          <!--green bg-->
+          <div *ngIf="col.type=='highlighted'">
+            <div>
+              {{dummyData[col.field]}}
+            </div>
+          </div>
+
+          <!--Red bg-->
+          <div *ngIf="col.type=='highlightedRed'">
+            <div class="text-white">
+              {{dummyData[col.field]}}
+            </div>
+          </div>
+
+          <!-- sort search click -->
+          <div *ngIf="col.type=='search-sort-click'" (click)="onSearchSortClickItemClicked(dummyData)">
+            <span class="cursor-pointer text-decoration-underline" style="color: rgb(63, 73, 127);">{{
+              dummyData[col.field] }}</span>
+
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

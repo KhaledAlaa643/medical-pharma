@@ -1,0 +1,193 @@
+<div class="main_card_margen">
+  <div class="card boxShadow-15 borderRadius_20px p-3">
+    <div id="header" class="mb-3">
+      <form
+        [formGroup]="searchForm"
+        id="header"
+        class="d-flex gap-2 flex-wrap align-items-end"
+      >
+        <div class="flex-fill d-flex flex-column">
+          <label class="mb-2"> اسم الخزينة</label>
+          <p-dropdown
+            [showClear]="true"
+            [options]="safes"
+            formControlName="safe_id"
+            placeholder=" "
+            optionLabel="name"
+            optionValue="id"
+          ></p-dropdown>
+        </div>
+        <div class="width-15 d-flex flex-column">
+          <label class="mb-2"> اسم العميل</label>
+          <p-dropdown
+            [showClear]="true"
+            [options]="updatedPharmacyNames"
+            placeholder=" "
+            formControlName="pharmacy_id"
+            optionLabel="name"
+            optionValue="id"
+          ></p-dropdown>
+        </div>
+        <div class="width-15 d-flex flex-column">
+          <label class="mb-2"> خط السير</label>
+          <p-dropdown
+            [showClear]="true"
+            [options]="tracks"
+            placeholder=" "
+            formControlName="track_id"
+            optionLabel="name"
+            optionValue="id"
+          ></p-dropdown>
+        </div>
+        <div class="width-15 d-flex flex-column">
+          <label class="mb-2">الكاتب</label>
+          <p-dropdown
+            [options]="created_by"
+            [showClear]="true"
+            formControlName="created_by"
+            placeholder=" "
+            optionLabel="name"
+            optionValue="id"
+          ></p-dropdown>
+        </div>
+
+        <div class="width-12">
+          <label class="mb-2"> التاريخ </label>
+          <div class="calendar-holder position-relative">
+            <p-calendar
+              #calendarFrom
+              [dir]="'ltr'"
+              dateFormat="yy-mm-dd"
+              placeholder=" "
+              formControlName="from"
+              placeholder=" من "
+            >
+              <!-- [showClear]="this.filterForm.controls['from'].value" -->
+            </p-calendar>
+            <img
+              (click)="calendarFrom.toggle()"
+              class="cursor-pointer position-absolute top-0 end-0 me-2 my-1"
+              src="../../../../assets/images/input/calender.svg"
+              alt=""
+            />
+          </div>
+        </div>
+        <div class="width-12">
+          <div class="calendar-holder position-relative">
+            <p-calendar
+              #calendarTo
+              [dir]="'ltr'"
+              dateFormat="yy-mm-dd"
+              placeholder=" "
+              formControlName="to"
+              placeholder=" الى "
+            >
+              <!-- [showClear]="this.filterForm.controls['to'].value" -->
+            </p-calendar>
+            <img
+              (click)="calendarTo.toggle()"
+              class="cursor-pointer position-absolute top-0 end-0 me-2 my-1"
+              src="../../../../assets/images/input/calender.svg"
+              alt=""
+            />
+          </div>
+        </div>
+
+        <div class="width-10 d-flex justify-content-end my-2">
+          <!-- [disabled]="!searchForm.value.safe_id" -->
+          <button
+            (click)="changeParam()"
+            class="green_bg_black_txt_btn width-60 p-2 h-40px borderRadius_10px border-0"
+          >
+            بحث
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div id="table">
+      <div
+        class="TableResoponsiveFix justify-content-center align-items-center gap-1"
+      >
+        <div class="width-50Percent">
+          <div>
+            <h3
+              class="w-100 d-flex justify-content-center align-items-center h-60px overflow-visible h5 text-center tableHeader"
+            >
+              العميل
+            </h3>
+            <app-shared_table
+              [columnsArray]="columnsArrayClient"
+              [columnsNames]="columnsNameClient"
+              [RowsData]="receipts"
+            ></app-shared_table>
+          </div>
+          <div>
+            <p-paginator
+              (onPageChange)="changePage($event, 'receipts')"
+              [first]="1"
+              [rows]="rowsReceipts"
+              [totalRecords]="totalReceipts"
+            ></p-paginator>
+          </div>
+        </div>
+        <div class="width-50Percent">
+          <div>
+            <h3
+              class="w-100 d-flex justify-content-center align-items-center h-60px overflow-visible h5 text-center tableHeader2"
+            >
+              المندوب
+            </h3>
+            <app-shared_table
+              [columnsArray]="columnsArrayDelivery"
+              [columnsNames]="columnsNameDelivery"
+              [RowsData]="collections"
+              (productClickEvent)="getCollectionDetails($event)"
+            ></app-shared_table>
+          </div>
+          <div>
+            <p-paginator
+              (onPageChange)="changePage($event, 'collections')"
+              [first]="1"
+              [rows]="rowsCollections"
+              [totalRecords]="totalCollections"
+            ></p-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      #pagination
+      class="d-flex flex-wrap justify-content-between text-center align-items-center w-100"
+    >
+      <div
+        class="d-flex width-20 h-60px lightGreen-border borderRadius_15px p-2 justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600 w-100">
+          عدد الأستلامات : {{ additional_data_receipts.count }}
+        </span>
+      </div>
+      <div
+        class="d-flex width-20 h-60px lightGreen-border borderRadius_15px p-2 justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600 w-100"
+          >رصيد الخزنة : {{ additional_data_receipts.total }}
+        </span>
+      </div>
+      <div
+        class="d-flex width-20 h-60px lightGreen-border borderRadius_15px p-2 justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600 w-100"
+          >عدد الدفاتر : {{ additional_data_collections.logbook_count }}
+        </span>
+      </div>
+      <div
+        class="d-flex width-20 h-60px lightGreen-border borderRadius_15px p-2 justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600 w-100"
+          >إجمالي مبلغ الدفاتر : {{ additional_data_receipts.total }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

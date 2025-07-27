@@ -1,0 +1,66 @@
+<!-- supply-order-list -->
+<div class="main_card_margen">
+    <div class="audit-complete card boxShadow-15 borderRadius_10px ">
+        <form [formGroup]="filterForm" class="form">
+            <div class="head d-flex flex-wrap w-100 gap-2 justify-content-around">
+
+                <div class="name d-flex flex-column">
+                    <label class="m-2"> اسم المورد </label>
+                    <p-dropdown [options]="suppliers" [showClear]="true" optionLabel="name" optionValue="id"
+                        placeholder=" " formControlName="supplier_id" [filter]="true" class="dropdown-style">
+                    </p-dropdown>
+                </div>
+
+                <div class="order-number d-flex flex-column">
+                    <label class="m-2"> رقم الطلب</label>
+                    <input type="text" class="form-control defaultBg    w-100" formControlName="purchase_number">
+                </div>
+
+
+                <div class="calendar d-flex flex-column">
+                    <label class="m-2">التاريخ </label>
+                    <div class="calendar-holder position-relative">
+                        <p-calendar #calendarFrom [dir]="'ltr'"
+                            [showClear]="this.filterForm.controls[ 'supplied_at' ].value" placeholder=" "
+                            formControlName="supplied_at">
+
+                        </p-calendar>
+                        <img (click)="calendarFrom.toggle()" class="cursor-pointer position-absolute top-0 end-0"
+                            src="../../../../assets/images/input/calender.svg" alt="">
+                    </div>
+
+
+                </div>
+                <div class="name d-flex flex-column">
+                    <label class="m-2"> المخزن </label>
+                    <p-dropdown [options]="warehouses" [showClear]="true" optionLabel="name" optionValue="id"
+                        placeholder=" " formControlName="warehouse_id" [filter]="true" class="dropdown-style">
+                    </p-dropdown>
+                </div>
+
+                <div class="filter-button">
+                    <label class="buttonlabelfix"></label>
+                    <button appDisableButton (click)="filter()" type="submit" placeholder=" " class="  form-control  ">
+                        <p class="fw-semibold  ">بحث</p>
+                    </button>
+                </div>
+
+            </div>
+        </form>
+
+        <div class="title">
+        </div>
+
+        <div class="table">
+            <app-shared_table [columnsArray]="columnsArray" [columnsNames]="columnsName" [RowsData]="auditCompleteData"
+                (navigateEvent)="onEyeIconClicked($event)"
+                (openModalEvent)="showNotesModalWithData($event)"></app-shared_table>
+
+
+        </div>
+        <p-paginator #paginator [first]="first" [rows]="rows" [totalRecords]="total"
+            (onPageChange)="changePage($event)"></p-paginator>
+    </div>
+</div>
+
+<app-notes-modal [notesModalData]="notesData" #notesModal></app-notes-modal>

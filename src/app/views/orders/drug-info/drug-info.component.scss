@@ -1,0 +1,44 @@
+@import 'generalPaginationStyle.scss';
+@import 'generalInputsStyle.scss';
+
+
+.drugInfoContainer {
+    .openCardBtn {
+        width: 220px;
+        height: 40px;
+    }
+
+}
+
+#alternativesModel {
+    .modal-dialog {
+        padding-top: 6% !important;
+        max-width: 70vw !important;
+        @media screen and (max-width:767px) {
+            max-width: 100% !important;
+        }
+        .modal-content {
+            border-radius: 30px !important;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+
+            .modal-header {
+                border-bottom: none;
+            }
+
+            .modal-body {
+                padding: 0% 5% 5vh 5%;
+
+                .Title {
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+        }
+
+        ::ng-deep .p-datatable-wrapper {
+            overflow-y: auto;
+        }
+    }
+
+}
+

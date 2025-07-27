@@ -1,0 +1,22 @@
+<div class="newItemsContainer my-3">
+  <div class="mb-2 width-40">
+    <label class=" mb-2">تاريخ التوريد</label>
+    <div class="w-100 flex position-relative justify-content-end align-content-center flex-wrap">
+      <p-calendar [dir]="'ltr'" #Calendar [showClear]="created_at"  [(ngModel)]="created_at" dateFormat="mm-dd-yy" (ngModelChange)="search()"  [showButtonBar]="true" placeholder="تاريخ الاصدار "></p-calendar>
+      <img  (click)="Calendar.toggle()" class="calendar-icon position-absolute   p-2"
+      src="../../../../assets/images/input/calender.svg" alt="">     
+    </div>
+  </div>
+  <div class="borderRadius_20px border border-1 p-2 row">
+    <div class="col-md-12">
+
+  <app-shared_table 
+  [columnsArray]="columnsArray"
+   [columnsNames]="columnsName"
+   [RowsData]="items"
+   (openModalEvent)="getproductId($event)"
+   ></app-shared_table>
+    </div>
+  </div>
+</div>
+

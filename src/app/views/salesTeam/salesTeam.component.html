@@ -1,0 +1,16 @@
+<div class="mainLayoutBody">
+  <div class="progressBar">
+    <p-progressBar *ngIf="progressBarLoader.isLoading | async"  mode="indeterminate"></p-progressBar>  
+  </div>
+   
+    <div  class="mainLayout" id="mainLayout" >
+      
+       <app-sideNavbar (showSideChange)="handleShowSideChange($event)" class="SidNavDiv"></app-sideNavbar>
+       <div [class]="mainDivClass">
+         <router-outlet ></router-outlet>
+       </div>
+       
+     </div>
+    
+   
+   </div>

@@ -1,0 +1,258 @@
+<div class="main_card_margen">
+  <div
+    class="product-movement card borderRadius_10px boxShadow-10 responsiveTabs p-2"
+  >
+    <div class="upper-area d-flex align-items-center gap-2">
+      <form
+        [formGroup]="transferBetweenWarehouses"
+        class="d-flex gap-2 w-100 flex-wrap align-items-end"
+      >
+        <div class="w-20 d-flex flex-column justify-content-end">
+          <label class="mb-2">اسم الصنف </label>
+          <p-dropdown
+            [options]="products"
+            [showClear]="transferBetweenWarehouses.controls['product_id'].value"
+            formControlName="product_id"
+            class="d-block"
+            optionLabel="name"
+            optionValue="id"
+            placeholder=" "
+            [filter]="true"
+          ></p-dropdown>
+        </div>
+        <div class="w-20 d-flex flex-column justify-content-end">
+          <label class="mb-2">المخزن المحول منه </label>
+          <p-dropdown
+            [options]="warehouses"
+            [showClear]="
+              transferBetweenWarehouses.controls['transfer_from_warehouse_id']
+                .value
+            "
+            formControlName="transfer_from_warehouse_id"
+            class="d-block"
+            optionLabel="name"
+            optionValue="id"
+            placeholder=" "
+            [filter]="true"
+          ></p-dropdown>
+        </div>
+        <div class="w-20 d-flex flex-column justify-content-end">
+          <label class="mb-2">المخزن المحول اليه </label>
+          <p-dropdown
+            [options]="warehouses"
+            [showClear]="
+              transferBetweenWarehouses.controls['transfer_to_warehouse_id']
+                .value
+            "
+            formControlName="transfer_to_warehouse_id"
+            class="d-block"
+            optionLabel="name"
+            optionValue="id"
+            placeholder=" "
+            [filter]="true"
+          ></p-dropdown>
+        </div>
+
+        <div class="w-18 calendar d-flex flex-column">
+          <label class="mb-2"> التاريخ </label>
+          <div class="d-flex position-relative">
+            <p-calendar
+              [dir]="'ltr'"
+              [showClear]="
+                transferBetweenWarehouses.controls['from_date'].value
+              "
+              #calendarFrom
+              dateFormat="mm-dd-yy"
+              class="w-100 borderRadius_10px position-relative w-100 dateDropdown"
+              formControlName="from_date"
+              placeholder=" من "
+            >
+            </p-calendar>
+            <img
+              style="left: 0%; top: 0%"
+              (click)="calendarFrom.toggle()"
+              class="calendar-icon position-absolute cursor-pointer p-2"
+              src="../../../../assets/images/input/calender.svg"
+              alt=""
+            />
+          </div>
+        </div>
+        <div class="w-18 calendar d-flex flex-column">
+          <div class="d-flex position-relative" style="margin-top: 1.75rem">
+            <p-calendar
+              [dir]="'ltr'"
+              [showClear]="transferBetweenWarehouses.controls['to_date'].value"
+              #calendarTo
+              dateFormat="mm-dd-yy"
+              class="w-100 borderRadius_10px position-relative w-100 dateDropdown"
+              formControlName="to_date"
+              placeholder="  الى"
+            >
+            </p-calendar>
+            <img
+              style="left: 0%; top: 0%"
+              (click)="calendarTo.toggle()"
+              class="calendar-icon position-absolute cursor-pointer p-2"
+              src="../../../../assets/images/input/calender.svg"
+              alt=""
+            />
+          </div>
+        </div>
+        <div class="w-17 d-flex flex-column justify-content-end">
+          <label class="mb-2"> المحطة </label>
+          <p-dropdown
+            [options]="corridors"
+            [showClear]="
+              transferBetweenWarehouses.controls['corridor_id'].value
+            "
+            formControlName="corridor_id"
+            class="d-block"
+            optionLabel="number"
+            optionValue="id"
+            placeholder=" "
+            [filter]="true"
+          ></p-dropdown>
+        </div>
+        <div class="w-17 d-flex flex-column justify-content-end">
+          <label class="mb-2"> الشركة المصنعه </label>
+          <p-dropdown
+            [options]="Manufacturers"
+            [showClear]="
+              transferBetweenWarehouses.controls['manufacturer_id'].value
+            "
+            formControlName="manufacturer_id"
+            class="d-block"
+            optionLabel="name"
+            optionValue="id"
+            placeholder=" "
+            [filter]="true"
+          ></p-dropdown>
+        </div>
+        <div class="w-17 d-flex flex-column justify-content-end">
+          <label class="mb-2"> الكاتب </label>
+          <p-dropdown
+            [options]="created_by"
+            [showClear]="transferBetweenWarehouses.controls['created_by'].value"
+            formControlName="created_by"
+            class="d-block"
+            optionLabel="name"
+            optionValue="id"
+            placeholder=" "
+            [filter]="true"
+          ></p-dropdown>
+        </div>
+        <div class="w-15 d-flex flex-column">
+          <label class="mb-2">رقم أمر التحويل</label>
+          <input
+            type="text"
+            formControlName="transfer_number"
+            placeholder=" "
+            class="form-control"
+          />
+        </div>
+
+        <div class="w-10 d-flex flex-column justify-content-center mt-1">
+          <button
+            (click)="filterTransfer()"
+            appDisableButton
+            style="height: 40px; color: white; border: none"
+            class="darkGreen-bg borderRadius_10px text-black fw-bold"
+          >
+            بحث
+          </button>
+        </div>
+
+        <div
+          (click)="openModal()"
+          class="print-button d-flex align-items-center boxShadow-15 cursor-pointer ms-auto"
+          style="height: 70px; margin-top: 1.1rem"
+        >
+          <div class="textarea d-flex">
+            <svg
+              width="36"
+              height="36"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_5900_794)">
+                <path
+                  d="M22.6667 22.6667H25.3333C26.0406 22.6667 26.7189 22.3857 27.219 21.8856C27.719 21.3855 28 20.7072 28 20V14.6667C28 13.9594 27.719 13.2811 27.219 12.781C26.7189 12.281 26.0406 12 25.3333 12H6.66667C5.95942 12 5.28115 12.281 4.78105 12.781C4.28095 13.2811 4 13.9594 4 14.6667V20C4 20.7072 4.28095 21.3855 4.78105 21.8856C5.28115 22.3857 5.95942 22.6667 6.66667 22.6667H9.33333"
+                  stroke="#3F497F"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M22.6673 12V6.66667C22.6673 5.95942 22.3864 5.28115 21.8863 4.78105C21.3862 4.28095 20.7079 4 20.0007 4H12.0007C11.2934 4 10.6151 4.28095 10.115 4.78105C9.61494 5.28115 9.33398 5.95942 9.33398 6.66667V12"
+                  stroke="#3F497F"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M9.33398 19.9997C9.33398 19.2924 9.61494 18.6142 10.115 18.1141C10.6151 17.614 11.2934 17.333 12.0007 17.333H20.0007C20.7079 17.333 21.3862 17.614 21.8863 18.1141C22.3864 18.6142 22.6673 19.2924 22.6673 19.9997V25.333C22.6673 26.0403 22.3864 26.7185 21.8863 27.2186C21.3862 27.7187 20.7079 27.9997 20.0007 27.9997H12.0007C11.2934 27.9997 10.6151 27.7187 10.115 27.2186C9.61494 26.7185 9.33398 26.0403 9.33398 25.333V19.9997Z"
+                  stroke="#3F497F"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_5900_794">
+                  <rect width="32" height="32" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+            <span class="fw-bold fs-4">طباعة</span>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="tables">
+      <div class="table">
+        <app-shared_table
+          [columnsArray]="columnsArray"
+          [columnsNames]="columnsName"
+          [RowsData]="trasnferredProductBasedBody"
+        ></app-shared_table>
+      </div>
+
+      <div
+        class="lower-area d-flex justify-content-start align-items-center gap-1 w-100"
+      >
+        <div
+          class="width-25 public-price borderRadius_20px h-50px fw-bold fs-16 d-flex justify-content-center align-items-center"
+        >
+          <span class="d-flex justify-content-center align-items-center">
+            أجمالي الأصناف : {{ total_batches }}
+          </span>
+        </div>
+        <div class="pagination-area d-flex w-60 justify-content-center">
+          <p-paginator
+            #paginator
+            class="pagination d-flex justify-content-center"
+            (onPageChange)="changePage($event)"
+            [first]="1"
+            [rows]="rows"
+            [totalRecords]="total"
+          ></p-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  hidden
+  #OpenOptionsModal
+  type="button"
+  (click)="choosePrintTypePopup.openAddModal()"
+></button>
+<app-printing-options-popup
+  [paginated]="true"
+  (printData)="print($event)"
+  [RowsData]="trasnferredProductBasedBody"
+  #choosePrintTypePopup
+></app-printing-options-popup>

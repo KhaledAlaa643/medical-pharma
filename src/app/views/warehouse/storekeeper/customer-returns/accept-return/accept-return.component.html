@@ -1,0 +1,227 @@
+<div class="main_card_margen">
+  <div class="card borderRadius_20px boxshadow-15 p-3">
+    <div id="header" class="d-flex gap-2 flex-wrap align-items-end">
+      <form
+        [formGroup]="searchForm"
+        class="width-80 d-flex gap-2 flex-wrap align-items-end"
+      >
+        <div class="width-30 d-flex flex-column">
+          <label class="mb-2">اسم الصنف</label>
+          <p-dropdown
+            [showClear]="true"
+            class="d-block"
+            optionLabel="name"
+            [options]="products"
+            optionValue="id"
+            formControlName="product_id"
+            placeholder=" "
+            [filter]="true"
+          ></p-dropdown>
+        </div>
+        <div class="width-25 d-flex flex-column">
+          <label class="mb-2">اسم العميل</label>
+          <p-dropdown
+            [showClear]="true"
+            class="d-block"
+            formControlName="pharmacy_id"
+            optionLabel="name"
+            [options]="clients"
+            optionValue="id"
+            placeholder=" "
+            [filter]="true"
+          ></p-dropdown>
+        </div>
+        <div class="width-10">
+          <button
+            (click)="filter()"
+            class="green_bg_black_txt_btn text-white w-100 h-40px borderRadius_15px"
+          >
+            بحث
+          </button>
+        </div>
+      </form>
+
+      <div class="flex-fill d-flex justify-content-end">
+        <button
+          (click)="openModal()"
+          class="printBtn fullScreen-768px d-flex fs-19 h-60px borderRadius_15px p-3 align-items-center text-center justify-content-center boxShadow-15"
+        >
+          طباعة
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g clip-path="url(#clip0_5900_794)">
+              <path
+                d="M22.6667 22.6667H25.3333C26.0406 22.6667 26.7189 22.3857 27.219 21.8856C27.719 21.3855 28 20.7072 28 20V14.6667C28 13.9594 27.719 13.2811 27.219 12.781C26.7189 12.281 26.0406 12 25.3333 12H6.66667C5.95942 12 5.28115 12.281 4.78105 12.781C4.28095 13.2811 4 13.9594 4 14.6667V20C4 20.7072 4.28095 21.3855 4.78105 21.8856C5.28115 22.3857 5.95942 22.6667 6.66667 22.6667H9.33333"
+                stroke="#3F497F"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M22.6673 12V6.66667C22.6673 5.95942 22.3864 5.28115 21.8863 4.78105C21.3862 4.28095 20.7079 4 20.0007 4H12.0007C11.2934 4 10.6151 4.28095 10.115 4.78105C9.61494 5.28115 9.33398 5.95942 9.33398 6.66667V12"
+                stroke="#3F497F"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M9.33398 19.9997C9.33398 19.2924 9.61494 18.6142 10.115 18.1141C10.6151 17.614 11.2934 17.333 12.0007 17.333H20.0007C20.7079 17.333 21.3862 17.614 21.8863 18.1141C22.3864 18.6142 22.6673 19.2924 22.6673 19.9997V25.333C22.6673 26.0403 22.3864 26.7185 21.8863 27.2186C21.3862 27.7187 20.7079 27.9997 20.0007 27.9997H12.0007C11.2934 27.9997 10.6151 27.7187 10.115 27.2186C9.61494 26.7185 9.33398 26.0403 9.33398 25.333V19.9997Z"
+                stroke="#3F497F"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_5900_794">
+                <rect width="32" height="32" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="table">
+      <app-shared_table
+        [columnsArray]="columnsArray"
+        [columnsNames]="columnsName"
+        [RowsData]="data"
+        (sortEvent)="sort($event)"
+        (openModalEvent)="openRejectModal($event)"
+        (productClickEvent)="acceptReturnProduct($event)"
+      ></app-shared_table>
+    </div>
+
+    <div id="pagination" class="w-100 my-2">
+      <p-paginator
+        #paginator
+        class="d-flex justify-content-center mb-2"
+        (sortEvent)="sort($event)"
+        (onPageChange)="changepage($event)"
+        [first]="1"
+        [rows]="rows"
+        [totalRecords]="total"
+      ></p-paginator>
+    </div>
+  </div>
+</div>
+
+<!-- reject popup -->
+<button
+  hidden
+  #rejectModel
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#rejectModel"
+></button>
+
+<div
+  class="modal fade"
+  id="rejectModel"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+  #rejectModel
+>
+  <div class="modal-dialog p-3 w-100">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex justify-content-center w-100">
+          <h3 class="text-center fs-16 fw-600">رفض المرتجع</h3>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="rejectForm">
+          <div class="width-100 d-flex flex-column">
+            <label class="mb-2">اسم العميل</label>
+            <input
+              formControlName="client_name"
+              readonly
+              type="text"
+              class="form-control disabled"
+              placeholder="اسم العميل"
+            />
+          </div>
+          <div
+            class="d-flex justify-content-center align-items-center gap-1 mb-3"
+          >
+            <div class="width-70 d-flex flex-column">
+              <label class="mb-2">اسم الصنف</label>
+              <input
+                formControlName="product_name"
+                readonly
+                type="text"
+                class="form-control disabled"
+                placeholder="اسم الصنف"
+              />
+            </div>
+            <div class="width-30 d-flex flex-column">
+              <label class="mb-2"> الكمية المرفوضة </label>
+              <input
+                formControlName="quantity"
+                type="text"
+                class="form-control"
+                placeholder="الكمية المرفوضة"
+              />
+            </div>
+          </div>
+
+          <div
+            class="d-flex justify-content-start align-items-center gap-2 my-2"
+          >
+            <input
+              formControlName="note"
+              type="text"
+              class="form-control"
+              placeholder="ملاحظات"
+            />
+          </div>
+
+          <div class="d-flex justify-content-center align-items-center gap-2">
+            <button
+              appDisableButton
+              type="submit"
+              (click)="rejectReturn()"
+              class="green_bg_black_txt_btn width-40 p-2 h-40px borderRadius_10px border-0"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              حفظ
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--printing options modal-->
+<button
+  hidden
+  #OpenOptionsModal
+  type="button"
+  (click)="chooseTypePopup.openAddModal()"
+></button>
+<app-printing-options-popup
+  [inSharedTable]="false"
+  [paginated]="true"
+  (printData)="print($event)"
+  [RowsData]="data"
+  #chooseTypePopup
+></app-printing-options-popup>

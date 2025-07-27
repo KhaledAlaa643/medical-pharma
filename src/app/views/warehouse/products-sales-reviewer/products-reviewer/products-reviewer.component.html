@@ -1,0 +1,748 @@
+<div class="singleProductsReviewerPage main_card_margen">
+  <div class="singleProductsReviewer card boxShadow-10 borderRadius_10px p-2">
+    <div class="upperArea">
+      <form [formGroup]="warehouseFilter">
+        <div
+          class="upperFilterArea displayBlockResposiveFix d-flex justify-content-evenly align-items-end gap-3"
+        >
+          <div class="orderNumberArea">
+            <label class="mb-2"> رقم الأذن </label>
+            <input
+              (focus)="onFocus($event)"
+              type="text"
+              placeholder=" "
+              class="form-control"
+              formControlName="invoice_number"
+            />
+          </div>
+
+          <div class="calendarArea d-block position-relative">
+            <label class="mb-2"> التاريخ </label>
+            <p-calendar
+              [dir]="'ltr'"
+              #calendarFrom
+              dateFormat="mm-dd-yy"
+              class=""
+              formControlName="created_at"
+              placeholder="  "
+              [showClear]="this.warehouseFilter.controls['created_at'].value"
+              class="w-100"
+            >
+            </p-calendar>
+            <img
+              style="left: 0"
+              (click)="calendarFrom.toggle()"
+              class="calendar-icon position-absolute me-4 p-2"
+              src="../../../../assets/images/input/calender.svg"
+              alt=""
+            />
+          </div>
+
+          <div class="preparingDropdown">
+            <label class="mb-2"> اسم العميل </label>
+            <p-dropdown
+              [options]="pharmacies"
+              formControlName="pharmacy_id"
+              optionLabel="name"
+              optionValue="id"
+              placeholder="   "
+              [showClear]="true"
+              [filter]="true"
+            ></p-dropdown>
+          </div>
+          <div *ngIf="!selectedType" class="orderNumberArea">
+            <label class="mb-2"> المراجع </label>
+            <input
+              (focus)="onFocus($event)"
+              type="text"
+              placeholder=" "
+              class="form-control"
+              formControlName="auditor_name"
+            />
+          </div>
+          <!--   *ngIf="permissions.includes('')"-->
+          <div *ngIf="multiple_corridors_enabled == 'true' && !containsBulk">
+            <label class="mb-2"> رقم الباسكت </label>
+            <input
+              (keydown.enter)="goToNext('filterBtn', $event)"
+              type="text"
+              placeholder=" "
+              class="form-control"
+              formControlName="basket_number"
+            />
+          </div>
+
+          <div class="width-20">
+            <button
+              [disabled]="disableFilterBtn"
+              type="button"
+              id="filterBtn"
+              #filterBtn
+              (click)="filter()"
+              class="borderRadius_10px w-100 green_bg_black_txt_btn fs-4"
+            >
+              بحث
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- <div class="upperMiddleArea">
+            </div> -->
+    </div>
+
+    <div
+      *ngIf="!hideInvoiceDetails"
+      class="itemInfoAreatitle d-flex justify-content-between align-items-center m-1 pt-3"
+    >
+      <div class="titleInfoArea width-30">
+        <span style="font-weight: 600" class="fs-3"> بيانات الصنف </span>
+      </div>
+      <div
+        *ngIf="
+          !containsBulk &&
+          permissions.includes('baskets') &&
+          multiple_corridors_enabled == 'true'
+        "
+        class="remainingbasketCount width-50"
+      >
+        <span
+          style="white-space: wrap; font-weight: 600"
+          class="fs-3 d-flex ms-auto me-auto"
+        >
+          البساكت المتبقية :
+          <div class="w-100 d-flex flex-wrap">
+            <span *ngFor="let basket of baskets">{{ basket.number }} ,</span>
+          </div>
+        </span>
+      </div>
+    </div>
+    <div *ngIf="!hideInvoiceDetails" class="itemInfoArea">
+      <form [formGroup]="productCode">
+        <div
+          class="upperFilterArea displayBlockResposiveFix d-flex justify-content-between align-items-end gap-2 my-2"
+        >
+          <div class="orderNumberArea width-25percent">
+            <label class="mb-2"> السعر </label>
+            <input
+              readonly
+              type="text"
+              placeholder=" "
+              class="disabled form-control"
+              formControlName="price"
+            />
+          </div>
+          <div class="orderNumberArea width-30percent">
+            <label class="mb-2"> الباركود </label>
+            <input
+              readonly
+              type="text"
+              (input)="handleBarcodeScan($event.target)"
+              placeholder=" "
+              class="disabled form-control"
+              formControlName="barcode"
+            />
+          </div>
+          <div class="orderNumberArea width-30percent">
+            <label class="mb-2"> الكمية </label>
+            <input
+              #quatityInput
+              type="text"
+              (keydown.enter)="activateAdd($event)"
+              (focus)="onFocus($event)"
+              placeholder=" "
+              class="form-control"
+              formControlName="quantity"
+            />
+          </div>
+
+          <div class="d-flex width-10percent">
+            <button
+              [disabled]="this.isActiveTapArray[1] || this.isActiveTapArray[2]"
+              appDisableButton
+              #confirmBtn
+              type="button"
+              (click)="confirmReview()"
+              class="btnStylingConfirm fs-4"
+            >
+              تأكيد
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- <div class="upperMiddleArea">
+        </div> -->
+    </div>
+
+    <div
+      *ngIf="!hideInvoiceDetails || !selectedType"
+      class="threeTabsArea p-3 displayBlockResposiveFix"
+    >
+      <div
+        class="threeTabBox d-flex justify-content-start w-75 gap-2 displayBlockResposiveFix"
+      >
+        <div
+          *ngIf="selectedType"
+          (click)="changeActiveTab(0)"
+          [ngClass]="{ active: isActiveTapArray[0] }"
+          class="nonListedItems cursor-pointer tabStyling"
+        >
+          <span> أصناف لم يتم جردها </span>
+        </div>
+        <div
+          (click)="changeActiveTab(1)"
+          [ngClass]="{ active: isActiveTapArray[1] }"
+          class="invoiceItems cursor-pointer tabStyling"
+        >
+          <span> أصناف الفاتورة </span>
+        </div>
+        <div
+          (click)="changeActiveTab(2)"
+          [ngClass]="{ active: isActiveTapArray[2] }"
+          class="listedItems cursor-pointer tabStyling"
+        >
+          <span> أصناف تم جردها </span>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!hideInvoiceDetails" class="tableArea">
+      <app-shared_table
+        [IdToHighlight]="activeProductId"
+        [ProductToHighlight]="ProductId"
+        [columnsArray]="columnsArray"
+        [columnsNames]="columnsName"
+        [RowsData]="data"
+        (productClickEvent)="setProductData($event)"
+        (openModalEvent)="openEditOperationModel($event)"
+      ></app-shared_table>
+    </div>
+
+    <div
+      *ngIf="!hideInvoiceDetails || !selectedType"
+      class="lowerTripleArea d-flex align-items-center"
+      [ngClass]="
+        selectedType ? 'justify-content-between' : 'justify-content-center'
+      "
+    >
+      <div class="itemCount py-5 width-25percent">
+        <div
+          class="h-60px borderRadius_20px lightGreen-border mb-3 d-flex align-items-center"
+        >
+          <span
+            class="fw-600 smalltext fs-16 w-50 d-flex justify-content-center text-center"
+          >
+            عدد الأصناف التي تم جردها</span
+          >
+          <hr class="h-100 lightGreen-border" />
+          <span class="fw-600 fs-18 w-50 d-flex justify-content-center">{{
+            reviewed.length
+          }}</span>
+        </div>
+        <div
+          class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+        >
+          <span
+            class="fw-600 smalltext fs-16 w-50 d-flex justify-content-center text-center"
+          >
+            عدد الأصناف المتبقية</span
+          >
+          <hr class="h-100 lightGreen-border" />
+          <span class="fw-600 fs-18 w-50 d-flex justify-content-center">{{
+            notReviewed.length
+          }}</span>
+        </div>
+      </div>
+      <form [formGroup]="packagingData" class="width-35">
+        <div
+          *ngIf="
+            selectedType && !containsBulk && permissions.includes('packaging')
+          "
+          class=""
+        >
+          <div class="LowerInputArea d-flex my-2">
+            <label
+              class="text-start labeljustify d-flex align-items-center fw-500 fs-16 w-50"
+            >
+              عدد الشنط
+            </label>
+            <input
+              (focus)="onFocus($event)"
+              type="text"
+              formControlName="bags_num"
+              placeholder=" "
+              class="form-control w-50"
+            />
+          </div>
+          <div class="LowerInputArea d-flex my-2">
+            <label
+              class="text-start labeljustify d-flex align-items-center fs-16 w-50"
+            >
+              عدد الكراتين
+            </label>
+            <input
+              (focus)="onFocus($event)"
+              type="text"
+              formControlName="cartons_num"
+              placeholder=" "
+              class="form-control w-50"
+            />
+          </div>
+          <div class="LowerInputArea d-flex my-2">
+            <label
+              class="text-start labeljustify d-flex align-items-center fs-16 w-50"
+            >
+              عدد الثلاجة
+            </label>
+            <input
+              (focus)="onFocus($event)"
+              type="text"
+              formControlName="fridges_num"
+              placeholder=" "
+              class="form-control w-50"
+            />
+          </div>
+          <div class="LowerInputArea d-flex my-2">
+            <label
+              class="text-start labeljustify d-flex align-items-center fs-16 w-50"
+            >
+              داخل فاتورة رقم
+            </label>
+            <input
+              (focus)="onFocus($event)"
+              type="text"
+              formControlName="invoices_num"
+              placeholder=" "
+              class="form-control w-50"
+            />
+          </div>
+        </div>
+      </form>
+      <div *ngIf="!selectedType" class="width-35percent">
+        <div class="LowerInputArea d-flex my-2">
+          <label
+            class="text-start labeljustify d-flex align-items-center fs-16 w-50"
+          >
+            عدد الشنط
+          </label>
+          <input
+            (focus)="onFocus($event)"
+            type="text"
+            placeholder=" 12"
+            class="form-control"
+          />
+        </div>
+        <div class="LowerInputArea d-flex my-2">
+          <label
+            class="text-start labeljustify d-flex align-items-center fw-500 fs-16"
+          >
+            عدد الكراتين
+          </label>
+          <input
+            (focus)="onFocus($event)"
+            type="number"
+            placeholder=" 12"
+            class="form-control"
+          />
+        </div>
+        <div class="LowerInputArea d-flex my-2">
+          <label
+            class="text-start labeljustify d-flex align-items-center fs-16"
+          >
+            عدد الثلاجة
+          </label>
+          <input
+            (focus)="onFocus($event)"
+            type="number"
+            placeholder="12 "
+            class="form-control"
+          />
+        </div>
+        <div class="LowerInputArea d-flex my-2">
+          <label
+            class="text-start labeljustify d-flex align-items-center fs-16"
+          >
+            داخل فاتورة رقم
+          </label>
+          <input
+            (focus)="onFocus($event)"
+            type="number"
+            placeholder=" 12"
+            class="form-control"
+          />
+        </div>
+      </div>
+
+      <div
+        *ngIf="selectedType"
+        class="printButton d-flex justify-content-end align-items-center w-100"
+      >
+        <div class="d-flex w-100">
+          <!-- <button  >/button> -->
+
+          <button
+            appDisableButton
+            type="button"
+            (click)="openConfirmPopup()"
+            class="btnStylingPrint fs-4 mt-2"
+            data-bs-toggle="modal"
+            data-bs-target="#exampleModal"
+          >
+            تسوية وطباعة
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- edit order modal button -->
+<button
+  hidden
+  #openEditConfigrations
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#editOrderModal"
+></button>
+
+<div
+  class="modal fade"
+  id="editOrderModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div
+        class="modal-header border-0 justify-content-center position-relative"
+      >
+        <h1 class="modal-title fs-5" id="exampleModalLabel">تعديل التشغيله</h1>
+        <button
+          type="button"
+          class="btn-close position-absolute"
+          style="left: 3%"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="title pt-2">
+          <form [formGroup]="editOrder" class="d-flex gap-2">
+            <div class="basket-area row my-3">
+              <div
+                class="col-md-12 add-basket d-flex justify-content-around align-items-center gap-2"
+              >
+                <div class="w-100 my-2 text-start">
+                  <label class="fw-400 fs-16 mb-2"> اسم الصنف </label>
+                  <input
+                    formControlName="product_name"
+                    type="text"
+                    placeholder=" "
+                    class="disabled form-control"
+                  />
+                </div>
+              </div>
+              <!-- <div
+                            class="col-md-12 add-basket d-flex justify-content-around align-items-center  gap-2">
+
+                            <div class="w-100 my-2 text-start">
+                                <label class=" fw-400 fs-16 mb-2  "> التاريخ</label>
+                                    <p-calendar [dir]="'ltr'"
+                                    [showClear]="editOrder.controls['expired_at'].value"
+                                    #prohibitedDate dateFormat="yy-mm" [monthNavigator]="true"
+                                    [yearNavigator]="true" view="month"
+                                    class="w-100 borderRadius_10px position-relative "
+                                    formControlName="expired_at" placeholder="">
+                                </p-calendar>
+                                <img style="left: 5%;top: 37%;" (click)="prohibitedDate.toggle()"
+                                class="calendar-icon position-absolute cursor-pointer  p-2"
+                                src="../../../../assets/images/input/calender.svg" alt="">
+
+                                <app-Form-errors [control]="editOrder.controls['expired_at']"></app-Form-errors>
+                            </div>
+                        </div> -->
+              <div class="width-70">
+                <div class="w-100 my-2">
+                  <label class="fw-500 fs-16 mb-1"> التاريخ </label>
+                  <div class="d-flex position-relative">
+                    <p-calendar
+                      [showClear]="editOrder.controls['expired_at'].value"
+                      #prohibitedDate
+                      dateFormat="yy-mm"
+                      view="month"
+                      class="w-100 borderRadius_10px position-relative"
+                      formControlName="expired_at"
+                      placeholder=""
+                    >
+                    </p-calendar>
+                    <img
+                      style="left: 0%; top: 0%"
+                      (click)="prohibitedDate.toggle()"
+                      class="calendar-icon position-absolute cursor-pointer p-2"
+                      src="../../../../assets/images/input/calender.svg"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+              <div
+                class="col-md-12 add-basket d-flex justify-content-around align-items-center gap-2"
+              >
+                <div class="w-100 my-2 text-start">
+                  <label class="fw-400 fs-16 mb-2"> التشغيلة </label>
+                  <input
+                    formControlName="operating_number"
+                    type="text"
+                    placeholder=" "
+                    class="form-control"
+                  />
+                  <app-Form-errors
+                    [control]="editOrder.controls['operating_number']"
+                  ></app-Form-errors>
+                </div>
+              </div>
+              <div
+                class="col-md-12 add-basket d-flex justify-content-center align-items-center gap-2"
+              >
+                <button
+                  appDisableButton
+                  (click)="changeBatchData()"
+                  style="
+                    background-color: var(--darkGreen);
+                    height: 50px;
+                    border-radius: 10px;
+                    margin-top: calc(1.5rem + 7px);
+                  "
+                  type="button"
+                  class="btn buttonResponsiveFix"
+                >
+                  <p class="fw-400 fs-5">تأكيد</p>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  hidden
+  #openEditBarcode
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#editBarcodeModal"
+></button>
+
+<div
+  class="modal fade"
+  id="editBarcodeModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div style="margin-top: 30%; border-radius: 30px" class="modal-content">
+      <div style="border-bottom: none !important" class="modal-header">
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+        <div class="d-flex justify-content-center w-100">
+          <span class="text-center fs-16 fw-600"> اختيار الصنف</span>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="title position-relative pt-2">
+          <form [formGroup]="editBarcode" class="d-flex gap-2">
+            <div class="basket-area row my-3">
+              <div
+                class="col-md-12 add-basket d-flex justify-content-around align-items-center gap-2"
+              >
+                <div class="w-100 my-2 text-start">
+                  <label class="fw-400 fs-16 mb-2"> اسم الصنف </label>
+
+                  <p-dropdown
+                    [filter]="true"
+                    [options]="products"
+                    formControlName="product_id"
+                    placeholder=" "
+                    class="defaultBg h-50px borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+                    optionLabel="name"
+                    optionValue="id"
+                  ></p-dropdown>
+                </div>
+              </div>
+
+              <div
+                class="col-md-12 add-basket d-flex justify-content-around align-items-center gap-2"
+              >
+                <div class="w-100 my-2 text-start">
+                  <label class="fw-400 fs-16 mb-2"> الباركود</label>
+                  <input
+                    readonly
+                    formControlName="barcode"
+                    #barCode
+                    placeholder=" "
+                    (focus)="onFocus($event)"
+                    class="h-50px disabled form-control"
+                  />
+                </div>
+                <!-- disabled -->
+              </div>
+
+              <div
+                class="col-md-12 add-basket d-flex justify-content-center align-items-center gap-2"
+              >
+                <button
+                  appDisableButton
+                  (click)="changeBarecodeData()"
+                  style="
+                    background-color: var(--darkGreen);
+                    height: 50px;
+                    border-radius: 10px;
+                    margin-top: calc(1.5rem + 7px);
+                  "
+                  type="button"
+                  class="btn buttonResponsiveFix"
+                >
+                  <p class="fw-400 fs-5">حفظ الباركود</p>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- confirmation modal -->
+<button
+  hidden
+  #openConfirmation1Model
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#confirmation1Model"
+></button>
+<div
+  class="modal fade"
+  id="confirmation1Model"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content" style="margin-top: 30%">
+      <div class="modal-header">
+        <h1
+          class="modal-title fs-5 text-center w-100"
+          id="confirmationModalLabel"
+        >
+          تأكيد العملية
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div
+        style="height: 10vh"
+        class="d-flex justify-content-center align-items-center"
+      >
+        <span class="text-center">
+          هل انت متأكد من اتمامك لمراجعة اصناف الفاتورة؟
+        </span>
+      </div>
+      <div class="modal-footer d-flex justify-content-center gap-2">
+        <button
+          appDisableButton
+          (click)="finalizeAndPrint()"
+          class="btn w-40 h-60px border-0 borderRadius_20px text-white brightGreen-bg fs-4"
+          data-bs-dismiss="modal"
+          data-bs-target="#confirmation1Model"
+        >
+          تم الاستلام
+        </button>
+
+        <button
+          type="button"
+          class="btn w-40 h-60px btn-color border-0 borderRadius_20px text-white darkGrey-bg fs-5"
+          data-bs-dismiss="modal"
+        >
+          الغاء
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  hidden
+  #openConfirmation2Model
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#confirmation2Model"
+></button>
+<div
+  class="modal fade"
+  id="confirmation2Model"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content" style="margin-top: 30%">
+      <div class="modal-header">
+        <h1
+          class="modal-title fs-5 text-center w-100"
+          id="confirmationModalLabel"
+        >
+          تأكيد العملية
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div
+        style="height: 10vh"
+        class="d-flex justify-content-center align-items-center"
+      >
+        <span class="text-center">
+          هناك أصناف لم يتم جردها هل أنت متأكد من اجراء التسوية؟
+        </span>
+      </div>
+      <div class="modal-footer d-flex justify-content-center gap-2">
+        <button
+          appDisableButton
+          (click)="openFinalConfirmation()"
+          class="btn w-40 h-60px border-0 borderRadius_20px text-white brightGreen-bg fs-4"
+        >
+          تأكيد وطباعة
+        </button>
+
+        <button
+          type="button"
+          class="btn w-40 h-60px btn-color border-0 borderRadius_20px text-white darkGrey-bg fs-5"
+          data-bs-dismiss="modal"
+        >
+          الغاء
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

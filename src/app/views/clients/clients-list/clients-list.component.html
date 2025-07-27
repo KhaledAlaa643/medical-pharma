@@ -1,0 +1,478 @@
+<button
+  hidden
+  #Listmodel
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#Listmodel"
+></button>
+
+<div
+  class="modal fade"
+  id="Listmodel"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+  #myModal
+>
+  <div class="modal-dialog p-3">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex justify-content-center w-100">
+          <span *ngIf="activeButton == 1" class="text-center fs-16 fw-600">
+            خصم نقدي اضافي</span
+          >
+          <span *ngIf="activeButton == 2" class="text-center fs-16 fw-600">
+            فلتر
+          </span>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <button
+            appDisableButton
+            (click)="closeModal()"
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div *ngIf="activeButton == 1" class="p-3">
+          <form [formGroup]="extraDiscountForm">
+            <div class="row">
+              <div class="col-md-12 col-lg-6">
+                <div class="w-100 mb-3">
+                  <label class="mb-2">نسبة الخصم </label>
+                  <input
+                    type="number"
+                    formControlName="extra_discount"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-6">
+                <label class="mb-2">تاريخ انتهاء الخصم </label>
+                <div
+                  class="d-flex justify-content-end align-content-center flex-wrap position-relative"
+                >
+                  <p-calendar
+                    [dir]="'ltr'"
+                    #calendar
+                    dateFormat="mm-dd-yy"
+                    class="w-100 h-50px"
+                    formControlName="from"
+                    placeholder=" من "
+                    formControlName="expiration_extra_discount"
+                    [showClear]="true"
+                    class="w-100"
+                  >
+                  </p-calendar>
+                  <img
+                    (click)="calendar.toggle()"
+                    class="calendar-icon position-absolute me-4 p-2"
+                    src="../../../../assets/images/input/calender.svg"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-12">
+                <div class="w-100 mb-3">
+                  <label class="mb-2">الحد الأدني لمبلغ الفاتورة </label>
+                  <input
+                    type="text"
+                    formControlName="minimum_for_extra_discount"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+          </form>
+          <div class="w-100 d-flex justify-content-center">
+            <button
+              appDisableButton
+              (click)="addExtraDiscount()"
+              class="darkGreen-bg filterBtn borderRadius_10px text-white border-0"
+            >
+              تأكيد
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="activeButton == 2" class="p-3">
+          <form [formGroup]="clientListFilter">
+            <div class="row">
+              <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="w-100">
+                  <label class="mb-2">الكود </label>
+                  <input
+                    #userCode
+                    type="text"
+                    placeholder=" "
+                    (keydown.enter)="getClientidFromCode('code')"
+                    class="form-control"
+                    formControlName="client_code"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="w-100 mb-3">
+                  <label class="mb-2"> اسم العميل</label>
+                  <p-dropdown
+                    #userDropdown
+                    [options]="clientName"
+                    formControlName="client_id"
+                    optionLabel="name.ar"
+                    optionValue="id"
+                    placeholder=" "
+                    (click)="getclientDrop('clientId', userDropdown)"
+                    (keydown.enter)="getclientDrop('clientId', userDropdown)"
+                    [showClear]="true"
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-12 col-xl-4">
+                <div class="w-100">
+                  <label class="mb-2">بحث بمحتوي الاسم </label>
+                  <input
+                    #orderNumber
+                    type="text"
+                    placeholder=" "
+                    class="form-control"
+                    formControlName="name"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="w-100 mb-3">
+                  <label class="mb-2">المحافظة </label>
+                  <p-dropdown
+                    (onChange)="getArea($event)"
+                    [options]="citiesData"
+                    formControlName="city_id"
+                    optionLabel="name"
+                    optionValue="id"
+                    placeholder=" "
+                    [showClear]="true"
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="w-100 mb-3">
+                  <label class="mb-2"> المدينة </label>
+                  <p-dropdown
+                    [options]="areasData"
+                    formControlName="area_id"
+                    optionLabel="name"
+                    optionValue="id"
+                    placeholder=" "
+                    [showClear]="true"
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-12 col-xl-4">
+                <div class="w-100 mb-3">
+                  <label class="mb-2"> رقم خط السير</label>
+                  <p-dropdown
+                    [options]="trackData"
+                    formControlName="track_id"
+                    optionLabel="name"
+                    optionValue="id"
+                    placeholder=" "
+                    [showClear]="true"
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="w-100 mb-3">
+                  <label class="mb-2">ظهور / اخفاء العميل </label>
+
+                  <p-dropdown
+                    [options]="active"
+                    formControlName="active"
+                    optionLabel="name"
+                    optionValue="value"
+                    placeholder=" "
+                    [showClear]="true"
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="w-100 mb-3">
+                  <div class="w-100">
+                    <label class="mb-2"> الحد الائتماني </label>
+                    <input
+                      #orderNumber
+                      type="text"
+                      placeholder=" "
+                      class="form-control"
+                      formControlName="debt_limit"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-12 col-xl-4">
+                <div class="w-100 mb-3">
+                  <label class="mb-2"> نوع التعامل </label>
+                  <p-dropdown
+                    [options]="payment_type"
+                    optionLabel="name"
+                    optionValue="value"
+                    placeholder=" "
+                    formControlName="payment_type"
+                    [showClear]="true"
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-4 col-xl-4">
+                <div class="w-100 mb-3">
+                  <div class="w-100">
+                    <label class="mb-2"> فترة سماح التسديد </label>
+                    <input
+                      #orderNumber
+                      type="text"
+                      placeholder=" "
+                      class="form-control"
+                      formControlName="payment_period"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-8 col-xl-8">
+                <div class="w-100 mb-3">
+                  <label class="mb-2"> حالة العميل </label>
+                  <p-dropdown
+                    [options]="status"
+                    formControlName="status"
+                    optionLabel="name"
+                    optionValue="value"
+                    placeholder=" "
+                    [showClear]="true"
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="w-100 mb-3">
+                  <div class="w-100">
+                    <label class="mb-2"> التارجت </label>
+                    <input
+                      #orderNumber
+                      type="text"
+                      placeholder=" "
+                      class="form-control"
+                      formControlName="target"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="w-100 mb-3">
+                  <label class="mb-2"> شريحة الخصم </label>
+                  <p-dropdown
+                    formControlName="discount_tier_id"
+                    [options]="discount_slat"
+                    optionLabel="title"
+                    optionValue="id"
+                    placeholder=" "
+                    [showClear]="true"
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-4 col-xl-4">
+                <div class="w-100 mb-3">
+                  <label class="mb-2"> مندوب مبيعات صباحي</label>
+                  <p-dropdown
+                    formControlName="morning_sales_id"
+                    [options]="morningShiftData"
+                    optionLabel="name"
+                    optionValue="id"
+                    placeholder=" "
+                    [showClear]="true"
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-4 col-xl-4">
+                <div class="w-100">
+                  <label class="mb-2"> ادني تارجت </label>
+                  <input
+                    #orderNumber
+                    type="text"
+                    placeholder=" "
+                    class="form-control"
+                    formControlName="minimum_target"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-4 col-xl-4">
+                <div class="w-100 mb-3">
+                  <div class="w-100">
+                    <label class="mb-2"> خصم نقدي اضافي </label>
+                    <p-dropdown
+                      [options]="extra_discount"
+                      formControlName="extra_discount"
+                      placeholder=" "
+                      optionLabel="name"
+                      optionValue="value"
+                    ></p-dropdown>
+                    <!-- <input #orderNumber type="text" placeholder=" "
+                      class="  form-control "
+                      formControlName="extra_discount"> -->
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="w-100 mb-3">
+                  <label class="mb-2"> مندوب مبيعات مسائي</label>
+                  <p-dropdown
+                    formControlName="night_sales_id"
+                    [options]="nightShiftData"
+                    optionLabel="name"
+                    optionValue="id"
+                    placeholder=" "
+                    [showClear]="true"
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-xl-6">
+                <div class="w-100 mb-3">
+                  <label class="mb-2"> المتابعة التلقائية </label>
+                  <p-dropdown
+                    (onChange)="shiftSwitchBasedOnTimeChosen($event)"
+                    formControlName="follow_up"
+                    [options]="follow_up"
+                    optionLabel="name"
+                    optionValue="value"
+                    placeholder="   "
+                    [showClear]="true"
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-xl-6">
+                <div class="w-100 mb-3">
+                  <label class="mb-2"> ميعاد الاتصال </label>
+
+                  <p-dropdown
+                    formControlName="call_shift"
+                    [options]="filteredTime"
+                    optionLabel="name"
+                    optionValue="value"
+                    placeholder="  من "
+                    [showClear]="true"
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="w-100 mb-3">
+                  <label class="mb-2"> معدل تكرار الكوتة </label>
+                  <input
+                    type="text"
+                    placeholder=" "
+                    class="form-control"
+                    formControlName="iterate_available_quantity"
+                  />
+                </div>
+              </div>
+              <div class="col-sm-12 col-md-6 col-xl-4">
+                <div class="w-100">
+                  <label class="mb-2"> كل </label>
+
+                  <input
+                    type="text"
+                    placeholder=" يوم"
+                    class="form-control"
+                    formControlName="all"
+                  />
+                </div>
+              </div>
+
+              <div class="w-100 d-flex justify-content-center">
+                <button
+                  appDisableButton
+                  (click)="filterPharmacies()"
+                  class="darkGreen-bg filterBtn borderRadius_10px text-white border-0"
+                >
+                  فلترة
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="contDiv main_card_margen">
+  <div class="card boxShadow-15 borderRadius_20px">
+    <div class="px-4 py-4">
+      <div
+        class="d-flex gap-1 justify-content-between align-items-center px-4 resposnivefix"
+      >
+        <div class="mb-2">
+          <div class="w-100 d-flex justify-content-start">
+            <button
+              class="darkGreen-bg borderRadius_20px borders clientcountbox"
+            >
+              <span class="fs-16 fw-600">عدد العملاء : {{ total }} </span>
+            </button>
+          </div>
+        </div>
+        <div *ngIf="userType == 'super_admin'" class="mb-2">
+          <div class="w-100 d-flex">
+            <button
+              appDisableButton
+              (click)="changeTab(1)"
+              class="darkGreen-bg borderRadius_20px px-5 discountButton"
+            >
+              <span class="px-5 fs-16 fw-600">خصم نقدي اضافي لكل العملاء </span>
+            </button>
+          </div>
+        </div>
+        <div class="mt-2 width-25">
+          <div class="w-100 d-flex justify-content-end">
+            <button
+              appDisableButton
+              (click)="changeTab(2)"
+              class="bg-white border-0 filterButton borderRadius_20px"
+            >
+              <span class="fs-16 fw-600">فلتر</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="mb-4 d-flex justify-content-between align-items-center flex-wrap w-100 flex-fill"
+      >
+        <div class="w-100">
+          <app-shared_table
+            [columnsArray]="columnsArray"
+            [columnsNames]="columnsName"
+            [RowsData]="pharmaciesData"
+          ></app-shared_table>
+          <p-paginator
+            #paginator
+            (onPageChange)="changingPage($event)"
+            [first]="1"
+            [rows]="rows"
+            [totalRecords]="total"
+          ></p-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

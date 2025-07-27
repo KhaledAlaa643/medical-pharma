@@ -1,0 +1,18 @@
+@import 'generalTableStyle.scss';
+.contDiv{
+  .activeTab{
+      background-color: #28DF99 !important;
+      font-weight: 600;
+  }
+  .tabs{
+    @media screen and (max-width:426px) {
+      justify-content: center !important;
+      margin-top: 10px;
+    }
+  }
+
+   ::ng-deep .p-datatable-wrapper{
+      max-height: 285px;
+      overflow-y: auto;
+  }
+}

@@ -1,0 +1,42 @@
+@import "generalInputsStyle.scss";
+@import "generalTableStyle.scss";
+
+#editDiscountModal {
+    .modal-dialog {
+        padding-top: 6% !important;
+        max-width: 70vw;
+
+        @media screen and (max-width:768px) {
+            max-width: 100% !important;
+        }
+
+        .modal-content {
+            border-radius: 30px !important;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+
+            .modal-header {
+                border-bottom: none;
+            }
+
+            .modal-body {
+                padding: 0% 5% 5vh 5%;
+
+                .Title {
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+        }
+
+
+    }
+
+}
+
+.modal-dialog-width {
+    max-width: 65vw !important;
+
+    @media screen and (max-width:768px) {
+        max-width: 99vw !important;
+    }
+}

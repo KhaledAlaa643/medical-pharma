@@ -1,0 +1,70 @@
+.centeringCSS {
+    justify-content: center;
+    align-items: center;
+}
+
+.centeringCSS:active {
+    background-color: var(--darkGreen);
+}
+
+
+.btnStyling {
+    background-color: var(--darkGreen);
+    border-radius: 10px;
+    font-size: 18px;
+}
+
+.active {
+    background-color: var(--darkGreen);
+    color: black;
+    font-weight: 600;
+}
+
+::ng-deep .p-datatable.p-datatable-scrollable>.p-datatable-wrapper>.p-datatable-table>.p-datatable-tfoot {
+    background-color: white !important;
+}
+
+
+.overFlowFix {
+    overflow-x: auto;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.responsiveFix {
+    width: 12.5%;
+    text-align: center;
+    @media screen and (max-width:769px) {
+        width: 50% !important;
+        display: flex !important;
+
+    }
+
+}
+.displayMediaFix{
+    @media screen and (max-width:769px) {
+
+        display: flex !important;
+        flex-wrap: nowrap !important;
+    } 
+}
+
+.responsiveTabs {
+
+    @media screen and (max-width:769px) {
+        width: 100% !important;
+        overflow-x: auto;
+
+    }
+
+    @media screen and (max-width:340) {
+        width: 100% !important;
+        display: flex !important;
+
+
+        overflow-x: auto;
+
+    }
+}

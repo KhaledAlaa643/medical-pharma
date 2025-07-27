@@ -1,0 +1,308 @@
+<div class="main_card_margen">
+  <div class="card boxShadow-15 borderRadius_20px p-3">
+    <div id="header" class="mb-3">
+      <form
+        [formGroup]="searchForm"
+        id="header"
+        class="d-flex gap-2 flex-wrap align-items-end"
+      >
+        <div class="width-15 d-flex flex-column">
+          <label class="mb-2">خط السير</label>
+          <p-dropdown
+            [showClear]="true"
+            [options]="tracks"
+            placeholder=" "
+            formControlName="track_id"
+            optionLabel="name"
+            optionValue="id"
+          ></p-dropdown>
+        </div>
+        <div class="width-15 d-flex flex-column">
+          <label class="mb-2"> المندوب</label>
+          <p-dropdown
+            [showClear]="true"
+            [options]="deliveries"
+            formControlName="representative_id"
+            placeholder=" "
+            optionLabel="name"
+            optionValue="id"
+          ></p-dropdown>
+        </div>
+        <div class="width-15 d-flex flex-column">
+          <label class="mb-2"> المشرف</label>
+          <p-dropdown
+            [showClear]="true"
+            [options]="accounting_supervisors"
+            placeholder=" "
+            optionLabel="name"
+            formControlName="supervisor_id"
+            optionValue="id"
+          ></p-dropdown>
+        </div>
+        <div class="width-15 d-flex flex-column">
+          <label class="mb-2">الكاتب</label>
+          <p-dropdown
+            [options]="created_by"
+            [showClear]="true"
+            formControlName="created_by"
+            placeholder=" "
+            optionLabel="name"
+            optionValue="id"
+          ></p-dropdown>
+        </div>
+        <div class="width-15 d-flex flex-column">
+          <label class="mb-2"> نوع الدفتر</label>
+          <p-dropdown
+            [showClear]="true"
+            [options]="types"
+            placeholder=" "
+            formControlName="type"
+            optionLabel="name"
+            optionValue="value"
+          ></p-dropdown>
+        </div>
+
+        <div class="width-8 d-flex flex-column">
+          <label class="mb-2"> رقم الايصال</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="receipt_number"
+          />
+        </div>
+
+        <div class="width-10 d-flex justify-content-center my-2">
+          <button
+            (click)="filter()"
+            class="green_bg_black_txt_btn width-60 p-2 h-40px borderRadius_10px border-0"
+          >
+            بحث
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div id="table" class="mb-3">
+      <app-shared_table
+        [columnsArray]="columnsArray"
+        [columnsNames]="columnsName"
+        [RowsData]="data"
+        (productClickEvent)="receiveLogbookOne($event)"
+      ></app-shared_table>
+    </div>
+
+    <div
+      #pagination
+      class="d-flex flex-wrap justify-content-between text-center align-items-center w-100"
+    >
+      <div
+        class="d-flex width-20 h-60px lightGreen-border borderRadius_15px p-2 justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600 w-100"
+          >اجمالي عدد الدفاتر : {{ total }}
+        </span>
+      </div>
+
+      <div class="pagination-area width-50-lg d-flex justify-content-center">
+        <p-paginator
+          #paginator
+          class="d-flex justify-content-center mb-2"
+          (onPageChange)="changepage($event)"
+          [first]="1"
+          [rows]="rows"
+          [totalRecords]="total"
+        ></p-paginator>
+      </div>
+
+      <div class="width-20 d-flex justify-content-end">
+        <button
+          appDisableButton
+          type="button"
+          (click)="openReceiveManyModal()"
+          class="w-100 borderRadius_20px darkGreen-bg border-0 text-light fw-bold h-60px"
+          data-bs-toggle="modal"
+          data-bs-target="#receiveManyModel"
+        >
+          استلام الكل
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- print model -->
+
+<!-- <button
+  hidden
+  #OpenOptionsModal
+  type="button"
+  (click)="choosePrintTypePopup.openAddModal()"
+></button>
+<app-printing-options-popup
+  [paginated]="true"
+  (printData)="print($event)"
+  #choosePrintTypePopup
+></app-printing-options-popup> -->
+
+<!-- receive one logbook model -->
+
+<button
+  hidden
+  #receiveOpen
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#receiveModel"
+></button>
+
+<div
+  class="modal fade"
+  id="receiveModel"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+  #myModal
+>
+  <div class="modal-dialog p-3 w-100">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex justify-content-center w-100">
+          <h3 class="text-center fs-16 fw-600">تأكيد استلام دفتر</h3>
+        </div>
+
+        <div class="d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="receiveForm" (ngSubmit)="confirmReceiveOneLogbook()">
+          <div class="d-flex align-items-end gap-2 my-4">
+            <div class="width-50 d-flex flex-column">
+              <label class="mb-2"> اسم الموظف</label>
+              <input
+                type="text"
+                readonly
+                class="form-control disabled"
+                formControlName="representative_name"
+              />
+            </div>
+            <div class="flex-fill d-flex flex-column">
+              <label class="mb-2"> رقم الدفتر</label>
+              <input
+                type="text"
+                readonly
+                class="form-control disabled"
+                formControlName="number"
+              />
+            </div>
+          </div>
+          <div class="d-flex align-items-end gap-2 my-4">
+            <div class="width-50 d-flex flex-column">
+              <label class="mb-2">عدد الايصالات المتبقية</label>
+              <input
+                type="text"
+                readonly
+                class="form-control disabled"
+                formControlName="remaining_receipts_show"
+              />
+            </div>
+            <div class="flex-fill d-flex flex-column">
+              <label class="mb-2"> تأكيد عدد الايصالات المتبقية</label>
+              <input
+                type="number"
+                class="form-control"
+                formControlName="remaining_receipts"
+              />
+            </div>
+          </div>
+          <div class="d-flex flex-column my-4">
+            <label class="mb-2">ملاحظات </label>
+            <input type="text" class="form-control" formControlName="notes" />
+          </div>
+
+          <div class="w-100 d-flex justify-content-center my-4">
+            <button
+              class="green_bg_black_txt_btn width-60 p-2 h-40px borderRadius_10px border-0"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              حفظ
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- receive all logbook model -->
+
+<button
+  hidden
+  #receiveManyOpen
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#receiveManyModel"
+></button>
+
+<div
+  class="modal fade"
+  id="receiveManyModel"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+  #myModal
+>
+  <div class="modal-dialog p-3 w-100">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex justify-content-center w-100">
+          <h3 class="text-center fs-16 fw-600">تأكيد إستلام الدفاتر</h3>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="d-flex justify-content-center py-5">
+          <h4 class="text-center fs-16 fw-600">
+            هل متأكد من استلام عدد {{ logBooksId.length }} دفاتر ؟
+          </h4>
+        </div>
+
+        <div class="d-flex justify-content-center align-items-center gap-2">
+          <button
+            appDisableButton
+            (click)="confirmReceiveManyLogbook()"
+            type="submit"
+            class="green_bg_black_txt_btn width-40 p-2 h-40px borderRadius_10px border-0"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          >
+            نعم
+          </button>
+          <button
+            data-bs-dismiss="modal"
+            aria-label="Close"
+            class="green_bg_black_txt_btn width-40 p-2 h-40px borderRadius_10px border-0"
+          >
+            لا
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

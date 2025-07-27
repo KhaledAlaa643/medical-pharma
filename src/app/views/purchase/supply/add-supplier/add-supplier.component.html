@@ -1,0 +1,479 @@
+<form [formGroup]="ClientDataForm" action="">
+  <div class="mainCont main_card_margen">
+    <div class="card boxShadow-15 borderRadius_20px p-4">
+      <div class="mb-2 d-flex flex-wrap w-100">
+        <div class="d-flex flex-wrap align-items-center w-100 gap-3">
+          <div class="width-50 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2"
+              >اسم المورد<span class="red_color">*</span></label
+            >
+            <input
+              type="text"
+              placeholder=" "
+              formControlName="name"
+              class="form-control"
+            />
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="ClientDataForm.controls['receiver_name']"
+            ></app-Form-errors>
+          </div>
+
+          <div class="width-35 fullScreenWidth mx-0 my-4">
+            <label class="mb-2">البريد الإلكتروني </label>
+            <input
+              formControlName="email"
+              type="text"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+          <div class="width-10 p-field-checkbox d-flex flex-column">
+            <label class="fw-500 fs-15 specialDelivery mb-1"
+              >اخفاء المورد</label
+            >
+            <input
+              [ngModelOptions]="{ standalone: true }"
+              [(ngModel)]="active_value"
+              class="check_input form-check-input cursor-pointer h-60px"
+              type="checkbox"
+              id="flexCheckDefault"
+              (change)="toggleActive()"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="mb-2 d-flex flex-wrap w-100">
+        <div class="d-flex flex-wrap align-items-center w-100 gap-4">
+          <div class="width-23 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2"
+              >رقم الهاتف 1 <span class="red_color">*</span></label
+            >
+            <input
+              type="text"
+              formControlName="phone_1"
+              placeholder=" "
+              class="form-control"
+            />
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="ClientDataForm.controls['phone_1']"
+            ></app-Form-errors>
+          </div>
+          <div class="width-23 fullScreenWidth mx-0 my-4">
+            <label class="mb-2">رقم الهاتف 2</label>
+            <input
+              type="text"
+              formControlName="phone_2"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+          <div class="width-23 fullScreenWidth mx-0 my-4">
+            <label class="mb-2">رقم الهاتف 3</label>
+            <input
+              type="text"
+              formControlName="phone_3"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+          <div class="flex-fill fullScreenWidth mx-0 my-4">
+            <label class="mb-2">رقم الهاتف 4</label>
+            <input
+              type="text"
+              formControlName="phone_4"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="mb-2 d-flex flex-wrap w-100">
+        <div class="d-flex flex-wrap align-items-center w-100 gap-4">
+          <div class="width-65 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2">العنوان <span class="red_color">*</span></label>
+            <input
+              type="text"
+              formControlName="address"
+              placeholder=" "
+              class="form-control"
+            />
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="ClientDataForm.controls['address']"
+            ></app-Form-errors>
+          </div>
+          <div class="flex-fill fullScreenWidth mx-0 my-4">
+            <label class="mb-2">رقم البطاقة </label>
+            <input
+              type="text"
+              formControlName="national_id"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-2 d-flex flex-wrap w-100">
+        <div class="d-flex flex-wrap align-items-center w-100 gap-4">
+          <div class="width-17 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2"
+              >المحافظة <span class="red_color">*</span></label
+            >
+            <p-dropdown
+              [filter]="true"
+              (click)="getArea(citiesDropdown)"
+              [options]="cities"
+              #citiesDropdown
+              placeholder=" "
+              [showClear]="true"
+              formControlName="city_id"
+              [showClear]="true"
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="ClientDataForm.controls['city_id']"
+            ></app-Form-errors>
+          </div>
+          <div class="width-16 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2">المدينة <span class="red_color">*</span></label>
+            <p-dropdown
+              [filter]="true"
+              [showClear]="true"
+              [options]="areas"
+              formControlName="area_id"
+              placeholder=" "
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="ClientDataForm.controls['area_id']"
+            ></app-Form-errors>
+          </div>
+          <div class="flex-fill fullScreenWidth mx-0 my-4">
+            <label class="mb-2">الموقع علي الخريطة</label>
+            <input
+              type="text"
+              formControlName="location_url"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="mb-2 d-flex flex-wrap w-100">
+        <div class="d-flex flex-wrap align-items-center w-100 gap-4">
+          <div class="width-17 fullScreenWidth mx-0 my-4">
+            <label class="mb-2">رقم الرخصة</label>
+            <input
+              type="text"
+              formControlName="licence_no"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+          <div class="width-16 fullScreenWidth mx-0 my-4">
+            <label class="mb-2">رقم السجل التجاري</label>
+            <input
+              type="text"
+              formControlName="commercial_registration_no"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+          <div class="flex-fill fullScreenWidth mx-0 my-4">
+            <label class="mb-2">رقم البطاقة الضريبية</label>
+            <input
+              type="text"
+              formControlName="tax_card_no"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+          <div class="width-29 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2">صور أوراق التسجيل</label>
+            <input
+              type="file"
+              hidden
+              #fileInput
+              accept=".png, .jpg, .jpeg, .pdf"
+              (change)="validateImage($event)"
+              id="fileInput"
+              class="d-none"
+            />
+            <div
+              (click)="fileInput.click()"
+              class="form-control defaultBg borderRadius_10px h-41px my-1 mx-0 py-2 py-2 w-100"
+            ></div>
+            <svg
+              class="clip_icon position-absolute"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_2417_609)">
+                <path
+                  d="M12.5012 5.83339L7.08455 11.2501C6.75303 11.5816 6.56678 12.0312 6.56678 12.5001C6.56678 12.9689 6.75303 13.4185 7.08455 13.7501C7.41607 14.0816 7.86571 14.2678 8.33455 14.2678C8.80339 14.2678 9.25303 14.0816 9.58455 13.7501L15.0012 8.33339C15.6643 7.67034 16.0368 6.77107 16.0368 5.83339C16.0368 4.8957 15.6643 3.99643 15.0012 3.33339C14.3382 2.67034 13.4389 2.29785 12.5012 2.29785C11.5635 2.29785 10.6643 2.67034 10.0012 3.33339L4.58455 8.75005C3.58999 9.74461 3.03125 11.0935 3.03125 12.5001C3.03125 13.9066 3.58999 15.2555 4.58455 16.2501C5.57911 17.2446 6.92803 17.8034 8.33455 17.8034C9.74107 17.8034 11.09 17.2446 12.0846 16.2501L17.5012 10.8334"
+                  stroke="#333333"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_2417_609">
+                  <rect width="20" height="20" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+            <span
+              data-bs-toggle="modal"
+              data-bs-target="#allImagesModel"
+              *ngIf="files.length > 0"
+              class="position-absolute cursor-pointer justify-content-center align-items-center d-flex"
+              >رؤية الصور</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="HLine my-2"></div>
+      <div class="mb-2 d-flex flex-wrap w-100">
+        <div class="d-flex flex-wrap align-items-center w-100 gap-4">
+          <div class="width-23 fullScreenWidth mx-0 my-4">
+            <label class="mb-2">حالة المورد</label>
+            <p-dropdown
+              [showClear]="true"
+              placeholder=" "
+              [options]="supplier_status"
+              formControlName="status"
+              class="defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+          </div>
+          <div class="flex-fill fullScreenWidth mx-0 my-4">
+            <label class="mb-2">الحد اللإئتماني</label>
+            <input
+              type="text"
+              formControlName="credit_limit"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+          <div class="width-24 fullScreenWidth mx-0 my-4">
+            <label class="mb-2">نوع التعامل</label>
+            <p-dropdown
+              [options]="payment_type"
+              formControlName="payment_type"
+              placeholder=" "
+              (onChange)="setAllow()"
+              [showClear]="true"
+              class="defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+          </div>
+          <div class="width-20 fullScreenWidth mx-0 my-4">
+            <label class="mb-2">فترة سماح التسديد</label>
+            <input
+              type="text"
+              formControlName="grace_period"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="mb-2 d-flex flex-wrap w-100">
+        <div class="d-flex flex-wrap align-items-center w-100 gap-2">
+          <div class="width-14 fullScreenWidth mx-0 my-4">
+            <label class="mb-2">معدل تكرار الكوتة</label>
+            <input
+              type="text"
+              formControlName="quota_repeat"
+              placeholder=" "
+              class="form-control defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+            />
+          </div>
+          <div class="width-10 fullScreenWidth mx-0 my-4">
+            <label class="mb-2">كل</label>
+            <input
+              type="text"
+              formControlName="quota_days"
+              placeholder=" "
+              class="form-control defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+            />
+          </div>
+          <div class="width-20 fullScreenWidth mx-0 my-4">
+            <label class="mb-2">شريحة الخصم</label>
+            <p-dropdown
+              formControlName="discount_tier"
+              [options]="discount_tier"
+              placeholder=" "
+              [showClear]="true"
+              class="defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+          </div>
+          <div class="width-20 fullScreenWidth mx-0 my-4">
+            <label class="mb-2">نوع المورد</label>
+            <p-dropdown
+              [options]="types"
+              [showClear]="true"
+              placeholder=" "
+              formControlName="type"
+              class="defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+          </div>
+          <div class="width-14 mx-0 my-4">
+            <label class="mb-2">ميعاد الاتصال</label>
+            <p-dropdown
+              [showClear]="true"
+              [showClear]="true"
+              class="d-block"
+              [options]="call_shifts"
+              formControlName="call_shift"
+              optionLabel="name"
+              optionValue="value"
+              placeholder=" "
+              [filter]="true"
+            ></p-dropdown>
+          </div>
+
+          <div class="flex-fill fullScreenWidth mx-0 my-4">
+            <label class="mb-2">الشراء</label>
+            <p-dropdown
+              [options]="has_taxes"
+              formControlName="has_taxes"
+              placeholder=" "
+              [showClear]="true"
+              class="defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+          </div>
+        </div>
+      </div>
+      <div class="mb-2 gap-2 d-flex align-items-center flex-wrap w-100">
+        <div class="width-20 fullScreenWidth my-4">
+          <label class="mb-2">الأصناف</label>
+          <p-dropdown
+            [options]="products_type"
+            [showClear]="true"
+            placeholder=" "
+            formControlName="products_type"
+            class="defaultBg borderRadius_10px my-1 py-2 w-100"
+            optionLabel="name"
+            optionValue="value"
+          ></p-dropdown>
+        </div>
+        <div class="flex-fill fullScreenWidth my-4">
+          <label class="mb-2">ملاحظات علي المورد</label>
+          <input
+            type="text"
+            placeholder=" "
+            formControlName="notes"
+            class="form-control w-100 defaultBg borderRadius_10px my-1 py-2"
+          />
+        </div>
+      </div>
+
+      <div
+        class="d-flex flex-wrap w-100 mt-4 d-flex justify-content-center align-items-center"
+      >
+        <div class="width-35 fullScreenWidth mx-0">
+          <button
+            [disabled]="ClientDataForm.invalid"
+            *ngIf="!edit"
+            (click)="addSupplier()"
+            appDisableButton
+            type="button"
+            class="w-100 borderRadius_20px darkGreen-bg border-0 text-light fw-bold h-60px"
+            data-bs-toggle="modal"
+            data-bs-target="#confirmationMessage"
+          >
+            إضافة
+          </button>
+          <button
+            *ngIf="edit"
+            appDisableButton
+            (click)="editSupplier()"
+            [disabled]="ClientDataForm.invalid"
+            type="button"
+            class="w-100 borderRadius_20px darkGreen-bg border-0 text-light fw-bold h-60px"
+          >
+            تعديل
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div
+  class="modal fade"
+  id="allImagesModel"
+  tabindex="-1"
+  aria-labelledby="allImagesModelLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header mb-4">
+        <button
+          appDisableButton
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+        <div class="d-flex justify-content-center w-100">
+          <span class="text-center fs-16 fw-600"></span>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="files" class="d-flex flex-wrap gap-3">
+          <div *ngFor="let file of files; let i = index">
+            <div
+              class="position-relative d-flex flex-column justify-content-center"
+            >
+              <img
+                *ngIf="filesUrl[i]?.type == 'image'"
+                width="80px"
+                height="80px"
+                [src]="filesUrl[i].name"
+                alt=""
+              />
+              <img
+                *ngIf="filesUrl[i]?.type == 'file'"
+                (click)="openPdf(i)"
+                width="80px"
+                height="80px"
+                src="../../../../assets/images/add-client/pdf-logo.png"
+                alt=""
+              />
+              <span>{{ file.name ? file.name : filesUrl[i]?.name }}</span>
+              <img
+                class="clearBtn position-relative"
+                (click)="removeImage(i, filesUrl[i]?.type, filesUrl[i]?.id)"
+                src="../../../../assets/images/add-client/close-button.png"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div></div>
+    </div>
+  </div>
+</div>

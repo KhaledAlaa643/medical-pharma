@@ -1,0 +1,499 @@
+<div class="main_card_margen">
+  <div class="card borderRadius_10px boxShadow-10 p-2">
+    <div
+      id="filter"
+      class="d-flex flex-wrap p-2 align-items-end justify-content-between"
+    >
+      <div id="print">
+        <button
+          (click)="openModal()"
+          appDisableButton
+          data-bs-toggle="modal"
+          data-bs-target="#type5PopUp"
+          class="printBtn_noHeight h-60px boxShadow-15 fw-bold"
+        >
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g clip-path="url(#clip0_5900_794)">
+              <path
+                d="M22.6667 22.6667H25.3333C26.0406 22.6667 26.7189 22.3857 27.219 21.8856C27.719 21.3855 28 20.7072 28 20V14.6667C28 13.9594 27.719 13.2811 27.219 12.781C26.7189 12.281 26.0406 12 25.3333 12H6.66667C5.95942 12 5.28115 12.281 4.78105 12.781C4.28095 13.2811 4 13.9594 4 14.6667V20C4 20.7072 4.28095 21.3855 4.78105 21.8856C5.28115 22.3857 5.95942 22.6667 6.66667 22.6667H9.33333"
+                stroke="#3F497F"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M22.6673 12V6.66667C22.6673 5.95942 22.3864 5.28115 21.8863 4.78105C21.3862 4.28095 20.7079 4 20.0007 4H12.0007C11.2934 4 10.6151 4.28095 10.115 4.78105C9.61494 5.28115 9.33398 5.95942 9.33398 6.66667V12"
+                stroke="#3F497F"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M9.33398 19.9997C9.33398 19.2924 9.61494 18.6142 10.115 18.1141C10.6151 17.614 11.2934 17.333 12.0007 17.333H20.0007C20.7079 17.333 21.3862 17.614 21.8863 18.1141C22.3864 18.6142 22.6673 19.2924 22.6673 19.9997V25.333C22.6673 26.0403 22.3864 26.7185 21.8863 27.2186C21.3862 27.7187 20.7079 27.9997 20.0007 27.9997H12.0007C11.2934 27.9997 10.6151 27.7187 10.115 27.2186C9.61494 26.7185 9.33398 26.0403 9.33398 25.333V19.9997Z"
+                stroke="#3F497F"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_5900_794">
+                <rect width="32" height="32" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+          طباعة
+        </button>
+      </div>
+      <button
+        data-bs-toggle="modal"
+        data-bs-target="#filterModel"
+        type="button"
+        class="white_bg_green_txt_btn boxShadow-15 h-60px borderRadius_20px width-15"
+      >
+        <span class="fw-600">فلتر</span>
+      </button>
+    </div>
+    <div class="table position-relative">
+      <app-shared_table
+        [columnsArray]="columnsArray"
+        [columnsNames]="columnsName"
+        [RowsData]="data"
+        [colSpanArray]="colSpanArray"
+        (openModalEvent)="goToAccountStatement($event)"
+      ></app-shared_table>
+      <!-- <span style="left: 102px;top: 139px;" class="position-absolute">الحركات الحالية</span>
+      <span style="left: 102px;top: 139px;" class="position-absolute">رصيد اخر المدة</span> -->
+    </div>
+    <div class="w-100 justify-content-center mb-2">
+      <p-paginator
+        #paginator
+        [first]="1"
+        [rows]="rows"
+        (onPageChange)="changepage($event)"
+        [totalRecords]="total"
+      ></p-paginator>
+    </div>
+    <div
+      id="totals_and_pagination"
+      class="d-flex justify-content-between flex-wrap gap-2"
+    >
+      <div
+        class="h-60px width-17 borderRadius_20px lightGreen-border d-flex justify-content-center align-items-center"
+      >
+        <span
+          class="fw-600 fs-16 d-flex justify-content-center text-center m-2"
+        >
+          اجمالي العملاء : {{ additional_data.pharmacies_count }}
+        </span>
+      </div>
+
+      <div class="d-flex width-60 gap-2 justify-content-center">
+        <div
+          class="h-60px width-30 borderRadius_20px lightGreen-border d-flex justify-content-center align-items-center"
+        >
+          <span
+            class="fw-600 fs-16 d-flex justify-content-center text-center m-2"
+          >
+            اجمالي المدين : {{ additional_data.debit }}
+          </span>
+        </div>
+        <div
+          class="h-60px width-30 borderRadius_20px lightGreen-border d-flex justify-content-center align-items-center"
+        >
+          <span
+            class="fw-600 fs-16 d-flex justify-content-center text-center m-2"
+          >
+            اجمالي الدائن : {{ additional_data.credit }}
+          </span>
+        </div>
+      </div>
+
+      <div
+        class="h-60px width-17 borderRadius_20px lightGreen-border d-flex justify-content-center align-items-center"
+      >
+        <span
+          class="fw-600 fs-16 d-flex justify-content-center text-center m-2"
+        >
+          اجمالي الصافي : {{ additional_data.net_balance }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <button hidden #openFilterModel type="button" class="btn btn-primary" data-bs-toggle="modal"
+ data-bs-target="#filterModel">
+
+</button> -->
+
+<div
+  class="modal fade"
+  id="filterModel"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog p-3">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex justify-content-center w-100">
+          <span class="text-center fs-16 fw-600">فلتر</span>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="filterForm">
+          <div class="d-flex flex-wrap gap-2 align-items-end">
+            <div class="width-15">
+              <label class="mb-2">كود العميل</label>
+              <input
+                [(ngModel)]="selected_pharmacy.id"
+                [ngModelOptions]="{ standalone: true }"
+                type="number"
+                class="form-control"
+              />
+            </div>
+            <div class="width-40">
+              <label class="mb-2">اسم العميل</label>
+              <p-dropdown
+                formControlName="clients"
+                [options]="clients"
+                optionLabel="name.ar"
+                optionValue="id"
+                formControlName="client_id"
+                [(ngModel)]="selected_pharmacy.id"
+                placeholder=" "
+                (onChange)="fetchClientData({ id: selected_pharmacy.id })"
+                [showClear]="true"
+                [filter]="true"
+              ></p-dropdown>
+            </div>
+            <div class="width-40">
+              <label class="mb-2"> فروع العميل / وعملاء المندوب الحر </label>
+              <p-dropdown
+                [filter]="true"
+                [showClear]="true"
+                optionLabel="name"
+                optionValue="id"
+                placeholder=" "
+                formControlName="pharmacy_id"
+                [options]="pharmacies"
+              >
+              </p-dropdown>
+            </div>
+          </div>
+          <div class="d-flex flex-wrap gap-1 align-items-end">
+            <div class="width-40 d-flex align-items-end gap-1">
+              <div class="width-50">
+                <label class="m-2">التاريخ </label>
+                <div class="calendar-holder position-relative">
+                  <p-calendar
+                    #calendarFrom
+                    [dir]="'ltr'"
+                    formControlName="date_from"
+                    placeholder=" من"
+                    dateFormat="yy-mm-dd"
+                    [showClear]="this.filterForm.controls['date_from'].value"
+                  >
+                  </p-calendar>
+                  <img
+                    (click)="calendarFrom.toggle()"
+                    class="cursor-pointer position-absolute top_5px end-0"
+                    src="../../../../assets/images/input/calender.svg"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="width-50">
+                <div class="calendar-holder position-relative">
+                  <p-calendar
+                    #calendarTo
+                    [dir]="'ltr'"
+                    placeholder=" الي"
+                    dateFormat="yy-mm-dd"
+                    formControlName="date_to"
+                    [showClear]="this.filterForm.controls['date_to'].value"
+                  >
+                  </p-calendar>
+                  <img
+                    (click)="calendarTo.toggle()"
+                    class="cursor-pointer position-absolute top_5px end-0"
+                    src="../../../../assets/images/input/calender.svg"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="flex-fill">
+              <label class="mb-2">نوع الرصيد</label>
+              <p-dropdown
+                [options]="balance_status"
+                optionLabel="name"
+                optionValue="value"
+                formControlName="balance_type"
+                placeholder=" "
+                [showClear]="true"
+                [filter]="true"
+              ></p-dropdown>
+            </div>
+            <div class="width-30 d-flex align-items-end gap-2">
+              <div class="width-45">
+                <label class="m-2">الرصيد </label>
+                <input
+                  formControlName="balance_from"
+                  placeholder="من"
+                  type="number"
+                  class="form-control"
+                />
+              </div>
+              <div class="width-40">
+                <input
+                  formControlName="balance_to"
+                  placeholder="الي"
+                  type="number"
+                  class="form-control"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="d-flex flex-wrap gap-3 align-items-end">
+            <div class="width-30">
+              <label class="mb-2">المحافظة</label>
+              <p-dropdown
+                #citiesDropdown
+                id="citiesDropdown"
+                [options]="cities"
+                (click)="getArea(citiesDropdown)"
+                formControlName="city_id"
+                optionLabel="name"
+                optionValue="id"
+                placeholder=" "
+                [showClear]="true"
+                [filter]="true"
+              ></p-dropdown>
+            </div>
+            <div class="width-30">
+              <label class="mb-2">المدينة</label>
+              <p-dropdown
+                [options]="areas"
+                formControlName="area_id"
+                optionLabel="name"
+                optionValue="id"
+                placeholder=" "
+                [showClear]="true"
+                [filter]="true"
+              ></p-dropdown>
+            </div>
+
+            <div class="flex-fill">
+              <label class="mb-2"> الخط</label>
+              <p-dropdown
+                formControlName="track_id"
+                [options]="tracks"
+                placeholder=" "
+                optionLabel="name"
+                optionValue="id"
+                [showClear]="true"
+              ></p-dropdown>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap gap-3 align-items-end">
+            <div class="width-30 d-flex align-items-end gap-2">
+              <div class="w-100">
+                <label class="m-2">شريحة الخصم </label>
+                <p-dropdown
+                  formControlName="discount_tier"
+                  [options]="discount_tier"
+                  optionLabel="name"
+                  optionValue="value"
+                  placeholder=" "
+                  [showClear]="true"
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+
+            <div class="width-30">
+              <label class="mb-2"> فترة سماح التسديد</label>
+              <p-dropdown
+                formControlName="payment_period"
+                [options]="payment_periods"
+                optionLabel="name"
+                optionValue="value"
+                placeholder=" "
+                [showClear]="true"
+                [filter]="true"
+              ></p-dropdown>
+            </div>
+
+            <div class="flex-fill">
+              <label class="mb-2">نوع التعامل</label>
+              <p-dropdown
+                formControlName="payment_type"
+                [options]="payment_type"
+                optionLabel="name"
+                optionValue="value"
+                placeholder=" "
+                [showClear]="true"
+                [filter]="true"
+              ></p-dropdown>
+            </div>
+          </div>
+          <div class="d-flex flex-wrap gap-3 align-items-end">
+            <div class="width-30">
+              <label class="mb-2"> خصم نقدي إضافي </label>
+              <p-dropdown
+                formControlName="ex_discount_value"
+                [options]="cash_discount"
+                placeholder=" "
+                [showClear]="true"
+                [filter]="true"
+              ></p-dropdown>
+            </div>
+
+            <div class="width-30">
+              <label class="mb-2"> تاريخ اخر عملية بيع</label>
+              <div class="calendar-holder position-relative">
+                <p-calendar
+                  #calendar_last_order_date
+                  [dir]="'ltr'"
+                  formControlName="last_order_date"
+                  placeholder=" من"
+                  dateFormat="yy-mm-dd"
+                  [showClear]="
+                    this.filterForm.controls['last_order_date'].value
+                  "
+                >
+                </p-calendar>
+                <img
+                  (click)="calendar_last_order_date.toggle()"
+                  class="cursor-pointer position-absolute top_5px end-0"
+                  src="../../../../assets/images/input/calender.svg"
+                  alt=""
+                />
+              </div>
+            </div>
+
+            <div class="width-30">
+              <label class="mb-2">تاريخ اخر استلام نقدية</label>
+              <div class="calendar-holder position-relative">
+                <p-calendar
+                  #calendar_last_cash_receive_date
+                  [dir]="'ltr'"
+                  formControlName="last_cash_receive_date"
+                  placeholder=" من"
+                  dateFormat="yy-mm-dd"
+                  [showClear]="
+                    this.filterForm.controls['last_cash_receive_date'].value
+                  "
+                >
+                </p-calendar>
+                <img
+                  (click)="calendar_last_cash_receive_date.toggle()"
+                  class="cursor-pointer position-absolute top_5px end-0"
+                  src="../../../../assets/images/input/calender.svg"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap gap-3 align-items-end">
+            <div class="flex-fill">
+              <label class="mb-2">حالة العميل</label>
+              <p-dropdown
+                [options]="pharmacy_status"
+                optionLabel="name"
+                optionValue="value"
+                formControlName="pharmacy_status"
+                placeholder=" "
+                [showClear]="true"
+                [filter]="true"
+              ></p-dropdown>
+            </div>
+            <div class="width-20">
+              <div class="radiobutton d-flex">
+                <input
+                  style="width: 40px !important; height: 40px !important"
+                  class="form-check-input mx-1 borderRadius_10px"
+                  name="accept_return"
+                  type="checkbox"
+                />
+                <label class="form-check-label d-flex align-items-center">
+                  بدون تاريخ
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex flex-wrap gap-3 align-items-end">
+            <div class="flex-fill">
+              <label class="mb-2">مندوب المبيعات</label>
+              <p-dropdown
+                [options]="sales"
+                optionLabel="name"
+                optionValue="id"
+                formControlName="sales_id"
+                placeholder=" "
+                [showClear]="true"
+                [filter]="true"
+              ></p-dropdown>
+            </div>
+            <div class="flex-fill">
+              <label class="mb-2">الموزع</label>
+              <p-dropdown
+                [options]="deliveries"
+                optionLabel="name"
+                optionValue="id"
+                formControlName="delivery_id"
+                placeholder=" "
+                [showClear]="true"
+                [filter]="true"
+              ></p-dropdown>
+            </div>
+          </div>
+
+          <div class="w-100 my-3 d-flex justify-content-center">
+            <button
+              appDisableButton
+              (click)="filter()"
+              type="button"
+              class="width-75 borderRadius_20px darkGreen-bg border-0 text-light fw-bold h-60px"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            >
+              فلترة
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  hidden
+  #OpenOptionsModal
+  type="button"
+  (click)="choosePrintTypePopup.openAddModal()"
+></button>
+<app-printing-options-popup
+  [paginated]="true"
+  (printData)="print($event)"
+  #choosePrintTypePopup
+></app-printing-options-popup>

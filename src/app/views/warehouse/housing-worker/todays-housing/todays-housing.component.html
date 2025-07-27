@@ -1,0 +1,407 @@
+<div class="todaysHousing">
+  <button
+    hidden
+    #Listmodel
+    type="button"
+    class="btn btn-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#Listmodel"
+  ></button>
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div style="border-radius: 20px" class="modal-content">
+        <div class="h-80vh modal-body">
+          <p class="modal-title fs-2 text-center" id="exampleModalLabel">
+            فلتر
+          </p>
+          <form [formGroup]="todaysHousingFilter">
+            <div class="row align-items-end">
+              <div class="col-md-12 col-lg-6">
+                <div class="w-100 my-1">
+                  <label class="mb-2">بحث بمحتوي الاسم </label>
+                  <input
+                    type="text"
+                    placeholder=" "
+                    class="h-50px form-control defaultBg borderRadius_10px w-100"
+                    formControlName="product_name"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-12 col-lg-6">
+                <div
+                  *ngIf="this.multiple_corridors_enabled == 'true'"
+                  class="w-100 my-1"
+                >
+                  <label class="mb-2">رقم المحطة </label>
+                  <p-dropdown
+                    formControlName="corridor_id"
+                    [readonly]="disableCorridorsDropdown"
+                    [ngClass]="{ disabledDropdown: disableCorridorsDropdown }"
+                    class="d-block"
+                    optionLabel="name"
+                    optionValue="id"
+                    [options]="corridorsDropDownData"
+                    placeholder=" "
+                    [showClear]="!disableCorridorsDropdown"
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+
+              <div class="col-md-12 col-lg-4">
+                <div class="w-100 my-1">
+                  <label class="mb-2"> السعر </label>
+                  <input
+                    type="text"
+                    placeholder=" "
+                    class="h-50px form-control defaultBg borderRadius_10px w-100"
+                    formControlName="price"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-12 col-lg-4">
+                <div class="w-100 my-1">
+                  <label class="mb-2">الشركة المصنعه </label>
+                  <p-dropdown
+                    formControlName="manufacturer_id"
+                    class="d-block"
+                    optionLabel="name"
+                    optionValue="id"
+                    [options]="manufacturers"
+                    placeholder=" "
+                    [showClear]="true"
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+
+              <div class="col-md-12 col-lg-4">
+                <div class="w-100 my-1">
+                  <label class="mb-2"> اسم المخزن </label>
+                  <p-dropdown
+                    formControlName="warehouse_id"
+                    class="d-block"
+                    optionLabel="name"
+                    optionValue="id"
+                    [options]="warehouses"
+                    placeholder=" "
+                    [showClear]="true"
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-6">
+                <div class="w-100 my-1">
+                  <label class="mb-2"> اسم المورد </label>
+                  <p-dropdown
+                    formControlName="supplier_id"
+                    class="d-block"
+                    optionLabel="name"
+                    optionValue="id"
+                    [options]="suppliers"
+                    placeholder=" "
+                    [showClear]="true"
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-6">
+                <div class="w-100 my-1">
+                  <label class="mb-2"> مراجع الاستلام </label>
+                  <p-dropdown
+                    formControlName="receiver_auditor_id"
+                    class="d-block"
+                    optionLabel="name"
+                    optionValue="id"
+                    [options]="receiversAuditor"
+                    placeholder=" "
+                    [showClear]="true"
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-4">
+                <div class="w-100 my-1">
+                  <label class="mb-2"> كمية الصنف قبل التوريد </label>
+                  <input
+                    type="text"
+                    placeholder=" "
+                    class="h-50px form-control defaultBg borderRadius_10px w-100"
+                    formControlName="quantity_before_supplying"
+                  />
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-4">
+                <div class="w-100 my-1">
+                  <label class="mb-2"> الكمية المستلمة </label>
+                  <input
+                    type="text"
+                    placeholder=" "
+                    class="h-50px form-control defaultBg borderRadius_10px w-100"
+                    formControlName="quantity"
+                  />
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-4">
+                <div class="w-100 my-1">
+                  <label class="mb-2"> كمية الصنف بعد التوريد </label>
+                  <input
+                    type="text"
+                    placeholder=" "
+                    class="h-50px form-control defaultBg borderRadius_10px w-100"
+                    formControlName="quantity_after_supplying"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-12 col-lg-4">
+                <div class="w-100 my-1">
+                  <label class="mb-2"> رقم أذن التوريد </label>
+                  <input
+                    type="text"
+                    placeholder=" "
+                    class="h-50px form-control defaultBg borderRadius_10px w-100"
+                    formControlName="code"
+                  />
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-4">
+                <div class="w-100 my-1 position-relative">
+                  <label class="mb-2"> تاريخ التوريد </label>
+                  <div class="d-flex">
+                    <p-calendar
+                      [dir]="'ltr'"
+                      [showClear]="
+                        todaysHousingFilter.controls['supplied_at'].value
+                      "
+                      #calendarFrom
+                      dateFormat="mm-dd-yy"
+                      class="borderRadius_10px position-relative w-100"
+                      formControlName="supplied_at"
+                      placeholder="  "
+                    >
+                    </p-calendar>
+                    <img
+                      style="left: 0%; top: 47.5%; width: 32px; height: 32px"
+                      (click)="calendarFrom.toggle()"
+                      class="calendar-icon position-absolute p-2"
+                      src="../../../../assets/images/input/calender.svg"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12 col-lg-4">
+                <div class="w-100 my-1">
+                  <label class="mb-2"> التصنيف </label>
+                  <p-dropdown
+                    formControlName="product_type"
+                    class="productTypeDropdown"
+                    optionLabel="name"
+                    optionValue="id"
+                    [options]="productType"
+                    placeholder=" "
+                    [showClear]="true"
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+
+              <button
+                hidden
+                #closeModal
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+
+              <div class="w-100 d-flex justify-content-center mt-2">
+                <button
+                  appDisableButton
+                  style="
+                    width: 222px;
+                    height: 60px;
+                    color: white;
+                    border: none;
+                    background-color: #28df99;
+                  "
+                  class="darkGreen-bg borderRadius_10px"
+                  (click)="getTodaysHousingFilteredData()"
+                >
+                  فلترة
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="distribution-agent">
+    <div class="mainBorderTab main_card_margen">
+      <div class="card borderRadius_10px boxShadow-10 responsiveTabs p-2">
+        <div class="flexFix justify-content-start align-items-start">
+          <div
+            style="padding: 0.9rem"
+            class="d-flex flex-wrap flex-fill text-center justify-content-start align-items-start gap-3"
+          >
+            <div class="width-13" *ngFor="let corridor of corridorsUsed">
+              <div
+                *ngIf="corridor.is_main_corridor"
+                appDisableButton
+                (click)="changeActiveTap(corridor.number)"
+                class="position-relative responsiveFix w-100 cursor-pointer border-radius-20px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+                [ngClass]="{ active: isActiveTapArray[corridor.number] }"
+              >
+                <div
+                  class="pop-up position-absolute d-flex justify-content-center align-items-center"
+                >
+                  {{ corridor.count }}
+                </div>
+                <p
+                  [ngStyle]="{ color: corridor.color }"
+                  class="text-center m-auto"
+                >
+                  تسليم الكل
+                </p>
+              </div>
+              <div
+                *ngIf="
+                  !corridor.is_main_corridor &&
+                  multiple_corridors_enabled == 'true'
+                "
+                appDisableButton
+                (click)="changeActiveTap(corridor.number)"
+                class="position-relative responsiveFix w-100 cursor-pointer border-radius-20px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+                [ngClass]="{ active: isActiveTapArray[corridor.number] }"
+              >
+                <div
+                  class="pop-up position-absolute d-flex justify-content-center align-items-center"
+                >
+                  {{ corridor.count }}
+                </div>
+                <p
+                  [ngStyle]="{ color: corridor.color }"
+                  class="text-center m-auto"
+                >
+                  محطة {{ corridor.number }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="ms-auto filter-width cursor-pointer border-radius-20px tab boxShadow-10 m-2 p-3 defaultBg"
+          >
+            <button
+              style="color: var(--darkGreen)"
+              type="text"
+              class="btn w-100"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+              (click)="getFilterDropdownData()"
+            >
+              فلتر
+            </button>
+          </div>
+        </div>
+
+        <app-shared_table
+          [columnsArray]="columnsArray"
+          [columnsNames]="columnsName"
+          [RowsData]="todaysHousingData"
+          (itemChecked)="handleCheckboxChange($event)"
+          (sortEvent)="getTodaysHousingFilteredData($event)"
+        ></app-shared_table>
+
+        <div class="bottomArea d-flex">
+          <div
+            class="totalarea d-flex justify-content-center align-items-center"
+          >
+            <div
+              class="leftarea d-flex justify-content-center align-items-center px-3 text-center"
+            >
+              اجمالي عدد الأصناف
+            </div>
+            <div class="d-flex justify-content-center align-items-center px-3">
+              {{ total }}
+            </div>
+          </div>
+          <div class="submitArea text-end">
+            <div
+              class="modal fade"
+              id="confirmationModal"
+              tabindex="-1"
+              aria-labelledby="confirmationModalLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1
+                      class="modal-title fs-5 text-center w-100"
+                      id="confirmationModalLabel"
+                    >
+                      تأكيد العملية
+                    </h1>
+                    <button
+                      type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="Close"
+                    ></button>
+                  </div>
+                  <div
+                    style="height: 10vh"
+                    class="d-flex justify-content-center align-items-center"
+                  >
+                    <span class="text-center">
+                      هل انت متأكد من اجراء تسكين الاصناف؟
+                    </span>
+                  </div>
+                  <div class="modal-footer d-flex justify-content-center gap-2">
+                    <button
+                      appDisableButton
+                      (click)="storedItems()"
+                      class="btn w-40 h-60px border-0 borderRadius_20px text-white brightGreen-bg fs-4"
+                    >
+                      تم التسكين
+                    </button>
+
+                    <button
+                      type="button"
+                      class="btn w-40 h-60px btn-color border-0 borderRadius_20px text-white darkGrey-bg fs-5"
+                      data-bs-dismiss="modal"
+                    >
+                      الغاء
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button
+              [disabled]="selectedIds.length == 0"
+              type="text"
+              class="btn fs-4 buttonStyling"
+              data-bs-toggle="modal"
+              data-bs-target="#confirmationModal"
+            >
+              تم التسكين
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

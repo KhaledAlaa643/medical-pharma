@@ -1,0 +1,1010 @@
+<form [formGroup]="addClinetForm" *ngIf="roleId" action="">
+  <div class="mainCont main_card_margen">
+    <div
+      *ngIf="clientType != 'null'"
+      class="card boxShadow-15 borderRadius_20px p-4"
+    >
+      <div class="mb-2 d-flex flex-wrap w-100">
+        <div class="d-flex flex-wrap align-items-center w-100 gap-3">
+          <div
+            *ngIf="clientType != 'pharmacy'"
+            class="width-33 position-relative fullScreenWidth mx-0 my-4"
+          >
+            <label *ngIf="clientType == 'group'" class="mb-2"
+              >اسم المجموعة<span class="red_color">*</span></label
+            >
+            <label *ngIf="clientType == 'sales'" class="mb-2"
+              >اسم المندوب<span class="red_color">*</span></label
+            >
+            <input
+              type="text"
+              formControlName="client_name"
+              placeholder=" "
+              [appNoSpecialChars]="true"
+              class="form-control"
+            />
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="addClinetForm.controls['client_name']"
+            ></app-Form-errors>
+          </div>
+          <div
+            *ngIf="clientType != 'pharmacy'"
+            class="flex-fill fullScreenWidth mx-0 my-4"
+          >
+            <label class="mb-2">رقم الواتساب</label>
+            <input
+              [appOnlyIntegerNumbers]="true"
+              type="text"
+              formControlName="client_phone_number"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+          <div class="width-33 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2"
+              >اسم الدكتور<span class="red_color">*</span></label
+            >
+            <input
+              type="text"
+              formControlName="doctor"
+              placeholder=" "
+              [appNoSpecialChars]="true"
+              class="form-control"
+            />
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="addClinetForm.controls['doctor']"
+            ></app-Form-errors>
+          </div>
+        </div>
+      </div>
+      <div class="mb-2 d-flex flex-wrap w-100">
+        <div class="d-flex flex-wrap align-items-center w-100 gap-3">
+          <div class="width-33 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2"
+              >اسم العميل<span class="red_color">*</span></label
+            >
+            <input
+              type="text"
+              formControlName="name"
+              placeholder=" "
+              [appNoSpecialChars]="true"
+              class="form-control"
+            />
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="addClinetForm.controls['name']"
+            ></app-Form-errors>
+          </div>
+
+          <div class="width-18 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2"
+              >رقم الهاتف 1<span class="red_color">*</span></label
+            >
+            <input
+              type="text"
+              [appOnlyIntegerNumbers]="true"
+              formControlName="phone_number"
+              placeholder=" "
+              class="form-control"
+            />
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="addClinetForm.controls['phone_number']"
+            ></app-Form-errors>
+          </div>
+          <div class="width-16 fullScreenWidth mx-0 my-4">
+            <label class="mb-2">رقم الهاتف 2</label>
+            <input
+              [appOnlyIntegerNumbers]="true"
+              type="text"
+              formControlName="optional_phone_number"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+          <div
+            *ngIf="clientType != 'pharmacy'"
+            class="width-16 fullScreenWidth mx-0 my-4"
+          >
+            <label class="mb-2">رقم واتساب العميل</label>
+            <input
+              [appOnlyIntegerNumbers]="true"
+              type="text"
+              formControlName="whatsapp_number"
+              [appOnlyIntegerNumbers]="true"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+          <div class="width-10 p-field-checkbox d-flex flex-column">
+            <label class="fw-500 fs-15 specialDelivery mb-1"
+              >اخفاء العميل</label
+            >
+            <input
+              (click)="handleCheckboxClick($event)"
+              class="check_input form-check-input cursor-pointer h-60px"
+              formControlName="active"
+              type="checkbox"
+              id="flexCheckDefault"
+              [ngClass]="{
+                disabled:
+                  !permissions.includes('create_client_accounting_fields') &&
+                  !permissions.includes('create_client_sales_fields')
+              }"
+              [readonly]="
+                !permissions.includes('create_client_accounting_fields') &&
+                !permissions.includes('create_client_sales_fields')
+              "
+            />
+            <!-- style="width: 40px !important; height: 40px !important"
+
+              class="form-check-input mx-1 borderRadius_10px"
+                name="accept_return"
+                formControlName="can_buy_with_bonus" -->
+          </div>
+        </div>
+      </div>
+      <div class="mb-2 d-flex flex-wrap w-100">
+        <div class="d-flex flex-wrap align-items-center w-100 gap-4">
+          <div class="width-35 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2">البريد الإلكتروني</label>
+            <input
+              type="text"
+              formControlName="email"
+              placeholder=" "
+              class="form-control"
+            />
+            <app-Form-errors
+              class="position-absolute error"
+              class="position-absolute error"
+              [control]="addClinetForm.controls['email']"
+            ></app-Form-errors>
+          </div>
+          <div class="flex-fill fullScreenWidth mx-0 my-4">
+            <label class="mb-2">العنوان</label>
+            <input
+              type="text"
+              formControlName="address"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="mb-2 d-flex flex-wrap w-100">
+        <div class="d-flex flex-wrap align-items-center w-100 gap-4">
+          <div class="width-17 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2">المحافظة<span class="red_color">*</span></label>
+            <p-dropdown
+              [filter]="true"
+              [options]="cities"
+              #citiesDropdown
+              (click)="getArea(citiesDropdown)"
+              formControlName="city_id"
+              placeholder=" "
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="addClinetForm.controls['city_id']"
+            ></app-Form-errors>
+          </div>
+          <div class="width-16 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2">المدينة<span class="red_color">*</span></label>
+            <p-dropdown
+              [filter]="true"
+              (click)="getTrack()"
+              [options]="area"
+              formControlName="area_id"
+              placeholder=" "
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="addClinetForm.controls['area_id']"
+            ></app-Form-errors>
+          </div>
+          <div class="flex-fill fullScreenWidth mx-0 my-4">
+            <label class="mb-2">الموقع علي الخريطة</label>
+            <input
+              type="text"
+              formControlName="location_url"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+          <div class="width-16 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2">
+              مخزن البيع التلقائي <span class="red_color">*</span></label
+            >
+
+            <p-dropdown
+              [options]="warehouses"
+              formControlName="default_sales_warehouse_id"
+              placeholder=" "
+              class="defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+              optionLabel="name"
+              [ngClass]="{
+                disabled: !permissions.includes('create_client_sales_fields')
+              }"
+              [readonly]="!permissions.includes('create_client_sales_fields')"
+              optionValue="id"
+            ></p-dropdown>
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="addClinetForm.controls['default_sales_warehouse_id']"
+            ></app-Form-errors>
+          </div>
+        </div>
+      </div>
+      <div class="mb-2 d-flex flex-wrap w-100">
+        <div class="d-flex flex-wrap align-items-center w-100 gap-4">
+          <div class="width-17 fullScreenWidth mx-0 my-4">
+            <label class="mb-2">رقم الرخصة</label>
+            <input
+              [appOnlyIntegerNumbers]="true"
+              type="text"
+              formControlName="license_no"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+          <div class="width-16 fullScreenWidth mx-0 my-4">
+            <label class="mb-2">رقم السجل التجاري</label>
+            <input
+              [appOnlyIntegerNumbers]="true"
+              type="text"
+              formControlName="commercial_registration_no"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+          <div class="flex-fill fullScreenWidth mx-0 my-4">
+            <label class="mb-2">رقم البطاقة الضريبية</label>
+            <input
+              [appOnlyIntegerNumbers]="true"
+              type="text"
+              formControlName="tax_card_no"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+          <div class="width-16 fullScreenWidth mx-0 my-4">
+            <label class="mb-2">رقم النشاط </label>
+            <input
+              type="text"
+              [appOnlyIntegerNumbers]="true"
+              formControlName="activity_no"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+          <div class="width-20 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2">صور أوراق التسجيل</label>
+            <input
+              type="file"
+              hidden
+              #fileInput
+              accept=".png, .jpg, .jpeg, .pdf"
+              (change)="validateImage($event)"
+              id="fileInput"
+              class="d-none"
+            />
+            <div
+              (click)="fileInput.click()"
+              class="form-control defaultBg borderRadius_10px h-41px my-1 mx-0 py-2 py-2 w-100"
+            ></div>
+            <svg
+              class="clip_icon position-absolute"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_2417_609)">
+                <path
+                  d="M12.5012 5.83339L7.08455 11.2501C6.75303 11.5816 6.56678 12.0312 6.56678 12.5001C6.56678 12.9689 6.75303 13.4185 7.08455 13.7501C7.41607 14.0816 7.86571 14.2678 8.33455 14.2678C8.80339 14.2678 9.25303 14.0816 9.58455 13.7501L15.0012 8.33339C15.6643 7.67034 16.0368 6.77107 16.0368 5.83339C16.0368 4.8957 15.6643 3.99643 15.0012 3.33339C14.3382 2.67034 13.4389 2.29785 12.5012 2.29785C11.5635 2.29785 10.6643 2.67034 10.0012 3.33339L4.58455 8.75005C3.58999 9.74461 3.03125 11.0935 3.03125 12.5001C3.03125 13.9066 3.58999 15.2555 4.58455 16.2501C5.57911 17.2446 6.92803 17.8034 8.33455 17.8034C9.74107 17.8034 11.09 17.2446 12.0846 16.2501L17.5012 10.8334"
+                  stroke="#333333"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_2417_609">
+                  <rect width="20" height="20" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+            <span
+              (click)="openImagesModal()"
+              *ngIf="files.length > 0"
+              class="position-absolute cursor-pointer justify-content-center align-items-center d-flex"
+              >رؤية الصور</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="mb-2 d-flex flex-wrap w-100">
+        <div class="d-flex flex-wrap align-items-center w-100 gap-4">
+          <div class="width-20 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2"
+              >حالة العميل <span class="red_color">*</span></label
+            >
+            <p-dropdown
+              [ngClass]="{
+                disabledDropdown: !permissions.includes(
+                  'create_client_accounting_fields'
+                )
+              }"
+              [readonly]="
+                !permissions.includes('create_client_accounting_fields')
+              "
+              [options]="status"
+              formControlName="status"
+              placeholder=" "
+              class="defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="addClinetForm.controls['status']"
+            ></app-Form-errors>
+          </div>
+          <div class="flex-fill position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2"
+              >الحد اللإئتماني <span class="red_color">*</span></label
+            >
+            <input
+              [ngClass]="{
+                disabled: !permissions.includes(
+                  'create_client_accounting_fields'
+                )
+              }"
+              [readonly]="
+                !permissions.includes('create_client_accounting_fields')
+              "
+              type="text"
+              formControlName="debt_limit"
+              placeholder=" "
+              class="form-control"
+              [appOnlyIntegerNumbers]="true"
+            />
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="addClinetForm.controls['debt_limit']"
+            ></app-Form-errors>
+          </div>
+          <div class="width-16 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2"
+              >نوع التعامل <span class="red_color">*</span></label
+            >
+            <p-dropdown
+              (onChange)="setAllow()"
+              [ngClass]="{
+                disabledDropdown: !permissions.includes(
+                  'create_client_accounting_fields'
+                )
+              }"
+              [readonly]="
+                !permissions.includes('create_client_accounting_fields')
+              "
+              [options]="payment_type"
+              formControlName="payment_type"
+              placeholder=" "
+              class="defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="addClinetForm.controls['payment_type']"
+            ></app-Form-errors>
+          </div>
+          <div class="width-16 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2">أيام التحصيل </label>
+            <p-multiSelect
+              [ngClass]="{
+                disabledDropdown: !permissions.includes(
+                  'create_client_accounting_fields'
+                )
+              }"
+              [readonly]="
+                !permissions.includes('create_client_accounting_fields')
+              "
+              [options]="payment_days"
+              formControlName="payment_days"
+              placeholder=" "
+              class="defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+            ></p-multiSelect>
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="addClinetForm.controls['payment_days']"
+            ></app-Form-errors>
+          </div>
+          <div class="width-16 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2"
+              >فترة سماح التسديد <span class="red_color">*</span></label
+            >
+
+            <p-dropdown
+              [ngClass]="{
+                disabled: !permissions.includes(
+                  'create_client_accounting_fields'
+                )
+              }"
+              [readonly]="
+                !permissions.includes('create_client_accounting_fields')
+              "
+              [options]="payment_period"
+              formControlName="payment_period"
+              placeholder=" "
+              class="defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="addClinetForm.controls['payment_period']"
+            ></app-Form-errors>
+          </div>
+        </div>
+      </div>
+      <div class="mb-2 d-flex flex-wrap w-100">
+        <div
+          class="d-flex flex-wrap align-items-center height-fixed w-100 gap-2"
+        >
+          <div class="flex-fill fullScreenWidth mx-0 my-4">
+            <label class="mb-2">مشرف الحساب</label>
+            <p-dropdown
+              [showClear]="
+                this.addClinetForm.controls['supervisor_pharmacy_id'].value
+              "
+              [ngClass]="{
+                disabledDropdown:
+                  !permissions.includes('create_client_accounting_fields'),
+              }"
+              [readonly]="
+                !permissions.includes('create_client_accounting_fields')
+              "
+              [filter]="true"
+              [options]="supervisor_pharamcies"
+              formControlName="supervisor_pharmacy_id"
+              placeholder="عميل جديد"
+              class="defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+          </div>
+          <div class="width-14 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2"
+              >شريحة الخصم <span class="red_color">*</span></label
+            >
+            <p-dropdown
+              [ngClass]="{
+                disabledDropdown: !permissions.includes(
+                  'create_client_accounting_fields'
+                )
+              }"
+              [readonly]="
+                !permissions.includes('create_client_accounting_fields')
+              "
+              [options]="discount_slat"
+              formControlName="discount_tier_id"
+              placeholder=" "
+              class="defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+              optionLabel="title"
+              optionValue="id"
+            ></p-dropdown>
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="addClinetForm.controls['discount_tier_id']"
+            ></app-Form-errors>
+          </div>
+          <div class="width-14 fullScreenWidth mx-0 my-4">
+            <label class="mb-2">خصم نقدي اضافي</label>
+            <p-dropdown
+              [ngClass]="{
+                disabledDropdown: !permissions.includes(
+                  'create_client_accounting_fields'
+                )
+              }"
+              [readonly]="
+                !permissions.includes('create_client_accounting_fields')
+              "
+              [options]="extra_discount"
+              formControlName="extra_discount"
+              placeholder=""
+              class="defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+          </div>
+          <div
+            *ngIf="clientType == 'sales'"
+            class="width-13 position-relative fullScreenWidth mx-0 my-4"
+          >
+            <label class="mb-2"
+              >فرق خصم المندوب <span class="red_color">*</span></label
+            >
+            <input
+              type="text"
+              [ngClass]="{
+                disabled: !permissions.includes(
+                  'create_client_accounting_fields'
+                )
+              }"
+              [readonly]="
+                !permissions.includes('create_client_accounting_fields')
+              "
+              formControlName="free_deligate_diffrence"
+              placeholder=" "
+              class="form-control"
+            />
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="addClinetForm.controls['free_deligate_diffrence']"
+            ></app-Form-errors>
+          </div>
+          <div class="width-14 mx-0 my-0 fullScreenWidth">
+            <div class="radiobutton h-100 d-flex align-items-center gap-2">
+              <input
+                style="width: 40px !important; height: 40px !important"
+                class="form-check-input mx-1 borderRadius_10px mt-5"
+                name="accept_return"
+                (click)="handleCheckboxClick($event)"
+                formControlName="can_buy_with_bonus"
+                [ngClass]="{
+                  disabled: !permissions.includes(
+                    'create_client_accounting_fields'
+                  )
+                }"
+                [disabled]="
+                  !permissions.includes('create_client_accounting_fields')
+                "
+                type="checkbox"
+              />
+              <label class="form-check-label d-flex align-items-center mt-5">
+                البيع ببونص
+              </label>
+            </div>
+          </div>
+          <div class="width-20">
+            <label class="">رصيد أول المدة </label>
+
+            <div class="width-100 d-flex align-items-end gap-2">
+              <div class="width-45 position-relative">
+                <label class="m-2">دائن <span class="red_color">*</span></label>
+                <input
+                  formControlName="first_balance_debit"
+                  placeholder="من"
+                  [appOnlyIntegerNumbers]="true"
+                  [ngClass]="{
+                    disabled: !permissions.includes(
+                      'create_client_accounting_fields'
+                    )
+                  }"
+                  [readonly]="
+                    !permissions.includes('create_client_accounting_fields')
+                  "
+                  type="number"
+                  class="form-control"
+                />
+                <app-Form-errors
+                  class="position-absolute error"
+                  [control]="addClinetForm.controls['first_balance_debit']"
+                ></app-Form-errors>
+              </div>
+              <div class="width-45 position-relative">
+                <label class="m-2">مدين <span class="red_color">*</span></label>
+
+                <input
+                  formControlName="first_balance_credit"
+                  placeholder="الي"
+                  [appOnlyIntegerNumbers]="true"
+                  [ngClass]="{
+                    disabled: !permissions.includes(
+                      'create_client_accounting_fields'
+                    )
+                  }"
+                  [readonly]="
+                    !permissions.includes('create_client_accounting_fields')
+                  "
+                  type="number"
+                  class="form-control"
+                />
+                <app-Form-errors
+                  class="position-absolute error"
+                  [control]="addClinetForm.controls['first_balance_credit']"
+                ></app-Form-errors>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mb-2 d-flex flex-wrap w-100">
+        <div class="d-flex flex-wrap align-items-center w-100 gap-4">
+          <div class="flex-fill fullScreenWidth mx-0 my-4">
+            <label class="mb-2"> مندوب مبيعات صباحي</label>
+            <p-dropdown
+              [ngClass]="{
+                disabledDropdown:
+                  !permissions.includes('create_client_sales_limited') &&
+                  !permissions.includes('create_client_sales_fields')
+              }"
+              [readonly]="
+                !permissions.includes('create_client_sales_limited') &&
+                !permissions.includes('create_client_sales_fields')
+              "
+              [filter]="true"
+              [options]="salesMorning"
+              formControlName="morning_sales_id"
+              placeholder=" "
+              class="defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+          </div>
+          <div class="width-13 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2">التارجت <span class="red_color">*</span></label>
+            <input
+              type="text"
+              [ngClass]="{
+                disabled: !permissions.includes('create_client_sales_fields')
+              }"
+              [readonly]="!permissions.includes('create_client_sales_fields')"
+              formControlName="target"
+              placeholder=" "
+              [appOnlyIntegerNumbers]="true"
+              class="form-control"
+            />
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="addClinetForm.controls['target']"
+            ></app-Form-errors>
+          </div>
+          <div class="width-13 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2"
+              >أدني تارجت <span class="red_color">*</span></label
+            >
+
+            <input
+              type="text"
+              [ngClass]="{
+                disabled: !permissions.includes('create_client_sales_fields')
+              }"
+              [readonly]="!permissions.includes('create_client_sales_fields')"
+              [appOnlyIntegerNumbers]="true"
+              formControlName="minimum_target"
+              placeholder=" "
+              class="form-control defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+            />
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="addClinetForm.controls['minimum_target']"
+            ></app-Form-errors>
+          </div>
+          <div class="flex-fill fullScreenWidth mx-0 my-4">
+            <label class="mb-2">مندوب مبيعات مسائي</label>
+            <p-dropdown
+              [filter]="true"
+              [ngClass]="{
+                disabledDropdown:
+                  !permissions.includes('create_client_sales_limited') &&
+                  !permissions.includes('create_client_sales_fields')
+              }"
+              [readonly]="
+                !permissions.includes('create_client_sales_limited') &&
+                !permissions.includes('create_client_sales_fields')
+              "
+              [options]="salesEvening"
+              placeholder=" "
+              formControlName="night_sales_id"
+              class="defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+          </div>
+          <div class="width-20 fullScreenWidth mx-0 my-4">
+            <label class="mb-2">مندوب الدعاية</label>
+            <p-dropdown
+              [filter]="true"
+              [ngClass]="{
+                disabledDropdown:
+                  !permissions.includes('create_client_sales_limited') &&
+                  !permissions.includes('create_client_sales_fields')
+              }"
+              [readonly]="
+                !permissions.includes('create_client_sales_limited') &&
+                !permissions.includes('create_client_sales_fields')
+              "
+              [options]="salesEvening"
+              placeholder=" "
+              formControlName="ads_employee"
+              class="defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+          </div>
+        </div>
+      </div>
+      <div class="mb-2 d-flex flex-wrap w-100">
+        <div class="d-flex flex-wrap align-items-center w-100 gap-4">
+          <div class="width-14 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2"
+              >معدل تكرار الكوتة <span class="red_color">*</span></label
+            >
+            <input
+              type="text"
+              [ngClass]="{
+                disabled: !permissions.includes('create_client_sales_fields')
+              }"
+              [readonly]="!permissions.includes('create_client_sales_fields')"
+              formControlName="iterate_available_quantity"
+              placeholder=" "
+              [appOnlyIntegerNumbers]="true"
+              class="form-control defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+            />
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="addClinetForm.controls['iterate_available_quantity']"
+            ></app-Form-errors>
+          </div>
+          <div class="width-10 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2">كل <span class="red_color">*</span></label>
+            <input
+              type="text"
+              [ngClass]="{
+                disabled: !permissions.includes('create_client_sales_fields')
+              }"
+              [readonly]="!permissions.includes('create_client_sales_fields')"
+              formControlName="all"
+              placeholder=" "
+              [appOnlyIntegerNumbers]="true"
+              class="form-control defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+            />
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="addClinetForm.controls['all']"
+            ></app-Form-errors>
+          </div>
+          <div class="flex-fill position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2">
+              المتابعة التلقائية <span class="red_color">*</span></label
+            >
+            <p-dropdown
+              [readonly]="!permissions.includes('create_client_sales_fields')"
+              [ngClass]="{
+                disabledDropdown: !permissions.includes(
+                  'create_client_sales_fields'
+                )
+              }"
+              (onChange)="shiftSwitchBasedOnTimeChosen($event)"
+              [options]="follow_up"
+              formControlName="follow_up"
+              placeholder=" "
+              class="defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="addClinetForm.controls['follow_up']"
+            ></app-Form-errors>
+          </div>
+          <div class="width-14 flex-fill fullScreenWidth mx-0 my-4">
+            <label class="mb-2">ميعاد الاتصال</label>
+            <p-dropdown
+              [ngClass]="{
+                disabledDropdown: !permissions.includes(
+                  'create_client_sales_fields'
+                )
+              }"
+              [readonly]="!permissions.includes('create_client_sales_fields')"
+              [options]="filteredTime"
+              placeholder=" من - الى"
+              formControlName="call_shift"
+              class="defaultBg disabledDropdown borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+          </div>
+          <div class="width-20 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2">
+              رقم خط السير <span class="red_color">*</span></label
+            >
+            <p-dropdown
+              [showClear]="this.addClinetForm.controls['track_id'].value"
+              [ngClass]="{
+                disabledDropdown: !permissions.includes(
+                  'create_client_accounting_fields'
+                )
+              }"
+              [readonly]="
+                !permissions.includes('create_client_accounting_fields')
+              "
+              [filter]="true"
+              [options]="tracks"
+              #trackDropdown
+              (onChange)="getDistributor(trackDropdown)"
+              formControlName="track_id"
+              placeholder="عميل جديد"
+              class="defaultBg borderRadius_10px my-1 mx-0 py-2 py-2 w-100"
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="addClinetForm.controls['track_id']"
+            ></app-Form-errors>
+          </div>
+          <div class="flex-fill fullScreenWidth mx-0 my-4">
+            <label class="mb-2">الموزع</label>
+            <input
+              [value]="Distributor?.name"
+              readonly
+              placeholder="عميل جديد"
+              class="borderRadius_10px my-1 mx-0 py-2 py-2 w-100 form-control disabled"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="mb-2 d-flex flex-wrap w-100">
+        <div class="flex-fill fullScreenWidth mx-0 my-4">
+          <label class="mb-2">ملاحظات علي العميل</label>
+          <input
+            type="text"
+            placeholder=" "
+            formControlName="note"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div
+        class="d-flex flex-wrap w-100 mt-4 d-flex justify-content-center align-items-center"
+      >
+        <div class="width-35 fullScreenWidth mx-0">
+          <button
+            appDisableButton
+            type="button"
+            class="w-100 borderRadius_20px darkGreen-bg border-0 text-light fw-bold h-60px"
+            data-bs-toggle="modal"
+            data-bs-target="#confirmationMessage"
+          >
+            إضافة
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<button
+  hidden
+  #confirmationMessage
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#confirmationMessage"
+></button>
+<div
+  class="modal fade"
+  id="confirmationMessage"
+  tabindex="-1"
+  aria-labelledby="confirmationMessage"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header flex-row-reverse mb-4 border-0">
+        <button
+          appDisableButton
+          type="button "
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+        <div class="d-flex justify-content-center w-100">
+          <span class="text-center fs-16 fw-600"> تأكيد العملية</span>
+        </div>
+      </div>
+      <div class="modal-body m-auto">
+        <span>هل انت متاكد من اضافة العميل؟</span>
+      </div>
+      <div class="modal-footer border-0 justify-content-around">
+        <button
+          appDisableButton
+          type="button"
+          class="btn btn-color text-white btn-color w-25 height-50px"
+          data-bs-toggle="modal"
+          data-bs-target="#confirmationMessage "
+        >
+          إلغاء
+        </button>
+        <button
+          appDisableButton
+          (click)="submitAddClientForm()"
+          type="button"
+          class="btn lightGreen-bg text-white w-25 height-50px"
+          data-bs-toggle="modal"
+          data-bs-target="#confirmationMessage "
+        >
+          إضافة
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  hidden
+  #imagesModal
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#allImagesModel"
+></button>
+<div
+  class="modal fade"
+  id="allImagesModel"
+  tabindex="-1"
+  aria-labelledby="allImagesModelLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header mb-4">
+        <button
+          appDisableButton
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+        <div class="d-flex justify-content-center w-100">
+          <span class="text-center fs-16 fw-600"></span>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="files" class="d-flex flex-wrap gap-3">
+          <div *ngFor="let file of files; let i = index">
+            <div
+              class="position-relative d-flex flex-column justify-content-center"
+            >
+              <img
+                *ngIf="filesUrl[i]?.type == 'image'"
+                width="80px"
+                height="80px"
+                [src]="filesUrl[i].name"
+                alt=""
+              />
+              <img
+                *ngIf="filesUrl[i]?.type == 'file'"
+                (click)="openPdf(i)"
+                width="80px"
+                height="80px"
+                src="../../../../assets/images/add-client/pdf-logo.png"
+                alt=""
+              />
+              <span>{{ file.name }}</span>
+              <img
+                class="clearBtn position-relative"
+                (click)="removeImage(i, filesUrl[i]?.type)"
+                src="../../../../assets/images/add-client/close-button.png"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div></div>
+    </div>
+  </div>
+</div>

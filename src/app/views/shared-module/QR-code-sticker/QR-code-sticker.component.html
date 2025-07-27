@@ -1,0 +1,255 @@
+<div #QRcode class="w-100 h-100 justify-content-center align-items-center">
+  <div
+    class="sticker gap-2 flex-wrap justify-content-center align-items-center bg-light"
+    *ngFor="let sticker of stickersArray"
+  >
+    <div
+      class="precardloop sticker gap-5 flex-wrap justify-content-center align-items-center d-flex bg-light"
+      *ngFor="let each of sticker.count"
+      style="margin-bottom: 0.25mm"
+    >
+      <div class="card d-flex flex-column border-0">
+        <div
+          class="d-flex flex-column"
+          style="width: 377.95px; height: 377.95px"
+        >
+          <div class="d-flex justify-content-between">
+            <div class="px-3 py-2 gap-1 d-flex flex-column" style="width: 60%">
+              <div
+                *ngIf="sticker.type === 'bag'"
+                class="d-flex align-items-center gap-1"
+              >
+                <svg
+                  width="44"
+                  height="54"
+                  viewBox="0 0 44 54"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M40.6171 8.32071H30.5055V5.07566C30.5055 2.27559 28.2277 0 25.4286 0H18.678C15.8772 0 13.6011 2.27559 13.6011 5.07566V8.32071H3.38462C1.51631 8.32071 0 9.83664 0 11.7045V50.6162C0 52.4858 1.51631 54 3.38462 54H40.6154C42.4854 54 44 52.4858 44 50.6162V11.7045C44 9.83664 42.4871 8.32071 40.6171 8.32071ZM16.9874 5.07566C16.9874 4.14174 17.7455 3.38378 18.6797 3.38378H25.4303C26.3645 3.38378 27.1226 4.14174 27.1226 5.07566V8.32071H16.9874V5.07566ZM40.6171 50.6162H3.38631V11.7045H13.6028V15.1864C13.6028 15.1864 13.5571 16.8766 15.2849 16.8766C17.1888 16.8766 16.9874 15.1864 16.9874 15.1864V11.7045H27.1226V15.1864C27.1226 15.1864 27.0092 16.885 28.8082 16.885C30.5005 16.885 30.5072 15.1864 30.5072 15.1864V11.7045H40.6171V50.6162Z"
+                    fill="black"
+                  />
+                </svg>
+                <span class="fw-bolder" style="font-size: 15px"
+                  >استيكر الشنط</span
+                >
+                <div
+                  class="d-flex justify-content-center align-items-center fw-bolder"
+                  style="
+                    width: 50px;
+                    height: 30px;
+                    background-color: transparent;
+                    border-radius: 10px;
+                    border: 3px black solid;
+                  "
+                >
+                  {{ stickerData?.bags_num }}
+                </div>
+              </div>
+              <div
+                *ngIf="sticker.type === 'fridge'"
+                class="d-flex align-items-center gap-1"
+              >
+                <svg
+                  width="27"
+                  height="37"
+                  viewBox="0 0 27 37"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M19.125 0C23.4742 0 27 3.6237 27 8.09375V28.9062C27 33.3763 23.4742 37 19.125 37H7.875C3.52576 37 0 33.3763 0 28.9062V8.09375C0 3.6237 3.52576 0 7.875 0H19.125ZM24.75 19.6562H2.25V28.9062C2.25 32.0151 4.6376 34.5509 7.631 34.6822L7.875 34.6875H19.125C22.2316 34.6875 24.75 32.0991 24.75 28.9062V19.6562ZM6.75 23.125C7.37132 23.125 7.875 23.6427 7.875 24.2812V26.5938C7.875 27.2323 7.37132 27.75 6.75 27.75C6.12868 27.75 5.625 27.2323 5.625 26.5938V24.2812C5.625 23.6427 6.12868 23.125 6.75 23.125ZM19.125 2.3125H7.875C4.7684 2.3125 2.25 4.90085 2.25 8.09375V17.3438H24.75V8.09375C24.75 4.98488 22.3624 2.44915 19.369 2.31784L19.125 2.3125ZM6.75 9.25C7.37132 9.25 7.875 9.76767 7.875 10.4062V12.7188C7.875 13.3573 7.37132 13.875 6.75 13.875C6.12868 13.875 5.625 13.3573 5.625 12.7188V10.4062C5.625 9.76767 6.12868 9.25 6.75 9.25Z"
+                    fill="#333333"
+                  />
+                </svg>
+                <span class="fw-bolder" style="font-size: 15px"
+                  >استيكر تلاجة</span
+                >
+                <div
+                  class="d-flex justify-content-center align-items-center fw-bolder"
+                  style="
+                    width: 50px;
+                    height: 30px;
+                    background-color: transparent;
+                    border-radius: 10px;
+                    border: 3px black solid;
+                  "
+                >
+                  {{ stickerData?.fridges_num }}
+                </div>
+              </div>
+              <div
+                *ngIf="sticker.type === 'carton'"
+                class="d-flex align-items-center gap-1"
+              >
+                <svg
+                  width="31"
+                  height="31"
+                  viewBox="0 0 31 31"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M9.13339 2.16567L2.73599 9.47699V28.1538H28.7241V9.47699L22.3267 2.16567H9.13339ZM8.64178 2.9186e-07H22.8183C22.9724 -0.000112852 23.1248 0.0326715 23.2652 0.0961619C23.4056 0.159652 23.5309 0.252386 23.6326 0.368165L30.6212 8.35734C30.794 8.5545 30.8895 8.80766 30.8898 9.06985V29.2366C30.8898 29.5238 30.7757 29.7992 30.5726 30.0023C30.3695 30.2054 30.0941 30.3194 29.8069 30.3194H1.65315C1.36596 30.3194 1.09054 30.2054 0.887469 30.0023C0.684397 29.7992 0.570313 29.5238 0.570313 29.2366V9.06985C0.570093 8.80692 0.665545 8.55289 0.838856 8.35517L7.82532 0.372496C7.92688 0.255653 8.05231 0.161943 8.19315 0.0976858C8.33399 0.0334287 8.48697 0.000118123 8.64178 2.9186e-07Z"
+                    fill="#333333"
+                  />
+                  <path
+                    d="M0.570312 8.66211H30.8898V10.8278H0.570312V8.66211Z"
+                    fill="#333333"
+                  />
+                  <path
+                    d="M13.5641 8.92908V19.4911H17.8955V8.92908L16.2062 2.16567H15.2533L13.5641 8.92908ZM13.5641 0H17.8955L20.0611 8.6627V20.5739C20.0611 20.8611 19.9471 21.1365 19.744 21.3396C19.5409 21.5427 19.2655 21.6567 18.9783 21.6567H12.4813C12.1941 21.6567 11.9187 21.5427 11.7156 21.3396C11.5125 21.1365 11.3984 20.8611 11.3984 20.5739V8.6627L13.5641 0Z"
+                    fill="#333333"
+                  />
+                </svg>
+                <span class="fw-bolder" style="font-size: 15px"
+                  >استيكر كرتونة</span
+                >
+                <div
+                  class="d-flex justify-content-center align-items-center fw-bolder"
+                  style="
+                    width: 50px;
+                    height: 30px;
+                    background-color: transparent;
+                    border-radius: 10px;
+                    border: 3px black solid;
+                  "
+                >
+                  {{ stickerData?.cartons_num }}
+                </div>
+              </div>
+              <div class="d-flex gap-1">
+                <div class="gap-1 d-flex flex-column justify-content-center">
+                  <span class="fw-bolder" style="font-size: 15px">اجمالي</span>
+                  <div
+                    class="d-flex justify-content-center align-items-center fw-bolder"
+                    style="
+                      width: 50px;
+                      height: 30px;
+                      background-color: transparent;
+                      border-radius: 10px;
+                      border: 3px black solid;
+                    "
+                  >
+                    {{ stickerData?.total }}
+                  </div>
+                </div>
+                <div class="gap-1 d-flex flex-column justify-content-center">
+                  <span class="fw-bolder" style="font-size: 15px">شنطة</span>
+                  <div
+                    class="d-flex justify-content-center align-items-center fw-bolder"
+                    style="
+                      width: 50px;
+                      height: 30px;
+                      background-color: transparent;
+                      border-radius: 10px;
+                      border: 3px black solid;
+                    "
+                  >
+                    {{ stickerData?.bags_num }}
+                  </div>
+                </div>
+                <div class="gap-1 d-flex flex-column justify-content-center">
+                  <span class="fw-bolder" style="font-size: 15px">كرتونة</span>
+                  <div
+                    class="d-flex justify-content-center align-items-center fw-bolder"
+                    style="
+                      width: 50px;
+                      height: 30px;
+                      background-color: transparent;
+                      border-radius: 10px;
+                      border: 3px black solid;
+                    "
+                  >
+                    {{ stickerData?.cartons_num }}
+                  </div>
+                </div>
+                <div class="gap-1 d-flex flex-column justify-content-center">
+                  <span class="fw-bolder" style="font-size: 15px">تلاجة</span>
+                  <div
+                    class="d-flex justify-content-center align-items-center fw-bolder"
+                    style="
+                      width: 50px;
+                      height: 30px;
+                      background-color: transparent;
+                      border-radius: 10px;
+                      border: 3px black solid;
+                    "
+                  >
+                    {{ stickerData?.fridges_num }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="width: 35%">
+              <span class="mb-1 w-10">محمد أحمد محمود</span>
+              <img
+                *ngIf="sticker.type === 'bag'"
+                [src]="PharmacyinvoiceData.data.invoice.qr_code_bag"
+                alt=""
+              />
+
+              <img
+                *ngIf="sticker.type === 'fridge'"
+                [src]="PharmacyinvoiceData.data.invoice.qr_code_fridge"
+                alt=""
+              />
+              <img
+                *ngIf="sticker.type === 'carton'"
+                [src]="PharmacyinvoiceData.data.invoice.qr_code_carton"
+                alt=""
+              />
+            </div>
+          </div>
+
+          <div class="d-flex px-3 py-2">
+            <div
+              style="font-size: medium"
+              class="w-50 fw-bolder d-flex flex-column justify-content-center align-items-center"
+            >
+              <div>
+                <span>خط رقم :</span>
+                <span style="font-size: x-large">{{
+                  stickerData?.track_number
+                }}</span>
+              </div>
+              <div>
+                <span>مدينة :</span>
+                <span>{{ stickerData?.city_name }}</span>
+              </div>
+            </div>
+            <div
+              class="w-50 fw-bolder d-flex flex-column justify-content-center align-items-end"
+            >
+              <span class="fw-bolder" style="font-size: x-large"
+                >({{ stickerData?.phone_number }})</span
+              >
+              <span class="fw-bolder" style="font-size: x-large"
+                >({{ stickerData?.optional_phone_number }})</span
+              >
+            </div>
+          </div>
+          <div
+            class="w-100 d-flex flex-column justify-content-center align-items-center"
+          >
+            <span class="fw-bolder" style="font-size: medium"
+              >{{ stickerData?.client_name }} -</span
+            >
+            <span
+              class="fw-bolder"
+              style="font-size: x-large; font-weight: 600"
+              >{{ stickerData?.pharmacy_name }}</span
+            >
+          </div>
+          <div class="w-100 p-3">
+            <span class="fw-bolder" style="font-size: medium">العنوان : </span>
+            <span class="fw-bolder text-center" style="font-size: medium">{{
+              stickerData?.address
+            }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

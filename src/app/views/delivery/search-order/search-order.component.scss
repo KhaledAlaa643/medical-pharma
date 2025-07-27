@@ -1,0 +1,36 @@
+@import 'generalTableStyle.scss';
+@import 'generalPaginationStyle.scss';
+@import 'generalInputsStyle.scss';
+
+.contDiv {
+
+    .searchBtn {
+        width: 137px;
+        height: 45px;
+        border: none;
+        border-radius: 10px;
+        background-color: var(--darkGreen);
+    }
+
+    .filterInput {
+        height: 40px;
+        border-radius: 10px;
+    }
+
+    .totalbox {
+        height: 50px;
+        width: max-content;
+        padding: 15px;
+        border: 1px solid var(--darkGreen);
+        border-radius: 15px;
+        font-weight: bold;
+    }
+
+
+}
+
+::ng-deep {
+    .p-datatable-tbody>tr>td {
+        padding: 0.5rem 0.5rem !important;
+    }
+}

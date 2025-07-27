@@ -1,0 +1,8 @@
+@import 'generalTableStyle.scss';
+@import 'generalPaginationStyle.scss';
+@import 'generalInputsStyle.scss';
+.flex-column-reverse-custom{
+    @media (max-width: 769px) and (min-width: 320px) {
+          flex-direction: column-reverse !important;
+      }
+}

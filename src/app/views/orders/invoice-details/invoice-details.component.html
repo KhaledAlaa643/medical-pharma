@@ -1,0 +1,150 @@
+<form action="" [formGroup]="clientDataForm" class="d-grid gap-4">
+  <div class="invoiceDetailsContainer d-flex flex-wrap gap-3 mt-3 mb-3">
+    <div class="width-15">
+      <label class="mb-2">نوع التعامل</label>
+      <input
+        type="text"
+        placeholder=" "
+        disabled
+        [(ngModel)]="invoiceData.payment_type"
+        [ngModelOptions]="{ standalone: true }"
+        class="form-control"
+      />
+    </div>
+    <div class="width-22">
+      <label class="mb-2">
+        الحد الائتماني
+        <span class="remaining_debit">
+          المتبقي ({{ remainingDebitLimit }})
+        </span>
+      </label>
+      <input
+        type="text"
+        placeholder=" "
+        disabled
+        [(ngModel)]="debtLimit"
+        [ngModelOptions]="{ standalone: true }"
+        class="form-control"
+      />
+    </div>
+    <div class="width-25">
+      <label class="mb-2">مندوب المبيعات</label>
+
+      <p-dropdown
+        [filter]="true"
+        [options]="allSales"
+        (onChange)="emitInvoiceData(selectedSales, 'sales')"
+        [(ngModel)]="selectedSales"
+        [ngModelOptions]="{ standalone: true }"
+        optionLabel="name"
+        optionValue="id"
+        [showClear]="true"
+        placeholder=" "
+      >
+      </p-dropdown>
+    </div>
+    <div class="width-30">
+      <label class="mb-2"> اسم الصيدلية</label>
+      <p-dropdown
+        #InvoiceModal
+        (keydown.enter)="onDropdownKeydown($event, InvoiceModal)"
+        (click)="onDropdownKeydown($event, InvoiceModal)"
+        [options]="pharmacies"
+        [ngModelOptions]="{ standalone: true }"
+        [(ngModel)]="selectedPharmacies"
+        optionLabel="name"
+        optionValue="id"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        placeholder=" "
+      >
+        <ng-template pTemplate="selectedItem" let-selectedItem>
+          <div class="flex align-items-center gap-2" *ngIf="selectedPharmacies">
+            <div>{{ selectedItem.name }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+  </div>
+  <div
+    [ngClass]="{ 'd-flex': display, 'd-none': !display }"
+    class="flex-wrap gap-3 align-items-end mb-3"
+  >
+    <div class="flex-fill">
+      <label class="mb-2">العنوان</label>
+      <input
+        type="text"
+        placeholder=" "
+        disabled
+        [(ngModel)]="invoiceData.pharmaciesAdress"
+        [ngModelOptions]="{ standalone: true }"
+        class="form-control"
+      />
+    </div>
+    <div class="width-35">
+      <label class="mb-2">رقم الهاتف</label>
+      <input
+        type="text"
+        placeholder=" "
+        disabled
+        [(ngModel)]="invoiceData.phone_number"
+        [ngModelOptions]="{ standalone: true }"
+        class="form-control"
+      />
+    </div>
+    <div class="width-12">
+      <label class="mb-2">رقم خط السير</label>
+      <input
+        type="text"
+        placeholder=" "
+        disabled
+        [(ngModel)]="trackName"
+        [ngModelOptions]="{ standalone: true }"
+        class="form-control fs-12"
+      />
+    </div>
+  </div>
+  <div
+    [ngClass]="{ 'd-flex': display, 'd-none': !display }"
+    class="flex-wrap gap-3 align-items-end"
+  >
+    <div class="width-50 d-flex gap-2">
+      <div class="w-75">
+        <label class="mb-2">دورة توصيل الأذن</label>
+        <input
+          type="text"
+          placeholder=" "
+          disabled
+          [(ngModel)]="shiftString"
+          [ngModelOptions]="{ standalone: true }"
+          class="form-control fs-12"
+        />
+      </div>
+      <div class="w-25 p-field-checkbox d-flex flex-column">
+        <label class="specialDelivery">توصيل سريع</label>
+        <input
+          class="form-check-input cursor-pointer check_input"
+          [ngModelOptions]="{ standalone: true }"
+          (change)="emitInvoiceData(shippingType, 'shippingType')"
+          [(ngModel)]="shippingType"
+          type="checkbox"
+          value=""
+          id="flexCheckDefault"
+        />
+      </div>
+    </div>
+    <div class="flex-fill">
+      <label class="form-label">ملاحظة علي الأذن</label>
+      <input
+        type="text"
+        placeholder=" "
+        (change)="
+          emitInvoiceData(clientDataForm.controls['note'].value, 'note')
+        "
+        formControlName="note"
+        class="form-control"
+      />
+    </div>
+  </div>
+</form>

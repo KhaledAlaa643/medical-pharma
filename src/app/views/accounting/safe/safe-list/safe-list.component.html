@@ -1,0 +1,144 @@
+<div class="main_card_margen">
+  <div class="card boxShadow-15 borderRadius_20px p-3">
+    <div id="header" class="mb-3">
+      <form
+        [formGroup]="searchForm"
+        id="header"
+        class="d-flex gap-2 flex-wrap align-items-end"
+      >
+        <div class="width-25 d-flex flex-column">
+          <label class="mb-2"> نوع الخزينة</label>
+          <p-dropdown
+            [showClear]="true"
+            formControlName="type"
+            [options]="safeTypes"
+            placeholder=" "
+            optionLabel="name"
+            optionValue="value"
+          ></p-dropdown>
+        </div>
+        <div class="width-25 d-flex flex-column">
+          <label class="mb-2">موظفي الخزينة </label>
+          <p-dropdown
+            [showClear]="true"
+            [options]="safe_employees"
+            placeholder=" "
+            formControlName="userId"
+            optionLabel="name"
+            optionValue="id"
+          ></p-dropdown>
+        </div>
+        <div class="width-25 d-flex flex-column">
+          <label class="mb-2">الكاتب </label>
+          <p-dropdown
+            [showClear]="true"
+            [options]="super_admins"
+            placeholder=" "
+            formControlName="created_by"
+            optionLabel="name"
+            optionValue="id"
+          ></p-dropdown>
+        </div>
+
+        <div class="width-10 d-flex justify-content-center my-2">
+          <button
+            (click)="filter()"
+            class="green_bg_black_txt_btn width-60 p-2 h-40px borderRadius_10px border-0"
+          >
+            بحث
+          </button>
+        </div>
+        <div class="width-10 d-flex justify-content-end">
+          <button
+            (click)="openModal()"
+            class="printBtn fullScreen-768px d-flex fs-19 h-60px borderRadius_15px p-3 align-items-center text-center justify-content-center boxShadow-15"
+          >
+            طباعة
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_5900_794)">
+                <path
+                  d="M22.6667 22.6667H25.3333C26.0406 22.6667 26.7189 22.3857 27.219 21.8856C27.719 21.3855 28 20.7072 28 20V14.6667C28 13.9594 27.719 13.2811 27.219 12.781C26.7189 12.281 26.0406 12 25.3333 12H6.66667C5.95942 12 5.28115 12.281 4.78105 12.781C4.28095 13.2811 4 13.9594 4 14.6667V20C4 20.7072 4.28095 21.3855 4.78105 21.8856C5.28115 22.3857 5.95942 22.6667 6.66667 22.6667H9.33333"
+                  stroke="#3F497F"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M22.6673 12V6.66667C22.6673 5.95942 22.3864 5.28115 21.8863 4.78105C21.3862 4.28095 20.7079 4 20.0007 4H12.0007C11.2934 4 10.6151 4.28095 10.115 4.78105C9.61494 5.28115 9.33398 5.95942 9.33398 6.66667V12"
+                  stroke="#3F497F"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M9.33398 19.9997C9.33398 19.2924 9.61494 18.6142 10.115 18.1141C10.6151 17.614 11.2934 17.333 12.0007 17.333H20.0007C20.7079 17.333 21.3862 17.614 21.8863 18.1141C22.3864 18.6142 22.6673 19.2924 22.6673 19.9997V25.333C22.6673 26.0403 22.3864 26.7185 21.8863 27.2186C21.3862 27.7187 20.7079 27.9997 20.0007 27.9997H12.0007C11.2934 27.9997 10.6151 27.7187 10.115 27.2186C9.61494 26.7185 9.33398 26.0403 9.33398 25.333V19.9997Z"
+                  stroke="#3F497F"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_5900_794">
+                  <rect width="32" height="32" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div id="table" class="mb-3">
+      <app-shared_table
+        [columnsArray]="columnsArray"
+        [columnsNames]="columnsName"
+        [RowsData]="data"
+        (productClickEvent)="editSafe($event)"
+      ></app-shared_table>
+    </div>
+
+    <div
+      #pagination
+      class="d-flex flex-wrap justify-content-center text-center align-items-center w-100"
+    >
+      <div
+        class="d-flex width-20 h-60px lightGreen-border borderRadius_15px p-2 justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600 w-100">
+          العدد : {{ additional_data.count }}
+        </span>
+      </div>
+
+      <div class="pagination-area width-50-lg d-flex justify-content-center">
+        <p-paginator
+          #paginator
+          class="d-flex justify-content-center mb-2"
+          (onPageChange)="changepage($event)"
+          [first]="1"
+          [rows]="rows"
+          [totalRecords]="total"
+        ></p-paginator>
+      </div>
+      <div class="width-20"></div>
+    </div>
+  </div>
+</div>
+
+<button
+  hidden
+  #OpenOptionsModal
+  type="button"
+  (click)="choosePrintTypePopup.openAddModal()"
+></button>
+<app-printing-options-popup
+  [paginated]="true"
+  (printData)="print($event)"
+  #choosePrintTypePopup
+></app-printing-options-popup>

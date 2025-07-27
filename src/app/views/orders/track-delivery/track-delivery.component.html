@@ -1,0 +1,620 @@
+<div class="main_card_margen">
+  <div class="p-4 border rounded-4 m-3 shadow defaultBg">
+    <form [formGroup]="trakingOrderForm">
+      <div class="row align-items-end">
+        <div class="col-md-6 col-lg-2 orderNum">
+          <label class="mb-2 d-flex">رقم الطلب </label>
+          <input
+            #orderNumber
+            type="number"
+            placeholder=" "
+            formControlName="orderNumber"
+            id="orderNumber"
+            class="form-control focus-next-item"
+          />
+        </div>
+        <div class="col-md-6 col-lg-3 calender position-relative">
+          <label class="mb-2 d-flex">التاريخ </label>
+          <div>
+            <p-calendar
+              [dir]="'ltr'"
+              formControlName="date"
+              id="calendar"
+              #calendar
+              dateFormat="mm-dd-yy"
+              [dir]="'ltr'"
+              class="w-100 borderRadius_10px focus-next-item"
+              [showClear]="trakingOrderForm.controls['date'].value"
+              [showButtonBar]="true"
+              placeholder="تاريخ الاصدار "
+            ></p-calendar>
+            <img
+              style="left: 15px"
+              (click)="calendar.toggle()"
+              class="calendar-icon position-absolute p-2"
+              src="../../../../assets/images/input/calender.svg"
+              alt=""
+            />
+          </div>
+        </div>
+
+        <div class="col-md-12 col-lg-4">
+          <label class="mb-2 d-flex"> اسم الصيدلية </label>
+
+          <p-dropdown
+            #pharmacyId
+            id="pharmacyId"
+            formControlName="pharmacyId"
+            [options]="groupPharmacied"
+            #pharmacy
+            optionLabel="name"
+            optionValue="id"
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+            placeholder=" "
+            (click)="goToButton(pharmacyId)"
+            (keydown.enter)="goToButton(pharmacyId)"
+          >
+            <ng-template pTemplate="selectedItem" let-selectedItem>
+              <div class="flex align-items-center gap-2">
+                <div>{{ selectedItem.name }}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+        <div class="col-md-12 col-lg-2 addbtn">
+          <div class="d-flex justify-content-end align-items-center h-100">
+            <button
+              (click)="getOrder()"
+              (keydown.enter)="getOrder()"
+              #addBtn
+              type="submit"
+              class="mt-3 submitBtn h-40px darkGreen-bg borderRadius_10px border-0 fw-600 fs-18 w-100"
+            >
+              بحث
+            </button>
+          </div>
+        </div>
+        <div class="col-md-12 col-lg-2 ps-2 salesName">
+          <label class="mb-2">اسم المندوب</label>
+          <input
+            formControlName="salesName"
+            type="text"
+            placeholder=" "
+            class="form-control disabledColor"
+            readonly
+          />
+        </div>
+        <div class="col-md-12 col-lg-3">
+          <label class="mb-2">دورة الطلب</label>
+          <input
+            formControlName="orderCycle"
+            type="text"
+            placeholder=" "
+            class="form-control disabledColor"
+            readonly
+          />
+        </div>
+      </div>
+      <!-- Stage 1 New Design-->
+      <div *ngIf="status == 0">
+        <div class="container d-flex justify-content-center align-items-center">
+          <div class="steps">
+            <div class="next">5</div>
+            <div class="vLine"></div>
+            <div class="next">4</div>
+            <div class="vLine"></div>
+            <div class="next">3</div>
+            <div class="vLine"></div>
+            <div class="next">2</div>
+            <div class="vLine"></div>
+            <div class="active">1</div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row m-3 my-5">
+            <div class="col-xs-12 stepsImage col-md-10 col-lg-10 w-75 m-auto">
+              <div class="image-fluid w-100 rounded-5 imageContainer p-3">
+                <p style="font-weight: 600; font-size: 32px">الطلب مفتوح</p>
+                <img
+                  src="../../../../assets/images/orderStatus/الطلب-مفتوح.svg"
+                  class="img-fluid"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row p-2">
+            <div class="col-xs-12 col-md-12 col-lg-12 p-0 w-75 m-auto">
+              <p class="text-center">وقت وتاريخ انشاء الأذن</p>
+              <div class="w-100 d-flex justify-content-center">
+                <p class="dateTimeArea w-25 rounded-4 m-auto p-3">
+                  {{ created_at }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- state 2 -->
+      <div *ngIf="status == 1">
+        <div class="container d-flex justify-content-center align-items-center">
+          <div class="steps">
+            <div class="next">5</div>
+            <div class="vLine"></div>
+            <div class="next">4</div>
+            <div class="vLine"></div>
+            <div class="next">3</div>
+            <div class="vLine"></div>
+            <div class="active">2</div>
+            <div class="vLine"></div>
+            <div class="done">
+              <svg
+                width="37"
+                height="34"
+                viewBox="0 0 37 34"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M33.6497 5.93564L12.7016 26.8838L3.17969 17.3619"
+                  stroke="#3F497F"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row m-3 my-5">
+            <div class="col-xs-12 stepsImage col-md-10 col-lg-10 w-75 m-auto">
+              <div class="image-fluid w-100 rounded-5 imageContainer">
+                <img
+                  src="../../../../assets/images/orderStatus/في مرحلة التحضير.png"
+                  class="img-fluid"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row p-2">
+            <div class="col-xs-12 col-md-12 col-lg-12 p-0 w-75 m-auto">
+              <p class="text-center">وقت وتاريخ انشاء الأذن</p>
+              <div class="w-100 d-flex justify-content-center">
+                <p class="dateTimeArea w-25 rounded-4 m-auto p-3">
+                  {{ created_at }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- state 2 -->
+      <div *ngIf="status == 2">
+        <div class="container d-flex justify-content-center align-items-center">
+          <div class="steps">
+            <div class="next">5</div>
+            <div class="vLine"></div>
+            <div class="next">4</div>
+            <div class="vLine"></div>
+            <div class="active">3</div>
+            <div class="vLine"></div>
+            <div class="done">
+              <svg
+                width="37"
+                height="34"
+                viewBox="0 0 37 34"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M33.6497 5.93564L12.7016 26.8838L3.17969 17.3619"
+                  stroke="#3F497F"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="vLine"></div>
+            <div class="done">
+              <svg
+                width="37"
+                height="34"
+                viewBox="0 0 37 34"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M33.6497 5.93564L12.7016 26.8838L3.17969 17.3619"
+                  stroke="#3F497F"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12 my-5">
+              <div
+                class="stepsImage image-fluid img-rounded rounded imageContainer w-75 mx-auto rounded-4 pt-3"
+              >
+                <p style="font-weight: 600; font-size: 32px">لم يتم جردها</p>
+                <img
+                  src="../../../../assets/images/orderStatus/لم-يتم-جردها.svg"
+                  class="img-fluid"
+                  alt="man-moving-boxes"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row m-auto p-2">
+            <div class="col-xs-12 col-md-12 col-lg-12 p-0 w-100">
+              <p class="text-center">وقت وتاريخ انشاء الأذن</p>
+              <div class="w-100 d-flex justify-content-center">
+                <p class="dateTimeArea w-25 rounded-4 m-auto p-3">
+                  {{ created_at }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- state 3 -->
+      <div *ngIf="status == 3">
+        <div class="container d-flex justify-content-center align-items-center">
+          <div class="steps">
+            <div class="next">5</div>
+            <div class="vLine"></div>
+            <div
+              class="next"
+              style="background-color: #3f497f !important; color: #ffffff"
+            >
+              4
+            </div>
+            <div class="vLine"></div>
+            <div class="done" style="background-color: #ffffff !important">
+              <svg
+                width="37"
+                height="34"
+                viewBox="0 0 37 34"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M33.6497 5.93564L12.7016 26.8838L3.17969 17.3619"
+                  stroke="#3F497F"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="vLine" style="color: #3f497f !important"></div>
+            <div class="done" style="background-color: #ffffff !important">
+              <svg
+                width="37"
+                height="34"
+                viewBox="0 0 37 34"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M33.6497 5.93564L12.7016 26.8838L3.17969 17.3619"
+                  stroke="#3F497F"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="vLine" style="color: #3f497f !important"></div>
+            <div class="done" style="background-color: #ffffff !important">
+              <svg
+                width="37"
+                height="34"
+                viewBox="0 0 37 34"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M33.6497 5.93564L12.7016 26.8838L3.17969 17.3619"
+                  stroke="#3F497F"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row p-2">
+            <div class="col-xs-12 col-md-12 col-lg-12 my-5">
+              <div class="stepsImage w-75 mx-auto rounded-5">
+                <div class="imageContainer rounded-5 pt-3">
+                  <p style="font-weight: 600; font-size: 32px">تم جردها</p>
+
+                  <img
+                    src="../../../../assets/images/orderStatus/تم-جردها.svg"
+                    class="img-fluid"
+                    alt="man-moving-boxes"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12 p-0 w-100">
+              <p class="text-center">وقت وتاريخ انشاء الأذن</p>
+              <div class="w-100 d-flex justify-content-center">
+                <p class="dateTimeArea w-25 rounded-4 m-auto p-3">
+                  {{ created_at }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="status == 4">
+        <div class="container d-flex justify-content-center align-items-center">
+          <div class="steps">
+            <div
+              class="next"
+              style="background-color: #3f497f !important; color: #ffffff"
+            >
+              5
+            </div>
+            <div class="vLine"></div>
+            <div class="done">
+              <svg
+                width="37"
+                height="34"
+                viewBox="0 0 37 34"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M33.6497 5.93564L12.7016 26.8838L3.17969 17.3619"
+                  stroke="#3F497F"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="vLine"></div>
+            <div class="done" style="background-color: #ffffff !important">
+              <svg
+                width="37"
+                height="34"
+                viewBox="0 0 37 34"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M33.6497 5.93564L12.7016 26.8838L3.17969 17.3619"
+                  stroke="#3F497F"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="vLine" style="color: #3f497f !important"></div>
+            <div class="done" style="background-color: #ffffff !important">
+              <svg
+                width="37"
+                height="34"
+                viewBox="0 0 37 34"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M33.6497 5.93564L12.7016 26.8838L3.17969 17.3619"
+                  stroke="#3F497F"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="vLine" style="color: #3f497f !important"></div>
+            <div class="done" style="background-color: #ffffff !important">
+              <svg
+                width="37"
+                height="34"
+                viewBox="0 0 37 34"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M33.6497 5.93564L12.7016 26.8838L3.17969 17.3619"
+                  stroke="#3F497F"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row p-2">
+            <div class="col-xs-12 col-md-12 col-lg-12 my-5">
+              <div class="stepsImage w-75 mx-auto rounded-5">
+                <div class="imageContainer rounded-5 pt-3">
+                  <p style="font-weight: 600; font-size: 32px">
+                    في مرحلة التوزيع و التوصيل
+                  </p>
+
+                  <img
+                    src="../../../../assets/images/orderStatus/Loading workman carrying boxes 1.png"
+                    class="img-fluid"
+                    alt="man-moving-boxes"
+                  />
+                </div>
+                <div
+                  class="w-100 borderRadius_10px justify-content-center d-flex mt-4"
+                >
+                  <div class="map1" id="map1">
+                    <google-map
+                      height="276px"
+                      class="rounded-map"
+                      [center]="center"
+                      [zoom]="zoom"
+                      (mapClick)="moveMap($event)"
+                      (mapMousemove)="move($event)"
+                    >
+                      <map-marker
+                        #marker="mapMarker"
+                        [position]="markerPosition"
+                      ></map-marker>
+                    </google-map>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-md-12 col-lg-12 p-0 w-100">
+              <p class="text-center">وقت وتاريخ انشاء الأذن</p>
+              <div class="w-100 d-flex justify-content-center">
+                <p class="dateTimeArea w-25 rounded-4 m-auto p-3">
+                  {{ created_at }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- state 4 -->
+      <div *ngIf="status == 5">
+        <div class="container d-flex justify-content-center align-items-center">
+          <div class="steps">
+            <div class="done">
+              <svg
+                width="37"
+                height="34"
+                viewBox="0 0 37 34"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M33.6497 5.93564L12.7016 26.8838L3.17969 17.3619"
+                  stroke="#3F497F"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="vLine"></div>
+            <div class="done">
+              <svg
+                width="37"
+                height="34"
+                viewBox="0 0 37 34"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M33.6497 5.93564L12.7016 26.8838L3.17969 17.3619"
+                  stroke="#3F497F"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="vLine"></div>
+            <div class="done" style="background-color: #ffffff !important">
+              <svg
+                width="37"
+                height="34"
+                viewBox="0 0 37 34"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M33.6497 5.93564L12.7016 26.8838L3.17969 17.3619"
+                  stroke="#3F497F"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="vLine" style="color: #3f497f !important"></div>
+            <div class="done" style="background-color: #ffffff !important">
+              <svg
+                width="37"
+                height="34"
+                viewBox="0 0 37 34"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M33.6497 5.93564L12.7016 26.8838L3.17969 17.3619"
+                  stroke="#3F497F"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="vLine" style="color: #3f497f !important"></div>
+            <div class="done" style="background-color: #ffffff !important">
+              <svg
+                width="37"
+                height="34"
+                viewBox="0 0 37 34"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M33.6497 5.93564L12.7016 26.8838L3.17969 17.3619"
+                  stroke="#3F497F"
+                  stroke-width="5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row m-2">
+            <div class="col-xs-12 col-md-12 col-lg-12">
+              <div class="stepsImage w-75 mx-auto rounded-5">
+                <div class="imageContainer rounded-5">
+                  <img
+                    src="../../../../assets/images/orderStatus/تم التوصيل.png"
+                    class="imageContainer img-fluid w-75 p-5 w-100 rounded-5 img-fluid p-1"
+                    alt="man-moving-boxes"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row m-5 p-2">
+            <div class="col-xs-12 col-md-12 col-lg-12 p-0 w-100">
+              <p class="text-center">وقت وتاريخ انشاء الأذن</p>
+              <div class="w-100 d-flex justify-content-center">
+                <p class="dateTimeArea w-25 rounded-4 m-auto p-3">
+                  {{ created_at }}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,1506 @@
+<!-- [resizableColumns]="true"
+[ngClass]="{'max-width-style': (columnsArray.length < 6)}" -->
+<p-table
+  [responsive]="true"
+  [value]="RowsData"
+  [columns]="columnsArray"
+  [ngClass]="{
+    'max-width-style': columnsArray.length < 6,
+    'equal-columns': equalColumns
+  }"
+  responsiveLayout="stack"
+  [breakpoint]="'960px'"
+  [resizableColumns]="true"
+  styleClass="p-datatable-gridlines"
+>
+  <ng-template pTemplate="header">
+    <tr *ngIf="colSpanArray">
+      <ng-container *ngFor="let colSpan of colSpanArray">
+        <th
+          style="display: table-cell !important"
+          [attr.colspan]="colSpan.colSpan"
+        >
+          {{ colSpan.name }}
+        </th>
+      </ng-container>
+    </tr>
+    <tr #table id="table">
+      <!-- [ngClass]="{'p-datatable-scrollable':colItem.frozen,'p-frozen-column': colItem.frozen,'end-0':colItem.frozen,'bg-white':colItem.frozen}" -->
+      <th
+        style="display: table-cell !important"
+        class="fw-400 fs-18"
+        class="table-cell-style"
+        *ngFor="let colItem of columnsArray; let i = index"
+        [ngClass]="{
+          'p-datatable-scrollable': colItem.frozen,
+          sticky_column: colItem.frozen
+        }"
+      >
+        <div class="d-flex gap-1 justify-content-center">
+          {{ colItem.name }}
+          <div
+            (click)="sortColumn(colItem, i)"
+            *ngIf="colItem.sort"
+            class="cursor-pointer"
+          >
+            <i
+              *ngIf="
+                sortedColumn === columnsNames[i].name &&
+                colItem.direction === 'asc'
+              "
+              class="p-sortable-column-icon pi pi-fw pi-sort-amount-up-alt"
+            ></i>
+            <i
+              *ngIf="
+                sortedColumn === columnsNames[i].name &&
+                colItem.direction === 'desc'
+              "
+              class="p-sortable-column-icon pi pi-fw pi-sort-amount-down"
+            ></i>
+            <i
+              *ngIf="
+                sortedColumn !== columnsNames[i].name || !colItem.direction
+              "
+              class="p-sortable-column-icon pi pi-fw pi-sort-alt"
+            ></i>
+          </div>
+        </div>
+        <div *ngIf="colItem.search">
+          <input
+            [(ngModel)]="searchWord"
+            (input)="emitSearchData()"
+            (keydown.enter)="emitSearchData()"
+            class="form-control h-33px borderRadius_10px"
+            placeholder="بحث "
+            type="text"
+          />
+        </div>
+      </th>
+      <th style="display: table-cell !important" *ngIf="showActionsArray">
+        <span>أمر </span>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-tableData let-i="rowIndex">
+    <tr
+      (click)="
+        tableData['apiName'] === 'collection'
+          ? emitProductId({ id: tableData['id'], index: i })
+          : ''
+      "
+      [ngStyle]="{ background: tableData['rowColor'] }"
+      [ngClass]="{
+        'special-delivery': tableData['shipping_type']?.value == 1,
+        redbg: tableData['backGround_red'],
+        'background-grey': tableData['is_returned'],
+
+        'text-white': tableData['allOrders_color'],
+        highlightRproduct:
+          (tableData['batch_id'] == IdToHighlight &&
+            showBlueBorder &&
+            !tableData['no_operation']) ||
+          (tableData['Product_id'] == ProductToHighlight &&
+            tableData['indexOfHighlight'] == 0 &&
+            showBlueBorder &&
+            !tableData['no_operation']),
+        highlightProductReviewer:
+          (tableData.id == ProductToHighlight ||
+            tableData.barcode == scanToHighight) &&
+          tableData.barcode &&
+          tableData.hasHighlight &&
+          tableData.status_value != 5,
+
+      }"
+    >
+      <td
+        *ngFor="let columnValue of columnsNames"
+        [class.p-0]="
+          columnValue.type == 'multiple_values' ||
+          columnValue.type == 'multiple_values_double'
+        "
+        [ngStyle]="
+          columnValue.type === 'highlight_price' && tableData['price_color']
+            ? {
+                background:
+                  tableData['price_color'] || tableData['allOrders_color']
+              }
+            : {}
+        "
+        [ngClass]="{
+          'bg-danger':
+            columnValue.type == 'redbackground' ||
+            (columnValue.type === 'bg_dynamic_accounting_safe' &&
+              tableData['net_amount'] < 0),
+
+          highlighted: columnValue.type == 'highlight_quantity',
+          'text-white':
+            columnValue.type === 'highlight_price' && tableData['price_color'],
+          'mainBlue-bg':
+            columnValue.type === 'blueBackground' ||
+            columnValue.type === 'blueBackgroundWithoutLine',
+          sticky_column: columnValue.frozen,
+          borderBold: tableData['isSelected'],
+          'background-red':
+            tableData['type'] === 'deficit' &&
+            columnValue.type === 'deficit_or_surplus_amount',
+          'background-green':
+            tableData['type'] === 'surplus' &&
+            columnValue.type === 'deficit_or_surplus_amount',
+          'bg-palegreen':
+            (columnValue.type === 'bg_palegreen' &&
+              tableData['is_partial_rejected']) ||
+            (columnValue.type === 'bg_dynamic_accounting_safe' &&
+              tableData['net_amount'] >= 0)
+        }"
+      >
+        <div *ngIf="columnValue.type == 'normal'">
+          {{ tableData[columnValue.name] }}
+        </div>
+        <div *ngIf="columnValue.type == 'deficit_or_surplus_amount'">
+          {{ tableData[columnValue.name] }}
+        </div>
+        <div *ngIf="columnValue.type == 'normal.name'">
+          {{ tableData[columnValue.name]?.name }}
+        </div>
+        <div *ngIf="columnValue.type == 'normal.id'">
+          {{ tableData[columnValue.name]?.id }}
+        </div>
+
+        <div
+          [ngClass]="{
+            'color-red': tableData[columnValue.name] == 'مرفوض',
+            'color-green': tableData[columnValue.name] == 'مقبول',
+            'color-yellow': tableData[columnValue.name] == 'قيد الانتظار'
+          }"
+          *ngIf="columnValue.type == 'status'"
+        >
+          {{ tableData[columnValue.name] }}
+        </div>
+        <div
+          [ngClass]="{
+          'color-red': tableData[columnValue.name] == 'خصم',
+          'color-green': tableData[columnValue.name] == 'إضافة',
+        }"
+          *ngIf="columnValue.type == 'add_deduction'"
+        >
+          {{ tableData[columnValue.name] }}
+        </div>
+        <div
+          [ngClass]="{
+          'bags-equal':tableData[columnValue.name]?.received  ==tableData[columnValue.name]?.total,
+        }"
+          *ngIf="columnValue.type == 'bags'"
+        >
+          {{ tableData[columnValue.name]?.received }} /
+          {{ tableData[columnValue.name]?.total }}
+        </div>
+        <div
+          style="direction: ltr !important"
+          *ngIf="columnValue.type == 'location'"
+        >
+          {{ tableData[columnValue.name] }}
+        </div>
+        <div *ngIf="columnValue.type == 'redbackground'" class="text-white">
+          {{ tableData[columnValue.name] }}
+        </div>
+
+        <!-- style="color: #28DF99;" -->
+        <div *ngIf="columnValue.type == 'green_text'" class="lightGreen-color">
+          {{ tableData[columnValue.name] }}
+        </div>
+        <div *ngIf="columnValue.type == 'timeFormat'">
+          {{ tableData[columnValue.name] | timeFormat }}
+        </div>
+        <div *ngIf="columnValue.type == 'sales.name'">
+          {{ tableData["sales"].name }}
+        </div>
+        <div *ngIf="columnValue.type == 'client-pharmacy-name'">
+          <div
+            (click)="
+              emitProductData({
+                client_id: tableData['client'].id,
+                pharmacy_id: tableData['pharmacy'].id
+              })
+            "
+            class="text-decoration-underline cursor-pointer"
+          >
+            {{ tableData["client"].name }} <br />
+            {{ tableData["pharmacy"].name }}
+          </div>
+        </div>
+        <div *ngIf="columnValue.type == 'loop'">
+          <span *ngFor="let item of tableData[columnValue.name]"
+            >/{{ item }}
+          </span>
+        </div>
+        <div *ngIf="columnValue.type == 'productData.id'">
+          {{ tableData["product"].id }}
+        </div>
+        <div *ngIf="columnValue.type == 'bg_palegreen'">
+          {{ tableData[columnValue.name] }}
+        </div>
+        <div
+          *ngIf="columnValue.type == 'nameClickable'"
+          class="text-decoration-underline fw-bold cursor-pointer"
+          (click)="emitProductId(tableData['id'])"
+        >
+          {{ tableData[columnValue.name] }}
+        </div>
+        <div
+          *ngIf="columnValue.type == 'nameClickableBlue'"
+          class="text-decoration-underline fw-bold cursor-pointer mainBlue-text"
+          (click)="emitOpenModalEvent(tableData['id'])"
+        >
+          {{ tableData[columnValue.name] }}
+        </div>
+        <div
+          *ngIf="columnValue.type == 'nameClickableWithType'"
+          class="text-decoration-underline fw-bold cursor-pointer mainBlue-text"
+          (click)="
+            emitOpenModalEvent({ id: tableData['id'], type: 'popup', index: i })
+          "
+        >
+          {{ tableData[columnValue.name] }}
+        </div>
+        <div
+          *ngIf="columnValue.type == 'ClickableBlue'"
+          class="text-decoration-underline fw-bold cursor-pointer mainBlue-text"
+          (click)="
+            emitOpenModalEvent({
+              type: tableData['type_value'],
+              id: tableData['id']
+            })
+          "
+        >
+          {{ tableData[columnValue.name] }}
+        </div>
+        <div
+          *ngIf="columnValue.type == 'ClickableBlueSupplier'"
+          class="text-decoration-underline fw-bold cursor-pointer mainBlue-text"
+          (click)="emitOpenModalEvent(tableData['supplier_id'])"
+        >
+          {{ tableData[columnValue.name] }}
+        </div>
+        <div
+          *ngIf="columnValue.type == 'ClickableBlueItem'"
+          class="text-decoration-underline fw-bold cursor-pointer mainBlue-text"
+          (click)="
+            emitOpenModalEvent({
+              type: tableData['type_value'],
+              id: tableData['subject_id']
+            })
+          "
+        >
+          {{ tableData[columnValue.name] }}
+        </div>
+        <div *ngIf="columnValue.type == 'normal-number'">
+          {{ tableData["currency"] }}
+          {{ tableData[columnValue.name] | number : "1.2-2" }}
+        </div>
+        <div *ngIf="columnValue.type == 'multiple2'">
+          {{ tableData["currency"] }} {{ tableData[columnValue.name] * 2 }}
+        </div>
+        <div *ngIf="columnValue.type == 'batches_expired_at'">
+          {{ tableData["batches"][0].expired_at }}<br />{{
+            tableData["batches"][0].operating_number
+          }}
+        </div>
+        <div *ngIf="columnValue.type == 'offers_quantity'">
+          {{ tableData["offers"][0]?.quantity }}
+        </div>
+        <div *ngIf="columnValue.type == 'expired_at/operating_number'">
+          {{ tableData["expired_at"] }} {{ tableData["operating_number"] }}
+        </div>
+        <div *ngIf="columnValue.type == 'batch_expired_at/operating_number'">
+          {{ tableData["batch_expired_at"] }}/
+          {{ tableData["batch_operating_number"] }}
+        </div>
+
+        <div
+          *ngIf="
+            columnValue.type == 'ViewPreparedOrders' &&
+            !tableData['notPrepared']
+          "
+          (click)="emitOpenModalEvent(tableData['invoice_id'])"
+        >
+          <span class="pi pi-eye cursor-pointer fs-5 darkBlueColor"></span>
+        </div>
+        <div *ngIf="columnValue.type == 'eyeIcon'">
+          <span
+            (click)="emitOpenModalEvent(tableData['invoice_id'])"
+            class="pi pi-eye cursor-pointer fs-5 darkBlueColor"
+          ></span>
+        </div>
+        <div *ngIf="columnValue.type == 'eyeIcon_id'">
+          <span
+            (click)="emitOpenModalEvent(tableData['return_id'])"
+            class="pi pi-eye cursor-pointer fs-5 darkBlueColor"
+          ></span>
+        </div>
+        <div
+          *ngIf="columnValue.type == 'trachIconDelete'"
+          (click)="emitDeleteEvent(tableData['returnable_id'])"
+        >
+          <svg
+            width="26"
+            height="26"
+            viewBox="0 0 26 26"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g clip-path="url(#clip0_6126_5491)">
+              <path
+                d="M4.3335 7.58301H21.6668"
+                stroke="#FF252B"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M10.8335 11.917V18.417"
+                stroke="#FF252B"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M15.1665 11.917V18.417"
+                stroke="#FF252B"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M5.4165 7.58301L6.49984 20.583C6.49984 21.1576 6.72811 21.7087 7.13444 22.1151C7.54077 22.5214 8.09187 22.7497 8.6665 22.7497H17.3332C17.9078 22.7497 18.4589 22.5214 18.8652 22.1151C19.2716 21.7087 19.4998 21.1576 19.4998 20.583L20.5832 7.58301"
+                stroke="#FF252B"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M9.75 7.58333V4.33333C9.75 4.04602 9.86414 3.77047 10.0673 3.5673C10.2705 3.36414 10.546 3.25 10.8333 3.25H15.1667C15.454 3.25 15.7295 3.36414 15.9327 3.5673C16.1359 3.77047 16.25 4.04602 16.25 4.33333V7.58333"
+                stroke="#FF252B"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_6126_5491">
+                <rect width="26" height="26" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        </div>
+        <div
+          *ngIf="columnValue.type == 'trachIconDeleteBatchId'"
+          (click)="emitDeleteEvent(tableData['batch_id'])"
+          class="cursor-pointer"
+        >
+          <svg
+            width="26"
+            height="26"
+            viewBox="0 0 26 26"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g clip-path="url(#clip0_6126_5491)">
+              <path
+                d="M4.3335 7.58301H21.6668"
+                stroke="#FF252B"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M10.8335 11.917V18.417"
+                stroke="#FF252B"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M15.1665 11.917V18.417"
+                stroke="#FF252B"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M5.4165 7.58301L6.49984 20.583C6.49984 21.1576 6.72811 21.7087 7.13444 22.1151C7.54077 22.5214 8.09187 22.7497 8.6665 22.7497H17.3332C17.9078 22.7497 18.4589 22.5214 18.8652 22.1151C19.2716 21.7087 19.4998 21.1576 19.4998 20.583L20.5832 7.58301"
+                stroke="#FF252B"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M9.75 7.58333V4.33333C9.75 4.04602 9.86414 3.77047 10.0673 3.5673C10.2705 3.36414 10.546 3.25 10.8333 3.25H15.1667C15.454 3.25 15.7295 3.36414 15.9327 3.5673C16.1359 3.77047 16.25 4.04602 16.25 4.33333V7.58333"
+                stroke="#FF252B"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_6126_5491">
+                <rect width="26" height="26" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        </div>
+        <div
+          *ngIf="columnValue.type == 'ViewReturnDetails'"
+          (click)="emitOpenModalEvent(tableData['id'])"
+        >
+          <span class="pi pi-eye cursor-pointer fs-5 darkBlueColor"></span>
+        </div>
+        <div *ngIf="columnValue.type == 'return'">
+          <button
+            appDisableButton
+            (click)="
+              emitOpenModalEvent({
+                id: tableData['id'],
+                pharmacy_id: tableData['pharmacy_id']
+              })
+            "
+            class="bluebtnStyles w-100 p-2"
+          >
+            مرتجع
+          </button>
+        </div>
+        <div *ngIf="columnValue.type == 'purchase_return'">
+          <button
+            appDisableButton
+            (click)="emitOpenModalEvent(tableData['purchase_id'])"
+            class="bluebtnStyles w-100 p-2"
+          >
+            مرتجع
+          </button>
+        </div>
+        <div *ngIf="columnValue.type == 'delivery'">
+          <button
+            appDisableButton
+            (click)="emitOpenModalEvent(tableData['order_id'])"
+            class="bluebtnStyles w-100 p-2"
+          >
+            تسليم
+          </button>
+        </div>
+        <div *ngIf="columnValue.type == 'receive'">
+          <!-- appDisableButton -->
+          <button
+            [disabled]="
+              tableData['bags']?.total === tableData['bags']?.received &&
+              tableData['cartons']?.total === tableData['cartons']?.received &&
+              tableData['fridges']?.total === tableData['fridges']?.received
+            "
+            (click)="emitOpenModalEvent(tableData['order_id'])"
+            class="bluebtnStyles w-100 p-2"
+          >
+            استلام
+          </button>
+        </div>
+        <div *ngIf="columnValue.type == 'receive_logbook'">
+          <!-- appDisableButton -->
+          <button
+            [disabled]="tableData['is_received']"
+            (click)="emitProductId({ id: tableData['id'] ,
+              remaining_receipts_show: tableData['remaining_receipts'],
+              representative_name: tableData['representative_name'],
+              number:tableData['start'] + '-' + tableData['end'],
+
+            })"
+            class="bluebtnStyles w-100 p-2"
+            [ngClass]="{ disabled: tableData['is_received'] }"
+          >
+            استلام
+          </button>
+        </div>
+        <div *ngIf="columnValue.type == 'review_logbook'">
+          <!-- appDisableButton -->
+          <button
+            [disabled]="tableData['is_reviewed']"
+            (click)="emitProductId({ id: tableData['id'] })"
+            class="bluebtnStyles w-100 p-2"
+            [ngClass]="{ disabled: tableData['is_reviewed'] }"
+          >
+            تم المراجعة
+          </button>
+        </div>
+        <div *ngIf="columnValue.type == 'edit'">
+          <!-- appDisableButton -->
+          <button
+            (click)="
+              emitProductId({
+                id: tableData['id'],
+                product_id: tableData['product_id'],
+                warehouse_id: tableData['warehouse_id'],
+                warehouse_name: tableData['warehouse_name'],
+                quantity: tableData['quantity']
+              })
+            "
+            class="bluebtnStyles w-100"
+          >
+            تعديل
+          </button>
+        </div>
+        <div *ngIf="columnValue.type == 'transfer_btn'">
+          <!-- appDisableButton -->
+          <button
+            (click)="
+              emitProductId({
+                id: tableData['id'],
+                amount_collected: tableData['total'],
+                delivery: tableData['delivery'],
+              })
+              "
+            class="bluebtnStyles w-100 p-2"
+          >
+            <!-- collection_id: tableData['collection_id'], -->
+            تحويل النقدية
+          </button>
+        </div>
+        <div *ngIf="columnValue.type == 'edit_track'">
+          <button
+            appDisableButton
+            (click)="
+              emitProductId({
+                id: tableData['id'],
+                type: 'edit'
+              })
+            "
+            class="bluebtnStyles w-100"
+          >
+            تعديل
+          </button>
+        </div>
+
+        <div *ngIf="columnValue.type == 'deficit_or_surplus_btn'">
+          <!-- appDisableButton -->
+          <button
+            appDisableButton
+            [disabled]="tableData['btn_status'] == 'confirm'"
+            (click)="
+              emitProductId({
+                id: tableData['id'],
+                index: i,
+
+              })
+            "
+            class="greenbtnStyles w-100 p-1"
+          >
+            حفظ
+          </button>
+        </div>
+
+        <div *ngIf="columnValue.type == 'incentiveAndPenalty'">
+          <div
+            *ngIf="tableData['status'].value == 1"
+            class="d-flex justify-content-between align-items-center gap-2"
+          >
+            <button
+              appDisableButton
+              *ngIf="tableData['type_status'] !== 'confirm'"
+              (click)="
+                emitProductId({
+                  id: tableData['id'],
+                  type: 'confirm'
+                })
+              "
+              class="greenbtnStyles p-1 w-100"
+            >
+              تأكيد
+            </button>
+            <button
+              appDisableButton
+              *ngIf="tableData['type_status'] !== 'confirm'"
+              (click)="
+                emitProductId({
+                  id: tableData['id'],
+                  type: 'edit'
+                })
+              "
+              class="bluebtnStyles p-1 w-100"
+            >
+              تعديل
+            </button>
+          </div>
+        </div>
+        <div *ngIf="columnValue.type == 'accept_decline'">
+          <div
+            *ngIf="tableData['status'].value == 2"
+            class="d-flex justify-content-between align-items-center gap-2"
+          >
+            <button
+              appDisableButton
+              [disabled]="tableData['type_status'] == 'confirm'"
+              (click)="
+                emitProductId({
+                  id: tableData['id'],
+                  type: 'accept',
+                  index: i
+                })
+              "
+              class="greenbtnStyles p-1 w-100"
+            >
+              مقبول
+            </button>
+            <button
+              appDisableButton
+              [disabled]="tableData['type_status'] == 'confirm'"
+              (click)="
+                emitProductId({
+                  id: tableData['id'],
+                  type: 'decline',
+                  index: i
+                })
+              "
+              class="redbtnStyles p-1 w-100"
+            >
+              مرفوض
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="columnValue.type == 'delete'">
+          <button
+            appDisableButton
+            (click)="
+              emitProductId({
+                id: tableData['id'],
+                type: 'delete'
+              })
+            "
+            class="redbtnStyles w-100"
+          >
+            حذف
+          </button>
+        </div>
+        <div *ngIf="columnValue.type == 'transfer'">
+          <button
+            appDisableButton
+            (click)="emitProductId(tableData['id'])"
+            class="bluebtnStyles w-100 p-2"
+          >
+            تحويل
+          </button>
+        </div>
+        <div *ngIf="columnValue.type == 'delete_button'">
+          <button
+            appDisableButton
+            (click)="emitProductId(i)"
+            class="redbtnStyles w-100 p-2"
+          >
+            حذف
+          </button>
+        </div>
+        <div *ngIf="columnValue.type == 'settlement'">
+          <button
+            appDisableButton
+            (click)="
+              emitOpenModalEvent({
+                name: tableData['product_name'],
+                batch_id: tableData['batch_id'],
+                cart_id: tableData['cart_id']
+              })
+            "
+            class="bluebtnStyles w-100"
+          >
+            رد التسوية
+          </button>
+        </div>
+        <!-- print Button -->
+        <div *ngIf="columnValue.type == 'print'">
+          <button
+            appDisableButton
+            (click)="emitProductId(tableData['id'])"
+            class="bluebtnStyles w-100"
+          >
+            طباعة
+          </button>
+        </div>
+        <!-- Hand-in Button -->
+        <div *ngIf="columnValue.type == 'handin'">
+          <button
+            appDisableButton
+            (click)="emitnavigatEvent(tableData)"
+            class="bluebtnStyles w-100"
+          >
+            تفاصيل
+          </button>
+        </div>
+        <div *ngIf="columnValue.type == 'editOperation'">
+          <button
+            appDisableButton
+            (click)="emitOpenModalEvent(tableData['sub_batch_id'])"
+            class="bluebtnStyles w-100 p-2"
+          >
+            تعديل التاريخ و التشغيلة
+          </button>
+        </div>
+        <div *ngIf="columnValue.type == 'eyeIcon_transfer'">
+          <span
+            (click)="emitnavigatEvent(tableData['id'])"
+            class="pi pi-eye cursor-pointer fs-5 darkBlueColor"
+          ></span>
+        </div>
+        <div *ngIf="columnValue.type == 'eyeIcon_transfer_with_data'">
+          <span
+            (click)="emitnavigatEvent(tableData)"
+            class="pi pi-eye cursor-pointer fs-5 darkBlueColor"
+          ></span>
+        </div>
+        <!-- Opens the Notes Modal with the value sent/emitted to the component -->
+        <div *ngIf="columnValue.type == 'notes'" class="darkBlue">
+          <span
+            (click)="emitOpenModalEvent(tableData['id'])"
+            class="cursor-pointer text-decoration-underline"
+            >ملاحظات</span
+          >
+        </div>
+        <div *ngIf="columnValue.type == 'note_incentives'" class="darkBlue">
+          <span
+            *ngIf="tableData['note']"
+            (click)="emitOpenModalEvent(tableData['note'])"
+            class="cursor-pointer text-decoration-underline"
+            >ملاحظات</span
+          >
+        </div>
+        <div *ngIf="columnValue.type == 'notes_cash'" class="darkBlue">
+          <span
+            *ngIf="tableData['notes']"
+            (click)="emitOpenModalEvent(tableData['notes'])"
+            class="cursor-pointer text-decoration-underline"
+            >ملاحظات</span
+          >
+        </div>
+        <div *ngIf="columnValue.type == 'underlined_id'" class="darkBlue">
+          <span
+            (click)="emitItemClickEvent(tableData['id'])"
+            class="cursor-pointer text-decoration-underline"
+          >
+            {{ tableData[columnValue.name] }}
+          </span>
+        </div>
+        <div *ngIf="columnValue.type == 'underlined_code'" class="darkBlue">
+          <span
+            (click)="emitProductId(tableData['pharmacy'].id)"
+            class="cursor-pointer text-decoration-underline"
+          >
+            {{ tableData[columnValue.name] }}
+          </span>
+        </div>
+        <div
+          *ngIf="columnValue.type == 'underlined_id_number'"
+          class="darkBlue"
+        >
+          <span
+            (click)="emitProductId(tableData['id'])"
+            class="cursor-pointer text-decoration-underline"
+          >
+            {{ tableData[columnValue.name] }}
+          </span>
+        </div>
+        <div *ngIf="columnValue.type == 'showdatanotes'" class="darkBlue">
+          <span
+            (click)="emitOpenModalEvent(tableData['id'])"
+            class="cursor-pointer text-decoration-underline"
+            >{{
+              ((tableData[columnValue.name]
+                ? tableData[columnValue.name] + ""
+                : ""
+              )
+                .split(" ")
+                .slice(0, 3)
+                .join(" ") | slice : 0 : 15) +
+                ((tableData[columnValue.name]
+                  ? tableData[columnValue.name] + ""
+                  : ""
+                ).length > 15
+                  ? "..."
+                  : "")
+            }}</span
+          >
+        </div>
+        <div *ngIf="columnValue.type == 'order_content'">
+          <span
+            (click)="emitOpenModalEvent(tableData['order_id'])"
+            class="cursor-pointer text-decoration-underline"
+            style="color: rgb(63, 73, 127)"
+            >محتويات الأذن</span
+          >
+        </div>
+        <div *ngIf="columnValue.type == 'checkbox'">
+          <p-checkbox
+            name="group"
+            [value]="tableData"
+            [(ngModel)]="checkedData"
+            [disabled]="tableData.completed_at"
+            [inputId]="tableData.checked"
+            (ngModelChange)="onStatusCheckboxChange(i)"
+          ></p-checkbox>
+        </div>
+        <div *ngIf="columnValue.type == 'checkbox_receive'">
+          <p-checkbox
+            name="group"
+            [value]="tableData"
+            [(ngModel)]="checkedData"
+            [disabled]="tableData.completed_at"
+            [inputId]="tableData.checked"
+            (ngModelChange)="onOrderCheckboxChange(i)"
+          ></p-checkbox>
+        </div>
+        <div *ngIf="columnValue.type == 'highlight_quantity'">
+          {{ tableData[columnValue.name] }}
+        </div>
+        <div *ngIf="columnValue.type == 'highlight_price'">
+          {{ tableData[columnValue.name] }}
+        </div>
+
+        <div
+          *ngIf="columnValue.type == 'productNavName'"
+          (click)="
+            emitProductData({
+              product_id: tableData['Product_id'],
+              batch_id: tableData['batch_id']
+            })
+          "
+        >
+          <span
+            class="text-decoration-underline mainBlue-text cursor-pointer"
+            >{{ tableData["name"] }}</span
+          >
+        </div>
+
+        <div *ngIf="columnValue.type == 'modifyBatch'">
+          <button
+            (click)="
+              emitOpenModalEvent({
+                batch_id: tableData['batch_id'],
+                cart_id: tableData['cart_id'],
+                order_quantity: tableData['order_quantity']
+              })
+            "
+            class="button_blue"
+          >
+            {{ tableData[columnValue.name] }}
+          </button>
+        </div>
+
+        <div *ngIf="columnValue.type == 'rewiewStatusCheckbox'">
+          <p-checkbox
+            name="group"
+            [value]="tableData"
+            [(ngModel)]="checkedDataReview"
+            [disabled]="true"
+            [inputId]="tableData['completed_at']"
+            (ngModelChange)="onStatusCheckboxChange(i)"
+          ></p-checkbox>
+        </div>
+
+        <div
+          *ngIf="columnValue.type == 'clickOnProduct'"
+          (click)="emitProductData(tableData)"
+        >
+          <span class="text-decoration-underline cursor-pointer">{{
+            tableData["name"]
+          }}</span>
+        </div>
+        <div
+          *ngIf="columnValue.type == 'clickOnSupplier'"
+          (click)="
+            emitSupplierClickEvent({
+              price: tableData['price'],
+              discount: tableData['discount'],
+              id: tableData['supplier_id']
+            })
+          "
+        >
+          <span class="text-decoration-underline cursor-pointer">{{
+            tableData[columnValue.name]
+          }}</span>
+        </div>
+
+        <div *ngIf="columnValue.type == 'returnBatch'">
+          <!-- {{tableData|json}} -->
+          <button
+            *ngIf="tableData.return_data == null"
+            (click)="
+              emitReviewProducts({
+                quantity: tableData.quantity_difference,
+                cart_purchase_id: tableData?.cart_purchase_id,
+                purchase_id: tableData.purchase_id
+              })
+            "
+            class="bluebtnStyles p-2"
+          >
+            {{ tableData[columnValue.name] }}
+          </button>
+
+          <button
+            appDisableButton
+            *ngIf="tableData.return_data != null"
+            (click)="
+              emitProductDataOfReturn({
+                cart_purchase_id: tableData?.cart_purchase_id
+              })
+            "
+            class="bluebtnStyles bg-danger p-2"
+          >
+            {{ "الغاء المرتجع" }}
+          </button>
+        </div>
+        <div *ngIf="columnValue.type == 'cancelBatch'">
+          <button
+            appDisableButton
+            (click)="
+              emitCancelReturnModal({
+                cart_purchase_id: tableData.cart_purchase_id,
+                product_id: tableData.id
+              })
+            "
+            class="bluebtnStyles bg-danger p-2"
+          >
+            الغاء
+          </button>
+        </div>
+
+        <div
+          *ngIf="columnValue.type == 'openInvoiceDetails'"
+          (click)="
+            emitAllOrdersEvent(
+              'orderDetailsEventEmit',
+              tableData['id'],
+              tableData['pharmacy_id']
+            )
+          "
+          class="cursor-pointer text-decoration-underline"
+        >
+          <div>
+            <div>
+              {{ tableData[columnValue.name] }}
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="columnValue.type == 'blueEdit'">
+          <div (click)="emitAllOrdersEvent('editOrderEvent', tableData['id'])">
+            <!-- changed order status check from 5 to 0 -->
+            <button
+              appDisableButton
+              *ngIf="tableData['order_status'] == 0"
+              type="button"
+              style="
+                width: 100%;
+                padding: 7px;
+                background-color: rgb(63, 73, 127);
+              "
+              class="h-35px text-white darkBlue-bg borderRadius_10px border-0"
+            >
+              تعديل
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="columnValue.type == 'assign_btn'">
+          <div (click)="emitItemClickEvent(tableData['id'])">
+            <button
+              appDisableButton
+              type="button"
+              class="mainBlue-bg text-white px-3 py-2 borderRadius_10px border-0"
+            >
+              أسناد
+            </button>
+          </div>
+        </div>
+
+        <div *ngIf="columnValue.type == 'UncheckedBox'">
+          <p-checkbox
+            name="group"
+            [binary]="true"
+            [(ngModel)]="tableData.unchecked"
+            (onChange)="onUncheckedCheckboxChange(tableData)"
+          ></p-checkbox>
+        </div>
+
+        <!--green clickable-->
+        <div *ngIf="columnValue.type == 'GreenTextOpen'">
+          <span
+            (click)="orderClickEventEmit(tableData['order_id'])"
+            class="lightGreen-color cursor-pointer text-decoration-underline"
+          >
+            {{ tableData[columnValue.name] }}
+          </span>
+        </div>
+        <div *ngIf="columnValue.type == 'blueTextOpen'">
+          <span
+            (click)="orderClickEventEmit(tableData['order_id'])"
+            class="mainBlue-text cursor-pointer text-decoration-underline"
+          >
+            {{ tableData[columnValue.name] }}
+          </span>
+        </div>
+        <!--print btn-->
+        <div *ngIf="columnValue.type == 'printButton'">
+          <button
+            (click)="printInvoiceEvent.emit(tableData['order_id'])"
+            appDisableButton
+            type="button"
+            style="
+              width: 100%;
+              padding: 7px;
+              background-color: rgb(63, 73, 127);
+            "
+            class="h-35px text-white darkBlue-bg borderRadius_10px border-0"
+          >
+            {{ tableData[columnValue.name] }}
+          </button>
+        </div>
+
+        <div *ngIf="columnValue.type == 'statusCheckbox'">
+          <p-checkbox
+            name="group"
+            [value]="tableData"
+            [(ngModel)]="checkedData"
+            [disabled]="tableData.completed_at"
+            [inputId]="tableData.checked"
+            (ngModelChange)="onStatusCheckboxChange(i)"
+          ></p-checkbox>
+        </div>
+
+        <div *ngIf="columnValue.type == 'with_br_client'">
+          <span>
+            {{ tableData[columnValue.name] }}<br />{{
+              tableData["pharmacy_name"]
+            }}
+          </span>
+        </div>
+        <div *ngIf="columnValue.type == 'with_br_code'">
+          <span>
+            {{ tableData[columnValue.name] }}<br />{{
+              tableData["pharmacy_code"]
+            }}
+          </span>
+        </div>
+        <div *ngIf="columnValue.type == 'with_br_sales'">
+          <span>
+            {{ tableData[columnValue.name] }}<br />{{ tableData["sales2"] }}
+          </span>
+        </div>
+        <div *ngIf="columnValue.type == 'with_br_expiredAt'">
+          <span>
+            {{ tableData["expired_at"] }}<br />{{
+              tableData["operating_number"]
+            }}
+          </span>
+        </div>
+        <div *ngIf="columnValue.type == 'viewComplain'">
+          <span
+            (click)="emitnavigatEvent(tableData['id'])"
+            class="mainBlue-text cursor-pointer text-decoration-underline"
+          >
+            محتوي الشكوي
+          </span>
+        </div>
+        <div *ngIf="columnValue.type == 'blueBackground'">
+          <span class="text-white cursor-pointer text-decoration-underline">
+            {{ tableData[columnValue.name] }}
+          </span>
+        </div>
+        <div *ngIf="columnValue.type == 'input'">
+          <input
+            type="text"
+            class="form-control"
+            [disabled]="tableData['is_reviewed']"
+            [(ngModel)]="tableData[columnValue.name]"
+            (change)="
+              onInputChanged({
+                input_text: tableData[columnValue.name],
+                index: i
+              })
+            "
+          />
+        </div>
+
+        <div *ngIf="columnValue.type == 'blueBackgroundWithoutLine'">
+          <span class="text-white"> {{ tableData[columnValue.name] }} </span>
+        </div>
+        <div *ngIf="columnValue.type == 'view_file'">
+          <span
+            [routerLink]="
+              '/purchases/supply/manage/product-linking/' + tableData['file_id']
+            "
+            class="mainBlue-text cursor-pointer text-decoration-underline"
+            >معاينة</span
+          >
+        </div>
+        <div *ngIf="columnValue.type == 'multiple_values'">
+          <div
+            class="d-flex flex-column"
+            *ngFor="let item of tableData[columnValue.name]"
+          >
+            <span class="py-2">{{ item.name }}</span>
+            <span class="HLine"></span>
+          </div>
+        </div>
+        <div
+          *ngIf="columnValue.type == 'multiple_values_double'"
+          class="multiple-values-double max-content"
+        >
+          <div
+            *ngFor="let item of tableData[columnValue.name]; let i = index"
+            [ngClass]="{
+              'new-row': i % 2 === 0,
+              'full-width':
+                i + 1 == tableData[columnValue.name].length &&
+                tableData[columnValue.name].length % 2 !== 0
+            }"
+            class="multiple-values-item"
+          >
+            <span class="py-2">{{ item.name }}</span>
+          </div>
+        </div>
+
+        <div *ngIf="columnValue.type == 'multiple_values_array'">
+          <div
+            class="d-flex flex-column"
+            *ngFor="let item of tableData[columnValue.name]"
+          >
+            <span class="py-2">{{ item }}</span>
+            <span class="HLine"></span>
+          </div>
+        </div>
+        <div *ngIf="columnValue.type == 'safe_employees'">
+          <div
+            class="d-flex flex-wrap gap-1"
+            *ngFor="let item of tableData[columnValue.name]; let i = index"
+          >
+            <span class="py-2" [ngClass]="{ 'd-none': i >= 2 }"
+              >{{ item }}
+              <span
+                [ngClass]="{
+                  'd-none':
+                    i == tableData[columnValue.name].length - 1 || showMore
+                }"
+              >
+                ,
+              </span>
+            </span>
+
+            <button
+              *ngIf="tableData[columnValue.name].length > 2"
+              type="button"
+              class="show-more"
+              (click)="showMore = !showMore"
+            >
+              أعرض المزيد
+            </button>
+          </div>
+        </div>
+        <div *ngIf="columnValue.type == 'with_bg'">
+          {{ tableData[columnValue.name] }}
+        </div>
+        <div *ngIf="columnValue.type == 'bg_dynamic_accounting_safe'">
+          {{ tableData[columnValue.name] }}
+        </div>
+        <div *ngIf="columnValue.type == 'editable_input'">
+          <!-- [(ngModel)]="tableData[columnValue.name]" -->
+          <input type="text" class="form-control" />
+        </div>
+        <div *ngIf="columnValue.type == 'done'">
+          <button
+            (click)="emitOpenModalEvent(tableData['id'])"
+            style="width: 87px"
+            [disabled]="tableData['is_reviewed']"
+            class="green_bg_black_txt_btn width-45 h-50px borderRadius_10px"
+          >
+            تم
+          </button>
+        </div>
+        <div
+          class="d-flex flex-wrap gap-1"
+          *ngIf="columnValue.type == 'two_btn'"
+        >
+          <button
+            style="
+              width: max-content !important;
+              height: max-content !important;
+            "
+            (click)="emitProductId(tableData['id'])"
+            class="mainBlue-bg text-white p-2 h-50px borderRadius_15px border-0"
+          >
+            قبول المرتجع
+          </button>
+          <button
+            (click)="
+              emitOpenModalEvent({
+                client_name: tableData['client_name'],
+                product_name: tableData['product_name'],
+                id: tableData['id'],
+                quantity: tableData['quantity']
+              })
+            "
+            style="
+              width: max-content !important;
+
+              height: max-content !important;
+            "
+            class="darkRed-bg text-white p-2 h-50px borderRadius_15px border-0"
+          >
+            رفض المرتجع
+          </button>
+        </div>
+        <div
+          class="d-flex flex-wrap gap-1 justify-content-center"
+          *ngIf="columnValue.type == 'collected'"
+        >
+          <button
+            style="
+              width: max-content !important;
+              height: max-content !important;
+            "
+            class="mainBlue-bg text-white p-2 h-50px borderRadius_15px border-0"
+          >
+            تحصيل
+          </button>
+          <button
+            style="
+              width: max-content !important;
+              height: max-content !important;
+            "
+            class="darkRed-bg text-white p-2 h-50px borderRadius_15px border-0"
+          >
+            لم يتم تحصيل
+          </button>
+        </div>
+        <div
+          class="dropdown_with_btn d-flex gap-1"
+          *ngIf="columnValue.type == 'dropdown_with_btn'"
+        >
+          <p-dropdown
+            [showClear]="true"
+            style="width: 200px !important; display: flex"
+            placeholder=" "
+            optionLabel="name"
+            optionValue="id"
+          ></p-dropdown>
+          <button
+            style="
+              width: max-content !important;
+              height: max-content !important;
+            "
+            class="mainBlue-bg text-white p-2 h-50px borderRadius_15px border-0"
+          >
+            حفظ
+          </button>
+        </div>
+      </td>
+
+      <!-- <td>
+        <div *ngIf="ActionsArray && ActionsArray.length > 0" class="btn-group dropend">
+          <button type="button" class="btn dropdown-toggle" (click)="toggleDropdown(i)" id="dropdownMenuButton1" aria-expanded="false">
+            <i class="fas fa-ellipsis-v" style="color: #000000;"></i>
+          </button>
+          <ul [class.show]="dropdownOpen[i]" class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <ng-container *ngFor="let controlItem of ActionsArray">
+              <li class="dropdown-item">
+                <a [routerLink]="controlItem.route.path + tableData[controlItem.route.attribute]" >
+                  {{ controlItem.label }}
+                </a>
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+      </td> -->
+
+      <td *ngIf="showActionsArray">
+        <p-menu
+          #menu
+          [model]="
+            showActionsArrayType == 1 && tableData['status_id'] == 4
+              ? ActionsArrayNoDelete
+              : tableData['status_id'] !== 4 && showActionsArrayType == 1
+              ? ActionsArray
+              : showActionsArrayType == 2
+              ? ActionsArray1
+              : showActionsArrayType == 5
+              ? ActionsArray3
+              : showActionsArrayType == 4
+              ? ActionsArray4
+              : ActionsArray2
+          "
+          [popup]="true"
+        />
+
+        <p-button
+          *ngIf="tableData['status_id'] !== 4 && showActionsArrayType == 1"
+          (click)="
+            selected_supply_request_id = tableData['id']; menu.toggle($event)
+          "
+          icon="pi pi-ellipsis-v"
+        />
+        <p-button
+          *ngIf="tableData['status_id'] == 4 && showActionsArrayType === 1"
+          (click)="
+            selected_supply_request_id = tableData['id']; menu.toggle($event)
+          "
+          icon="pi pi-ellipsis-v"
+        />
+        <p-button
+          *ngIf="showActionsArrayType == 2"
+          (click)="
+            selected_shortage_index = i;
+            selected_shortage_id = tableData['id'];
+            menu.toggle($event)
+          "
+          icon="pi pi-ellipsis-v"
+        />
+        <p-button
+          *ngIf="showActionsArrayType == 5"
+          (click)="
+            selected_shortage_index = i;
+            selected_shortage_id = tableData['id'];
+            menu.toggle($event)
+          "
+          icon="pi pi-ellipsis-v"
+        />
+        <p-button
+          *ngIf="showActionsArrayType == 4"
+          (click)="
+            selected_shortage_index = i;
+            selected_shortage_id = tableData['id'];
+            menu.toggle($event)
+          "
+          icon="pi pi-ellipsis-v"
+        />
+        <p-button
+          *ngIf="showActionsArrayType == 3"
+          (click)="
+            selected_delivery_index = i;
+            selected_delivery_index = tableData['order_id'];
+            menu.toggle($event)
+          "
+          icon="pi pi-ellipsis-v"
+        />
+      </td>
+    </tr>
+  </ng-template>
+
+  <ng-template *ngIf="showTotal" class="border-5 border-top" pTemplate="footer">
+    <div class="title">
+      <span class="fw-600 mx-3">إجمالي</span>
+    </div>
+    <tr *ngFor="let footerRow of footerData">
+      <td *ngFor="let footerColumn of columnsFooterName">
+        <!-- [ngClass]="{'no-border': footerRow.type[column.type] === 'empty'}" -->
+        <div *ngIf="footerColumn.type === 'normal'">
+          {{ footerRow[footerColumn.name] }}
+        </div>
+        <!-- <div *ngIf="column.type === 'empty'">{{ footerRow[column.name] }}</div> -->
+        <div
+          *ngIf="footerColumn.type === 'green_text'"
+          class="lightGreen-color"
+        >
+          {{ footerRow[footerColumn.name] }}
+        </div>
+        <div
+          *ngIf="footerColumn.type === 'hovered_title'"
+          class="cursor-pointer"
+          [title]="footerRow['differentClientsCountMsg']"
+        >
+          <span class="info">!</span>
+          {{ footerRow[footerColumn.name] }}
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+<div
+  class="w-100 d-flex justify-content-center align-items-center"
+  *ngIf="RowsData?.length == 0 && !loaderService.isLoading.value"
+>
+  <span class="text-secondary fs-3">لا توجد بيانات</span>
+</div>
+
+<!-- <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-0">
+        <h1 class="modal-title fs-5 w-100 text-center" id="deleteModalLabel">
+          <span> Are You Sure You want to  </span><span>{{deleteDataModalService.deleteModalTitle}}</span>
+        </h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body border-0 d-flex justify-content-center">
+        <span>Are You Sure You want to {{deleteDataModalService.deleteModalTitle}} ?
+        </span>
+        <span></span>
+      </div>
+      <div class="modal-footer border-0 justify-content-center">
+        <button appDisableButton type="button" class="btn delete-button button-text ">Delete</button>
+        <button type="button" class="btn close-button  button-text  " data-bs-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!--printing options modal-->
+<button
+  hidden
+  #OpenOptionsModal
+  type="button"
+  (click)="choosePrintTypePopup.opensharedTableModal()"
+></button>
+<app-printing-options-popup
+  [paginatedSharedTable]="false"
+  [inSharedTable]="true"
+  (printDataSharedTable)="printSupplyRequest($event)"
+  [RowsDataSharedTable]="supply_request_content"
+  #choosePrintTypePopup
+></app-printing-options-popup>
+
+<button
+  hidden
+  #OpenModalBtn
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#deleteModal"
+></button>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="deleteModal"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body d-flex justify-content-center text-center align-items-center">
+        <h1 class="modal-title fs-5">هل انت متأكد من حذف الطلب !</h1>
+      </div>
+      <div class="modal-footer border-0 d-flex justify-content-center">
+        <button
+          (click)="deleteSupplyRequest()"
+          class="green_bg_black_txt_btn width-45 h-50px borderRadius_20px"
+        >
+          حذف
+        </button>
+        <button
+          #closeModalBtn
+          id="closeModalBtn"
+          type="button"
+          class="btn close-button button-text"
+          data-bs-dismiss="modal"
+          class="red_bg_black_txt_btn width-45 h-50px borderRadius_20px"
+        >
+          الغاء
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

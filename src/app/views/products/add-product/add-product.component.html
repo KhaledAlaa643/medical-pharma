@@ -1,0 +1,916 @@
+<div class="main_card_margen">
+  <div class="card borderRadius_10px boxShadow-15">
+    <div id="tabs" class="p-3 d-flex gap-3">
+      <div
+        (click)="changeActiveTab(0)"
+        [ngClass]="{ activeTab: tabs[0] }"
+        class="p-3 h-55px borderRadius_10px boxShadow-15 cursor-pointer justify-content-center align-items-center d-flex text-center"
+      >
+        بيانات اساسية
+      </div>
+      <div
+        (click)="changeActiveTab(1)"
+        [ngClass]="{ activeTab: tabs[1] }"
+        class="p-3 h-55px borderRadius_10px boxShadow-15 cursor-pointer justify-content-center align-items-center d-flex text-center"
+      >
+        سياسات البيع
+      </div>
+      <div
+        (click)="changeActiveTab(2)"
+        [ngClass]="{ activeTab: tabs[2] }"
+        class="p-3 h-55px borderRadius_10px boxShadow-15 cursor-pointer justify-content-center align-items-center d-flex text-center"
+      >
+        بيانات اخري
+      </div>
+    </div>
+
+    <div id="firstTabContent" class="p-3">
+      <form [formGroup]="productDataForm">
+        <div id="firstTab" *ngIf="tabs[0]" class="inventory-stock-balance-data">
+          <div class="row" formGroupName="name">
+            <div class="col-6">
+              <div class="w-100 my-2">
+                <label class="mb-2">اسم الصنف عربي </label>
+                <input
+                  type="text"
+                  placeholder=" "
+                  class="form-control"
+                  formControlName="ar"
+                />
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="w-100 my-2">
+                <label class="mb-2"> اسم الصنف انجليزي</label>
+                <input
+                  type="text"
+                  placeholder=" "
+                  class="form-control"
+                  formControlName="en"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <div class="w-100 my-2">
+                <label class="mb-2"> المادة الفعالة </label>
+                <p-dropdown
+                  [showClear]="true"
+                  [options]="activeIngredient"
+                  formControlName="active_ingredient_id"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="w-100 my-2">
+                <label class="mb-2"> بديل المادة الفعالة </label>
+                <p-multiSelect
+                  [options]="activeIngredient"
+                  formControlName="ingredient_alternative_ids"
+                  optionLabel="name"
+                  optionValue="id"
+                  display="chip"
+                  [panelStyle]="{ 'max-height': '300px' }"
+                ></p-multiSelect>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="w-100 my-2">
+                <label class="mb-2"> الشركة المصنعه </label>
+                <p-dropdown
+                  [showClear]="true"
+                  [options]="Manufacturers"
+                  formControlName="manufacturer_id"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+            <div class="col-6"></div>
+
+            <div class="col-lg-4">
+              <div class="w-100 my-2">
+                <label class="mb-2"> التصنيف </label>
+                <p-dropdown
+                  [showClear]="true"
+                  [options]="allFixedData.product_type"
+                  formControlName="type"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="value"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="w-100 my-2">
+                <label class="mb-2">الباكت </label>
+                <input
+                  type="number"
+                  placeholder=" "
+                  class="form-control"
+                  formControlName="items_number_in_packet"
+                />
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="w-100 my-2">
+                <label class="mb-2"> الكرتونة </label>
+                <input
+                  type="number"
+                  placeholder=" "
+                  class="form-control"
+                  formControlName="packets_number_in_package"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row gap-1">
+            <div class="col-md-12 col-lg-5">
+              <label class="mt-3">موقع الصنف الافتراضي</label>
+              <div class="col-md-12 col-lg-5 d-flex gap-2 my-2 displayblock">
+                <div class="w-100 my-2">
+                  <label class="mb-2">رف</label>
+                  <p-dropdown
+                    [showClear]="true"
+                    [options]="shelves"
+                    formControlName="shelf"
+                    class="d-block"
+                    optionLabel="number"
+                    optionValue="number"
+                    placeholder=" "
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+                <div class="w-100 my-2">
+                  <label class="mb-2">استاند</label>
+                  <p-dropdown
+                    [showClear]="true"
+                    [options]="stands"
+                    formControlName="stand"
+                    class="d-block"
+                    optionLabel="number"
+                    optionValue="number"
+                    placeholder=" "
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+                <div class="w-100 my-2">
+                  <label class="mb-2">محطة</label>
+                  <p-dropdown
+                    [showClear]="true"
+                    [options]="corridors"
+                    formControlName="corridor_id"
+                    class="d-block"
+                    optionLabel="number"
+                    optionValue="id"
+                    placeholder=" "
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-3">
+            <div class="col-lg-8">
+              <label class="mb-2">حالة البيع</label>
+              <div class="radiobuttons d-flex gap-5">
+                <div
+                  *ngFor="let radioBtn of allFixedData.product_selling_status"
+                >
+                  <div class="radiobutton">
+                    <input
+                      class="form-check-input mx-1"
+                      formControlName="selling_status"
+                      name="selling_status"
+                      type="radio"
+                      id="radio1"
+                      [value]="radioBtn.value"
+                    />
+                    <label class="form-check-label" for="radio1">
+                      {{ radioBtn.name }}
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-8">
+              <label class="mb-2">حالة الشراء</label>
+              <div class="radiobuttons d-flex gap-5">
+                <div
+                  *ngFor="let radioBtn of allFixedData.product_buying_status"
+                >
+                  <div class="radiobutton">
+                    <input
+                      class="form-check-input mx-1"
+                      formControlName="buying_status"
+                      name="buying_status"
+                      type="radio"
+                      id="radio2"
+                      [value]="radioBtn.value"
+                    />
+                    <label class="form-check-label" for="radio2">
+                      {{ radioBtn.name }}
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="barcode">
+            <div class="barcode-area my-4 col-md-4">
+              <div class="form-group">
+                <label class="mb-2">الباركود الدولي </label>
+                <input
+                  type="text"
+                  formControlName="global_barcode"
+                  class="form-control"
+                  placeholder=" "
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="notes">
+            <div class="form-group">
+              <label class="mb-2"> ملاحظات علي الصنف </label>
+              <textarea
+                class="form-control resize-none"
+                formControlName="note"
+                rows="4"
+                placeholder="  "
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="button my-3 d-flex justify-content-end">
+            <div class="add-prohibited-button">
+              <button
+                *ngIf="!edit"
+                (click)="addProduct()"
+                appDisableButton
+                type="button"
+                placeholder=" "
+                class="border-0 borderRadius_20px px-5 darkGreen-bg h-50px text-white fw-bolder fs-18"
+              >
+                اضافة الصنف
+              </button>
+              <button
+                *ngIf="edit"
+                (click)="updateProduct()"
+                appDisableButton
+                type="button"
+                placeholder=" "
+                class="border-0 borderRadius_20px px-5 darkGreen-bg h-50px text-white fw-bolder fs-18"
+              >
+                تعديل الصنف
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="secondeTab" *ngIf="tabs[1]" class="">
+          <div class="d-flex flex-wrap p-3 gap-2 align-items-end">
+            <div class="width-10 my-2">
+              <label class="mb-2">سعر الجمهور</label>
+              <input
+                type="text"
+                formControlName="price"
+                placeholder=" "
+                class="form-control"
+              />
+            </div>
+            <div class="width-25 my-2">
+              <label class="mb-2">خصم الشركة الأساسي</label>
+              <p-dropdown
+                [showClear]="true"
+                [options]="product_normal_discount"
+                formControlName="normal_discount"
+                class="d-block"
+                optionLabel="number"
+                optionValue="number"
+                placeholder=" "
+                [filter]="true"
+              ></p-dropdown>
+            </div>
+            <div class="width-28 my-2">
+              <label class="mb-2">خصم نقدي</label>
+              <p-dropdown
+                [showClear]="true"
+                [options]="allFixedData.extra_discount"
+                formControlName="cash_discount"
+                class="d-block"
+                optionLabel="name"
+                optionValue="value"
+                placeholder=" "
+                [filter]="true"
+              ></p-dropdown>
+            </div>
+            <div class="width-6 my-2">
+              <label class="mb-2">الضريبة</label>
+              <input
+                type="text"
+                placeholder=" "
+                formControlName="taxes"
+                class="form-control"
+              />
+            </div>
+
+            <!-- <div class="width-15 my-2  d-flex flex-wrap gap-5">
+                  <div class="radiobutton d-flex ">
+                      <input style="width: 40px !important;height: 40px !important;" class="form-check-input mx-1 borderRadius_10px"
+                          name="accept_return" type="checkbox"  [value]="acceptReturn">
+                      <label class="form-check-label">
+                        يقبل مرتجع
+                      </label>
+                  </div>
+
+              </div>
+              <div class="width-30 my-2">
+                <label class=" mb-2">محطة</label>
+                <p-dropdown [options]="corridors"  class="d-block"
+                    optionLabel="number" optionValue="id" placeholder=" " [filter]="true"></p-dropdown>
+            </div> -->
+          </div>
+
+          <div class="p-3 gap-2 d-flex flex-wrap">
+            <div class="width-12 my-2">
+              <label class="mb-2">سعر المخزن</label>
+              <input
+                type="text"
+                [ngModelOptions]="{ standalone: true }"
+                [(ngModel)]="this.warehouses_discounts_single.price"
+                [readonly]="true"
+                [class.readonly-input]="true"
+                placeholder=" "
+                readonly
+                class="form-control"
+              />
+            </div>
+            <div class="width-9 my-2">
+              <label class="mb-2">المرجح</label>
+              <input
+                type="text"
+                [ngModelOptions]="{ standalone: true }"
+                [(ngModel)]="this.warehouses_discounts_single.expected_discount"
+                [readonly]="true"
+                [class.readonly-input]="true"
+                placeholder=" "
+                readonly
+                class="form-control"
+              />
+            </div>
+            <div class="width-60 my-2">
+              <label class="mb-2">شرائح خصم بيع القطاعي</label>
+              <div class="d-flex flex-wrap gap-2">
+                <div
+                  class="width-13"
+                  *ngFor="
+                    let discount of this.warehouses_discounts_single
+                      .discount_tiers;
+                    let index = index
+                  "
+                >
+                  <input
+                    [readonly]="!edit"
+                    [class.readonly-input]="!edit"
+                    [ngModelOptions]="{ standalone: true }"
+                    [(ngModel)]="
+                      this.warehouses_discounts_single.discount_tiers[index]
+                        .discount
+                    "
+                    type="text "
+                    placeholder=" "
+                    class="form-control w-100"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="width-15 my-2">
+              <label class="mb-2">مطروح من المرجح</label>
+              <input
+                (change)="setTierValue(0)"
+                [readonly]="!edit"
+                [class.readonly-input]="!edit"
+                [ngModelOptions]="{ standalone: true }"
+                [(ngModel)]="
+                  this.warehouses_discounts_single
+                    .subtracted_from_weighted_discount
+                "
+                type="text"
+                placeholder=" "
+                class="form-control"
+              />
+            </div>
+          </div>
+          <div class="p-3 gap-2 d-flex flex-wrap">
+            <div class="width-12 my-2">
+              <label class="mb-2">سعر المخزن</label>
+              <input
+                [ngModelOptions]="{ standalone: true }"
+                [(ngModel)]="this.warehouses_discounts_bulk.price"
+                [readonly]="true"
+                [class.readonly-input]="true"
+                type="text"
+                placeholder=" "
+                readonly
+                class="form-control"
+              />
+            </div>
+            <div class="width-9 my-2">
+              <label class="mb-2">المرجح</label>
+              <input
+                [ngModelOptions]="{ standalone: true }"
+                [(ngModel)]="this.warehouses_discounts_bulk.expected_discount"
+                [readonly]="true"
+                [class.readonly-input]="true"
+                type="text"
+                placeholder=" "
+                readonly
+                class="form-control"
+              />
+            </div>
+            <div class="width-60 my-2">
+              <label class="mb-2">شرائح خصم بيع الجملة</label>
+              <div class="d-flex w-100 flex-wrap gap-2">
+                <div
+                  class="width-13"
+                  *ngFor="
+                    let discount of this.warehouses_discounts_bulk
+                      .discount_tiers;
+                    let index = index
+                  "
+                >
+                  <input
+                    [readonly]="!edit"
+                    [class.readonly-input]="!edit"
+                    [ngModelOptions]="{ standalone: true }"
+                    [(ngModel)]="
+                      this.warehouses_discounts_bulk.discount_tiers[index]
+                        .discount
+                    "
+                    type="text "
+                    placeholder=" "
+                    class="form-control w-100"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="width-15 my-2">
+              <label class="mb-2">مطروح من المرجح</label>
+              <input
+                (change)="setTierValue(1)"
+                type="text"
+                [readonly]="!edit"
+                [class.readonly-input]="!edit"
+                [ngModelOptions]="{ standalone: true }"
+                [(ngModel)]="
+                  this.warehouses_discounts_bulk
+                    .subtracted_from_weighted_discount
+                "
+                placeholder=" "
+                class="form-control"
+              />
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap p-3 gap-3 align-items-end">
+            <div class="width-15 my-2 d-flex flex-wrap gap-5">
+              <div class="radiobutton d-flex align-items-end">
+                <input
+                  formControlName="accept_returns"
+                  style="width: 40px !important; height: 40px !important"
+                  class="form-check-input mx-1 borderRadius_10px"
+                  name="accept_returns"
+                  type="checkbox"
+                  [value]="acceptReturn"
+                />
+                <label class="form-check-label"> يقبل مرتجع </label>
+              </div>
+            </div>
+            <div class="width-35 my-2">
+              <label class="mb-2">مدة القبول للمرتجع</label>
+              <p-dropdown
+                [showClear]="true"
+                [options]="supplier_idle_days"
+                formControlName="return_acceptance_period"
+                class="d-block"
+                optionLabel="number"
+                optionValue="number"
+                placeholder=" "
+                [filter]="true"
+              ></p-dropdown>
+            </div>
+            <!-- <div class="width-10 my-2 ">
+                <label class="  mb-2">سعر المخزن</label>
+                <input type="text" placeholder=" " readonly
+                class=" form-control  "
+                >
+              </div> -->
+            <!-- <div class="width-10 my-2 ">
+                  <label class="  mb-2">المرجح</label>
+                  <input type="text" placeholder=" " readonly
+                  class=" form-control  "
+                  >
+              </div> -->
+            <!-- <div class="width-25 my-2 ">
+                  <label class="  mb-2">خصم نقدي</label>
+                  <p-dropdown [options]="corridors"  class="d-block"
+                  optionLabel="number" optionValue="id" placeholder=" " [filter]="true"></p-dropdown>
+              </div> -->
+            <!-- <div class="width-8 my-2 ">
+                  <label class="  mb-2">الضريبة</label>
+                  <input type="text" placeholder=" " readonly
+                  class=" form-control  "
+                  >
+              </div> -->
+            <!-- <div class="width-15 my-2  d-flex flex-wrap gap-5">
+                  <div class="radiobutton d-flex align-items-end">
+                      <input style="width: 40px !important;height: 40px !important;" class="form-check-input mx-1 borderRadius_10px"
+                          name="accept_return" type="checkbox"  [value]="acceptReturn">
+                      <label class="form-check-label">
+                          في النواقص
+                      </label>
+                  </div>
+
+              </div>
+              <div class="flex-fill my-2">
+                <label class=" mb-2">كمية الكوتة</label>
+                <input type="text" placeholder=" " readonly
+                class=" form-control  ">
+            </div> -->
+          </div>
+
+          <!-- <div class="HLine"></div>
+
+            <div class="p-3">
+              <div class="mb-3">
+                  <span class="mb-2">العرض الأول</span>
+                  <div class="d-flex flex-wrap justify-content-between">
+                      <div class="width-20">
+                          <label class="  mb-2">أدني كمية للبيع</label>
+                          <input type="text" placeholder=" " readonly
+                              class=" form-control  "
+                              >
+                      </div>
+                      <div class="width-20">
+                          <label class="  mb-2">يضاف للخصم</label>
+                          <input type="text" placeholder=" " readonly
+                              class=" form-control  "
+                              >
+                      </div>
+                      <div class="width-20">
+                          <div class="d-flex">
+                            <label class="mb-2">تاريخ بدأ العرض</label>
+                          </div>
+                          <div class=" d-flex  justify-content-end align-items-center flex-wrap position-relative ">
+                            <p-calendar  #calendar1 dateFormat="mm-dd-yy" class="w-100 mx-0 h-50px  "
+                              placeholder=" " [showClear]="true" class="w-100">
+                            </p-calendar>
+                            <img (click)="calendar1.toggle()" class="calendar-icon position-absolute  p-2"
+                              src="../../../../assets/images/input/calender.svg" alt="">
+                          </div>
+                        </div>
+                      <div class="width-20">
+                          <div class="d-flex">
+                            <label class="mb-2">تاريخ نهاية العرض</label>
+                          </div>
+                          <div class=" d-flex  justify-content-end align-items-center flex-wrap position-relative ">
+                            <p-calendar  #calendar2 dateFormat="mm-dd-yy" class="w-100 mx-0 h-50px  "
+                              placeholder=" " [showClear]="true" class="w-100">
+                            </p-calendar>
+                            <img (click)="calendar2.toggle()" class="calendar-icon position-absolute  p-2"
+                              src="../../../../assets/images/input/calender.svg" alt="">
+                          </div>
+                        </div>
+                  </div>
+              </div>
+              <div>
+                  <span class="mb-2">العرض الثاني</span>
+                  <div class="d-flex flex-wrap justify-content-between">
+                      <div class="width-20">
+                          <label class="  mb-2">أدني كمية للبيع</label>
+                          <input type="text" placeholder=" " readonly
+                              class=" form-control  "
+                              >
+                      </div>
+                      <div class="width-20">
+                          <label class="  mb-2">يضاف للخصم</label>
+                          <input type="text" placeholder=" " readonly
+                              class=" form-control  "
+                              >
+                      </div>
+                      <div class="width-20">
+                          <div class="d-flex">
+                            <label class="mb-2">تاريخ بدأ العرض</label>
+                          </div>
+                          <div class=" d-flex  justify-content-end align-items-center flex-wrap position-relative ">
+                            <p-calendar  #calendar1 dateFormat="mm-dd-yy" class="w-100 mx-0 h-50px  "
+                              placeholder=" " [showClear]="true" class="w-100">
+                            </p-calendar>
+                            <img (click)="calendar1.toggle()" class="calendar-icon position-absolute  p-2"
+                              src="../../../../assets/images/input/calender.svg" alt="">
+                          </div>
+                        </div>
+                      <div class="width-20">
+                          <div class="d-flex">
+                            <label class="mb-2">تاريخ نهاية العرض</label>
+                          </div>
+                          <div class=" d-flex  justify-content-end align-items-center flex-wrap position-relative ">
+                            <p-calendar  #calendar2 dateFormat="mm-dd-yy" class="w-100 mx-0 h-50px  "
+                              placeholder=" " [showClear]="true" class="w-100">
+                            </p-calendar>
+                            <img (click)="calendar2.toggle()" class="calendar-icon position-absolute  p-2"
+                              src="../../../../assets/images/input/calender.svg" alt="">
+                          </div>
+                        </div>
+                  </div>
+              </div>
+
+              <div class="d-flex flex-wrap gap-3">
+                  <div class="border_left width-25 mt-3">
+                      <header>اختبار البونص</header>
+                      <div class="d-flex flex-wrap gap-2 align-items-end">
+                          <div class="width-35">
+                              <label class="  mb-2">عدد</label>
+                              <input type="text" placeholder=" " readonly
+                                  class=" form-control  "
+                                  >
+                          </div>
+                          <div class="width-35">
+                              <label class="  mb-2">بونص</label>
+                              <input type="text" placeholder=" " readonly
+                                  class=" form-control  "
+                                  >
+                          </div>
+                          <div class="width-20">
+                             <button class="borderRadius_10px blue_bg_white_txt_btn h-40px">اختبار</button>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="width-70 mt-3">
+                      <header>البونص</header>
+                      <div class="w-100 d-flex flex-wrap">
+                          <div class="d-flex width-30  me-2 flex-wrap border_left gap-2 align-items-end">
+                              <div class="width-45">
+                                  <label class="  mb-2">عدد</label>
+                                  <input type="text" placeholder=" " readonly
+                                      class=" form-control  "
+                                      >
+                              </div>
+                              <div class="width-45">
+                                  <label class="  mb-2">بونص</label>
+                                  <input type="text" placeholder=" " readonly
+                                      class=" form-control  "
+                                      >
+                              </div>
+                          </div>
+                          <div class="d-flex width-30 me-2 flex-wrap border_left gap-2 align-items-end">
+                              <div class="width-45">
+                                  <label class="  mb-2">عدد</label>
+                                  <input type="text" placeholder=" " readonly
+                                      class=" form-control  "
+                                      >
+                              </div>
+                              <div class="width-45">
+                                  <label class="  mb-2">بونص</label>
+                                  <input type="text" placeholder=" " readonly
+                                      class=" form-control  "
+                                      >
+                              </div>
+                          </div>
+                          <div class="d-flex width-30  me-2 flex-wrap gap-2 align-items-end">
+                              <div class="width-45">
+                                  <label class="  mb-2">عدد</label>
+                                  <input type="text" placeholder=" " readonly
+                                      class=" form-control  "
+                                      >
+                              </div>
+                              <div class="width-45">
+                                  <label class="  mb-2">بونص</label>
+                                  <input type="text" placeholder=" " readonly
+                                      class=" form-control  "
+                                      >
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+          </div> -->
+
+          <div
+            class="my-2 p-3 d-flex flex-wrap gap-2 justify-sm-content-center justify-content-end"
+          >
+            <!-- <div class="red-border align-items-center d-flex borderRadius_10px px-3 py-1">
+                  الصنف مع البونص = خسارة 1%
+              </div> -->
+            <button
+              *ngIf="!edit"
+              (click)="addProduct()"
+              appDisableButton
+              type="button"
+              placeholder=" "
+              class="border-0 borderRadius_20px px-5 darkGreen-bg h-50px text-white fw-bolder fs-18"
+            >
+              اضافة الصنف
+            </button>
+            <button
+              *ngIf="edit"
+              (click)="updateProduct()"
+              appDisableButton
+              type="button"
+              placeholder=" "
+              class="border-0 borderRadius_20px px-5 darkGreen-bg h-50px text-white fw-bolder fs-18"
+            >
+              تعديل الصنف
+            </button>
+          </div>
+        </div>
+
+        <div id="thirdTab" *ngIf="tabs[2]" class="p-3">
+          <div class="mb-3">
+            <div class="d-flex flex-wrap justify-content-between mb-3">
+              <div class="width-30">
+                <label class="mb-2">تحذير صلاحية الشراء</label>
+                <p-dropdown
+                  [options]="purchase_validity_warning"
+                  class="d-block"
+                  [showClear]="true"
+                  optionLabel="number"
+                  formControlName="purchase_validity_warning"
+                  optionValue="number"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+              <div class="width-30">
+                <label class="mb-2"
+                  >الحد الأدني من المخزون للمخزن القطاعي</label
+                >
+                <input
+                  formControlName="minimum_quantity"
+                  type="text"
+                  placeholder=" "
+                  class="form-control"
+                />
+              </div>
+              <div class="width-30">
+                <label class="mb-2"
+                  >الحد الأقصي من المخزون للمخزن القطاعي</label
+                >
+                <input
+                  formControlName="maximum_quantity"
+                  type="text"
+                  placeholder=" "
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="d-flex flex-wrap justify-content-between mb-3">
+              <div class="width-30">
+                <label class="mb-2">مدة الركود</label>
+                <p-dropdown
+                  [showClear]="true"
+                  [options]="monthes"
+                  formControlName="idle_period"
+                  class="d-block"
+                  optionLabel="number"
+                  optionValue="number"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+              <div class="width-30">
+                <label class="mb-2">خصم الشراء الأساسي</label>
+                <input
+                  type="text"
+                  formControlName="purchase_discount"
+                  placeholder=" "
+                  class="form-control"
+                />
+              </div>
+              <div class="width-30">
+                <label class="mb-2">الباركود المحلي</label>
+                <input
+                  formControlName="local_barcode"
+                  type="text"
+                  placeholder=" "
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="d-flex flex-wrap justify-content-between mb-3">
+              <div class="width-30">
+                <label class="mb-2">تصنيع شركة</label>
+                <p-dropdown
+                  [showClear]="true"
+                  formControlName="distribution_company_id"
+                  [options]="static_Manufacturers"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+              <div class="width-30">
+                <label class="mb-2">لصالح شركة</label>
+                <p-dropdown
+                  [showClear]="true"
+                  [options]="static_Manufacturers"
+                  class="d-block"
+                  optionLabel="name"
+                  formControlName="for_company_id"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+              <div class="width-30">
+                <label class="mb-2">الشركة الأم</label>
+                <p-dropdown
+                  [showClear]="true"
+                  [options]="static_Manufacturers"
+                  formControlName="parent_company_id"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+            <div class="d-flex flex-wrap justify-content-between mb-3">
+              <div class="width-30">
+                <label class="mb-2">توزيع شركة</label>
+                <p-dropdown
+                  [showClear]="true"
+                  [options]="Manufacturers"
+                  formControlName="distribution_company_id"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+
+              <div class="width-30">
+                <label class="mb-2"> نوع التصنيع </label>
+                <p-dropdown
+                  [showClear]="true"
+                  [options]="allFixedData.product_manufacturing_types"
+                  formControlName="manufacturing_type"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="value"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+
+              <div class="width-30"></div>
+            </div>
+            <div
+              class="my-2 p-3 d-flex flex-wrap gap-2 justify-sm-content-center justify-content-end"
+            >
+              <button
+                *ngIf="!edit"
+                (click)="addProduct()"
+                appDisableButton
+                type="button"
+                placeholder=" "
+                class="border-0 borderRadius_20px px-5 darkGreen-bg h-50px text-white fw-bolder fs-18"
+              >
+                اضافة الصنف
+              </button>
+              <button
+                *ngIf="edit"
+                (click)="updateProduct()"
+                appDisableButton
+                type="button"
+                placeholder=" "
+                class="border-0 borderRadius_20px px-5 darkGreen-bg h-50px text-white fw-bolder fs-18"
+              >
+                تعديل الصنف
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

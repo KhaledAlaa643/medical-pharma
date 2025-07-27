@@ -1,0 +1,1175 @@
+<div class="settings_container">
+  <div class="w-100 gap-3 card p-3 borderRadius_10px borderRadius_20px">
+    <!--first header-->
+    <div id="first">
+      <div
+        (click)="show(0)"
+        [ngClass]="{ header_disabled: offersViewArray[0].disabled }"
+        class="header cursor-pointer d-flex align-items-center justify-content-between"
+      >
+        <div class="d-flex">
+          <svg
+            width="36"
+            height="36"
+            viewBox="0 0 36 36"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect width="36" height="36" rx="10" fill="white" />
+            <g clip-path="url(#clip0_16001_129)">
+              <path
+                d="M25.9321 19.0407C25.7433 20.4806 25.166 21.842 24.2623 22.9788C23.3585 24.1157 22.1623 24.985 20.802 25.4937C19.4418 26.0024 17.9687 26.1312 16.5407 25.8663C15.1128 25.6013 13.7839 24.9527 12.6966 23.99C11.6093 23.0272 10.8046 21.7867 10.3688 20.4013C9.93292 19.016 9.8824 17.5381 10.2226 16.1263C10.5629 14.7144 11.281 13.4218 12.3001 12.387C13.3191 11.3523 14.6006 10.6145 16.0071 10.2527C19.9061 9.25268 23.9421 11.2597 25.4321 14.9997"
+                stroke="black"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M26 10V15H21"
+                stroke="black"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_16001_129">
+                <rect
+                  width="24"
+                  height="24"
+                  fill="white"
+                  transform="translate(6 6)"
+                />
+              </clipPath>
+            </defs>
+          </svg>
+          <span class="name p-2 cursor-pointer">تسجيل النواقص</span>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <div *ngIf="offersViewArray[0].show">
+            <svg
+              width="27"
+              height="27"
+              viewBox="0 0 27 27"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_6371_33)">
+                <path
+                  d="M6.75 10.125L13.5 16.875L20.25 10.125"
+                  stroke="black"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_6371_33">
+                  <rect width="27" height="27" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <div *ngIf="!offersViewArray[0].show">
+            <svg
+              width="27"
+              height="27"
+              viewBox="0 0 27 27"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_6350_976)">
+                <path
+                  d="M16.875 6.75L10.125 13.5L16.875 20.25"
+                  stroke="black"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_6350_976">
+                  <rect
+                    width="27"
+                    height="27"
+                    fill="white"
+                    transform="matrix(0 1 -1 0 27 0)"
+                  />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="offersViewArray[0].show" class="body">
+        <form action="">
+          <div class="p-2 w-100 gap-2">
+            <div class="d-flex flex-wrap mb-3 gap-2 align-items-end">
+              <div class="width-25 d-flex flex-column justify-content-end">
+                <label class="mb-2">اسم المخزن </label>
+                <p-dropdown
+                  [options]="warehouses"
+                  [showClear]="true"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+              <div class="width-11 calendar d-flex flex-column">
+                <label class="mb-2"> التاريخ </label>
+                <div class="d-flex position-relative">
+                  <p-calendar
+                    [dir]="'ltr'"
+                    [showClear]="true"
+                    #calendarFrom
+                    dateFormat="mm-dd-yy"
+                    class="w-100 borderRadius_10px position-relative w-100 dateDropdown"
+                    formControlName="from"
+                    placeholder="  "
+                  >
+                  </p-calendar>
+                  <img
+                    style="left: 0%; top: 0%"
+                    (click)="calendarFrom.toggle()"
+                    class="calendar-icon position-absolute cursor-pointer p-2"
+                    src="../../../../assets/images/input/calender.svg"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="width-11 calendar d-flex flex-column">
+                <div
+                  class="d-flex position-relative"
+                  style="margin-top: 1.75rem"
+                >
+                  <p-calendar
+                    [dir]="'ltr'"
+                    [showClear]="true"
+                    #calendarTo
+                    dateFormat="mm-dd-yy"
+                    class="w-100 borderRadius_10px position-relative w-100 dateDropdown"
+                    formControlName="to"
+                    placeholder="  "
+                  >
+                  </p-calendar>
+                  <img
+                    style="left: 0%; top: 0%"
+                    (click)="calendarTo.toggle()"
+                    class="calendar-icon position-absolute cursor-pointer p-2"
+                    src="../../../../assets/images/input/calender.svg"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="width-15 d-flex flex-wrap gap-5">
+                <div class="radiobutton d-flex align-items-center">
+                  <input
+                    style="width: 40px !important; height: 40px !important"
+                    class="form-check-input mx-1 borderRadius_10px"
+                    name="accept_return"
+                    type="checkbox"
+                  />
+                  <label class="form-check-label"> حتي نفاذ الكمية </label>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-wrap gap-2 align-items-end">
+              <div class="width-25 d-flex flex-column">
+                <label class="mb-2">اسم الصنف</label>
+                <p-dropdown
+                  [options]="warehouses"
+                  [showClear]="true"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+              <div class="width-12 d-flex flex-column">
+                <label class="mb-2">كمية المخزن</label>
+                <input type="text" class="form-control" />
+              </div>
+              <div class="width-12 d-flex flex-column">
+                <label class="mb-2">كمية الكوتة</label>
+                <input type="text" class="form-control" />
+              </div>
+              <div class="width-12 d-flex flex-column">
+                <label class="mb-2">تكرار الكوتة</label>
+                <input type="text" class="form-control" />
+              </div>
+              <div class="width-12 d-flex flex-column">
+                <label class="mb-2">كل عدد يوم</label>
+                <input type="text" class="form-control" />
+              </div>
+              <div class="flex-fill d-flex justify-content-end">
+                <button
+                  class="green_bg_black_txt_btn width-75 h-40px borderRadius_15px"
+                >
+                  حفظ
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!--secound header-->
+    <div id="secound">
+      <div
+        (click)="show(1)"
+        [ngClass]="{ header_disabled: offersViewArray[1].disabled }"
+        class="header cursor-pointer d-flex align-items-center justify-content-between"
+      >
+        <div class="d-flex">
+          <svg
+            width="36"
+            height="36"
+            viewBox="0 0 36 36"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect width="36" height="36" rx="10" fill="white" />
+            <g clip-path="url(#clip0_16007_131)">
+              <path
+                d="M15 11H13C12.4696 11 11.9609 11.2107 11.5858 11.5858C11.2107 11.9609 11 12.4696 11 13V25C11 25.5304 11.2107 26.0391 11.5858 26.4142C11.9609 26.7893 12.4696 27 13 27H23C23.5304 27 24.0391 26.7893 24.4142 26.4142C24.7893 26.0391 25 25.5304 25 25V13C25 12.4696 24.7893 11.9609 24.4142 11.5858C24.0391 11.2107 23.5304 11 23 11H21"
+                stroke="black"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M15 11C15 10.4696 15.2107 9.96086 15.5858 9.58579C15.9609 9.21071 16.4696 9 17 9H19C19.5304 9 20.0391 9.21071 20.4142 9.58579C20.7893 9.96086 21 10.4696 21 11C21 11.5304 20.7893 12.0391 20.4142 12.4142C20.0391 12.7893 19.5304 13 19 13H17C16.4696 13 15.9609 12.7893 15.5858 12.4142C15.2107 12.0391 15 11.5304 15 11Z"
+                stroke="black"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M20 17H17.5C17.1022 17 16.7206 17.158 16.4393 17.4393C16.158 17.7206 16 18.1022 16 18.5C16 18.8978 16.158 19.2794 16.4393 19.5607C16.7206 19.842 17.1022 20 17.5 20H18.5C18.8978 20 19.2794 20.158 19.5607 20.4393C19.842 20.7206 20 21.1022 20 21.5C20 21.8978 19.842 22.2794 19.5607 22.5607C19.2794 22.842 18.8978 23 18.5 23H16"
+                stroke="black"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M18 23V24M18 16V17"
+                stroke="black"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_16007_131">
+                <rect
+                  width="24"
+                  height="24"
+                  fill="white"
+                  transform="translate(6 6)"
+                />
+              </clipPath>
+            </defs>
+          </svg>
+          <span class="name p-2 cursor-pointer">تسجيل عرض</span>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <div *ngIf="offersViewArray[1].show">
+            <svg
+              width="27"
+              height="27"
+              viewBox="0 0 27 27"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_6371_33)">
+                <path
+                  d="M6.75 10.125L13.5 16.875L20.25 10.125"
+                  stroke="black"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_6371_33">
+                  <rect width="27" height="27" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <div *ngIf="!offersViewArray[1].show">
+            <svg
+              width="27"
+              height="27"
+              viewBox="0 0 27 27"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_6350_976)">
+                <path
+                  d="M16.875 6.75L10.125 13.5L16.875 20.25"
+                  stroke="black"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_6350_976">
+                  <rect
+                    width="27"
+                    height="27"
+                    fill="white"
+                    transform="matrix(0 1 -1 0 27 0)"
+                  />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="offersViewArray[1].show" class="body">
+        <form action="">
+          <div class="p-2 w-100 gap-2">
+            <div class="d-flex flex-wrap mb-3 gap-2 align-items-end">
+              <div class="width-25 d-flex flex-column justify-content-end">
+                <label class="mb-2">اسم المخزن </label>
+                <p-dropdown
+                  [options]="warehouses"
+                  [showClear]="true"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+              <div class="width-11 calendar d-flex flex-column">
+                <label class="mb-2"> التاريخ </label>
+                <div class="d-flex position-relative">
+                  <p-calendar
+                    [dir]="'ltr'"
+                    [showClear]="true"
+                    #calendarFrom
+                    dateFormat="mm-dd-yy"
+                    class="w-100 borderRadius_10px position-relative w-100 dateDropdown"
+                    formControlName="from"
+                    placeholder="  "
+                  >
+                  </p-calendar>
+                  <img
+                    style="left: 0%; top: 0%"
+                    (click)="calendarFrom.toggle()"
+                    class="calendar-icon position-absolute cursor-pointer p-2"
+                    src="../../../../assets/images/input/calender.svg"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="width-11 calendar d-flex flex-column">
+                <div
+                  class="d-flex position-relative"
+                  style="margin-top: 1.75rem"
+                >
+                  <p-calendar
+                    [dir]="'ltr'"
+                    [showClear]="true"
+                    #calendarTo
+                    dateFormat="mm-dd-yy"
+                    class="w-100 borderRadius_10px position-relative w-100 dateDropdown"
+                    formControlName="to"
+                    placeholder="  "
+                  >
+                  </p-calendar>
+                  <img
+                    style="left: 0%; top: 0%"
+                    (click)="calendarTo.toggle()"
+                    class="calendar-icon position-absolute cursor-pointer p-2"
+                    src="../../../../assets/images/input/calender.svg"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="width-15 d-flex flex-wrap gap-5">
+                <div class="radiobutton d-flex align-items-center">
+                  <input
+                    style="width: 40px !important; height: 40px !important"
+                    class="form-check-input mx-1 borderRadius_10px"
+                    name="accept_return"
+                    type="checkbox"
+                  />
+                  <label class="form-check-label"> حتي نفاذ الكمية </label>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-wrap gap-2 align-items-end">
+              <div class="width-25 d-flex flex-column">
+                <label class="mb-2">اسم الصنف</label>
+                <p-dropdown
+                  [options]="warehouses"
+                  [showClear]="true"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+              <div class="width-12 d-flex flex-column">
+                <label class="mb-2">كمية المخزن</label>
+                <input type="text" class="form-control" />
+              </div>
+              <div class="width-12 d-flex flex-column">
+                <label class="mb-2">كمية العرض</label>
+                <input type="text" class="form-control" />
+              </div>
+              <div class="width-12 d-flex flex-column">
+                <label class="mb-2">يضاف للخصم</label>
+                <input type="text" class="form-control" />
+              </div>
+
+              <div class="flex-fill d-flex justify-content-end">
+                <button
+                  class="green_bg_black_txt_btn width-50 h-40px borderRadius_15px"
+                >
+                  حفظ
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!--third header-->
+    <div id="third">
+      <div
+        (click)="show(2)"
+        [ngClass]="{ header_disabled: offersViewArray[2].disabled }"
+        class="header cursor-pointer d-flex align-items-center justify-content-between"
+      >
+        <div class="d-flex">
+          <svg
+            width="36"
+            height="36"
+            viewBox="0 0 36 36"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect width="36" height="36" rx="10" fill="white" />
+            <g clip-path="url(#clip0_16007_131)">
+              <path
+                d="M15 11H13C12.4696 11 11.9609 11.2107 11.5858 11.5858C11.2107 11.9609 11 12.4696 11 13V25C11 25.5304 11.2107 26.0391 11.5858 26.4142C11.9609 26.7893 12.4696 27 13 27H23C23.5304 27 24.0391 26.7893 24.4142 26.4142C24.7893 26.0391 25 25.5304 25 25V13C25 12.4696 24.7893 11.9609 24.4142 11.5858C24.0391 11.2107 23.5304 11 23 11H21"
+                stroke="black"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M15 11C15 10.4696 15.2107 9.96086 15.5858 9.58579C15.9609 9.21071 16.4696 9 17 9H19C19.5304 9 20.0391 9.21071 20.4142 9.58579C20.7893 9.96086 21 10.4696 21 11C21 11.5304 20.7893 12.0391 20.4142 12.4142C20.0391 12.7893 19.5304 13 19 13H17C16.4696 13 15.9609 12.7893 15.5858 12.4142C15.2107 12.0391 15 11.5304 15 11Z"
+                stroke="black"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M20 17H17.5C17.1022 17 16.7206 17.158 16.4393 17.4393C16.158 17.7206 16 18.1022 16 18.5C16 18.8978 16.158 19.2794 16.4393 19.5607C16.7206 19.842 17.1022 20 17.5 20H18.5C18.8978 20 19.2794 20.158 19.5607 20.4393C19.842 20.7206 20 21.1022 20 21.5C20 21.8978 19.842 22.2794 19.5607 22.5607C19.2794 22.842 18.8978 23 18.5 23H16"
+                stroke="black"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M18 23V24M18 16V17"
+                stroke="black"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_16007_131">
+                <rect
+                  width="24"
+                  height="24"
+                  fill="white"
+                  transform="translate(6 6)"
+                />
+              </clipPath>
+            </defs>
+          </svg>
+          <span class="name p-2 cursor-pointer">تسجيل بونص</span>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <div *ngIf="offersViewArray[2].show">
+            <svg
+              width="27"
+              height="27"
+              viewBox="0 0 27 27"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_6371_33)">
+                <path
+                  d="M6.75 10.125L13.5 16.875L20.25 10.125"
+                  stroke="black"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_6371_33">
+                  <rect width="27" height="27" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <div *ngIf="!offersViewArray[2].show">
+            <svg
+              width="27"
+              height="27"
+              viewBox="0 0 27 27"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_6350_976)">
+                <path
+                  d="M16.875 6.75L10.125 13.5L16.875 20.25"
+                  stroke="black"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_6350_976">
+                  <rect
+                    width="27"
+                    height="27"
+                    fill="white"
+                    transform="matrix(0 1 -1 0 27 0)"
+                  />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="offersViewArray[2].show" class="body">
+        <form action="">
+          <div class="p-2 w-100 gap-2">
+            <div class="d-flex flex-wrap mb-3 gap-2 align-items-end">
+              <div class="width-25 d-flex flex-column justify-content-end">
+                <label class="mb-2">اسم المخزن </label>
+                <p-dropdown
+                  [options]="warehouses"
+                  [showClear]="true"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+              <div class="width-11 calendar d-flex flex-column">
+                <label class="mb-2"> التاريخ </label>
+                <div class="d-flex position-relative">
+                  <p-calendar
+                    [dir]="'ltr'"
+                    [showClear]="true"
+                    #calendarFrom
+                    dateFormat="mm-dd-yy"
+                    class="w-100 borderRadius_10px position-relative w-100 dateDropdown"
+                    formControlName="from"
+                    placeholder="  "
+                  >
+                  </p-calendar>
+                  <img
+                    style="left: 0%; top: 0%"
+                    (click)="calendarFrom.toggle()"
+                    class="calendar-icon position-absolute cursor-pointer p-2"
+                    src="../../../../assets/images/input/calender.svg"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="width-11 calendar d-flex flex-column">
+                <div
+                  class="d-flex position-relative"
+                  style="margin-top: 1.75rem"
+                >
+                  <p-calendar
+                    [dir]="'ltr'"
+                    [showClear]="true"
+                    #calendarTo
+                    dateFormat="mm-dd-yy"
+                    class="w-100 borderRadius_10px position-relative w-100 dateDropdown"
+                    formControlName="to"
+                    placeholder="  "
+                  >
+                  </p-calendar>
+                  <img
+                    style="left: 0%; top: 0%"
+                    (click)="calendarTo.toggle()"
+                    class="calendar-icon position-absolute cursor-pointer p-2"
+                    src="../../../../assets/images/input/calender.svg"
+                    alt=""
+                  />
+                </div>
+              </div>
+              <div class="width-15 d-flex flex-wrap gap-5">
+                <div class="radiobutton d-flex align-items-center">
+                  <input
+                    style="width: 40px !important; height: 40px !important"
+                    class="form-check-input mx-1 borderRadius_10px"
+                    name="accept_return"
+                    type="checkbox"
+                  />
+                  <label class="form-check-label"> حتي نفاذ الكمية </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex flex-wrap gap-2 align-items-end">
+              <div class="width-25 d-flex flex-column">
+                <label class="mb-2">اسم الصنف</label>
+                <p-dropdown
+                  [options]="warehouses"
+                  [showClear]="true"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+              <div class="width-12 d-flex flex-column">
+                <label class="mb-2">كمية المخزن</label>
+                <input type="text" class="form-control" />
+              </div>
+              <div class="width-12 d-flex flex-column">
+                <label class="mb-2">سعر الجمهور</label>
+                <input type="text" class="form-control" />
+              </div>
+              <div class="width-12 d-flex flex-column">
+                <label class="mb-2">المرجح</label>
+                <input type="text" class="form-control" />
+              </div>
+              <div class="width-15 d-flex flex-column">
+                <label class="mb-2">قيمة المرجح بالجنيه</label>
+                <input type="text" class="form-control" />
+              </div>
+              <div class="width-12 d-flex flex-column">
+                <label class="mb-2">سعر التكلفة</label>
+                <input type="text" class="form-control" />
+              </div>
+              <div class="width-12 d-flex flex-column">
+                <label class="mb-2">اعلي شريحة بيع</label>
+                <input type="text" class="form-control" />
+              </div>
+            </div>
+
+            <div class="d-flex flex-column mb-3">
+              <span class="mb-2">اختبار البونص</span>
+              <div class="d-flex flex-wrap gap-2">
+                <div class="width-10 d-flex flex-column">
+                  <label class="mb-2">الكمية</label>
+                  <input type="text" class="form-control" />
+                </div>
+                <div class="width-10 d-flex flex-column">
+                  <label class="mb-2">بونص</label>
+                  <input type="text" class="form-control" />
+                </div>
+                <div
+                  class="width-12 d-flex align-items-center justify-content-center"
+                >
+                  <button class="p-2 bluebtnStyles w-75">اختبار</button>
+                </div>
+                <div class="width-10 d-flex flex-column">
+                  <label class="mb-2">ربح الكمية</label>
+                  <input type="text" class="form-control" />
+                </div>
+                <div class="width-12 d-flex flex-column">
+                  <label class="mb-2 w-100">تكلفة العبوة البونص</label>
+                  <input type="text" class="width-75 form-control" />
+                </div>
+                <div class="width-10 pe-2 d-flex flex-column">
+                  <label class="mb-2">صافي الربح</label>
+                  <input type="text" class="form-control" />
+                </div>
+                <div class="border_left"></div>
+                <div class="d-flex flex-column gap-2 mb-1">
+                  <span>ناتج حساب البونص</span>
+                  <div
+                    class="red-border align-items-center d-flex borderRadius_10px px-3 py-1"
+                  >
+                    الصنف مع البونص = خسارة 1%
+                  </div>
+                  <div
+                    class="lightGreen-border align-items-center d-flex borderRadius_10px px-3 py-1"
+                  >
+                    الصنف مع البونص = مكسب 1%
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="w-100 mt-3">
+              <header>تسجيل البونص</header>
+              <div class="w-100 gap-1 d-flex flex-wrap">
+                <div class="width-25 me-2">
+                  <span class="mb-2">شريحة 1</span>
+                  <div
+                    class="d-flex flex-wrap border_left gap-2 align-items-end"
+                  >
+                    <div class="width-45">
+                      <label class="mb-2">عدد</label>
+                      <input
+                        type="text"
+                        placeholder=" "
+                        readonly
+                        class="form-control"
+                      />
+                    </div>
+                    <div class="width-45">
+                      <label class="mb-2">بونص</label>
+                      <input
+                        type="text"
+                        placeholder=" "
+                        readonly
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="width-25 me-2">
+                  <span class="mb-2">شريحة 1</span>
+                  <div
+                    class="d-flex flex-wrap border_left gap-2 align-items-end"
+                  >
+                    <div class="width-45">
+                      <label class="mb-2">عدد</label>
+                      <input
+                        type="text"
+                        placeholder=" "
+                        readonly
+                        class="form-control"
+                      />
+                    </div>
+                    <div class="width-45">
+                      <label class="mb-2">بونص</label>
+                      <input
+                        type="text"
+                        placeholder=" "
+                        readonly
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div class="width-25 me-2">
+                  <span class="mb-2">شريحة 1</span>
+                  <div class="d-flex flex-wrap gap-2 align-items-end">
+                    <div class="width-45">
+                      <label class="mb-2">عدد</label>
+                      <input
+                        type="text"
+                        placeholder=" "
+                        readonly
+                        class="form-control"
+                      />
+                    </div>
+                    <div class="width-45">
+                      <label class="mb-2">بونص</label>
+                      <input
+                        type="text"
+                        placeholder=" "
+                        readonly
+                        class="form-control"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="flex-fill d-flex justify-content-end align-items-end"
+                >
+                  <button
+                    class="green_bg_black_txt_btn width-75 h-40px borderRadius_15px"
+                  >
+                    حفظ
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!--fourth header-->
+
+    <div id="fourth">
+      <div
+        (click)="show(3)"
+        [ngClass]="{ header_disabled: offersViewArray[3].disabled }"
+        class="header cursor-pointer d-flex align-items-center justify-content-between"
+      >
+        <div class="d-flex">
+          <svg
+            width="36"
+            height="36"
+            viewBox="0 0 36 36"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect width="36" height="36" rx="10" fill="white" />
+            <g clip-path="url(#clip0_16006_130)">
+              <path
+                d="M15 21L21 15"
+                stroke="black"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M15.5 16C15.7761 16 16 15.7761 16 15.5C16 15.2239 15.7761 15 15.5 15C15.2239 15 15 15.2239 15 15.5C15 15.7761 15.2239 16 15.5 16Z"
+                fill="black"
+                stroke="black"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M20.5 21C20.7761 21 21 20.7761 21 20.5C21 20.2239 20.7761 20 20.5 20C20.2239 20 20 20.2239 20 20.5C20 20.7761 20.2239 21 20.5 21Z"
+                fill="black"
+                stroke="black"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M10.9966 13.2005C10.9966 12.617 11.2283 12.0574 11.6409 11.6448C12.0535 11.2322 12.6131 11.0005 13.1966 11.0005H14.1966C14.7775 11.0001 15.3346 10.7701 15.7466 10.3605L16.4466 9.66046C16.651 9.45486 16.8941 9.2917 17.1618 9.18037C17.4295 9.06903 17.7166 9.01172 18.0066 9.01172C18.2965 9.01172 18.5836 9.06903 18.8513 9.18037C19.119 9.2917 19.3621 9.45486 19.5666 9.66046L20.2666 10.3605C20.6785 10.7701 21.2357 11.0001 21.8166 11.0005H22.8166C23.4 11.0005 23.9596 11.2322 24.3722 11.6448C24.7848 12.0574 25.0166 12.617 25.0166 13.2005V14.2005C25.0169 14.7814 25.247 15.3386 25.6566 15.7505L26.3566 16.4505C26.5622 16.6549 26.7253 16.898 26.8366 17.1657C26.948 17.4334 27.0053 17.7205 27.0053 18.0105C27.0053 18.3004 26.948 18.5875 26.8366 18.8552C26.7253 19.1229 26.5622 19.366 26.3566 19.5705L25.6566 20.2705C25.247 20.6824 25.0169 21.2396 25.0166 21.8205V22.8205C25.0166 23.4039 24.7848 23.9635 24.3722 24.3761C23.9596 24.7887 23.4 25.0205 22.8166 25.0205H21.8166C21.2357 25.0208 20.6785 25.2509 20.2666 25.6605L19.5666 26.3605C19.3621 26.5661 19.119 26.7292 18.8513 26.8406C18.5836 26.9519 18.2965 27.0092 18.0066 27.0092C17.7166 27.0092 17.4295 26.9519 17.1618 26.8406C16.8941 26.7292 16.651 26.5661 16.4466 26.3605L15.7466 25.6605C15.3346 25.2509 14.7775 25.0208 14.1966 25.0205H13.1966C12.6131 25.0205 12.0535 24.7887 11.6409 24.3761C11.2283 23.9635 10.9966 23.4039 10.9966 22.8205V21.8205C10.9962 21.2396 10.7662 20.6824 10.3566 20.2705L9.65655 19.5705C9.45096 19.366 9.2878 19.1229 9.17646 18.8552C9.06513 18.5875 9.00781 18.3004 9.00781 18.0105C9.00781 17.7205 9.06513 17.4334 9.17646 17.1657C9.2878 16.898 9.45096 16.6549 9.65655 16.4505L10.3566 15.7505C10.7662 15.3386 10.9962 14.7814 10.9966 14.2005V13.2005Z"
+                stroke="black"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_16006_130">
+                <rect
+                  width="24"
+                  height="24"
+                  fill="white"
+                  transform="translate(6 6)"
+                />
+              </clipPath>
+            </defs>
+          </svg>
+          <span class="name p-2 cursor-pointer"
+            >تسجيل عرض اضافي لكل العملاء</span
+          >
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <div *ngIf="offersViewArray[3].show">
+            <svg
+              width="27"
+              height="27"
+              viewBox="0 0 27 27"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_6371_33)">
+                <path
+                  d="M6.75 10.125L13.5 16.875L20.25 10.125"
+                  stroke="black"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_6371_33">
+                  <rect width="27" height="27" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <div *ngIf="!offersViewArray[3].show">
+            <svg
+              width="27"
+              height="27"
+              viewBox="0 0 27 27"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_6350_976)">
+                <path
+                  d="M16.875 6.75L10.125 13.5L16.875 20.25"
+                  stroke="black"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_6350_976">
+                  <rect
+                    width="27"
+                    height="27"
+                    fill="white"
+                    transform="matrix(0 1 -1 0 27 0)"
+                  />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="offersViewArray[3].show" class="body">
+        <form action="">
+          <div class="p-2 w-100 gap-2">
+            <div class="d-flex flex-wrap mb-3 gap-2 align-items-end">
+              <div class="width-25 d-flex flex-column justify-content-end">
+                <label class="mb-2">نوع التعامل </label>
+                <p-dropdown
+                  [options]="warehouses"
+                  [showClear]="true"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+              <div class="width-20 d-flex flex-column">
+                <label class="mb-2">قيمة الفاتورة </label>
+                <input type="text" class="form-control" />
+              </div>
+              <div class="width-15 d-flex flex-column justify-content-end">
+                <label class="mb-2">قيمة الخصم </label>
+                <p-dropdown
+                  [options]="warehouses"
+                  [showClear]="true"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+            <div
+              class="d-flex flex-wrap gap-2 align-items-end justify-content-between"
+            >
+              <div class="width-25 d-flex flex-column">
+                <label class="mb-2">عدد الأيام</label>
+                <p-dropdown
+                  [options]="warehouses"
+                  [showClear]="true"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+              <div class="width-15 d-flex justify-content-end">
+                <button
+                  class="green_bg_black_txt_btn text-white w-100 h-40px borderRadius_15px"
+                >
+                  حفظ
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div id="fifth">
+      <div
+        (click)="show(4)"
+        [ngClass]="{ header_disabled: offersViewArray[4].disabled }"
+        class="header cursor-pointer d-flex align-items-center justify-content-between"
+      >
+        <div class="d-flex">
+          <svg
+            width="36"
+            height="36"
+            viewBox="0 0 36 36"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect width="36" height="36" rx="10" fill="white" />
+            <g clip-path="url(#clip0_16006_130)">
+              <path
+                d="M15 21L21 15"
+                stroke="black"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M15.5 16C15.7761 16 16 15.7761 16 15.5C16 15.2239 15.7761 15 15.5 15C15.2239 15 15 15.2239 15 15.5C15 15.7761 15.2239 16 15.5 16Z"
+                fill="black"
+                stroke="black"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M20.5 21C20.7761 21 21 20.7761 21 20.5C21 20.2239 20.7761 20 20.5 20C20.2239 20 20 20.2239 20 20.5C20 20.7761 20.2239 21 20.5 21Z"
+                fill="black"
+                stroke="black"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M10.9966 13.2005C10.9966 12.617 11.2283 12.0574 11.6409 11.6448C12.0535 11.2322 12.6131 11.0005 13.1966 11.0005H14.1966C14.7775 11.0001 15.3346 10.7701 15.7466 10.3605L16.4466 9.66046C16.651 9.45486 16.8941 9.2917 17.1618 9.18037C17.4295 9.06903 17.7166 9.01172 18.0066 9.01172C18.2965 9.01172 18.5836 9.06903 18.8513 9.18037C19.119 9.2917 19.3621 9.45486 19.5666 9.66046L20.2666 10.3605C20.6785 10.7701 21.2357 11.0001 21.8166 11.0005H22.8166C23.4 11.0005 23.9596 11.2322 24.3722 11.6448C24.7848 12.0574 25.0166 12.617 25.0166 13.2005V14.2005C25.0169 14.7814 25.247 15.3386 25.6566 15.7505L26.3566 16.4505C26.5622 16.6549 26.7253 16.898 26.8366 17.1657C26.948 17.4334 27.0053 17.7205 27.0053 18.0105C27.0053 18.3004 26.948 18.5875 26.8366 18.8552C26.7253 19.1229 26.5622 19.366 26.3566 19.5705L25.6566 20.2705C25.247 20.6824 25.0169 21.2396 25.0166 21.8205V22.8205C25.0166 23.4039 24.7848 23.9635 24.3722 24.3761C23.9596 24.7887 23.4 25.0205 22.8166 25.0205H21.8166C21.2357 25.0208 20.6785 25.2509 20.2666 25.6605L19.5666 26.3605C19.3621 26.5661 19.119 26.7292 18.8513 26.8406C18.5836 26.9519 18.2965 27.0092 18.0066 27.0092C17.7166 27.0092 17.4295 26.9519 17.1618 26.8406C16.8941 26.7292 16.651 26.5661 16.4466 26.3605L15.7466 25.6605C15.3346 25.2509 14.7775 25.0208 14.1966 25.0205H13.1966C12.6131 25.0205 12.0535 24.7887 11.6409 24.3761C11.2283 23.9635 10.9966 23.4039 10.9966 22.8205V21.8205C10.9962 21.2396 10.7662 20.6824 10.3566 20.2705L9.65655 19.5705C9.45096 19.366 9.2878 19.1229 9.17646 18.8552C9.06513 18.5875 9.00781 18.3004 9.00781 18.0105C9.00781 17.7205 9.06513 17.4334 9.17646 17.1657C9.2878 16.898 9.45096 16.6549 9.65655 16.4505L10.3566 15.7505C10.7662 15.3386 10.9962 14.7814 10.9966 14.2005V13.2005Z"
+                stroke="black"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_16006_130">
+                <rect
+                  width="24"
+                  height="24"
+                  fill="white"
+                  transform="translate(6 6)"
+                />
+              </clipPath>
+            </defs>
+          </svg>
+          <span class="name p-2 cursor-pointer">تسجيل عرض شركة مصنعه</span>
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <div *ngIf="offersViewArray[4].show">
+            <svg
+              width="27"
+              height="27"
+              viewBox="0 0 27 27"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_6371_33)">
+                <path
+                  d="M6.75 10.125L13.5 16.875L20.25 10.125"
+                  stroke="black"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_6371_33">
+                  <rect width="27" height="27" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+          <div *ngIf="!offersViewArray[4].show">
+            <svg
+              width="27"
+              height="27"
+              viewBox="0 0 27 27"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_6350_976)">
+                <path
+                  d="M16.875 6.75L10.125 13.5L16.875 20.25"
+                  stroke="black"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_6350_976">
+                  <rect
+                    width="27"
+                    height="27"
+                    fill="white"
+                    transform="matrix(0 1 -1 0 27 0)"
+                  />
+                </clipPath>
+              </defs>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="offersViewArray[4].show" class="body">
+        <form action="">
+          <div class="p-2 w-100 gap-2">
+            <div class="d-flex flex-wrap mb-3 gap-2 align-items-end">
+              <div class="width-25 d-flex flex-column justify-content-end">
+                <label class="mb-2">الشركة المصنعه </label>
+                <p-dropdown
+                  [options]="warehouses"
+                  [showClear]="true"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+              <div class="width-25 d-flex flex-column">
+                <label class="mb-2">نوع التعامل </label>
+                <input type="text" class="form-control" />
+              </div>
+              <div class="flex-fill d-flex flex-column justify-content-end">
+                <label class="mb-2">ماعدا أصناف </label>
+                <p-multiSelect
+                  [readonly]="true"
+                  class="h-40px borderRadius_10px"
+                  optionLabel="name"
+                  optionValue="id"
+                  display="chip"
+                ></p-multiSelect>
+              </div>
+            </div>
+            <div class="d-flex flex-wrap gap-2 align-items-end">
+              <div class="width-25 d-flex flex-column">
+                <label class="mb-2">الفاتورة</label>
+                <p-dropdown
+                  [options]="warehouses"
+                  [showClear]="true"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+              <div class="width-25 d-flex flex-column">
+                <label class="mb-2">قيمة الخصم </label>
+                <input type="text" class="form-control" />
+              </div>
+              <div class="width-25 d-flex flex-column">
+                <label class="mb-2">عدد الأيام </label>
+                <input type="text" class="form-control" />
+              </div>
+              <div class="flex-fill d-flex justify-content-end">
+                <button
+                  class="green_bg_black_txt_btn text-white width-50 h-40px borderRadius_15px"
+                >
+                  حفظ
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

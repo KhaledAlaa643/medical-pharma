@@ -1,0 +1,306 @@
+<div class="main_card_margen">
+  <div class="card borderRadius_10px boxShadow-10 p-3">
+    <div id="header" class="mb-3">
+      <div id="print-section">
+        <form id="header" [formGroup]="receiveForm">
+          <div class="d-flex gap-2 flex-wrap align-items-end my-3">
+            <div class="flex-fill d-flex flex-column">
+              <label class="mb-2">التاريخ والوقت</label>
+              <input
+                type="text"
+                readonly
+                class="form-control disabled"
+                placeholder=" "
+                formControlName="created_at"
+              />
+            </div>
+            <div class="width-15 d-flex flex-column">
+              <label class="mb-2">رقم الخزينة</label>
+              <input
+                type="text"
+                readonly
+                class="form-control disabled"
+                placeholder=" "
+                formControlName="safe_number"
+              />
+            </div>
+            <div class="width-20 d-flex flex-column">
+              <label class="mb-2">الخزينة</label>
+              <input
+                type="text"
+                readonly
+                class="form-control disabled"
+                placeholder=" "
+                formControlName="safe"
+              />
+            </div>
+
+            <div class="width-15 d-flex flex-column">
+              <label class="mb-2"> رقم الإيصال</label>
+              <input
+                type="text"
+                readonly
+                class="form-control disabled"
+                placeholder=" "
+                formControlName="receipt"
+              />
+            </div>
+          </div>
+          <div class="d-flex gap-2 flex-wrap align-items-end my-3">
+            <div class="width-15 d-flex flex-column">
+              <label class="mb-2">كود العميل</label>
+              <input
+                type="text"
+                [readonly]="true"
+                class="form-control disabled"
+                formControlName="code"
+                placeholder=" "
+              />
+            </div>
+
+            <div class="flex-fill d-flex flex-column">
+              <label class="mb-2">اسم العميل</label>
+              <input
+                type="text"
+                readonly
+                class="form-control disabled"
+                placeholder=" "
+                formControlName="pharmacy"
+              />
+            </div>
+
+            <div class="width-20 d-flex flex-column">
+              <label class="mb-2"> المندوب </label>
+              <input
+                type="text"
+                readonly
+                class="form-control disabled"
+                placeholder=" "
+                formControlName="delivery"
+              />
+            </div>
+            <div class="width-20 d-flex flex-column">
+              <label class="mb-2"> السائق </label>
+              <input
+                type="text"
+                readonly
+                class="form-control disabled"
+                placeholder=" "
+                formControlName="driver"
+              />
+            </div>
+            <div class="width-20 d-flex flex-column">
+              <label class="mb-2"> خط السير </label>
+              <input
+                type="text"
+                readonly
+                class="form-control disabled"
+                placeholder=" "
+                formControlName="track"
+              />
+            </div>
+          </div>
+          <div class="d-flex gap-2 flex-wrap align-items-end my-3">
+            <div class="width-15 d-flex flex-column">
+              <label class="mb-2">الحساب السابق</label>
+              <input
+                type="text"
+                class="form-control disabled"
+                readonly
+                placeholder=" "
+                formControlName="balance"
+              />
+            </div>
+
+            <div class="width-20 d-flex flex-column">
+              <label class="mb-2"> المبلغ بالأرقام</label>
+              <input
+                type="text"
+                [readonly]="true"
+                class="form-control disabled"
+                placeholder=" "
+                formControlName="amount"
+              />
+            </div>
+
+            <div class="flex-fill d-flex flex-column">
+              <label class="mb-2"> المبلغ مكتوب</label>
+              <input
+                type="text"
+                class="form-control disabled"
+                [readonly]="true"
+                placeholder=" "
+                formControlName="amount_in_words"
+              />
+            </div>
+            <div class="width-15 d-flex flex-column">
+              <label class="mb-2"> الرصيد الحالي</label>
+              <input
+                type="text"
+                readonly
+                class="form-control disabled"
+                placeholder=" "
+                formControlName="balance_after"
+              />
+            </div>
+          </div>
+          <div class="d-flex gap-2 flex-wrap align-items-end my-3">
+            <div class="width-15 d-flex flex-column">
+              <label class="mb-2">مناديب المبيعات</label>
+              <input
+                type="text"
+                readonly
+                class="form-control disabled"
+                placeholder=" "
+                formControlName="sales"
+              />
+            </div>
+            <div class="flex-fill d-flex flex-column">
+              <label class="mb-2">ملاحظات </label>
+              <input
+                type="text"
+                class="form-control disabled"
+                [readonly]="true"
+                placeholder=" "
+                formControlName="note"
+              />
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="d-flex justify-content-end align-content-center">
+        <button
+          (click)="onPrintForm()"
+          class="printBtn fullScreen-768px d-flex fs-19 h-60px borderRadius_15px p-3 align-items-center text-center justify-content-center boxShadow-15"
+        >
+          طباعة
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g clip-path="url(#clip0_5900_794)">
+              <path
+                d="M22.6667 22.6667H25.3333C26.0406 22.6667 26.7189 22.3857 27.219 21.8856C27.719 21.3855 28 20.7072 28 20V14.6667C28 13.9594 27.719 13.2811 27.219 12.781C26.7189 12.281 26.0406 12 25.3333 12H6.66667C5.95942 12 5.28115 12.281 4.78105 12.781C4.28095 13.2811 4 13.9594 4 14.6667V20C4 20.7072 4.28095 21.3855 4.78105 21.8856C5.28115 22.3857 5.95942 22.6667 6.66667 22.6667H9.33333"
+                stroke="#3F497F"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M22.6673 12V6.66667C22.6673 5.95942 22.3864 5.28115 21.8863 4.78105C21.3862 4.28095 20.7079 4 20.0007 4H12.0007C11.2934 4 10.6151 4.28095 10.115 4.78105C9.61494 5.28115 9.33398 5.95942 9.33398 6.66667V12"
+                stroke="#3F497F"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M9.33398 19.9997C9.33398 19.2924 9.61494 18.6142 10.115 18.1141C10.6151 17.614 11.2934 17.333 12.0007 17.333H20.0007C20.7079 17.333 21.3862 17.614 21.8863 18.1141C22.3864 18.6142 22.6673 19.2924 22.6673 19.9997V25.333C22.6673 26.0403 22.3864 26.7185 21.8863 27.2186C21.3862 27.7187 20.7079 27.9997 20.0007 27.9997H12.0007C11.2934 27.9997 10.6151 27.7187 10.115 27.2186C9.61494 26.7185 9.33398 26.0403 9.33398 25.333V19.9997Z"
+                stroke="#3F497F"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_5900_794">
+                <rect width="32" height="32" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="table" class="mb-3">
+      <app-shared_table
+        [columnsArray]="columnsArray"
+        [columnsNames]="columnsName"
+        [RowsData]="data"
+        (openModalEvent)="getReceiptFromId($event)"
+      ></app-shared_table>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center">
+      <div class="d-flex width-60 gap-2 justify-content-start">
+        <div
+          class="h-60px width-30 borderRadius_20px lightGreen-border d-flex justify-content-center align-items-center"
+        >
+          <span
+            class="fw-600 fs-16 d-flex justify-content-center text-center m-2"
+          >
+            عدد الأذونات : {{ additional_data?.count }}
+          </span>
+        </div>
+        <div
+          class="h-60px width-30 borderRadius_20px lightGreen-border d-flex justify-content-center align-items-center"
+        >
+          <span
+            class="fw-600 fs-16 d-flex justify-content-center text-center m-2"
+          >
+            الإجمالي : {{ additional_data?.total }}
+          </span>
+        </div>
+      </div>
+      <div class="width-20">
+        <button
+          (click)="openModal()"
+          class="printBtn fullScreen-768px d-flex fs-19 h-60px borderRadius_15px p-3 align-items-center text-center justify-content-center boxShadow-15"
+        >
+          طباعة
+          <svg
+            width="32"
+            height="32"
+            viewBox="0 0 32 32"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g clip-path="url(#clip0_5900_794)">
+              <path
+                d="M22.6667 22.6667H25.3333C26.0406 22.6667 26.7189 22.3857 27.219 21.8856C27.719 21.3855 28 20.7072 28 20V14.6667C28 13.9594 27.719 13.2811 27.219 12.781C26.7189 12.281 26.0406 12 25.3333 12H6.66667C5.95942 12 5.28115 12.281 4.78105 12.781C4.28095 13.2811 4 13.9594 4 14.6667V20C4 20.7072 4.28095 21.3855 4.78105 21.8856C5.28115 22.3857 5.95942 22.6667 6.66667 22.6667H9.33333"
+                stroke="#3F497F"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M22.6673 12V6.66667C22.6673 5.95942 22.3864 5.28115 21.8863 4.78105C21.3862 4.28095 20.7079 4 20.0007 4H12.0007C11.2934 4 10.6151 4.28095 10.115 4.78105C9.61494 5.28115 9.33398 5.95942 9.33398 6.66667V12"
+                stroke="#3F497F"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M9.33398 19.9997C9.33398 19.2924 9.61494 18.6142 10.115 18.1141C10.6151 17.614 11.2934 17.333 12.0007 17.333H20.0007C20.7079 17.333 21.3862 17.614 21.8863 18.1141C22.3864 18.6142 22.6673 19.2924 22.6673 19.9997V25.333C22.6673 26.0403 22.3864 26.7185 21.8863 27.2186C21.3862 27.7187 20.7079 27.9997 20.0007 27.9997H12.0007C11.2934 27.9997 10.6151 27.7187 10.115 27.2186C9.61494 26.7185 9.33398 26.0403 9.33398 25.333V19.9997Z"
+                stroke="#3F497F"
+                stroke-width="2.75"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_5900_794">
+                <rect width="32" height="32" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- print model -->
+<button
+  hidden
+  #OpenOptionsModal
+  type="button"
+  (click)="choosePrintTypePopup.openAddModal()"
+></button>
+<app-printing-options-popup
+  [paginated]="false"
+  (printData)="print($event)"
+  #choosePrintTypePopup
+></app-printing-options-popup>

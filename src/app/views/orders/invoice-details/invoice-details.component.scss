@@ -1,0 +1,67 @@
+@import "generalInputsStyle.scss";
+
+.invoiceDetailsContainer {
+  .form-check-input {
+    //top: 1.2rem;
+    scale: 1.7 !important;
+    //margin-right: 0.8rem;
+  }
+}
+
+.remaining_debit {
+  color: red;
+  font-size: 12px;
+}
+
+.specialDelivery {
+  @media screen and (max-width: 376px) and (min-width: 319px) {
+    font-size: 14px !important;
+  }
+
+  @media screen and (max-width: 320px) {
+    font-size: 11px !important;
+  }
+}
+
+#clientNote {
+  .modal-dialog {
+    //padding-top: 7% !important;
+    max-width: 25vw !important;
+
+    @media only screen and (max-width: 424px) {
+      max-width: 100% !important;
+      margin: 4% auto !important;
+    }
+
+    .modal-content {
+      //border-radius: 30px !important;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+
+      .modal-footer {
+        border: none;
+        justify-content: center;
+
+        button {
+          background-color: #3f497f !important;
+          width: 87px !important;
+        }
+      }
+
+      .modal-header {
+        border-bottom: none;
+        background-color: #f0f5fb;
+      }
+
+      .modal-body {
+        //padding: 0% 5% 5vh 5%;
+        justify-content: center;
+        align-items: center;
+        font-size: 20px;
+        font-weight: 600;
+        display: flex;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+      }
+    }
+  }
+}

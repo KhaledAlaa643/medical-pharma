@@ -1,0 +1,191 @@
+<div class="preparingCont main_card_margen">
+  <div class="card d-flex boxShadow-10 p-4 borderRadius_10px">
+      <div class="header d-flex mb-2 justify-content-between flex-wrap">
+     <div class="width-25  position-relative cursor-pointer">
+       <div class="boxShadow-15 h-60px borderRadius_20px d-flex align-items-center justify-content-center">
+         <span class="fw-400 fs-18 text-center">التحضير</span>
+       </div>
+       <div
+         class="borderRadius_50 position-absolute waitingNum yellow-bg d-flex align-items-center justify-content-center fw-400 fs-12">
+         {{allOrders.length}}
+       </div>
+     </div>
+     <div (click)="openFilterModel()" class="width-23  cursor-pointer">
+      <div class="boxShadow-15 h-60px borderRadius_20px d-flex align-items-center justify-content-center">
+        <span class="fw-400 fs-18 text-center lightGreen-color">فلتر</span>
+      </div>
+
+    </div>
+      </div>
+      <div class="body">
+
+       <app-shared_table
+       [columnsArray]="columnsArrayAll" 
+       [columnsNames]="columnsNameAll" 
+       [RowsData]="allOrders"
+       (orderClickEvent)="openModel($event)"
+       (printInvoiceEvent)="openValidationModel($event)"
+  
+       ></app-shared_table>
+      </div>
+      <div class="footer mt-5">
+        <div class="width-25">
+         <div class=" h-60px borderRadius_20px lightGreen-border d-flex align-items-center">
+           <span class="fw-600 smalltext borderline  fs-18 w-50 d-flex justify-content-center text-center p-1">
+            اجمالي عدد الأذونات</span>
+           <hr class="h-100 lightGreen-border">
+           <span class="fw-600 fs-18 w-50 d-flex justify-content-center">{{allOrders.length}}</span>
+         </div>
+        </div>
+      </div>
+  </div>
+</div>
+
+
+<button hidden #openInfoModel type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#detailsModel">
+
+</button>
+
+<div class="modal fade" id="detailsModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal-dialog p-3">
+   <div class="modal-content">
+     <div class="modal-header">
+       <div class="d-flex justify-content-center w-100">
+         <span class="text-center fs-16 fw-600">محتويات الأذن</span>
+       </div>
+       <div class="d-flex justify-content-end">
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+     </div>
+     <div  class="modal-body">
+      <div>
+
+        <app-shared_table
+        [columnsArray]="columnsArrayPopup" 
+        [columnsNames]="columnsNamePopup" 
+        [RowsData]="orderContentData"
+        (sortEvent)="sortInvoiceContent($event)"
+
+          ></app-shared_table>
+        
+
+      </div>
+      <div class="d-flex w-100 flex-wrap justify-content-between">
+        <div class="width-25">
+          <div class=" h-60px borderRadius_20px lightGreen-border d-flex align-items-center">
+            <span class="fw-600 smalltext borderline  fs-18 w-50 d-flex justify-content-center text-center p-1">
+              اجمالي
+              عدد الأصناف</span>
+            <hr class="h-100 lightGreen-border">
+            <span class="fw-600 fs-18 w-50 d-flex justify-content-center">{{orderItemsCount}}</span>
+          </div>
+         </div>
+
+     </div>
+
+   </div>
+ </div>
+</div>
+</div>
+
+<button hidden #filterOpenModel type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filterModel">
+
+</button>
+
+<div class="modal fade" id="filterModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div style="border-radius: 20px" class="modal-content modal-width-filter">
+      <div class=" modal-body">
+        <p class="modal-title fs-2 text-center" id="exampleModalLabel">فلتر</p>
+        <form [formGroup]="warehouseFilter">
+          <div class="w-100 d-flex flex-column   p-2">
+             <div class="w-100 flex-wrap gap-3 d-flex mb-1">
+               <div class="width-50">
+                 <div class="w-100 my-2 ">
+                   <label class="  mb-2"> رقم الأذن </label>
+                   <input type="text" placeholder=" " style="border-radius: 7px;" class=" h-40px form-control defaultBg   w-100"
+                     formControlName="invoice_number">
+                 </div>
+               </div> 
+   
+               <div class="d-flex flex-fill">
+                 <div class="w-100 my-2">
+                   <label class=" mb-2"> اسم العميل </label>
+                   <p-dropdown [options]="groupPharmacied" formControlName="pharmacy_id" class="d-block " optionLabel="name" optionValue="id"
+                     placeholder=" " [showClear]="true" [filter]="true"></p-dropdown>
+                 </div>
+               </div>
+
+             </div>
+
+             <div class="w-100 mb-4 d-flex flex-wrap align-items-center gap-3">
+              <div class="width-50 position-relative">
+                <label class="form-label mb-1 "> التاريخ</label>
+                <div class="d-flex  ">
+                  <p-calendar formControlName="created_at"  [showClear]="warehouseFilter.controls['created_at'].value" #calendarFrom dateFormat="mm-dd-yy"
+                    class="w-100 h-40px   borderRadius_10px position-relative w-100"  placeholder=" من ">
+                  </p-calendar>
+                  <img style="left: 0px;" (click)="calendarFrom.toggle()" class="calendar-icon position-absolute   p-2"
+                    src="../../../../assets/images/input/calender.svg" alt="">
+                </div>
+              </div>
+
+        
+            </div>
+
+
+
+
+            <div style="height: 100px;" class="w-100 d-flex justify-content-center align-items-end">
+              <button appDisableButton (click)="filter()" style="width:222px;height: 60px;color: white;border: none;"
+                class="darkGreen-bg borderRadius_10px">فلترة</button>
+                <button hidden  #closeModal type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+<button hidden #validationOpen type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ValidationModel">
+
+</button>
+
+<div class="modal fade" id="ValidationModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal-dialog p-3">
+   <div class="modal-content">
+     <div style="border: none !important;" class="modal-header">
+       <div class="d-flex justify-content-center w-100">
+         <span class="text-center fw-bold fs-16 fw-600">تأكيد العملية</span>
+       </div>
+       <div class="d-flex justify-content-end">
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+     </div>
+     <div  class="modal-body">
+     <div class="w-100 d-flex justify-content-center mb-3 align-items-center">
+      <span>هل تريد تأكيد هذة العملية والطباعة </span>
+     </div>
+     <div class="d-flex justify-content-center">
+
+       <div class="w-100 justify-content-center d-flex gap-3 flex-wrap">
+         <div  class="width-40  cursor-pointer">
+           <div class="boxShadow-15 greenAgree h-60px borderRadius_20px d-flex align-items-center justify-content-center">
+             <span (click)="printInvoiceOnly()" class="fw-400 fs-18 text-center text-white">تأكيد وطباعة</span>
+           </div>
+     
+         </div>
+         <div  class="width-40  cursor-pointer">
+           <div class="boxShadow-15 redBG h-60px borderRadius_20px d-flex align-items-center justify-content-center">
+             <span class="fw-400 fs-18 text-center text-white" type="button"  data-bs-dismiss="modal" aria-label="Close">الغاء</span>
+           </div>
+     
+         </div>
+       </div>
+     </div>
+
+   </div>
+ </div>
+</div>
+</div>

@@ -1,0 +1,313 @@
+<!-- Ordel Logs Filter Modal -->
+<div
+  class="modal fade"
+  id="orderLogsModel"
+  tabindex="-1"
+  aria-labelledby="orderLogsModelLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div
+        class="modal-header border-0 justify-content-center position-relative"
+      >
+        <h2 class="modal-title fs-5" id="exampleModalLabel">فلتر</h2>
+        <button
+          type="button"
+          class="btn-close position-absolute"
+          style="left: 3%"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body border-0">
+        <p class="modal-title fs-2 text-center" id="orderLogsModelLabel"></p>
+        <form [formGroup]="filterForm">
+          <div class="d-flex flex-wrap align-items-end justify-content-around">
+            <div class="width-48">
+              <div class="w-100 my-2">
+                <label class="mb-2"> بحث بمحتوي اسم الصنف </label>
+                <input
+                  type="text"
+                  placeholder=" "
+                  class="form-control"
+                  formControlName="product_name"
+                />
+              </div>
+            </div>
+
+            <div class="width-48">
+              <div class="w-100 my-2">
+                <label class="mb-2"> الكاتب </label>
+                <p-dropdown
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  formControlName="created_by"
+                  [options]="created_by"
+                  [showClear]="true"
+                  [filter]="true"
+                  class="dropdown-style"
+                >
+                </p-dropdown>
+              </div>
+            </div>
+
+            <div class="width-40">
+              <div class="w-100 my-2">
+                <label class="mb-2"> تصنيع شركة </label>
+                <!-- [options]="manufacturers" -->
+                <p-dropdown
+                  formControlName="manufactured_by"
+                  class="dropdown-style"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [options]="manufacturers"
+                  [showClear]="true"
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+
+            <div class="width-56">
+              <div class="w-100 my-2">
+                <label class="mb-2"> اسم المورد </label>
+                <p-dropdown
+                  formControlName="supplier_id"
+                  class="dropdown-style"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [options]="suppliers"
+                  [showClear]="true"
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+
+            <div class="width-30">
+              <label class=""> سعر الجمهور </label>
+              <div class="w-100 my-2 d-flex align-items-end gap-1">
+                <input
+                  type="text"
+                  placeholder=" من"
+                  class="form-control"
+                  formControlName="price_from"
+                />
+                <input
+                  type="text"
+                  placeholder=" الي"
+                  class="form-control"
+                  formControlName="price_to"
+                />
+              </div>
+            </div>
+            <div class="width-30 d-flex align-items-end gap-1">
+              <div class="w-100 my-2">
+                <label class="mb-2"> الخصم </label>
+                <input
+                  type="text"
+                  placeholder=" من"
+                  class="form-control"
+                  formControlName="discount_from"
+                />
+              </div>
+              <div class="w-100 my-2">
+                <label class="mb-2"> </label>
+                <input
+                  type="text"
+                  placeholder="الي "
+                  class="form-control"
+                  formControlName="discount_to"
+                />
+              </div>
+            </div>
+
+            <div class="width-36">
+              <div class="w-100 my-2">
+                <label class="mb-2"> المخزن </label>
+                <p-dropdown
+                  formControlName="warehouse_id"
+                  class="dropdown-style"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [options]="warehouses"
+                  [showClear]="true"
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+            <div class="w-100">
+              <div class="w-100 my-2">
+                <label class="mb-2"> مراجع الاستلامات </label>
+                <p-dropdown
+                  formControlName="reviewed_by"
+                  class="dropdown-style"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  [options]="receiving_auditors"
+                  [showClear]="true"
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+
+            <button
+              hidden
+              #closeModal
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+
+            <div class="w-100 d-flex justify-content-center">
+              <!-- (click)="filter()" -->
+              <button
+                appDisableButton
+                (click)="filter()"
+                style="height: 60px; color: white; border: none"
+                class="darkGreen-bg borderRadius_20px w-75"
+                data-bs-dismiss="modal"
+              >
+                فلترة
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Order Logs Page -->
+<div class="item-logs main_card_margen">
+  <div class="card card boxShadow-15 borderRadius_20px">
+    <div class="p-2">
+      <!-- Dropdown area -->
+      <div class="select-dropdowns">
+        <div
+          [formGroup]="searchForm"
+          class="head d-flex flexwrapscreen w-100 gap-3 justify-content-between"
+        >
+          <div class="name d-flex supplier-name flex-column">
+            <label class="m-2"> اسم الصنف </label>
+            <!-- [options]="suppliers" -->
+            <p-dropdown
+              optionLabel="name"
+              optionValue="id"
+              placeholder=" "
+              [options]="products"
+              formControlName="product_id"
+              [filter]="true"
+              [showClear]="true"
+              class="dropdown-style"
+            >
+            </p-dropdown>
+          </div>
+          <div class="name d-flex supplier-name flex-column">
+            <label class="m-2"> حالة الطلب </label>
+            <!-- [options]="suppliers" -->
+            <p-dropdown
+              [options]="statuses"
+              optionLabel="name"
+              optionValue="value"
+              placeholder=" "
+              formControlName="purchase_status"
+              [filter]="true"
+              [showClear]="true"
+              class="dropdown-style"
+            >
+            </p-dropdown>
+          </div>
+
+          <div class="calendar d-flex flex-column">
+            <label class="m-2">التاريخ </label>
+            <div class="calendar-holder position-relative">
+              <p-calendar
+                #calendarFrom
+                [dir]="'ltr'"
+                [showClear]="this.searchForm.controls['created_at'].value"
+                placeholder=" من"
+                formControlName="created_at"
+              >
+              </p-calendar>
+              <img
+                (click)="calendarFrom.toggle()"
+                class="cursor-pointer position-absolute top-0 end-0"
+                src="../../../../assets/images/input/calender.svg"
+                alt=""
+              />
+            </div>
+          </div>
+
+          <div class="search-button">
+            <label class="buttonlabelfix"></label>
+            <!--  (click)="filter()" -->
+            <button
+              appDisableButton
+              (click)="filter()"
+              type="submit"
+              placeholder=" "
+              class="form-control"
+            >
+              <p class="fw-semibold">بحث</p>
+            </button>
+          </div>
+
+          <div class="filter-button d-flex justify-content-end boxShadow-15">
+            <button
+              appDisableButton
+              type="submit"
+              placeholder=" "
+              class="form-control"
+              data-bs-toggle="modal"
+              data-bs-target="#orderLogsModel"
+            >
+              فلتر
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Table Area -->
+      <div class="table-area">
+        <app-shared_table
+          [columnsArray]="columnsArray"
+          [columnsNames]="columnsName"
+          [RowsData]="items_logs"
+          (sortEvent)="sort($event)"
+        ></app-shared_table>
+      </div>
+      <!-- Lower area and Pagination -->
+      <div class="lower-area">
+        <div id="pagination" class="p-3 d-flex align-items-center">
+          <div
+            class="d-flex width-17 h-50px lightGreen-border borderRadius_20px p-2 justify-content-center align-items-center"
+          >
+            <span class="fs-14 fw-600 w-50">اجمالي عدد الأصناف </span>
+            <span class="fw-600">{{ total }}</span>
+          </div>
+          <div class="width-65">
+            <p-paginator
+              #paginator
+              class="d-flex justify-content-center mb-2"
+              (onPageChange)="changePage($event)"
+              [first]="1"
+              [rows]="rows"
+              [totalRecords]="total"
+            ></p-paginator>
+          </div>
+          <!-- <div
+                        class="d-flex width-17 h-50px lightGreen-border borderRadius_20px p-2 justify-content-center align-items-center">
+                        <span class="fs-14 fw-600 w-50">الاجمالي </span>
+
+                        <span class="fw-600">{{115000}}</span>
+                    </div> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

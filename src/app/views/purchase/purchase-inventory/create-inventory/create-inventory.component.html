@@ -1,0 +1,418 @@
+<div class="main_card_margen">
+  <div class="card borderRadius_20px boxShadow-15">
+        <!-- add product section -->
+        <div class="p-2">
+          <form [formGroup]="addProductForm"> 
+            <div class="d-flex flex-wrap align-items-end gap-2">
+             <div class="width-13">
+               <label class="mb-2">المخزن</label>
+               <p-dropdown  (onChange)="getProducts();getPendingInventory()" formControlName="warehouse_id"
+               [ngClass]="{'readonly-input':disableWarehouse}" [readonly]="disableWarehouse"
+                [options]="warehouses" #warehouseDropdown    optionLabel="name" optionValue="id" placeholder=" " [showClear]="!disableWarehouse"
+               [filter]="true"></p-dropdown>
+             </div>
+       
+       
+             <div class="width-31">
+               <div class="d-flex justify-content-between align-items-end mb-1 p-1">
+                 <label  class="cursor-pointer ">اسم الصنف</label>
+               </div>
+               <p-dropdown [options]="products" formControlName="product_id" #productsDropdown  
+               [ngClass]="{'readonly-input':disableProducts}" [showClear]="!disableProducts" [readonly]="disableProducts"
+                 optionLabel="name" optionValue="id" placeholder=" " [showClear]="true"
+               [filter]="true"></p-dropdown>
+             </div>
+       
+             <div class="width-12">
+               <label class="mb-2">الموقع</label>
+               <input type="text" readonly formControlName="location" class="form-control readonly-input">
+             </div>
+       
+             <div class="width-11">
+               <label class="mb-2">الشركة المصنعه</label>
+               <input type="text"  readonly formControlName="manufacturer_name"  class="form-control readonly-input">
+             </div>
+             <div class="width-11">
+               <label class="mb-2">سعر الجمهور</label>
+               <input type="number"  readonly  formControlName="public_price" class="form-control readonly-input">
+             </div>
+             <div class="width-12">
+               <label class="mb-2">اجمالي كمية المخازن</label>
+               <input type="number"  readonly formControlName="totalWarehousesQuantity" class="form-control readonly-input">
+             </div>
+       
+             <div class="flex-fill d-flex flex-column gap-2 flex-wrap align-items-end">
+               <button data-bs-toggle="modal" data-bs-target="#filterModel"  type="button" class="white_bg_green_txt_btn boxShadow-15 h-40px borderRadius_10px w-100">
+                 <span class="fw-600" >فلتر</span>
+               </button>
+       
+               <button (click)="addProduct()" [disabled]="addProductForm.invalid"  type="button" #addbtn  class="green_bg_black_txt_btn h-40px borderRadius_10px w-100">
+                 <span class="fw-600" >بحث</span>
+               </button>
+       
+             </div>
+       
+            </div>
+          </form>
+         </div>
+    
+         <!-- cart table -->
+         <div class="p-2">
+           <div  class=" mx-3 p-2">
+            <div #scrollMe style="max-height: 285px; overflow-y: auto;" class="h-100">
+              <p-table [value]="Data">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th style="display: table-cell !important;width: 250px !important;">الاسم عربي</th>
+                    <th style="display: table-cell !important;">التاريخ</th>
+                    <th style="display: table-cell !important;">التشغيلة</th>
+                    <th style="display: table-cell !important;"  >كميةالمخزن</th>
+                    <th style="display: table-cell !important;" >سعر الجمهور
+                      بالمخزن</th>
+                    <th style="display: table-cell !important;" >الكمية المجرودة</th>
+                    <th style="display: table-cell !important;" >العجز</th>
+                    <th style="display: table-cell !important;" >الزيادة</th>
+                    <th style="display: table-cell !important;" >الصافي</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" class="position-relative" let-product let-index="rowIndex">
+                    <img *ngIf="!product?.batch_id" class="position-absolute" (click)="deleteProduct(index)" src="../../../../../assets/images/purchase/clear x.svg" alt="">
+                    <tr style="background: #FFFFFF;
+                     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+                     border-radius: 20px;">
+                      <td class="fs-14 fw-700 color-black x-small-sm">{{product.product_name}}</td>
+                      <td class="fw-600 color-black">
+                        <input *ngIf="!product?.batch_id" [(ngModel)]="product.expired_at"    type="text" class="form-control text-center">
+                        <span *ngIf="product?.batch_id">{{product.expired_at}}</span>
+                      </td>
+                      <td class="fw-600 color-black">
+                        <input *ngIf="!product?.batch_id" [(ngModel)]="product.operating_number"  type="text" class="form-control text-center">
+                        <span *ngIf="product?.batch_id">{{product.operating_number}}</span>
+                      </td>
+                      <td class="fw-600 color-black">
+                      <input *ngIf="!product?.batch_id" [disabled]="true" [(ngModel)]="product.quantity"  type="text" class="form-control text-center">
+                      <span *ngIf="product?.batch_id">{{product.quantity}}</span>
+                      </td>
+                      <td class="fw-600 color-black">
+                         <input *ngIf="!product?.batch_id" [(ngModel)]="product.public_price"  type="text" class="form-control text-center">
+                         <span *ngIf="product?.batch_id">{{product.public_price}}</span>
+                      </td>
+                      <td class="fw-600 color-black">
+                        <input [(ngModel)]="product.inventoried_quantity" (input)="calcBatchData(index)"  type="number" class="form-control text-center">
+                      </td>
+                      <td class="fw-600 color-black">
+                        <input [(ngModel)]="product.shortage" disabled type="number" class="form-control text-center">
+                      </td>
+                      <td class="fw-600 color-black">
+                        <input [(ngModel)]="product.excess" disabled type="number" class="form-control text-center">
+                      </td>
+                      <td class="fw-600 color-black">
+                        <input [(ngModel)]="product.total" disabled type="number" class="form-control text-center">
+                      </td>
+                    </tr>
+                </ng-template>
+              </p-table>
+            </div>
+          </div>
+         </div>
+         <div class="p-3 w-100 d-flex gap-5 flex-wrap align-items-center">
+          <div class="width-15">
+            <span (click)="addNewBatch()" class="text-decoration-underline fw-bold cursor-pointer mainBlue-text">اضافة تاريخ وتشغيلة</span>
+          </div>
+          <div class="d-flex width-25 gap-1 align-items-center">
+           <span class="width-40">اجمالى الكمية</span> 
+            <input type="number" [(ngModel)]="total_Quantity" readonly  class="form-control width-60 readonly-input">
+          </div>
+          <div class="width-50 flex-wrap d-flex gap-3 align-items-center">
+            اجمالى المبلغ
+            <input type="number" readonly [(ngModel)]="total_shortage" class="form-control readonly-input width-25">
+            <input type="number" readonly  [(ngModel)]="total_excess" class="form-control readonly-input width-25">
+            <input type="number" readonly  [(ngModel)]="total_price" class="form-control readonly-input width-25">
+
+          </div>
+         </div>
+         <div class="p-2 w-100 d-flex flex-wrap justify-content-between">
+          <div class="width-20">
+            <label class="mb-2">موظف الجرد</label>
+            <p-multiSelect [(ngModel)]="reviewers"  [options]="inventoryEmployees"
+             [filter]="true" optionLabel="name" optionValue="id"
+            display="chip"></p-multiSelect>
+          </div>
+          <button (click)="inventory()"  type="button"  class="green_bg_black_txt_btn mt-1 text-white h-40px borderRadius_10px width-17">
+            <span class="fw-600" >تم الجرد</span>
+          </button>
+         </div>
+         <div class="p-3">
+           <div class=" HLine"></div>
+         </div>
+         <!--secound table-->
+         <div class="p-2">
+          <div class="d-flex flex-wrap gap-2 mb-2 align-items-center">
+            <span>قائمة أصناف الجرد</span>
+            <div [ngClass]="{'activeTab':popupTabs[0]==true}" (click)="changeTab(0)" class="lightGreen-border cursor-pointer d-flex justify-content-center align-items-center text-dark h-40px borderRadius_10px width-17">
+              <span class="fw-600" >كمية العجز و الزيادة</span>
+            </div>
+            <div [ngClass]="{'activeTab':popupTabs[1]==true}" (click)="changeTab(1)" class="lightGreen-border cursor-pointer text-dark d-flex justify-content-center align-items-center h-40px borderRadius_10px width-17">
+              <span class="fw-600" >الكميات الصحيحة</span>
+            </div>
+          </div>
+         <div  class=" borderRadius_20px border border-1 mx-3 p-2">
+          <div #scrollMe style="max-height: 285px; overflow-y: auto;" class="h-100">
+            <p-table [value]="inventored_data">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th style="display: table-cell !important;width: 250px !important;">اسم الصنف</th>
+                  <th style="display: table-cell !important;">التاريخ والتشغيلة</th>
+                  <th style="display: table-cell !important;">الموقع</th>
+                  <th style="display: table-cell !important;"  >كميةالمخزن</th>
+                  <th style="display: table-cell !important;" >سعر الجمهور
+                    </th>
+                  <th style="display: table-cell !important;" >الكمية المجرودة</th>
+                  <th style="display: table-cell !important;" >العجز</th>
+                  <th style="display: table-cell !important;" >الزيادة</th>
+                  <th style="display: table-cell !important;" >الصافي</th>
+                  <th style="display: table-cell !important;" >موظف الجرد</th>
+                  <th style="display: table-cell !important;" >الشركة المصنعه</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-product let-index="rowIndex">
+                <tr style="background: #FFFFFF;
+                 box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+                 border-radius: 20px;">
+                  <td class="fs-14 fw-700 color-black x-small-sm">{{product.product_name}}</td>
+                  <td class="fw-600 color-black">
+                    {{product?.batch_expired_at}} {{product?.batch_operating_number}}
+                  </td>
+                  <td class="fw-600 color-black">
+                    {{product?.location}}
+                  </td>
+                  <td class="fw-600 color-black">
+                     {{product?.quantity}}
+                  </td>
+                  <td class="fw-600 color-black">
+                    {{product?.public_price}}
+                  </td>
+                  <td class="fw-600 color-black">
+                    {{product?.inventoried_warehouse_quantity}}
+                  </td>
+                  <td class="fw-600 color-black">
+                    {{product?.shortage_quantity}}
+                  </td>
+                  <td class="fw-600 color-black">
+                    {{product?.excess_quantity}}
+                  </td>
+                  <td class="fw-600 color-black">
+                    {{product?.total_price}}
+                  </td>
+                  <td class="fw-600 color-black">
+                    <div *ngFor="let auther of product?.inventory_employees">{{auther}}/</div>
+                  </td>
+                  <td class="fw-600 color-black">
+                    {{product?.manufacturer_name}}
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+         </div>
+         <!--totals-->
+         <div class="p-2 flex-wrap d-flex gap-2 align-items-center">
+          <div
+          class="d-flex width-21 h-50px lightGreen-border borderRadius_20px p-2 justify-content-center align-items-center">
+          <span class="fs-14 fw-600 w-50">عدد الأصناف </span>
+          <span class="fw-600">{{totalProductsQuantity}}</span>
+      </div>
+      <div class="width-60 align-items-center gap-1 d-flex">
+        <span class="width-20">ملاحظة طلب الجرد</span>
+        <input type="text" [(ngModel)]="note"  class="form-control w-75">
+      </div>
+      <button [disabled]="tabData1.length == 0 && tabData2.length == 0" (click)="openModel()" type="button"  class="green_bg_black_txt_btn text-white h-40px borderRadius_10px width-17">
+        <span class="fw-600" >غلق للمراجعة</span>
+      </button>
+         </div>
+  </div>
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="filterModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header border-0  justify-content-center position-relative">
+              <h1 class="modal-title fs-5" id="exampleModalLabel"> فلتر</h1>
+              <button type="button" class="btn-close position-absolute" style="left: 3%;" data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+          </div>
+          <div class=" modal-body border-0 ">
+              <p class="modal-title fs-2 text-center" id="exampleModalLabel"></p>
+              <form [formGroup]="filterForm">
+                  <div class="row align-items-center">
+
+                      <div class="col-md-12 col-lg-6 mb-3 ">
+                          <div class="w-100 ">
+                              <label class=" mb-2">الشركة المصنعه </label>
+                              <p-dropdown
+                                  [showClear]="true"
+                                  [options]="Manufacturers" formControlName="manufacturer_id" class="d-block "
+                                  optionLabel="name" optionValue="id" placeholder=" " [filter]="true"></p-dropdown>
+                          </div>
+                      </div>
+                      <div class=" col-md-12 col-lg-6 d-flex gap-1 position-relative align-items-end mb-3 ">
+                          <label  class=" fw-500 fs-16  position-absolute"
+                              style="top: -22%;">الموقع
+                          </label>
+
+                          <div class="col-4">
+
+                              <div class="w-100 ">
+                                  <label class=" fw-400 fs-14 mb-1 text-center w-100">محطة </label>
+                                  <p-dropdown [showClear]="true" formControlName="corridor_id"
+                                      [options]="corridors"  class="d-block "
+                                      optionLabel="number" optionValue="id" placeholder=" "
+                                      [filter]="true"></p-dropdown>
+                              </div>
+                          </div>
+                          <div class="col-4">
+                              <div class="w-100 ">
+                                  <label class=" fw-400 fs-14 mb-1 text-center w-100">استاند </label>
+                                  <p-dropdown [showClear]="true"
+                                      [options]="stands"  formControlName="stand" class="d-block " optionLabel="number"
+                                      optionValue="number" placeholder=" " [filter]="true"></p-dropdown>
+                              </div>
+                          </div>
+                          <div  class="col-4">
+                              <div class="w-100 ">
+                                  <label class=" fw-400 fs-14 mb-1 text-center w-100">رف </label>
+                                  <p-dropdown [showClear]="true"
+                                      [options]="shelves" formControlName="shelf" class="d-block "
+                                      optionLabel="number" optionValue="number" placeholder=" "
+                                      [filter]="true"></p-dropdown>
+                              </div>
+                          </div>
+                      </div>
+
+
+
+
+
+                      <div class=" col-md-12 col-lg-6 d-flex position-relative gap-2">
+                          <label class=" mb-2 position-absolute">سعر الجمهور </label>
+
+                          <div class="d-flex gap-5">
+                              <div class=" col-md-6 col-lg-5">
+                                  <div class="w-100  ">
+                                      <label class=" mb-2"> </label>
+                                      <input type="text" placeholder="من "
+                                          class=" form-control defaultBg borderRadius_10px  w-100 mt-1"
+                                          formControlName="price_from">
+                                  </div>
+                              </div>
+                              <div class="col-md-6 col-lg-5">
+                                  <div class="w-100  ">
+                                      <label class=" mb-2"> </label>
+                                      <input type="text" placeholder="الي"
+                                          class=" form-control defaultBg borderRadius_10px  w-100 mt-1"
+                                          formControlName="price_to">
+                                  </div>
+                              </div>
+                          </div>
+
+                      </div>
+
+                      <div class="col-md-12 col-lg-6 d-flex align-items-end">
+                        <div class="w-100">
+                          <label class=" mb-2"> </label>
+                          <div class="radiobutton d-flex align-items-center">
+                            <input formControlName="more_than_zero" style="width: 40px !important;height: 40px !important;" class="form-check-input mx-1 borderRadius_10px" 
+                                name="accept_return" type="checkbox" >
+                            <label class="form-check-label">
+                              الكمية أكبر من صفر
+                            </label>
+                        </div> 
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-lg-4 d-flex align-items-end">
+                        <div class="w-100">
+                          <label class=" mb-2"> </label>
+                          <div class="radiobutton d-flex align-items-center">
+                            <input formControlName="accurate_quantity" style="width: 40px !important;height: 40px !important;" class="form-check-input mx-1 borderRadius_10px" 
+                                name="accept_return" type="checkbox" >
+                            <label class="form-check-label">
+                              تم عليه الجرد و كميته صحيحه   
+                       </label>
+                        </div> 
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-lg-4 d-flex align-items-end">
+                        <div class="w-100">
+                          <label class=" mb-2"> </label>
+                          <div class="radiobutton d-flex align-items-center">
+                            <input formControlName="inaccurate_quantity" style="width: 40px !important;height: 40px !important;" class="form-check-input mx-1 borderRadius_10px" 
+                                name="accept_return" type="checkbox" >
+                            <label class="form-check-label">
+                              تم عليه الجرد و كميته غير صحيحه
+  
+                       </label>
+                        </div> 
+                        </div>
+                      </div>
+                      <div class="col-md-12 col-lg-4 d-flex align-items-end">
+                        <div class="w-100">
+                          <label class=" mb-2"> </label>
+                          <div class="radiobutton d-flex align-items-center">
+                            <input formControlName="not_inventoried" style="width: 40px !important;height: 40px !important;" class="form-check-input mx-1 borderRadius_10px" 
+                                name="accept_return" type="checkbox" >
+                            <label class="form-check-label">
+                              لم يتم عليه الجرد
+
+  
+                       </label>
+                        </div> 
+                        </div>
+                      </div>
+
+                      <div class="col-md-12 my-2 d-flex align-items-end gap-2">
+                        <div class="col-md-12 col-lg-6">
+                          <label class="m-2">التوقيت </label>
+                          <div class="calendar-holder position-relative">
+                              <p-calendar #calendarFrom [dir]="'ltr'" formControlName="from"
+                                  placeholder=" من" dateFormat="yy-mm-dd" [showClear]="filterForm.controls[ 'from' ].value">
+                              </p-calendar>
+                              <img (click)="calendarFrom.toggle()" class="cursor-pointer position-absolute top_5px end-0"
+                                  src="../../../../assets/images/input/calender.svg" alt="">
+                          </div>
+                          
+                        </div>
+                        <div class="col-md-12 col-lg-6">
+                          <div class="calendar-holder position-relative">
+                              <p-calendar #calendarTo [dir]="'ltr'"  formControlName="to"
+                                  placeholder=" الي" dateFormat="yy-mm-dd"  [showClear]="filterForm.controls[ 'to' ].value">
+                              </p-calendar>
+                              <img (click)="calendarTo.toggle()" class="cursor-pointer position-absolute top_5px end-0"
+                                  src="../../../../assets/images/input/calender.svg" alt="">
+                          </div>
+                      </div>
+               
+                        
+                    </div>
+
+                      <div class="w-100 mt-3 d-flex justify-content-center">
+                          <button  data-bs-dismiss="modal"
+                          aria-label="Close" (click)="getProducts()" appDisableButton style="height: 60px;color: white;border: none;"
+                              class="darkGreen-bg borderRadius_20px w-75">فلترة</button>
+                      </div>
+                  </div>
+              </form>
+          </div>
+
+      </div>
+  </div>
+</div>
+
+<app-shared_popup (ChoosenEvent)="Popupevent($event)" [cancle_button_name]="cancle_button_name" [ok_button_name]="ok_button_name" [popupMessage]="popupMessage" #Popup ></app-shared_popup>
+<button hidden  #popupModalOpen type="button" (click)="Popup.openModel()"></button>
+<button hidden  #PopupModalClose type="button" (click)="Popup.closeModalClick()"></button>

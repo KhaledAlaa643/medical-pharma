@@ -1,0 +1,15 @@
+@import "generalInputsStyle.scss";
+@import "generalPaginationStyle.scss";
+@import "generalTableStyle.scss";
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.bottom-part{
+    @media screen and (max-width:769px) {
+        flex-direction: column-reverse !important;
+    }
+}

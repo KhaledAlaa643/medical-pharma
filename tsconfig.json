@@ -1,0 +1,86 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@modules/*": [
+        "app/views/clients/*",
+        "app/views/orders/*",
+        "app/views/sales-admin/*",
+        "app/views/general-settings/*",
+        "app/views/sales-settings/*",
+        "app/views/salesTeam/*",
+        "app/views/auth/*",
+        "app/views/complains/*",
+        "app/views/shared-module/*",
+        "app/views/warehouse/*",
+        "app/views/warehouse/bulk-products-preparer/*",
+        "app/views/warehouse/manage-warehouses/*",
+        "app/views/warehouse/storekeeper/*",
+        "app/views/warehouse/storekeeper/Inventory-of-Items-and-Warehouses/*",
+        "app/views/warehouse/storekeeper/customer-returns/*",
+        "app/views/warehouse/storekeeper/warehouse-settlement/*",
+        "app/views/warehouse/storekeeper/inventory/*",
+        "app/views/warehouse/storekeeper/edit-operation/*",
+        "app/views/purchase/*",
+        "app/views/delivery/*",
+        "app/views/products/*",
+        "app/views/manufacturers/*",
+        "app/views/purchase/supply/*",
+        "app/views/purchase/expirations-and-operations/*",
+        "app/views/purchase/warehouses-transfers/*",
+        "app/views/purchase/purchase-inventory/*",
+        "app/views/purchase/purchase-inventory/create/*",
+        "app/views/purchase/offers/*",
+        "app/views/purchase/Item-sales-productivity/*",
+
+        
+        "app/views/front-page/*",
+
+
+      ],
+      "@services/*": [
+        "app/core/services/*"
+      ],
+      "@models/*": [
+        "app/core/models/*"
+      ],
+      "@shared/*": [
+        "app/core/shared"
+      ],
+      "@environments/*": [
+        "environments/*"
+      ],
+      "@interceptors/*": [
+        "app/core/interceptors/*"
+      ]
+    },
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "ES2022",
+    "module": "ES2022",
+    "useDefineForClassFields": false,
+    "lib": [
+      "ES2022",
+      "dom"
+    ]
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}

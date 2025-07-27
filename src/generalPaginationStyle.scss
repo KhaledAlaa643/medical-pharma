@@ -1,0 +1,15 @@
+::ng-deep .p-paginator .p-paginator-first {
+    transform: scaleX(-1);
+}
+
+::ng-deep .p-paginator .p-paginator-prev {
+    transform: scaleX(-1);
+}
+
+::ng-deep .p-paginator .p-paginator-next {
+    transform: scaleX(-1);
+}
+
+::ng-deep .p-paginator .p-paginator-last {
+    transform: scaleX(-1);
+}

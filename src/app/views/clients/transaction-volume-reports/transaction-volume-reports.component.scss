@@ -1,0 +1,89 @@
+@import 'generalInputsStyle.scss';
+
+
+.tableHeaderone {
+    background-color: #3F497F;
+    color: white;
+    border-radius: 0px 10px 0px 0px;
+
+    @media screen and (max-width:769px) {
+
+        border-radius: 10px 10px 0px 0px !important;
+    }
+}
+
+.tableHeadertwo {
+    background-color: #3F497F;
+    color: white;
+    border-radius: 10px 0px 0px 0px;
+
+    @media screen and (max-width:769px) {
+
+        border-radius: 10px 10px 0px 0px !important;
+    }
+}
+
+.table {
+
+    border: 1px solid #e4e4e4;
+    border-radius: 10px 10px 0px 0px;
+
+    @media screen and (max-width:769px) {
+        width: 100% !important;
+        border-radius: 10px 10px 10px 10px !important;
+    }
+
+}
+
+.width-50 {
+    width: 50 !important;
+
+    @media screen and (max-width:769px) {
+        width: 100% !important;
+
+    }
+}
+
+
+
+.responsiveFix {
+
+    @media screen and (max-width:769px) {
+        width: 100%;
+
+    }
+}
+
+.form-control:focus {
+    box-shadow: none;
+    /* Remove the focus border */
+    border-color: #ced4da;
+    /* You might need to adjust the border color to match your design */
+
+}
+
+.cusror-default {
+    cursor: default;
+}
+
+
+.responsive-fix {
+    @media screen and (max-width:769px) {
+        display: inline !important;
+        width: 100%;
+    }
+
+}
+
+.whitespace {
+    white-space: nowrap;
+}
+
+.SpanShow {
+    display: none !important;
+
+    @media screen and (max-width:769px) {
+        display: flex !important;
+
+    }
+}

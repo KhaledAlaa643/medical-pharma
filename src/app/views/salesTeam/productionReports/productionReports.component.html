@@ -1,0 +1,104 @@
+<!-- <div class="shadow m-3 rounded-4 text-center"> -->
+<div class="main_card_margen">
+  <div class="card boxShadow-10 borderRadius_10px responsiveTabs">
+    <div class="d-flex flex-wrap text-center p-1 overflow-auto displayMediaFix">
+      <div
+        (click)="changeActiveTap(0)"
+        class="responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+        [ngClass]="{ active: isActiveTapArray[0] }"
+      >
+        <p class="text-center m-auto">انتاجية المناديب</p>
+      </div>
+      <div
+        (click)="changeActiveTap(1)"
+        class="responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+        [ngClass]="{ active: isActiveTapArray[1] }"
+      >
+        <p class="text-center m-auto">مبيعات مندوب</p>
+      </div>
+      <div
+        (click)="changeActiveTap(2)"
+        class="responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+        [ngClass]="{ active: isActiveTapArray[2] }"
+      >
+        <p class="text-center m-auto">مبيعات عميل</p>
+      </div>
+      <div
+        (click)="changeActiveTap(3)"
+        class="responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+        [ngClass]="{ active: isActiveTapArray[3] }"
+      >
+        <p class="text-center m-auto">مقارنة مبيعات عملاء المندوب</p>
+      </div>
+      <div
+        (click)="changeActiveTap(4)"
+        class="responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+        [ngClass]="{ active: isActiveTapArray[4] }"
+      >
+        <p class="text-center m-auto">انتاجية المحافظات</p>
+      </div>
+      <div
+        (click)="changeActiveTap(5)"
+        class="responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+        [ngClass]="{ active: isActiveTapArray[5] }"
+      >
+        <p class="text-center m-auto">انتاجية المدن</p>
+      </div>
+      <div
+        (click)="changeActiveTap(7)"
+        class="responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+        [ngClass]="{ active: isActiveTapArray[7] }"
+      >
+        <p class="text-center m-auto">مبيعات المدينة</p>
+      </div>
+      <div
+        (click)="changeActiveTap(6)"
+        class="responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+        [ngClass]="{ active: isActiveTapArray[6] }"
+      >
+        <p class="text-center m-auto">انتاجية خطوط السير</p>
+      </div>
+
+      <div
+        (click)="changeActiveTap(8)"
+        class="responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+        [ngClass]="{ active: isActiveTapArray[8] }"
+      >
+        <p class="text-center m-auto">مبيعات خط السير</p>
+      </div>
+      <div
+        (click)="changeActiveTap(9)"
+        class="responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+        [ngClass]="{ active: isActiveTapArray[9] }"
+      >
+        <p class="text-center m-auto">مقارنة مبيعات العملاء</p>
+      </div>
+    </div>
+
+    <div class="row mx-3 revert-sm ms-3">
+      <div class="col-xs-2 h-100">
+        <app-agent-productivity
+          *ngIf="isActiveTapArray[0]"
+        ></app-agent-productivity>
+        <app-agentSales *ngIf="isActiveTapArray[1]"></app-agentSales>
+        <app-clientSales *ngIf="isActiveTapArray[2]"></app-clientSales>
+        <app-clientAgentSales
+          *ngIf="isActiveTapArray[3]"
+        ></app-clientAgentSales>
+        <app-cityGovernateProduction
+          *ngIf="isActiveTapArray[4]"
+        ></app-cityGovernateProduction>
+        <app-citySales *ngIf="isActiveTapArray[5]"></app-citySales>
+        <app-track-productivity
+          *ngIf="isActiveTapArray[6]"
+        ></app-track-productivity>
+        <app-city-productivity *ngIf="isActiveTapArray[7]">
+        </app-city-productivity>
+        <app-trackSales *ngIf="isActiveTapArray[8]"></app-trackSales>
+        <app-cityAgentTrackSales
+          *ngIf="isActiveTapArray[9]"
+        ></app-cityAgentTrackSales>
+      </div>
+    </div>
+  </div>
+</div>

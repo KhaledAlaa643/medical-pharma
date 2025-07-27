@@ -1,0 +1,200 @@
+@import 'generalInputsStyle.scss';
+
+
+.container {
+    text-align: center;
+}
+
+.progress-container {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    /*all available space is placed(evenly) between the first and last items*/
+    margin-bottom: 30px;
+    /*to leave some space between steps and buttons*/
+    max-width: 100%;
+    width: 350px;
+}
+
+
+.progress {
+    background-color: var(--darkBlue);
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 4px;
+    width: 0%;
+    transform: translateY(-50%);
+    /*minus to move up in y axis*/
+    z-index: 1;
+    transition: 0.4s ease-in;
+}
+
+.progress-container::before {
+    content: '';
+    /*must mentioned otherwise before after property will not work*/
+    background-color: var(--darkBlue);
+    position: absolute;
+    top: 50%;
+    left: 0;
+    height: 1px;
+    width: 100%;
+    transform: translateY(-50%);
+    /*minus to move up in y axis*/
+    z-index: 0;
+    transition: 0.4s ease-in;
+}
+
+.circle {
+    color: var(--darkBlue);
+    background-color: var(--white);
+    border-radius: 50%;
+    height: 60px;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid var(--darkBlue);
+    z-index: 2;
+}
+
+.steps {
+    margin-top: 17px;
+    row-gap: 20px;
+    column-gap: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .done {
+        background-color: #FFFFFF !important;
+        border: 1px solid var(--darkBlue);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 60px;
+        min-height: 60px;
+        text-align: center;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+
+        @media screen and (max-width:426px) {
+            min-width: 40px;
+            min-height: 40px;
+        }
+    }
+
+    .next {
+        background-color: #FFFFFF !important;
+        color: var(--darkBlue);
+        border: 1px solid var(--darkBlue);
+        min-width: 60px;
+        min-height: 60px;
+        text-align: center;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+
+        @media screen and (max-width:426px) {
+            min-width: 40px;
+            min-height: 40px;
+        }
+
+
+    }
+
+    .active {
+        background-color: var(--darkBlue);
+        color: white;
+        min-width: 60px;
+        min-height: 60px;
+        text-align: center;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 1;
+
+        @media screen and (max-width:426px) {
+            min-width: 40px;
+            min-height: 40px;
+        }
+
+    }
+}
+
+.imageContainer {
+    background-color: var(--lightOrange);
+    color: var(--darkBlue);
+}
+
+
+.dateTimeArea {
+
+    border: 1px solid;
+    border-color: var(--darkGreen);
+}
+
+.fontCheckSize {
+    font-size: 2rem
+}
+
+
+
+
+
+* {
+    box-sizing: border-box;
+}
+
+
+.addbtn {
+    width: 25% !important;
+
+    @media screen and (max-width :769px) {
+        width: 100% !important;
+    }
+
+}
+
+
+.stepsImage {
+    @media screen and (max-width:425px) {
+        width: 100% !important;
+    }
+}
+
+
+::ng-deep .rounded-map .map-container {
+    border-radius: 33px;
+    width: 100% !important;
+}
+
+
+.vLine {
+    color: #3F497F !important;
+    width: 2px;
+    z-index: 0;
+    rotate: 90deg;
+    background-color: #3F497F;
+    align-self: stretch;
+}
+
+
+.map1 {
+    width: 100% !important;
+}
+
+.map-container {
+    width: 100%;
+}
+
+.disabledColor {
+    background: #e4e4e4;
+    cursor: default;
+}

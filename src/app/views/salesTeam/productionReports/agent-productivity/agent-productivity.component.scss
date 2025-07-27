@@ -1,0 +1,25 @@
+@import "generalTableStyle.scss";
+@import "generalInputsStyle.scss";
+@font-face {
+  font-family: NOTO;
+  src: local("Noto"),
+    url("../../../../../assets/fonts/NotoSansArabic-VariableFont_wdth\,wght.ttf")
+      format("truetype");
+}
+
+.centeringCSS {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.centeringCSS:active {
+  background-color: var(--darkGreen);
+  font-size: 14px;
+}
+
+.btnStyling {
+  background-color: var(--darkGreen);
+  border-radius: 10px;
+  font-size: 18px;
+}

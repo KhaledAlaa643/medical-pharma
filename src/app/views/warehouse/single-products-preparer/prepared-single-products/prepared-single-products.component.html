@@ -1,0 +1,298 @@
+<div class="preparedSingleProducts">
+  <!-- filter Modal -->
+  <button
+    hidden
+    #Listmodel
+    type="button"
+    class="btn btn-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#Listmodel"
+  ></button>
+  <div
+    class="modal fade"
+    id="exampleModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div style="border-radius: 20px" class="modal-content modal-width-filter">
+        <div class="modal-body">
+          <p class="modal-title fs-2 text-center" id="exampleModalLabel">
+            فلتر
+          </p>
+          <form [formGroup]="warehouseFilter">
+            <div class="w-100 d-flex flex-column">
+              <div class="w-100 flex-wrap d-flex mb-1 justify-content-evenly">
+                <div class="width-45">
+                  <div class="w-100 my-2">
+                    <label class="mb-2"> رقم الأذن </label>
+                    <input
+                      type="text"
+                      placeholder=" "
+                      class="form-control"
+                      formControlName="invoice_number"
+                    />
+                  </div>
+                </div>
+
+                <div class="width-50">
+                  <div class="w-100 my-2">
+                    <label class="mb-2"> اسم العميل </label>
+                    <p-dropdown
+                      [options]="groupPharmacied"
+                      formControlName="pharmacy_id"
+                      class="d-block"
+                      optionLabel="name"
+                      optionValue="id"
+                      placeholder=" "
+                      [showClear]="true"
+                      [filter]="true"
+                    ></p-dropdown>
+                  </div>
+                </div>
+              </div>
+              <div class="w-100 flex-wrap d-flex mb-1 justify-content-evenly">
+                <div class="width-45 position-relative">
+                  <label class="form-label mb-2"> التاريخ</label>
+                  <div class="d-flex">
+                    <p-calendar
+                      formControlName="created_at"
+                      [showClear]="warehouseFilter.controls['created_at'].value"
+                      #calendarFrom
+                      dateFormat="mm-dd-yy"
+                      class="w-100 h-40px borderRadius_10px position-relative w-100"
+                      placeholder=" من "
+                    >
+                    </p-calendar>
+                    <img
+                      style="left: 0px"
+                      (click)="calendarFrom.toggle()"
+                      class="calendar-icon position-absolute p-2"
+                      src="../../../../assets/images/input/calender.svg"
+                      alt=""
+                    />
+                  </div>
+                </div>
+                <div class="width-50">
+                  <div class="w-100">
+                    <label class="mb-2">المحضر</label>
+                    <p-dropdown
+                      [options]="preparer"
+                      formControlName="prepared_by"
+                      class="d-block"
+                      optionLabel="name"
+                      optionValue="id"
+                      placeholder=" "
+                      [showClear]="true"
+                      [filter]="true"
+                    ></p-dropdown>
+                  </div>
+                </div>
+              </div>
+              <div
+                style="height: 100px"
+                class="w-100 d-flex justify-content-center align-items-end"
+              >
+                <button
+                  (click)="filter()"
+                  style="width: 222px; height: 60px; color: white; border: none"
+                  class="darkGreen-bg borderRadius_10px"
+                >
+                  فلترة
+                </button>
+                <button
+                  hidden
+                  #closeModal
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- orderContent Modal -->
+  <!-- <button hidden #ContentModal type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ContentModal">
+</button> -->
+
+  <div
+    class="modal modalContent fade show d-block bg-black bg-opacity-25 font-montserrat"
+    id="subscription"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    role="dialog"
+    aria-hidden="true"
+    data-bs-keyboard="true"
+    *ngIf="toggleModal.showModal"
+  >
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div #ContentModal class="modal-content modalContentModal">
+        <div class="modal-body">
+          <div class="title position-relative pt-2">
+            <h5 class="text-center">محتويات الأذن</h5>
+            <span
+              (click)="toggleModal.showModal = false"
+              style="top: 0%; left: 0.5%; cursor: pointer"
+              class="d-flex fs-3 position-absolute"
+              >x</span
+            >
+            <div class="basket-area row mt-3"></div>
+            <div class="station-basket my-4">
+              <div
+                *ngIf="multiple_corridors_enabled == 'true'"
+                class="d-flex flex-wrap justify-content-center align-items-center"
+              >
+                <div
+                  *ngFor="let corridor of displayData; let i = index"
+                  class="sub-div"
+                >
+                  <div
+                    style="width: 100%; height: 80px"
+                    class="basket-title"
+                    *ngIf="corridor.number != '0'"
+                  >
+                    بساكت محطة {{ corridor.number }}
+                  </div>
+                  <div
+                    style="width: 100%; height: 80px"
+                    class="basket-title"
+                    *ngIf="corridor.number == '0'"
+                  >
+                    الكل
+                  </div>
+                  <div class="basket-content">
+                    <div
+                      *ngFor="let basket of corridor.baskets; let i = index"
+                      class="small-box"
+                    >
+                      {{ basket.number }}
+                    </div>
+                    <div
+                      *ngIf="corridor.baskets.length === 0"
+                      class="no-basket"
+                    ></div>
+                  </div>
+                </div>
+              </div>
+              <div class="mt-2">
+                <app-shared_table
+                  (sortEvent)="onSortEvent($event)"
+                  [columnsArray]="columnsArrayContent"
+                  [columnsNames]="columnsNameContent"
+                  [RowsData]="InvoiceData"
+                ></app-shared_table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Hidden button to trigger the modal -->
+  <button
+    #AddModal
+    type="button"
+    class="btn btn-primary d-none"
+    data-toggle="modal"
+    data-target="#exampleModal"
+  >
+    Open Modal
+  </button>
+  <div class="distribution-agent main_card_margen">
+    <div class="mainBorderTab">
+      <div class="card borderRadius_10px boxShadow-10 responsiveTabs p-2">
+        <div class="flexFix justify-content-start align-items-start">
+          <div
+            class="d-flex flex-wrap flex-fill text-center p-1 justify-content-start align-items-start overflow-auto displayMediaFix gap-2"
+          >
+            <div class="width-12" *ngFor="let corridor of corridorsUsed">
+              <div
+                *ngIf="corridor.is_main_corridor"
+                appDisableButton
+                (click)="changeActiveTap(corridor.number)"
+                class="position-relative responsiveFix w-100 cursor-pointer border-radius-20px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+                [ngClass]="{ active: isActiveTapArray[corridor.number] }"
+              >
+                <div
+                  class="pop-up position-absolute d-flex justify-content-center align-items-center"
+                >
+                  {{ corridor.count }}
+                </div>
+                <p
+                  [ngStyle]="{ color: corridor.color }"
+                  class="text-center m-auto"
+                >
+                  الكل
+                </p>
+              </div>
+              <div
+                *ngIf="
+                  !corridor.is_main_corridor &&
+                  multiple_corridors_enabled == 'true'
+                "
+                appDisableButton
+                (click)="changeActiveTap(corridor.number)"
+                class="position-relative responsiveFix w-100 cursor-pointer border-radius-20px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+                [ngClass]="{ active: isActiveTapArray[corridor.number] }"
+              >
+                <div
+                  class="pop-up position-absolute d-flex justify-content-center align-items-center"
+                >
+                  {{ corridor.count }}
+                </div>
+                <p
+                  [ngStyle]="{ color: corridor.color }"
+                  class="text-center m-auto"
+                >
+                  محطة {{ corridor.number }}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div
+            class="ms-auto filter-width cursor-pointer border-radius-20px tab boxShadow-10 m-2 p-3 defaultBg"
+          >
+            <button
+              style="color: var(--darkGreen)"
+              type="text"
+              class="btn w-100"
+              data-bs-toggle="modal"
+              data-bs-target="#exampleModal"
+            >
+              فلتر
+            </button>
+          </div>
+        </div>
+
+        <app-shared_table
+          [columnsArray]="activeTab == 0 ? columnsArrayAll : columnsArraySingle"
+          [columnsNames]="activeTab == 0 ? columnsNameAll : columnsNameSingle"
+          [RowsData]="allInvoices"
+          (openModalEvent)="openModal($event)"
+        ></app-shared_table>
+        <div class="bottomArea d-flex">
+          <div
+            class="totalarea d-flex justify-content-center align-items-center"
+          >
+            <div
+              class="leftarea d-flex justify-content-center align-items-center px-3 text-center p-3"
+            >
+              اجمالي عدد الأذونات
+            </div>
+            <hr class="h-100 lightGreen-border" />
+            <div class="d-flex justify-content-center align-items-center px-3">
+              {{ total }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

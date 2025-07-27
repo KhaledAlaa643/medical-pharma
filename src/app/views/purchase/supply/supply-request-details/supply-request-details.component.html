@@ -1,0 +1,362 @@
+<div class="main_card_margen">
+  <div class="card borderRadius_20px boxShadow-15">
+    <div id="request_details" class="p-3">
+      <div class="d-flex gap-3 mb-2 align-items-end">
+        <div class="width-15">
+          <header class="mb-2">رقم الطلب</header>
+          <input
+            [value]="supply_request_data?.id"
+            readonly
+            class="form-control readonly_input"
+            type="text"
+          />
+        </div>
+        <div class="width-15">
+          <header class="mb-2">كود المورد</header>
+          <input
+            [value]="supply_request_data?.supplier?.id"
+            readonly
+            class="form-control readonly_input"
+            type="text"
+          />
+        </div>
+        <div class="width-30">
+          <header class="mb-2">اسم المورد</header>
+          <input
+            [value]="supply_request_data?.supplier?.name"
+            readonly
+            class="form-control readonly_input"
+            type="text"
+          />
+        </div>
+        <div class="width-18">
+          <header class="mb-2">المخزن</header>
+          <input
+            [value]="supply_request_data?.warehouse?.name"
+            readonly
+            class="form-control readonly_input"
+            type="text"
+          />
+        </div>
+      </div>
+      <div class="w-100">
+        <header class="mb-2">ملاحظة علي طلب التوريد</header>
+        <input
+          [value]="supply_request_data?.note"
+          readonly
+          type="text"
+          class="form-control readonly_input"
+        />
+      </div>
+    </div>
+
+    <div id="cart_data" class="p-2">
+      <div class="borderRadius_20px border border-1 mx-3 p-2">
+        <div
+          #scrollMe
+          style="max-height: 285px; overflow-y: auto"
+          class="h-100"
+        >
+          <p-table [value]="supply_request_cart">
+            <ng-template pTemplate="header">
+              <tr>
+                <th
+                  style="
+                    display: table-cell !important;
+                    width: 250px !important;
+                  "
+                >
+                  <div class="d-flex flex-wrap gap-2 align-items-center">
+                    <div class="d-flex">
+                      <span class="fw-500 fs-18">الاسم عربي</span>
+
+                      <div (click)="sortByName()" class="cursor-pointer">
+                        <i
+                          *ngIf="direction === 'asc'"
+                          class="p-sortable-column-icon pi pi-fw pi-sort-amount-up-alt"
+                        ></i>
+                        <i
+                          *ngIf="direction === 'desc'"
+                          class="p-sortable-column-icon pi pi-fw pi-sort-amount-down"
+                        ></i>
+                        <i
+                          *ngIf="!direction"
+                          class="p-sortable-column-icon pi pi-fw pi-sort-alt"
+                        ></i>
+                      </div>
+                    </div>
+                    <input
+                      type="text"
+                      [disabled]="
+                        supply_request_cart.length == 0 && searchWord == ''
+                      "
+                      (input)="product_search()"
+                      (keydown.enter)="product_search()"
+                      [(ngModel)]="searchWord"
+                      placeholder="بحث بأسم الدواء"
+                      class="form-control defaultBg borderRadius_10px mx-0 width-48-lg"
+                    />
+                    <!-- <i *ngIf="loaderBooleans['search']" class="pi pi-spin pi-spinner"></i> -->
+                  </div>
+                </th>
+                <th style="display: table-cell !important">ملاحظات</th>
+                <th style="display: table-cell !important">الكمية</th>
+                <th style="display: table-cell !important">السعر</th>
+                <th style="display: table-cell !important">الخصم</th>
+                <th style="display: table-cell !important">الضريبة</th>
+                <th style="display: table-cell !important">الصافي</th>
+                <th style="display: table-cell !important">الحالة</th>
+                <th style="display: table-cell !important">الكاتب</th>
+                <th style="display: table-cell !important">المراجع</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-product let-index="rowIndex">
+              <tr
+                style="
+                  background: #ffffff;
+                  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+                  border-radius: 20px;
+                "
+              >
+                <td
+                  (click)="
+                    editButton({
+                      id: product.id,
+                      product_id: product.product.id,
+                      warehouse_id: supply_request_data.warehouse.id,
+                      warehouse_name: supply_request_data.warehouse.name,
+                      quantity: product.quantity
+                    })
+                  "
+                  class="fs-14 fw-700 color-black x-small-sm darkBlue cursor-pointer text-decoration-underline"
+                >
+                  {{ product.product_name }}
+                </td>
+                <td class="fw-600 color-black">{{ product.note }}</td>
+                <td class="fw-600 color-black">{{ product.quantity }}</td>
+                <td class="fw-600 color-black">{{ product.public_price }}</td>
+                <td class="fw-600 color-black">{{ product.discount }}</td>
+                <td class="fw-600 color-black">{{ product.taxes }}</td>
+                <td class="fw-600 color-black">{{ product.total }}</td>
+                <td class="fw-600 color-black">{{ product.status.name }}</td>
+                <td class="fw-600 color-black">
+                  {{ product.created_by.name }}
+                </td>
+                <td class="fw-600 color-black">
+                  {{ product.created_by.name }}
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="totals"
+      class="p-2 flex-wrap gap-2 d-flex justify-content-between align-items-end"
+    >
+      <div
+        class="d-flex width-14 h-50px text-center lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600">عدد الاصناف</span>
+        <span class="fw-600">{{ supplyRequestTotals.total_products }}</span>
+      </div>
+      <div
+        class="d-flex width-16 h-50px text-center lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600">اجمالي سعر الجمهور</span>
+        <span class="fw-600">{{ supplyRequestTotals.total_public_price }}</span>
+      </div>
+
+      <div
+        class="d-flex width-14 h-50px text-center lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600">اجمالي الضريبة</span>
+        <span class="fw-600">{{ supplyRequestTotals.total_taxes }}</span>
+      </div>
+      <div
+        class="d-flex width-14 h-50px text-center lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600">اجمالي المرتجع</span>
+        <span class="fw-600">{{ supplyRequestTotals.total_returns }}</span>
+      </div>
+      <div
+        class="d-flex h-50px width-16 text-center lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600">اجمالي طلب التوريد</span>
+        <span class="fw-600">{{ supplyRequestTotals.total_supply_price }}</span>
+      </div>
+        <div
+        class="d-flex h-50px width-16 text-center lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600">صافي الطلب</span>
+        <span class="fw-600">{{ supplyRequestTotals.total_net }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  #editDiscountModal
+  class="modal fade"
+  id="editDiscountModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div
+        class="modal-header border-0 d-flex justify-content-center position-relative"
+      >
+        <h1 class="modal-title fs-5" id="exampleModalLabel">تعديل خصم الصنف</h1>
+        <button
+          type="button"
+          class="btn-close m-0 position-absolute"
+          data-bs-dismiss="modal"
+          style="left: 3%"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div [formGroup]="editDiscountForm" class="modal-body border-0">
+        <div class="d-flex flex-column flex-wrap">
+          <div class="w-100 d-flex flex-wrap gap-2 align-items-end">
+            <div class="width-17 my-2">
+              <label class="mb-2"> اسم الصنف </label>
+              <input
+                readonly
+                formControlName="name"
+                type="text"
+                readonly
+                class="disabled h-40px form-control defaultBg borderRadius_10px w-100 mt-1"
+              />
+            </div>
+            <div class="width-10 my-2">
+              <label class="mb-1"> المخزن </label>
+              <input
+                readonly
+                formControlName="warehouse_name"
+                type="text"
+                class="disabled h-40px form-control defaultBg borderRadius_10px w-100 mt-1"
+              />
+            </div>
+            <div class="width-8 my-2">
+              <label class="mb-1"> خصم مرجح </label>
+              <input
+                readonly
+                formControlName="weighted_discount"
+                type="text"
+                class="disabled h-40px form-control defaultBg borderRadius_10px w-100 mt-1"
+              />
+            </div>
+            <div class="width-10 my-2">
+              <label class="mb-1"> السعر </label>
+              <input
+                readonly
+                formControlName="price"
+                type="text"
+                class="disabled h-40px form-control defaultBg borderRadius_10px w-100 mt-1"
+              />
+            </div>
+            <div class="width-10 my-2">
+              <label class="mb-1"> الكمية </label>
+              <input
+                readonly
+                formControlName="quantity"
+                type="text"
+                class="disabled h-40px form-control defaultBg borderRadius_10px w-100 mt-1"
+              />
+            </div>
+            <div class="width-10 my-2">
+              <label class="mb-1"> مطروح من المرجح </label>
+              <input
+                readonly
+                formControlName="subtracted_from_weighted_discount"
+                type="text"
+                class="disabled h-40px form-control defaultBg borderRadius_10px w-100 mt-1"
+              />
+            </div>
+            <div class="width-8 my-2">
+              <label class="mb-1"> الضريبة </label>
+              <input
+                readonly
+                formControlName="taxes"
+                type="text"
+                class="disabled h-40px form-control defaultBg borderRadius_10px w-100 mt-1"
+              />
+            </div>
+            <div class="width-8 my-2">
+              <label class="mb-1"> البونص </label>
+              <div class="d-flex gap-2">
+                <input
+                  readonly
+                  formControlName="bonus"
+                  type="text"
+                  class="width-45 disabled h-40px form-control defaultBg borderRadius_10px w-100 mt-1"
+                />
+                <input
+                  readonly
+                  formControlName="bonus"
+                  type="text"
+                  class="width-45 disabled h-40px form-control defaultBg borderRadius_10px w-100 mt-1"
+                />
+              </div>
+            </div>
+            <div class="width-10 my-2">
+              <label class="mb-1"> الشركة المصنعه </label>
+              <input
+                readonly
+                formControlName="manufacturer_name"
+                type="text"
+                class="disabled h-40px form-control defaultBg borderRadius_10px w-100 mt-1"
+              />
+            </div>
+          </div>
+          <div class="w-100 d-flex flex-wrap gap-2 align-items-end">
+            <div formArrayName="discount_tiers" class="d-flex gap-2">
+              <div
+                [formGroupName]="i"
+                *ngFor="
+                  let discount_tier of discount_tiers.controls;
+                  let i = index
+                "
+                class="width-20 my-2 d-flex flex-wrap gap-2"
+              >
+                <label class="mb-1"> خصم {{ i + 1 }} </label>
+                <input
+                  formControlName="discount"
+                  #discountInput
+                  (keydown.enter)="focusNextInput(i)"
+                  type="text"
+                  class="h-40px form-control defaultBg borderRadius_10px w-100 mt-1"
+                />
+              </div>
+            </div>
+            <div class="width-10 my-2">
+              <label class="mb-1"> الخصم الأساسي </label>
+              <input
+                readonly
+                formControlName="normal_discount"
+                type="text"
+                class="disabled h-40px form-control defaultBg borderRadius_10px w-100 mt-1"
+              />
+            </div>
+            <div class="flex-fill d-flex justify-content-end">
+              <button
+                (click)="edit()"
+                data-bs-dismiss="modal"
+                #editBtn
+                aria-label="Close"
+                type="button"
+                class="green_bg_black_txt_btn text-white text-center border-0 borderRadius_20px p-2 w-50"
+              >
+                <span class="fw-600">تعديل</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

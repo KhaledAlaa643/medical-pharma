@@ -1,0 +1,31 @@
+@import "generalInputsStyle.scss";
+@import "generalPaginationStyle.scss";
+@import "generalTableStyle.scss";
+
+#filterModel {
+  .modal-dialog {
+    padding-top: 2% !important;
+    max-width: 50vw !important;
+    .modal-content {
+      border-radius: 30px !important;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+      .modal-header {
+        border-bottom: none;
+      }
+
+      .modal-body {
+        padding: 0% 4% 5vh 4%;
+
+        .Title {
+          width: 100%;
+          text-align: center;
+        }
+      }
+    }
+
+    @media only screen and (max-width: 1025px) {
+      max-width: 100% !important;
+      margin: 4% auto !important;
+    }
+  }
+}

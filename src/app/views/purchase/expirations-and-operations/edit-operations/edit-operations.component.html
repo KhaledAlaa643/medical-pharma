@@ -1,0 +1,240 @@
+<div class="main_card_margen">
+  <div class="card boxShadow-15 borderRadius_20px p-3">
+    <div class="header w-100 d-flex justify-content-end">
+      <div class="width-20  cursor-pointer">
+        <div (click)="openFilterModel()"
+          class="boxShadow-15 h-60px borderRadius_20px d-flex align-items-center justify-content-center">
+          <span class="fw-400 fs-18 text-center lightGreen-color">فلتر</span>
+        </div>
+      </div>
+    </div>
+    <div class="table mt-2">
+      <app-shared_table [columnsArray]="columnsArray" [columnsNames]="columnsName" [RowsData]="batches"
+        (sortEvent)="sorting($event)" (openModalEvent)="openeditOperationModel($event)"></app-shared_table>
+    </div>
+    <div class="pagination w-100 d-flex justify-content-center">
+      <p-paginator #paginator class="pagination d-flex justify-content-center" (onPageChange)="changePage($event)"
+        [first]="1" [rows]="rows" [totalRecords]="total"></p-paginator>
+    </div>
+
+
+  </div>
+</div>
+
+
+<!--filter modal-->
+
+<button hidden #openConfirmation1Model type="button" class="btn btn-primary" data-bs-toggle="modal"
+  data-bs-target="#confirmation1Model">
+
+</button>
+<div class="modal fade" id="confirmation1Model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-0  justify-content-center position-relative">
+        <h1 class="modal-title fs-5" id="exampleModalLabel"> فلتر</h1>
+        <button type="button" class="btn-close position-absolute" style="left: 3%;" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class=" modal-body border-0 ">
+        <p class="modal-title fs-2 text-center" id="exampleModalLabel"></p>
+        <form [formGroup]="batchesFilter">
+          <div class="d-flex flex-column ">
+            <div class="d-flex gap-2">
+              <div class="width-35">
+                <div class="w-100 my-2">
+                  <label class=" mb-2">اسم الصنف </label>
+                  <p-dropdown [showClear]="batchesFilter.controls['product_id'].value" [options]="products"
+                    formControlName="product_id" class="d-block h-40px " optionLabel="name" optionValue="id"
+                    placeholder=" " [filter]="true"></p-dropdown>
+                </div>
+              </div>
+
+              <div class="width-30">
+                <div class="w-100 my-2">
+                  <label class=" mb-2"> التاريخ القديم </label>
+                  <div class="d-flex  position-relative">
+                    <p-calendar [showClear]="batchesFilter.controls['old_expired_at'].value" #old_expired_at
+                      dateFormat="yy-mm" view="month" class="w-100 borderRadius_10px position-relative "
+                      formControlName="old_expired_at" placeholder="">
+                    </p-calendar>
+                    <img style="left: 0%; top: 0%;" (click)="old_expired_at.toggle()"
+                      class="calendar-icon position-absolute  cursor-pointer p-2"
+                      src="../../../../assets/images/input/calender.svg" alt="">
+                  </div>
+
+
+                </div>
+              </div>
+
+              <div class="width-35">
+                <div class="w-100 my-2">
+                  <label class=" mb-2">التشغيلة القديمة </label>
+                  <input class=" form-control mb-1 mx-0 py-1 w-100 " type="text"
+                    formControlName="old_operating_number" />
+                </div>
+              </div>
+            </div>
+            <div class="d-flex  gap-2">
+              <div class="width-25">
+                <div class="w-100 my-2">
+                  <label class=" mb-2">الشركة المصنعه </label>
+                  <p-dropdown [options]="Manufacturers" [showClear]="batchesFilter.controls['manufacturer_id'].value"
+                    formControlName="manufacturer_id" class="d-block h-40px" optionLabel="name" optionValue="id"
+                    placeholder=" " [filter]="true"></p-dropdown>
+                </div>
+              </div>
+              <div class="width-35">
+                <div class="w-100 my-2">
+                  <label class=" mb-2">اسم المورد </label>
+                  <p-dropdown [options]="receiversAuditor"
+                    [showClear]="batchesFilter.controls['supplied_by'].value || batchesFilter.controls['supplied_by'].value===0"
+                    formControlName="supplied_by" class="d-block h-40px" optionLabel="name" optionValue="id"
+                    placeholder=" " [filter]="true"></p-dropdown>
+                </div>
+              </div>
+
+              <div class="width-37">
+                <div class="w-100 my-2">
+                  <label class=" mb-2"> تاريخ التوريد </label>
+                  <div class="d-flex  position-relative">
+                    <p-calendar [dir]="'ltr'" [showClear]="batchesFilter.controls['supplied_at'].value" #supplied_at
+                      dateFormat="mm-dd-yy" class="w-100 h-40px borderRadius_10px position-relative w-100 dateDropdown "
+                      formControlName="supplied_at" placeholder="  ">
+                    </p-calendar>
+                    <img style="left: 0%; top: 0%;" (click)="supplied_at.toggle()"
+                      class="calendar-icon position-absolute  cursor-pointer p-2"
+                      src="../../../../assets/images/input/calender.svg" alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between  gap-2">
+              <div class="width-45">
+                <div class="w-100 my-2">
+                  <label class=" mb-2"> الكمية </label>
+                  <p-dropdown [options]="allFixedData.quantity_more_than_zero"
+                    [showClear]="batchesFilter.controls['quantity_more_than_zero'].value || batchesFilter.controls['quantity_more_than_zero'].value==0"
+                    formControlName="quantity_more_than_zero" class="d-block h-40px" optionLabel="name"
+                    optionValue="value" placeholder=" " [filter]="true"></p-dropdown>
+                </div>
+              </div>
+              <div class="width-45">
+                <div class="w-100 my-2">
+                  <label class=" mb-2"> الكاتب </label>
+                  <p-dropdown [options]="receiversAuditor" [showClear]="batchesFilter.controls['created_by'].value"
+                    formControlName="created_by" class="d-block h-40px" optionLabel="name" optionValue="id"
+                    placeholder=" " [filter]="true"></p-dropdown>
+                </div>
+              </div>
+
+            </div>
+
+
+            <div class="w-100 d-flex justify-content-center">
+              <button (click)="filter()" appDisableButton style="height: 60px;color: white;border: none;"
+                class="darkGreen-bg borderRadius_20px w-75">فلترة</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!--edit operation modal-->
+
+<button hidden #OpenEditOperation type="button" class="btn btn-primary" data-bs-toggle="modal"
+  data-bs-target="#editOperationModal">
+
+</button>
+<div class="modal fade" id="editOperationModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-0  justify-content-center position-relative">
+        <h1 class="modal-title fs-5" id="exampleModalLabel"> تعديل تاريخ الصلاحية والتشغيلة</h1>
+        <button type="button" class="btn-close position-absolute" style="left: 3%;" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class=" modal-body border-0 ">
+        <p class="modal-title fs-2 text-center" id="exampleModalLabel"></p>
+        <div class="d-flex flex-column flex-wrap">
+          <div class="d-flex flex-wrap gap-2">
+            <div class="width-35">
+              <div class="w-100 my-2">
+                <label class=" mb-2">اسم الصنف </label>
+                <input class=" form-control mb-1 mx-0 py-1 w-100" readonly [(ngModel)]="product_name"
+                  type="text" />
+              </div>
+            </div>
+
+            <div class="width-29">
+              <div class="w-100 my-2">
+                <label class=" mb-2">الكمية </label>
+                <input class=" form-control mb-1 mx-0 py-1 w-100 " readonly [(ngModel)]="product_quantity"
+                  type="text" />
+              </div>
+            </div>
+
+            <div class="width-31">
+              <div class="w-100 my-2">
+                <label class=" fw-500 fs-16-lg mb-2">اجمالي كميات المخازن </label>
+                <input class=" form-control mb-1 mx-0 py-1 w-100 " readonly [(ngModel)]="product_total_quantity"
+                  type="text" />
+              </div>
+            </div>
+          </div>
+          <form [formGroup]="editOperation">
+            <div class="d-flex flex-wrap gap-2">
+              <div class="w-100">
+                <div class="w-100 my-2">
+                  <label class=" mb-2">الكمية المراد تعديلها </label>
+                  <input class=" form-control mb-1 mx-0 py-1 w-100" style="direction: rtl !important;"
+                    (input)="updateQuantity()" type="number" formControlName="quantity" />
+                </div>
+              </div>
+
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+              <div class="w-100">
+                <div class="w-100 my-2">
+                  <label class=" mb-2">تاريخ الصلاحية </label>
+                  <p-calendar [dir]="'ltr'" [showClear]="editOperation.controls['expired_at'].value" #prohibitedDate
+                    dateFormat="mm-yy" [monthNavigator]="true" [yearNavigator]="true" view="month"
+                    class="w-100 borderRadius_10px position-relative w-100 dateDropdown" formControlName="expired_at"
+                    placeholder="">
+                  </p-calendar>
+                  <!-- style="left: 5%; top: 46%;" -->
+                  <img style="left: 30px;"  (click)="prohibitedDate.toggle()"
+                    class="calendar-icon position-absolute cursor-pointer  p-2"
+                    src="../../../../assets/images/input/calender.svg" alt="">
+                </div>
+              </div>
+
+            </div>
+            <div class="d-flex flex-wrap gap-2">
+              <div class="w-100">
+                <div class="w-100 my-2">
+                  <label class=" mb-2">التشغيلة </label>
+                  <input class=" form-control mb-1 mx-0 py-1 w-100 " type="text"
+                    formControlName="operating_number" />
+                </div>
+              </div>
+
+            </div>
+          </form>
+
+
+          <div class="w-100 d-flex justify-content-center">
+            <button [disabled]="!editOperation.valid" style="height: 60px;color: white;border: none;"
+              (click)="editoperation()" appDisableButton
+              class="darkGreen-bg confirmbtn borderRadius_20px w-75">تأكيد</button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,96 @@
+@import 'generalInputsStyle.scss';
+.activeTab{
+    background-color: var(--darkGreen);
+}
+
+.inventory-stock-balance-details {
+
+
+    .add-prohibited-item {
+        width: 100%;
+
+        .add-prohibited-button {
+            @media screen and (max-width: 768px) {
+                width: 100%;
+            }
+
+            button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 10px;
+                background-color: #28DF99;
+                color: black;
+                border: none !important;
+                padding: 0.9rem;
+
+                @media screen and (max-width: 768px) {
+                    width: 100%;
+                }
+
+                p {
+                    margin-top: 0.3rem !important;
+                    margin-bottom: 0.3rem !important;
+                }
+            }
+
+            button:focus:not(:focus-visible) {
+                outline: none;
+            }
+        }
+
+
+    }
+
+    .inventory-stock-balance-data {
+        .button {
+            width: 100%;
+            justify-content: flex-end !important;
+
+            .add-prohibited-button {
+                width: 35%;
+
+                @media screen and (max-width: 768px) {
+                    width: 100%;
+                    justify-content: center !important
+                }
+            }
+
+            @media screen and (max-width: 768px) {
+                width: 100%;
+                justify-content: center !important
+            }
+        }
+    }
+
+}
+
+.displayblock{
+    @media screen and (max-width: 425px) {
+        display: block !important;
+    }
+}
+.resize-none {
+    resize: none;
+}
+
+.w-30 {
+    width: 30% !important;
+}
+
+input {
+    direction: rtl;
+}
+.border_left{
+    border-left: 1px solid #BEBEBE;
+    @media screen and (max-width:769px) {
+        border-left: none !important;
+    }
+}
+
+.justify-sm-content-center{
+  @media screen and (max-width:769px) {
+    justify-content: center !important;
+  }
+}
+

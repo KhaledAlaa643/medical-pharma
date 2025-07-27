@@ -1,0 +1,223 @@
+<div class="main_card_margen">
+  <div class="card borderRadius_20px boxShadow-15 p-3">
+    <div id="header" class="w-100 d-flex justify-content-end mb-3">
+      <button
+        class="white_bg_green_txt_btn h-60px width-15 borderRadius_20px boxShadow-15 p-2"
+        data-bs-toggle="modal"
+        data-bs-target="#FilterModel"
+      >
+        فلتر
+      </button>
+    </div>
+    <div id="table" class="mb-2">
+      <app-shared_table
+        [columnsArray]="columnsArray"
+        [columnsNames]="columnsName"
+        [RowsData]="inactiveProducts"
+        (sortEvent)="sort($event)"
+      ></app-shared_table>
+    </div>
+    <div id="pagination" class="d-flex flex-column-reverse-custom flex-wrap">
+      <div class="width-40">
+        <div
+          class="width-50 h-60px d-flex align-items-center lightGreen-border borderRadius_20px"
+        >
+          <span class="text-center d-flex width-50 justify-content-center p-3"
+            >اجمالي عدد الأصناف</span
+          >
+          <hr class="h-100 lightGreen-border" />
+          <span
+            class="text-center d-flex width-50 justify-content-center p-3"
+            >{{ total }}</span
+          >
+        </div>
+      </div>
+      <div class="d-flex width-60">
+        <p-paginator
+          #paginator
+          [first]="1"
+          [rows]="rows"
+          (onPageChange)="changepage($event)"
+          [totalRecords]="total"
+        ></p-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="FilterModel"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div
+        class="modal-header border-0 justify-content-center position-relative"
+      >
+        <h1 class="modal-title fs-5" id="exampleModalLabel">فلتر</h1>
+        <button
+          type="button"
+          class="btn-close position-absolute"
+          style="left: 3%"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body border-0">
+        <p class="modal-title fs-2 text-center" id="exampleModalLabel"></p>
+        <form [formGroup]="filterForm">
+          <div class="row align-items-end">
+            <div class="col-md-12 col-lg-6 my-2">
+              <label class="mb-2">بحث بمحتوي الاسم </label>
+              <input
+                type="text"
+                formControlName="product_name"
+                placeholder=" "
+                class="form-control"
+              />
+            </div>
+            <div class="col-md-12 col-lg-6 my-2">
+              <label class="mb-2"> تصنيع شركة </label>
+              <p-dropdown
+                class="dropdown-style"
+                [options]="manufacturers"
+                formControlName="manufactured_by"
+                optionLabel="name"
+                optionValue="id"
+                placeholder=" "
+                [showClear]="true"
+                [filter]="true"
+              ></p-dropdown>
+            </div>
+
+            <div class="col-md-12 col-lg-6 my-2">
+              <label class="mb-2">اسم المورد </label>
+              <p-dropdown
+                class="dropdown-style"
+                [options]="suppliers"
+                formControlName="supplier_id"
+                optionLabel="name"
+                optionValue="id"
+                placeholder=" "
+                [showClear]="true"
+                [filter]="true"
+              ></p-dropdown>
+            </div>
+            <div class="col-md-12 col-lg-6 my-2">
+              <label class="mb-2"> تاريخ التوريد </label>
+              <div class="d-flex position-relative">
+                <p-calendar
+                  [dir]="'ltr'"
+                  formControlName="supplied_at"
+                  #importDate
+                  dateFormat="mm-dd-yy"
+                  class="w-100 position-relative"
+                  placeholder="  "
+                ></p-calendar>
+                <img
+                  style="left: 0 !important"
+                  (click)="importDate.toggle()"
+                  class="calendar-icon position-absolute cursor-pointer p-2"
+                  src="../../../../assets/images/input/calender.svg"
+                  alt=""
+                />
+              </div>
+            </div>
+            <div class="col-md-12 col-lg-6 d-flex gap-1 my-2">
+              <div class="d-flex flex-column text-center">
+                <label class="fs-12 fw-600 mb-2"> أكبر من </label>
+                <div class="w-100 d-flex justify-content-center">
+                  <input
+                    name="quantity_more"
+                    formControlName="quantity_more"
+                    class="form-check-input cursor-pointer check_input"
+                    type="radio"
+                    [value]="1"
+                    id="quantity_more"
+                  />
+                </div>
+              </div>
+              <div class="d-flex flex-column text-center">
+                <label class="fs-12 fw-600 mb-2"> اقل من </label>
+                <div class="w-100 d-flex justify-content-center">
+                  <input
+                    name="quantity_more"
+                    formControlName="quantity_more"
+                    class="form-check-input cursor-pointer check_input"
+                    type="radio"
+                    [value]="0"
+                    id="quantity_more"
+                  />
+                </div>
+              </div>
+              <div>
+                <label class="mb-2"> الكمية </label>
+                <input
+                  type="number"
+                  formControlName="quantity"
+                  placeholder=" "
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="col-md-12 col-lg-6 my-2">
+              <label class="mb-2"> عدد الشهور الركود </label>
+              <p-dropdown
+                class="dropdown-style"
+                [options]="monthes"
+                formControlName="idle_months"
+                optionLabel="number"
+                optionValue="number"
+                [showClear]="true"
+                placeholder=" "
+                [filter]="true"
+              ></p-dropdown>
+            </div>
+            <div
+              *ngIf="multiple_corridors_enabled == 'true'"
+              class="col-md-12 col-lg-6 my-2"
+            >
+              <label class="mb-2"> المحطة </label>
+              <p-dropdown
+                [options]="corridors"
+                formControlName="corridor_id"
+                class="dropdown-style"
+                optionLabel="number"
+                optionValue="id"
+                placeholder=" "
+                [showClear]="true"
+                [filter]="true"
+              ></p-dropdown>
+            </div>
+            <div class="col-md-12 col-lg-6 my-2">
+              <label class="mb-2"> المخزن </label>
+              <p-dropdown
+                [options]="warehouses"
+                formControlName="warehouse_id"
+                class="dropdown-style"
+                optionLabel="name"
+                optionValue="id"
+                placeholder=" "
+                [showClear]="true"
+                [filter]="true"
+              ></p-dropdown>
+            </div>
+            <div class="w-100 d-flex justify-content-center my-2">
+              <button
+                data-bs-dismiss="modal"
+                (click)="filter()"
+                appDisableButton
+                class="darkGreen-bg borderRadius_20px w-75 h-60px border-0 text-white"
+              >
+                فلترة
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

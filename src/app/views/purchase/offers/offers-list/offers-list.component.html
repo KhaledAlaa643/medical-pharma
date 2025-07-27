@@ -1,0 +1,86 @@
+<div class="main_card_margen">
+  <div class="card boxShadow-15 borderRadius_20px p-3">
+     <div #filter class="d-flex gap-2 flex-wrap align-items-end">
+       <div class="width-25 d-flex flex-column justify-content-end ">
+         <label class=" mb-2">اسم الصنف </label>
+         <p-dropdown  [showClear]="true"
+              class="d-block " optionLabel="name" optionValue="id"
+             placeholder=" " [filter]="true"></p-dropdown>
+     </div>
+     <div class="width-20  d-flex flex-column justify-content-end ">
+         <label class=" mb-2">نوع البيان </label>
+         <p-dropdown [showClear]="true"
+             formControlName="product_id" class="d-block " optionLabel="name" optionValue="id"
+             placeholder=" " [filter]="true"></p-dropdown>
+     </div>
+ 
+ 
+     <div class="width-15 calendar   d-flex flex-column  ">
+         <label class=" mb-2"> التاريخ </label>
+         <div class="d-flex  position-relative">
+             <p-calendar [dir]="'ltr'" [showClear]="true" #calendarFrom
+                 dateFormat="mm-dd-yy" class="w-100  borderRadius_10px position-relative w-100 dateDropdown "
+                 formControlName="from" placeholder="  ">
+             </p-calendar>
+             <img style="left: 0%; top: 0%;" (click)="calendarFrom.toggle()"
+                 class="calendar-icon position-absolute  cursor-pointer p-2"
+                 src="../../../../assets/images/input/calender.svg" alt="">
+         </div>
+     </div>
+     <div class="width-15 calendar   d-flex flex-column ">
+         <div class="d-flex  position-relative" style="margin-top: 1.75rem;">
+             <p-calendar [dir]="'ltr'" [showClear]="true" #calendarTo
+                 dateFormat="mm-dd-yy" class="w-100  borderRadius_10px position-relative w-100 dateDropdown "
+                 formControlName="to" placeholder="  ">
+             </p-calendar>
+             <img style="left: 0%; top: 0%;" (click)="calendarTo.toggle()"
+                 class="calendar-icon position-absolute  cursor-pointer p-2"
+                 src="../../../../assets/images/input/calender.svg" alt="">
+         </div>
+     </div>
+     <div class="width-20 d-flex flex-column justify-content-end ">
+      <label class=" mb-2">الكاتب </label>
+      <p-dropdown [showClear]="true"
+          formControlName="product_id" class="d-block " optionLabel="name" optionValue="id"
+          placeholder=" " [filter]="true"></p-dropdown>
+    </div>
+     <div class="width-25 d-flex flex-column justify-content-end ">
+      <label class=" mb-2">الشركة المصنعه </label>
+      <p-dropdown [showClear]="true"
+          formControlName="product_id" class="d-block " optionLabel="name" optionValue="id"
+          placeholder=" " [filter]="true"></p-dropdown>
+    </div>
+ 
+     <div class="width-10  d-flex flex-column justify-content-center align-items-center" >
+       <!-- (click)="filter()" -->
+         <button appDisableButton style="height: 40px;color: white;border: none;"
+             class="darkGreen-bg borderRadius_10px width-75">بحث</button>
+     </div>
+     </div>
+
+ 
+     <div #table>
+       <app-shared_table [columnsArray]="columnsArray" [columnsNames]="columnsName" [RowsData]="offerData"
+           (sortEvent)="sorting($event)"></app-shared_table>
+     </div>
+ 
+     <div #pagination class="d-flex  align-items-center gap-1 w-100">
+       <div
+       class="d-flex width-17 h-50px lightGreen-border borderRadius_20px p-2 justify-content-center align-items-center">
+       <span class="fs-14 fw-600 w-50">اجمالي عدد
+        الأصناف :  </span>
+       <span class="fw-600">1000</span>
+     </div>
+       <div class=" d-flex w-65-lg justify-content-center">
+           <p-paginator #paginator class="pagination d-flex justify-content-center"
+               (onPageChange)="changePage($event)" [first]="1" [rows]="rows"
+               [totalRecords]="total"></p-paginator>
+       </div>
+ 
+ 
+ 
+   </div>
+ 
+  </div>
+ </div>
+ 

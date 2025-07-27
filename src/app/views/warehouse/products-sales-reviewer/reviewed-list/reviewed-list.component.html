@@ -1,0 +1,85 @@
+<div class="reviewedList main_card_margen">
+    <div class="preparingLostPage card borderRadius_10px boxShadow-10 p-2">
+        <div class="upperArea  ">
+            <form [formGroup]="singleProductReviewerFilter">
+
+                <div
+                    class="upperFilterArea displayBlockResposiveFix d-flex align-items-end justify-content-start gap-2">
+                    <div class="orderNumberArea  ">
+                        <label class=" mb-2"> رقم الأذن </label>
+                        <input type="text" placeholder=" " class="  form-control " formControlName="invoice_number">
+                    </div>
+
+                    <div class="calendarArea d-block  position-relative ">
+                        <label class="mb-2"> التاريخ </label>
+                        <p-calendar #calendarFrom dateFormat="mm-dd-yy" class="w-100" formControlName="created_at"
+                            placeholder="  "
+                            [showClear]="this.singleProductReviewerFilter.controls[ 'created_at' ].value" class="w-100">
+                        </p-calendar>
+                        <img style="left:0" (click)="calendarFrom.toggle()"
+                            class="calendar-icon position-absolute   p-2"
+                            src="../../../../assets/images/input/calender.svg" alt="">
+                    </div>
+
+                    <div class=" preparingDropdown">
+                        <label class=" mb-2"> اسم العميل </label>
+                        <p-dropdown formControlName="pharmacy_id" [options]="groupPharmacied" optionLabel="name"
+                            optionValue="id" placeholder="  " [showClear]="true" [filter]="true"></p-dropdown>
+                    </div>
+
+                    <div *ngIf="!containsBulk" class=" preparingDropdown">
+                        <label class=" mb-2"> المراجع </label>
+                        <p-dropdown formControlName="auditor_id" class="d-block" [options]="reviewers"
+                            optionLabel="name" optionValue="id" placeholder="     " [showClear]="true"
+                            [filter]="true"></p-dropdown>
+                    </div>
+
+                    <div class=" d-flex align-items-center ms-auto">
+                        <button appDisableButton (click)="filter()"
+                            class=" borderRadius_10px btnStyling fs-4">بحث</button>
+                    </div>
+
+                </div>
+            </form>
+
+            <div class="upperMiddleArea">
+            </div>
+
+        </div>
+
+        <div class="table-area">
+            <app-shared_table [columnsArray]="columnsArray" [columnsNames]="columnsName" [RowsData]="reviewedInvoices"
+                (openModalEvent)="openDetailsModal($event)"></app-shared_table>
+            <p-paginator *ngIf="containsBulk" [first]="1" [rows]="5" [totalRecords]="5"></p-paginator>
+
+
+        </div>
+
+        <div class="lower-area d-flex justify-content-between mt-2">
+            <div class="lower-area-box-main-page d-flex gap-2 ">
+                <div class="lower-area-title ">
+                    <span class=" d-flex justify-content-center align-items-center p-2">
+                        اجمالي عدد الأذونات
+                    </span>
+                </div>
+                <div class="numbers">
+                    <span
+                        class="d-flex justify-content-center align-items-center p-2">{{reviewedInvoices.length}}</span>
+                </div>
+            </div>
+            <div class="lower-area-box-main-page d-flex gap-2 ">
+                <div class="lower-area-title ">
+                    <span class=" d-flex justify-content-center align-items-center p-2">
+                        اجمالي عدد الأصناف
+                    </span>
+                </div>
+                <div class="numbers">
+                    <span class="d-flex justify-content-center align-items-center p-2">{{TotalProductsCount}}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+</div>

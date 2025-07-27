@@ -1,0 +1,87 @@
+@import 'generalTableStyle.scss';
+@import 'generalInputsStyle.scss';
+@import 'generalPaginationStyle.scss';
+
+
+.centeringCSS {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.centeringCSS:active {
+  background-color: var(--darkGreen);
+  font-size: 14px;
+}
+
+.btnStyling {
+  background-color: var(--darkGreen);
+  border-radius: 10px;
+  font-size: 18px;
+}
+
+.gapFix {
+  gap: 3rem;
+}
+
+.citySalesTable {
+
+  .backShadow {
+    box-shadow: 0px 0px 10px 2px #ccc;
+  }
+
+  .tableHeader {
+    background-color: #3F497F;
+    color: white;
+    border: 0px 15px 0px 0px;
+    border-radius: 0px 15px 0px 0px;
+  }
+
+  .tableHeader2 {
+    background-color: #3F497F;
+    color: white;
+    border: 15px 0px 0px 0px;
+    border-radius: 15px 0px 0px 0px;
+  }
+
+
+  .marginFix {
+    margin: 1px;
+  }
+
+
+  .centeringCSS {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .centeringCSS:active {
+    background-color: var(--darkGreen);
+    font-size: 14px;
+  }
+
+  .btnStyling {
+    background-color: var(--darkGreen);
+    border-radius: 10px;
+    font-size: 18px;
+  }
+
+
+
+
+
+}
+
+
+
+
+
+.borderline {
+  border-left: 1px solid var(--darkGreen);
+  height: 100%;
+}
+
+.netsalescolor {
+  color: var(--darkGreen) !important
+}

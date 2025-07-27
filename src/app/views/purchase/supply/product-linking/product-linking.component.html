@@ -1,0 +1,454 @@
+<div class="product_link_container main_card_margen">
+  <div class="card card boxShadow-15 borderRadius_20px">
+    <!-- upload file part -->
+    <div class="p-3">
+      <div class="d-flex flex-wrap align-items-end gap-2">
+        <div *ngIf="type === 'supplier'" class="width-10">
+          <label class="mb-2">كود المورد</label>
+          <input
+            [disabled]="file_id != 0 || disableInputs"
+            [(ngModel)]="supplier.id"
+            type="number"
+            class="form-control d-rtl"
+          />
+        </div>
+        <div *ngIf="type === 'supplier'" class="width-30 position-relative">
+          <label
+            (click)="openClinetPopup()"
+            class="mb-2 text-decoration-underline cursor-pointer"
+            >اسم االمورد</label
+          >
+          <p-dropdown
+            [disabled]="file_id != 0 || disableInputs"
+            (onChange)="checkSupplier()"
+            [options]="suppliers"
+            [(ngModel)]="supplier.id"
+            optionLabel="name"
+            optionValue="id"
+            placeholder=" "
+            [showClear]="true"
+            [filter]="true"
+          ></p-dropdown>
+          <span
+            *ngIf="showRequiredSupplier"
+            class="red-color position-absolute fs-12"
+            >*Required</span
+          >
+        </div>
+        <div *ngIf="type === 'client'" class="width-10">
+          <label class="mb-2">كود العميل</label>
+          <input
+            [disabled]="file_id != 0 || disableInputs"
+            [(ngModel)]="pharmacy.id"
+            [ngModelOptions]="{ standalone: true }"
+            type="number"
+            class="form-control"
+          />
+        </div>
+        <div *ngIf="type === 'client'" class="width-27">
+          <label
+            (click)="openClinetPopup()"
+            class="mb-2 text-decoration-underline cursor-pointer"
+            >اسم العميل</label
+          >
+          <p-dropdown
+            [options]="pharmacies"
+            (onChange)="checkPharmacy()"
+            #suppliersDropdown
+            [(ngModel)]="pharmacy.id"
+            [disabled]="file_id != 0 || disableInputs"
+            optionLabel="name"
+            optionValue="id"
+            placeholder=" "
+            [showClear]="true"
+            [filter]="true"
+          ></p-dropdown>
+        </div>
+        <div class="width-30 position-relative">
+          <div
+            class="darkGreen-bg h-40px width_103_fixed d-flex justify-content-center align-items-center rounded-start position-absolute"
+          >
+            <!-- <label class="mb-2" for="fileUpload" class="file-upload-btn">كود المورد</label> -->
+            <label for="fileUpload" class="fw-600">ارفاق ملف</label>
+          </div>
+
+          <input
+            style="direction: ltr !important"
+            *ngIf="file_id != 0"
+            [disabled]="file_id != 0 || disableInputs"
+            [(ngModel)]="fileName"
+            type="text"
+            class="form-control"
+          />
+          <input
+            *ngIf="file_id == 0"
+            [disabled]="file_id != 0 || disableInputs"
+            type="file"
+            #fileInput
+            id="fileInput"
+            (change)="fileUpload($event)"
+            name="fileUpload"
+            accept=".xlsx, .xls, .pdf"
+            class="form-control"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="HLine"></div>
+
+    <!-- tabs part -->
+    <div *ngIf="showDropdowns" class="p-3 d-flex gap-2">
+      <div
+        [ngClass]="{ 'darkGreen-bg': activeTap == 1 }"
+        (click)="changeTab(1)"
+        class="h-60px width-17 fw-600 borderRadius_10px boxShadow-15 d-flex justify-content-center align-items-center cursor-pointer"
+      >
+        لم يتم المقارنة
+      </div>
+      <div
+        [ngClass]="{ 'darkGreen-bg': activeTap == 2 }"
+        (click)="changeTab(2)"
+        class="h-60px width-17 fw-600 borderRadius_10px boxShadow-15 d-flex justify-content-center align-items-center cursor-pointer"
+      >
+        مقارن من قبل
+      </div>
+    </div>
+    <div *ngIf="showDropdowns" class="HLine"></div>
+
+    <!-- products linking part -->
+
+    <div *ngIf="showDropdowns" class="p-3">
+      <!-- for larg screens -->
+      <div [ngClass]="{ 'd-none': !isShow }" class="mb-2">
+        <div class="container">
+          <div class="row">
+            <div class="col-6" *ngFor="let col of [0, 1]">
+              <div class="d-flex mb-2">
+                <div class="w-50">اسم الصنف في الملف</div>
+                <div class="w-50">اسم الصنف</div>
+              </div>
+              <ng-container
+                class="d-flex"
+                *ngFor="
+                  let product of supplier_products.slice(
+                    col * 15,
+                    (col + 1) * 15
+                  );
+                  let i = index
+                "
+              >
+                <div class="d-flex flex-fill gap-2 mb-2">
+                  <div class="width-50-lg">
+                    <input
+                      class="form-control mr-1 flex-fill"
+                      type="text"
+                      [disabled]="true"
+                      [(ngModel)]="product.inputValue"
+                    />
+                  </div>
+                  <div
+                    (click)="enableDropdown(col * 15 + i)"
+                    class="width-50-lg"
+                  >
+                    <p-dropdown
+                      #productsDropdown
+                      (keydown.enter)="goToNext(productsDropdown, col * 15 + i)"
+                      (onChange)="disableSelectedProduct($event.value)"
+                      [id]="'dropdown-' + (col * 15 + i)"
+                      class="flex-fill"
+                      [disabled]="
+                        (product.isDisabled && activeTap == 2) || file_id != 0
+                      "
+                      [options]="products"
+                      optionLabel="name"
+                      optionValue="id"
+                      [(ngModel)]="product.product_id"
+                      placeholder=" "
+                      [showClear]="true"
+                      [filter]="true"
+                    ></p-dropdown>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- for small screens -->
+      <div [ngClass]="{ 'd-none': isShow }" class="mb-2">
+        <div class="container">
+          <div>
+            <div class="w-100">
+              <div class="d-flex mb-2">
+                <div class="w-50">اسم الصنف في الملف</div>
+                <div class="w-50">اسم الصنف</div>
+              </div>
+              <ng-container
+                *ngFor="let product of supplier_products; let i = index"
+              >
+                <div class="d-flex gap-2 mb-2">
+                  <div class="w-50">
+                    <input
+                      class="form-control mr-1 flex-fill"
+                      type="text"
+                      [disabled]="true"
+                      [(ngModel)]="product.inputValue"
+                    />
+                  </div>
+                  <div (click)="enableDropdown(i)" class="w-50">
+                    <p-dropdown
+                      #productsDropdown
+                      class="flex-fill"
+                      (onChange)="disableSelectedProduct($event.value)"
+                      (keydown.enter)="goToNext(productsDropdown, i)"
+                      [id]="'dropdown-' + i"
+                      [disabled]="
+                        (product.isDisabled && activeTap == 2) || file_id != 0
+                      "
+                      [options]="products"
+                      optionLabel="name"
+                      optionValue="id"
+                      [(ngModel)]="product.product_id"
+                      placeholder=" "
+                      [showClear]="true"
+                      [filter]="true"
+                    ></p-dropdown>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- pagination -->
+      <div>
+        <p-paginator
+          #paginator
+          class="d-flex justify-content-center mb-2"
+          (onPageChange)="changePage($event)"
+          [first]="1"
+          [rows]="rows"
+          [totalRecords]="total"
+        ></p-paginator>
+      </div>
+      <!-- totals -->
+      <div class="d-flex flex-wrap gap-2">
+        <div
+          class="d-flex width-17 h-50px lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+        >
+          <span class="fs-14 fw-600">عدد اصناف الملف</span>
+          <span class="fw-600">{{ total_products }}</span>
+        </div>
+        <div
+          class="d-flex width-17 h-50px lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+        >
+          <span class="fs-14 fw-600">عدد الاصناف المحفوظة</span>
+          <span class="fw-600">{{ total_linked }}</span>
+        </div>
+        <div
+          class="d-flex width-17 h-50px lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+        >
+          <span class="fs-12 fw-600">عدد الاصناف الغير محفوظة</span>
+          <span class="fw-600">{{ total_unlinked }}</span>
+        </div>
+        <div class="d-flex flex-fill h-50px flex-column align-items-center">
+          <div class="w-100 h-100 d-flex justify-content-end">
+            <button
+              *ngIf="file_id == 0"
+              #saveBtn
+              [disabled]="supplier_products.length == 0"
+              (click)="saveProgress()"
+              class="green_bg_black_txt_btn h-100 width-40 borderRadius_20px"
+            >
+              <span class="fw-700">حفظ</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--popup-->
+
+<app-shared_popup
+  [hover_ok_button]="hover_ok"
+  (ChoosenEvent)="Popupevent($event)"
+  [cancle_button_name]="cancle_button_name"
+  [ok_button_name]="ok_button_name"
+  [popupMessage]="popupMessage"
+  #Popup
+></app-shared_popup>
+<button
+  hidden
+  #popupModalOpen
+  type="button"
+  (click)="Popup.openModel()"
+></button>
+<button
+  hidden
+  #pPopupModalClose
+  type="button"
+  (click)="Popup.closeModalClick()"
+></button>
+
+<!-- Modal -->
+<button
+  hidden
+  #openLinkModal
+  data-bs-toggle="modal"
+  data-bs-target="#linkModal"
+  type="button"
+></button>
+
+<div
+  class="modal fade"
+  id="linkModal"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header border-0 d-flex justify-content-center">
+        <div class="d-flex justify-content-center mb-1 w-100">
+          <!-- <span class="text-center fs-24 fw-700">فلتر</span> -->
+        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            type="button"
+            #CloseFilterBtn
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+      <div
+        class="modal-body d-flex flex-column justify-content-center text-center align-items-center p-3"
+      >
+        <div class="w-100 mb-2">
+          <label class="mb-2">الاسم</label>
+          <p-dropdown
+            [options]="fileHeaders"
+            (onChange)="disableSelected('name_location', $event.value)"
+            optionLabel="name"
+            optionValue="value"
+            [(ngModel)]="excelLocations.name_location"
+            placeholder=" "
+            [showClear]="true"
+            [filter]="true"
+          ></p-dropdown>
+        </div>
+        <div class="w-100 mb-2">
+          <label class="mb-2">السعر</label>
+          <p-dropdown
+            [options]="fileHeaders"
+            (onChange)="disableSelected('price_location', $event.value)"
+            optionLabel="name"
+            optionValue="value"
+            [(ngModel)]="excelLocations.price_location"
+            placeholder=" "
+            [showClear]="true"
+            [filter]="true"
+          ></p-dropdown>
+        </div>
+        <div class="w-100 mb-2">
+          <label class="mb-2">الخصم</label>
+          <p-dropdown
+            [options]="fileHeaders"
+            (onChange)="disableSelected('discount_location', $event.value)"
+            optionLabel="name"
+            optionValue="value"
+            [(ngModel)]="excelLocations.discount_location"
+            placeholder=" "
+            [showClear]="true"
+            [filter]="true"
+          ></p-dropdown>
+        </div>
+        <div class="w-100 mb-2">
+          <button
+            (click)="scanFile()"
+            [disabled]="file_id != 0"
+            class="green_bg_black_txt_btn h-40px borderRadius_10px width-45"
+          >
+            <span class="fw-600">اختيار ترتيب الملف</span>
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer border-0 d-flex justify-content-center">
+        <!-- <button *ngIf="ok_button_name!=''" (click)="linkHeaders()" class="green_bg_black_txt_btn width-45 h-50px borderRadius_20px">حفظ</button> -->
+        <button
+          hidden
+          #closeLinkModal
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+    </div>
+  </div>
+</div>
+<button
+  hidden
+  #typeModel
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#typeModel"
+></button>
+
+<div
+  class="modal fade"
+  id="typeModel"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+  #myModal
+>
+  <div class="modal-dialog p-3 w-100">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex justify-content-center w-100">
+          <h3 class="text-center fs-16 fw-600">النوع</h3>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="d-flex justify-content-center py-5 gap-5">
+          <div class="d-flex justify-content-center align-items-center gap-2">
+            <input
+              type="radio"
+              [(ngModel)]="type"
+              id="supplier"
+              name="type"
+              class="cursor-pointer"
+              value="supplier"
+            />
+            <label class="cursor-pointer" for="supplier">مورد</label><br />
+          </div>
+          <div class="d-flex justify-content-center align-items-center gap-2">
+            <input
+              type="radio"
+              [(ngModel)]="type"
+              id="client"
+              name="type"
+              class="cursor-pointer"
+              value="client"
+            />
+            <label class="cursor-pointer" for="client">عميل</label><br />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

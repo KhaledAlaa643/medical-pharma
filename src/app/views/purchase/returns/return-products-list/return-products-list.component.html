@@ -1,0 +1,160 @@
+<div class="main_card_margen">
+  <div class="card borderRadius_15px boxShadow-15 p-3">
+    <form [formGroup]="searchForm">
+      <div id="header" class="d-flex flex-wrap gap-3 align-items-end">
+        <div class="width-25">
+          <div class="d-flex align-items-center">
+            <label class="mb-2">اسم المورد</label>
+          </div>
+          <p-dropdown
+            [options]="suppliers"
+            [showClear]="true"
+            formControlName="supplier_id"
+            placeholder=" "
+            optionLabel="name"
+            optionValue="id"
+            class="dropdown-style"
+          ></p-dropdown>
+        </div>
+        <div class="width-20">
+          <div class="d-flex align-items-center">
+            <label class="mb-2">المخزن</label>
+          </div>
+          <p-dropdown
+            [options]="warehouses"
+            [showClear]="true"
+            formControlName="warehouse_id"
+            placeholder=" "
+            optionLabel="name"
+            optionValue="id"
+            class="dropdown-style"
+          ></p-dropdown>
+        </div>
+
+        <div class="width-20">
+          <label class="m-2">التاريخ </label>
+          <div class="calendar-holder position-relative">
+            <p-calendar
+              #calendarFrom
+              [dir]="'ltr'"
+              formControlName="created_at"
+              placeholder=" من"
+              dateFormat="yy-mm-dd"
+              [showClear]="this.searchForm.controls['created_at'].value"
+            >
+            </p-calendar>
+            <img
+              (click)="calendarFrom.toggle()"
+              class="cursor-pointer position-absolute top_5px end-0"
+              src="../../../../assets/images/input/calender.svg"
+              alt=""
+            />
+          </div>
+        </div>
+        <div class="width-12 d-flex gap-2">
+          <button
+            (click)="filter()"
+            type="button"
+            class="green_bg_black_txt_btn h-40px borderRadius_10px width-50"
+          >
+            <span class="fw-600">بحث</span>
+          </button>
+        </div>
+
+        <div class="width-15">
+          <button
+            appDisableButton
+            (click)="openModal()"
+            class="printBtn_noHeight_nowidth w-100 borderRadius_20px h-60px boxShadow-15"
+          >
+            طباعة
+            <svg
+              width="32"
+              height="32"
+              viewBox="0 0 32 32"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_5900_794)">
+                <path
+                  d="M22.6667 22.6667H25.3333C26.0406 22.6667 26.7189 22.3857 27.219 21.8856C27.719 21.3855 28 20.7072 28 20V14.6667C28 13.9594 27.719 13.2811 27.219 12.781C26.7189 12.281 26.0406 12 25.3333 12H6.66667C5.95942 12 5.28115 12.281 4.78105 12.781C4.28095 13.2811 4 13.9594 4 14.6667V20C4 20.7072 4.28095 21.3855 4.78105 21.8856C5.28115 22.3857 5.95942 22.6667 6.66667 22.6667H9.33333"
+                  stroke="#3F497F"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M22.6673 12V6.66667C22.6673 5.95942 22.3864 5.28115 21.8863 4.78105C21.3862 4.28095 20.7079 4 20.0007 4H12.0007C11.2934 4 10.6151 4.28095 10.115 4.78105C9.61494 5.28115 9.33398 5.95942 9.33398 6.66667V12"
+                  stroke="#3F497F"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+                <path
+                  d="M9.33398 19.9997C9.33398 19.2924 9.61494 18.6142 10.115 18.1141C10.6151 17.614 11.2934 17.333 12.0007 17.333H20.0007C20.7079 17.333 21.3862 17.614 21.8863 18.1141C22.3864 18.6142 22.6673 19.2924 22.6673 19.9997V25.333C22.6673 26.0403 22.3864 26.7185 21.8863 27.2186C21.3862 27.7187 20.7079 27.9997 20.0007 27.9997H12.0007C11.2934 27.9997 10.6151 27.7187 10.115 27.2186C9.61494 26.7185 9.33398 26.0403 9.33398 25.333V19.9997Z"
+                  stroke="#3F497F"
+                  stroke-width="2.75"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_5900_794">
+                  <rect width="32" height="32" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div id="table">
+      <app-shared_table
+        [columnsArray]="columnsArray"
+        [columnsNames]="columnsName"
+        [RowsData]="order_logs"
+        (sortEvent)="sort($event)"
+        (openModalEvent)="goToDetails($event)"
+      ></app-shared_table>
+    </div>
+
+    <div id="pagination" class="d-flex mt-2 flex-wrap">
+      <div
+        class="h-60px width-20 borderRadius_20px lightGreen-border d-flex justify-content-center align-items-center"
+      >
+        <span
+          class="fw-600 fs-16 d-flex justify-content-center text-center m-2"
+        >
+          اجمالي الأصناف : {{ totalOrders }}
+        </span>
+      </div>
+
+      <div class="pagination-area d-flex width-60 justify-content-center">
+        <p-paginator
+          #paginator
+          (sortEvent)="sort($event)"
+          [first]="1"
+          [rows]="rows"
+          (onPageChange)="changepage($event)"
+          [totalRecords]="total"
+        ></p-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--printing options modal-->
+<button
+  hidden
+  #OpenOptionsModal
+  type="button"
+  (click)="chooseTypePopup.openAddModal()"
+></button>
+<app-printing-options-popup
+  [inSharedTable]="false"
+  [paginated]="true"
+  (printData)="print($event)"
+  [RowsData]="order_logs"
+  #chooseTypePopup
+></app-printing-options-popup>

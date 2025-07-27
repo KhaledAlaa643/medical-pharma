@@ -1,0 +1,136 @@
+@import 'generalTableStyle.scss';
+@import 'generalPaginationStyle.scss';
+@import 'generalInputsStyle.scss';
+
+
+.toCalenderLabelFix {
+    margin: 1.27rem
+}
+
+
+
+.receiving-completed {
+    display: flex;
+    flex-direction: column;
+    padding: 1%;
+
+
+    .form {
+        .head {
+            .name {
+                width: 20%;
+
+                @media screen and (max-width: 992px) {
+                    width: 100%;
+                }
+            }
+
+            .worker,
+            .reviewer {
+                width: 25%;
+
+                @media screen and (max-width: 992px) {
+                    width: 100%;
+                }
+
+            }
+
+            .order-number {
+
+                width: 18%;
+
+                @media screen and (max-width: 992px) {
+                    width: 100%;
+                }
+
+                input {
+                    border-radius: 6px;
+                    height: 40px;
+                }
+            }
+
+            .calendar {
+                width: 17%;
+
+                @media screen and (max-width: 992px) {
+                    width: 100%;
+                }
+
+                .calendar-holder {
+
+
+
+                    img {
+                        left: 7% !important;
+                        top: 14% !important;
+                    }
+                }
+            }
+
+            .filter-button {
+                width: 10%;
+
+                @media screen and (max-width: 992px) {
+                    width: 100%;
+                }
+
+                .buttonlabelfix {
+                    margin: 17px;
+                }
+
+                button {
+                    width: 100%;
+                    height: 40px;
+                    background-color: #28DF99;
+                    border: none;
+
+
+                }
+            }
+
+            .print-button {
+                justify-content: center;
+                width: 15%;
+                margin-top: 1rem;
+                border: 1px solid #e4e4e4;
+                border-radius: 8px;
+                padding: 14px 7px;
+                color: #3F497F;
+
+                @media screen and (max-width: 992px) {
+                    width: 100%;
+                }
+
+            }
+
+        }
+    }
+
+    .title {
+        text-align: flex-start;
+        font-weight: 600;
+        font-size: 18px;
+        padding-top: 1rem;
+    }
+
+    .table {
+        margin-bottom: 0px;
+    }
+
+    .lower-area {
+
+        .itemCount {
+            @media screen and (max-width:992px) {
+                width: 100%;
+
+            }
+        }
+
+        @media screen and (max-width:992px) {
+            flex-direction: column-reverse;
+            gap: 1rem;
+            align-items: center;
+
+        }
+    }
+}

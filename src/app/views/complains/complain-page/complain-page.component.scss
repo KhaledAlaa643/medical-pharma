@@ -1,0 +1,40 @@
+button{
+    background-color: var(--darkGreen);
+    color: var(--);
+  }
+  
+  textarea{
+    resize: none;
+  }
+  ::ng-deep .p-dropdown {
+    display: flex !important;
+    height: 40px;
+  }
+  ::ng-deep .p-dropdown {
+    width: 100% ;
+    height: 45px;
+    border-radius: 10px !important;
+
+  }
+  ::ng-deep .p-dropdown-panel .p-dropdown-header .p-dropdown-filter-icon {
+    left: 0.75rem;
+    right: unset;
+  }
+  ::ng-deep .p-dropdown-clear-icon{
+    left: 2.1rem;
+    right: unset !important;
+  }
+
+  .cursorFix{
+    cursor: default !important;
+  }
+  .solve_button{
+    font-size: 24px;
+    font-weight: 600;
+    height: 65px;
+    align-items: center;
+    background-color: white !important;
+    color: #28DF99 !important;
+    border: 1px #28DF99 solid !important;
+    border-radius: 18px !important; cursor: default !important;
+  }

@@ -1,0 +1,1071 @@
+<div class="invoice-container">
+  <div class="card mainCard borderRadius_20px boxShadow-15">
+    <div
+      class="mx-3 mt-3 clientInfo d-flex flex-wrap gap-3 align-items-center mb-2"
+    >
+      <div class="width-12">
+        <div class="d-flex position-relative">
+          <label class="mb-2">كود </label>
+          <i
+            style="right: 15px; left: unset"
+            *ngIf="loaderBooleans['code']"
+            class="pi pi-spin pi-spinner position-absolute"
+          ></i>
+        </div>
+        <span class="p-input-icon-left w-100">
+          <input
+            type="text"
+            placeholder=" "
+            [disabled]="SelectedID"
+            (keydown.enter)="getClient('code'); goFromCodeToPharmacy()"
+            [(ngModel)]="clientCode"
+            #code
+            class="form-control"
+          />
+        </span>
+      </div>
+      <div class="width-37">
+        <div>
+          <label class="mb-2">اسم العميل</label>
+          <i
+            *ngIf="loaderBooleans['client_name']"
+            class="pi pi-spin pi-spinner"
+          ></i>
+        </div>
+        <p-dropdown
+          #userDropdown
+          (click)="
+            getclient(userDropdown, 'clientId', SelectedID);
+            goToPharmacy(userDropdown)
+          "
+          (keydown.enter)="
+            getclient(userDropdown, 'clientId', SelectedID);
+            goToPharmacy(userDropdown)
+          "
+          [options]="clients"
+          [(ngModel)]="SelectedID"
+          optionLabel="name"
+          optionValue="id"
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          placeholder=" "
+        >
+          <ng-template pTemplate="selectedItem" let-selectedItem>
+            <div class="flex align-items-center gap-2">
+              <div>{{ selectedItem.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div
+        *ngIf="!permissions.includes('free_delegate')"
+        class="width-10 position-relative cursor-pointer"
+      >
+        <div
+          (click)="changeActiveTap(7)"
+          [ngClass]="{ active: isActiveTapArray[7] }"
+          class="boxShadow-15 h-60px borderRadius_20px d-flex align-items-center justify-content-center"
+        >
+          <span class="fw-400 fs-18 text-center"
+            >العملاء <br />
+            المنتظرون</span
+          >
+        </div>
+        <div
+          class="borderRadius_50 position-absolute waitingNum yellow-bg d-flex align-items-center justify-content-center fw-400 fs-12"
+        >
+          {{ waitingClients }}
+        </div>
+      </div>
+      <div class="width-20">
+        <div
+          class="lightGreen-border px-2 h-60px borderRadius_20px d-flex align-items-center justify-content-center"
+        >
+          <span class="fw-600 fs-17">{{
+            timerStart | date : "MM-dd-yyyy hh:mm:ss a"
+          }}</span>
+        </div>
+      </div>
+      <div class="width-12">
+        <div
+          class="lightGreen-border px-2 h-60px borderRadius_20px d-flex align-items-center justify-content-center"
+        >
+          <span class="fw-600 fs-18 text-center"
+            >أذن رقم <br />{{ cart_number }}</span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="row mx-3 revert-sm ms-3"
+      style="height: 360px"
+      [ngClass]="{ maxHeight: isActiveTapArray[7] }"
+    >
+      <div class="col-lg-10 h-100">
+        <app-invoice-details
+          [orderDetails]="orderDetails"
+          [displayPharmacy]="displayPharmacy"
+          [openPharmaciesDropdown]="gotToPharmacies"
+          [disablePharmaciesDropdown]="disablePharmacy"
+          (openProductsDropdown)="setOpenProduct($event)"
+          (addShippingTypeEvent)="setShippingType($event)"
+          (addSalesEvent)="setSalesId($event)"
+          (openNoteModel)="openPharmacyNoteModel($event)"
+          [WaitingPharmacyClient]="waitingPharmacyClient"
+          (addNoteEvent)="setNote($event)"
+          (addPharmacieEvent)="setPharmacieId($event)"
+          [client]="client"
+          *ngIf="isActiveTapArray[0]"
+        ></app-invoice-details>
+        <app-new-items
+          (newProductEvent)="setNewProductId($event)"
+          *ngIf="isActiveTapArray[1]"
+        ></app-new-items>
+        <app-offers
+          (newItemEvent)="setNewProductId($event)"
+          *ngIf="isActiveTapArray[2]"
+        ></app-offers>
+        <app-shortcomings-bonuses
+          *ngIf="isActiveTapArray[3]"
+          (emitProductIdEvent)="setNewProductId($event)"
+        ></app-shortcomings-bonuses>
+        <app-Item-sales
+          *ngIf="isActiveTapArray[4]"
+          [productID]="productID"
+          [clientID]="SelectedID"
+        ></app-Item-sales>
+        <app-drug-info
+          *ngIf="isActiveTapArray[5]"
+          [productID]="productID"
+          [warehouseId]="warehouseId"
+          [quantityInWarehouse]="productFixedData.warehousesQuantity"
+          [totalQuantity]="productFixedData.totalAmount"
+        ></app-drug-info>
+
+        <app-waiting-clients
+          (changeWaitingNumberEvent)="getWaitingClientNumber($event)"
+          (clickedWaitingClient)="getClickedWaitingClient($event)"
+          *ngIf="isActiveTapArray[7]"
+        ></app-waiting-clients>
+      </div>
+      <div
+        class="col-lg-2 d-flex flex-column smallscreenRow justify-content-between gap-2"
+        [ngClass]="{ 'justify-content-between': !isActiveTapArray[7] }"
+      >
+        <div
+          (click)="changeActiveTap(0)"
+          class="cursor-pointer borderRadius_20px tab boxShadow-4 h-40px defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{ active: isActiveTapArray[0] }"
+        >
+          <span class="fw-400 fs-18 text-center">بيانات الأذن</span>
+        </div>
+        <div
+          (click)="changeActiveTap(1)"
+          class="cursor-pointer borderRadius_20px tab boxShadow-4 h-40px defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{ active: isActiveTapArray[1] }"
+        >
+          <span class="fw-400 fs-14 text-center">الأصناف الحديثة</span>
+        </div>
+        <div
+          (click)="changeActiveTap(2)"
+          class="cursor-pointer borderRadius_20px tab boxShadow-4 h-40px defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{ active: isActiveTapArray[2] }"
+        >
+          <span class="fw-400 fs-18 text-center">العروض </span>
+        </div>
+        <div
+          (click)="changeActiveTap(3)"
+          class="cursor-pointer borderRadius_20px tab boxShadow-4 h-40px defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{ active: isActiveTapArray[3] }"
+        >
+          <span class="fw-400 fs-13 text-center">النواقص والبونص </span>
+        </div>
+        <div
+          (click)="changeActiveTap(4)"
+          class="cursor-pointer borderRadius_20px tab boxShadow-4 h-40px defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{ active: isActiveTapArray[4] }"
+        >
+          <span class="fw-400 fs-14 text-center">مبيعات الصنف </span>
+        </div>
+        <div
+          (click)="changeActiveTap(5)"
+          class="cursor-pointer borderRadius_20px tab boxShadow-4 h-40px defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{ active: isActiveTapArray[5] }"
+        >
+          <span class="fw-400 fs-14 text-center"> معلومات الدواء </span>
+        </div>
+        <div
+          (click)="openFilterModal()"
+          class="cursor-pointer borderRadius_20px tab boxShadow-4 h-40px defaultBg d-flex align-items-center justify-content-center"
+          [ngClass]="{ active: isActiveTapArray[6] }"
+        >
+          <span class="fw-400 fs-18 text-center"> فلتر بحث </span>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!isActiveTapArray[7]" class="HLine my-3"></div>
+    <form [formGroup]="addProductForm" action="">
+      <div
+        *ngIf="!isActiveTapArray[7]"
+        class="d-flex flex-wrap gap-3 align-items-end mx-3 mb-1"
+      >
+        <div class="width-27-lg">
+          <div>
+            <label class="form-label fw-500 mb-1"> اسم الدواء </label>
+            <i
+              *ngIf="loaderBooleans['product_name']"
+              class="pi pi-spin pi-spinner"
+            ></i>
+          </div>
+
+          <p-dropdown
+            #ProductDropdown
+            [(ngModel)]="productID"
+            (onFocus)="onDropdownFocus($event)"
+            (keydown.enter)="onDropdownKeydown($event, ProductDropdown)"
+            (click)="onDropdownKeydown($event, ProductDropdown)"
+            [options]="products"
+            formControlName="product_id"
+            optionLabel="name"
+            optionValue="id"
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+            placeholder=" "
+          >
+            <ng-template #template pTemplate="selectedItem" let-selectedItem>
+              <div class="flex align-items-center gap-2">
+                {{ selectedItem.name }}
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+
+        <div class="width-13">
+          <label class="mb-2">الصلاحية والتشغيلة </label>
+
+          <div
+            class="fw-700 form-control text-center align-items-center defaultBg h-40px borderRadius_10px d-flex justify-content-center w-100"
+          >
+            {{
+              productFixedData.exp_date + " " + productFixedData.production_date
+            }}
+          </div>
+        </div>
+        <div class="width-13">
+          <div>
+            <label class="mb-2"> الكمية </label>
+            <i
+              *ngIf="loaderBooleans['quantity']"
+              class="pi pi-spin pi-spinner"
+            ></i>
+          </div>
+          <input
+            #quatityInput
+            [maxlength]="quantityDigitsNumber"
+            (keydown.enter)="activateAdd($event); updateWarehousesTotals()"
+            type="number"
+            placeholder=" "
+            (input)="
+              updateTaxes();
+              getoffersAndDiscount(
+                this.addProductForm.controls['quantity'].value,
+                this.addProductForm.controls['product_id'].value,
+                this.addProductForm.controls['warehouse_id'].value
+              );
+              updateWarehousesTotals()
+            "
+            formControlName="quantity"
+            class="form-control"
+          />
+        </div>
+        <div class="width-6">
+          <label class="mb-2"> بونص </label>
+          <input
+            type="text"
+            placeholder=" "
+            formControlName="bonus"
+            readonly
+            class="form-control disabled_gray"
+          />
+        </div>
+        <div class="width-13">
+          <label class="mb-2"> السعر </label>
+          <input
+            type="text"
+            placeholder=" "
+            disabled
+            [ngModelOptions]="{ standalone: true }"
+            [(ngModel)]="productFixedData.price"
+            class="form-control disabled"
+          />
+        </div>
+        <div class="width-9">
+          <label class="mb-2"> الضريبة </label>
+          <input
+            type="text"
+            placeholder=" "
+            disabled
+            [ngModelOptions]="{ standalone: true }"
+            [(ngModel)]="productFixedData.tax"
+            class="form-control"
+          />
+        </div>
+        <div class="width-9">
+          <label class="mb-2"> الخصم </label>
+          <input
+            type="text"
+            placeholder=" "
+            readonly
+            formControlName="discount"
+            class="disabled_gray form-control"
+          />
+        </div>
+      </div>
+      <div
+        *ngIf="!isActiveTapArray[7]"
+        class="d-flex flex-wrap gap-3 align-items-end mx-3 mb-3"
+      >
+        <!-- *ngIf="!permissions.includes('sales_employee')" -->
+        <div class="width-18">
+          <div>
+            <label class="mb-2">المخزن</label>
+            <i
+              *ngIf="loaderBooleans['warehouses']"
+              class="pi pi-spin pi-spinner"
+            ></i>
+          </div>
+          <!-- <p-dropdown #warehouse [options]="warehouses" (keydown.enter)="getProduct(warehouse)"
+            (click)="getProduct(warehouse)" formControlName="warehouse_id" [(ngModel)]="warehouseId"
+             optionLabel="name" optionValue="id"></p-dropdown> -->
+          <p-dropdown
+            #warehouse
+            [options]="warehouses"
+            [readonly]="disableWarehouse"
+            (keydown.enter)="getwarehouse(warehouse)"
+            (click)="getwarehouse(warehouse)"
+            formControlName="warehouse_id"
+            [(ngModel)]="warehouseId"
+            [class.readonly-input]="disableWarehouse"
+            optionLabel="name"
+            optionValue="id"
+          ></p-dropdown>
+        </div>
+        <!-- <div *ngIf="permissions.includes('sales_employee')" class="width-18">
+          <label class="mb-2">المخزن</label>
+          <input
+            #warehouse
+            type="text"
+            placeholder=" "
+            disabled
+            [(ngModel)]="salesEmplyeeWarehouse"
+            [ngModelOptions]="{ standalone: true }"
+            class="form-control"
+          />
+        </div> -->
+
+        <div class="width-14">
+          <label class="form-label mb-1"> كمية المخزن </label>
+          <input
+            type="text"
+            placeholder=" "
+            disabled
+            [(ngModel)]="productFixedData.warehousesQuantity"
+            [ngModelOptions]="{ standalone: true }"
+            class="form-control"
+          />
+        </div>
+        <div class="width-14">
+          <label class="mb-2"> اجمالي كمية المخازن </label>
+          <input
+            type="text"
+            placeholder=" "
+            disabled
+            [ngModelOptions]="{ standalone: true }"
+            [(ngModel)]="productFixedData.totalAmount"
+            class="form-control"
+          />
+        </div>
+        <div *ngIf="clientType == 1" class="width-14">
+          <label class="mb-2"> خصم المندوب </label>
+          <input
+            type="text"
+            placeholder=" "
+            disabled
+            [(ngModel)]="productFixedData.salesDiscount"
+            [ngModelOptions]="{ standalone: true }"
+            class="form-control"
+          />
+        </div>
+        <div *ngIf="clientType == 1" class="width-18">
+          <label class="mb-2"> فرق خصم مندوب </label>
+          <input
+            type="number"
+            placeholder=" "
+            formControlName="client_discount_difference"
+            (input)="getSalesDifference()"
+            class="form-control"
+          />
+        </div>
+        <div
+          [ngClass]="{ supplier: clientType != 1 }"
+          class="width-14 d-flex justify-content-end align-items-center addbtn"
+        >
+          <button
+            appDisableButton
+            #addBtn
+            [disabled]="disableaddBtn"
+            type="button"
+            (click)="addproduct()"
+            class="darkGreen-bg borderRadius_10px border-0 w-50 h-40px fw-600 fs-18"
+          >
+            إضافة
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <div
+      *ngIf="!isActiveTapArray[7]"
+      class="borderRadius_20px border border-1 mx-3 p-2 row"
+    >
+      <div
+        #scrollMe
+        style="max-height: 285px; overflow-y: auto"
+        class="h-100 col-md-12"
+      >
+        <p-table [value]="productsArr">
+          <ng-template pTemplate="header">
+            <tr>
+              <th
+                style="display: table-cell !important; width: 250px !important"
+              >
+                <div class="d-flex thSearch gap-2 align-items-center">
+                  <div class="d-flex">
+                    <span class="fw-500 fs-18">الاسم عربي</span>
+
+                    <div (click)="sortByName()" class="cursor-pointer">
+                      <i
+                        *ngIf="direction === 'asc'"
+                        class="p-sortable-column-icon pi pi-fw pi-sort-amount-up-alt"
+                      ></i>
+                      <i
+                        *ngIf="direction === 'desc'"
+                        class="p-sortable-column-icon pi pi-fw pi-sort-amount-down"
+                      ></i>
+                      <i
+                        *ngIf="!direction"
+                        class="p-sortable-column-icon pi pi-fw pi-sort-alt"
+                      ></i>
+                    </div>
+                  </div>
+                  <input
+                    type="text"
+                    [disabled]="productsArr.length == 0 && searchWord == ''"
+                    (input)="search()"
+                    (keydown.enter)="search()"
+                    [(ngModel)]="searchWord"
+                    placeholder="بحث بأسم الدواء"
+                    class="form-control defaultBg borderRadius_10px mx-0"
+                  />
+                  <i
+                    *ngIf="loaderBooleans['search']"
+                    class="pi pi-spin pi-spinner"
+                  ></i>
+                </div>
+              </th>
+              <th style="display: table-cell !important">الصلاحية والتشغيلة</th>
+              <th style="display: table-cell !important">الكمية</th>
+              <th style="display: table-cell !important">البونص</th>
+              <th style="display: table-cell !important">السعر</th>
+              <th style="display: table-cell !important">الضريبة</th>
+              <th style="display: table-cell !important">الخصم</th>
+              <th style="display: table-cell !important">الاجمالي</th>
+              <th style="display: table-cell !important">حذف منتج</th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-invoices>
+            <tr
+              style="
+                background: #ffffff;
+                box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+                border-radius: 20px;
+              "
+            >
+              <td class="fs-14 fw-700 color-black x-small-sm">
+                {{ invoices.product_name }}
+              </td>
+              <td class="fw-600 color-black">
+                <span>
+                  {{ invoices?.expired_at }}
+                  <br />
+                  {{ invoices?.operating_number }}
+                </span>
+              </td>
+              <td class="fw-600 color-black">{{ invoices.quantity }}</td>
+              <td class="fw-600 color-black">{{ invoices.bonus }}</td>
+              <td
+                [ngStyle]="{ background: invoices.color }"
+                [ngClass]="{ 'text-white': invoices.color }"
+                class="fw-600"
+              >
+                {{ invoices.price }}
+              </td>
+              <td class="fw-600 color-black">{{ invoices.taxes }}</td>
+              <td class="fw-600 color-black">{{ invoices.discount }}</td>
+              <td class="fw-600 color-black">
+                {{ invoices.total }}
+              </td>
+              <td>
+                <button
+                  appDisableButton
+                  (click)="deleteProduct(invoices.cart_id, invoices.batch_id)"
+                  class="redWithWiteText borderRadius_10px border-0 w-100 h-31px fw-600 fs-18"
+                >
+                  حذف
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+
+    <div
+      *ngIf="!isActiveTapArray[7]"
+      class="d-flex flex-wrap gap-3 align-items-center mt-3 mx-3"
+    >
+      <div
+        class="width-20 h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+      >
+        <span
+          class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center"
+          >عدد الأصناف</span
+        >
+        <hr class="h-100 lightGreen-border" />
+        <span class="fw-600 fs-18 w-50 d-flex justify-content-center">{{
+          totalCartData.items_number
+        }}</span>
+      </div>
+      <div
+        class="width-16 h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+      >
+        <span
+          class="fw-600 smalltext fs-19 w-50 d-flex justify-content-center text-center"
+          >اجمالي الفاتورة
+        </span>
+        <hr class="h-100 lightGreen-border" />
+        <span class="fw-600 fs-16 w-50 d-flex justify-content-center">{{
+          totalCartData.total
+        }}</span>
+      </div>
+      <div
+        class="width-16 h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+      >
+        <span
+          class="fw-600 fs-19 smalltext w-50 d-flex justify-content-center text-center"
+          >اجمالي الضريبة
+        </span>
+        <hr class="h-100 lightGreen-border" />
+        <span class="fw-600 fs-16 w-50 d-flex justify-content-center">{{
+          totalCartData.taxes
+        }}</span>
+      </div>
+      <div
+        class="width-18 h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+      >
+        <span
+          class="fw-600 smalltext fs-19 w-50 d-flex justify-content-center text-center"
+        >
+          صافي بعد الضريبة
+        </span>
+        <hr class="h-100 lightGreen-border" />
+        <span class="fw-600 fs-18 w-50 d-flex justify-content-center">{{
+          totalCartData.net_price
+        }}</span>
+      </div>
+      <div
+        class="width-18 h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+      >
+        <span
+          class="fw-600 fs-16 smalltext w-50 d-flex justify-content-center text-center"
+          >خصم نقدي اضافي {{ totalCartData.extra_discount }}%</span
+        >
+        <hr class="h-100 lightGreen-border" />
+        <span class="fw-600 fs-18 w-50 d-flex justify-content-center">{{
+          extra_discount_value
+        }}</span>
+      </div>
+    </div>
+
+    <div
+      *ngIf="!isActiveTapArray[7]"
+      class="d-flex flex-wrap gap-3 align-items-center justify-content-center mt-3 mx-3 mb-3"
+    >
+      <div class="wideScreen width-20 h-60px borderRadius_20px">
+        <button
+          appDisableButton
+          ppDisableButton
+          data-bs-toggle="modal"
+          data-bs-target="#confirmationFinishModel"
+          class="darkGreen-bg borderRadius_20px border-0 w-100 h-50px fw-600 fs-16"
+        >
+          غلق الأذن للتجهيز
+        </button>
+      </div>
+      <div
+        class="width-20 h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+      >
+        <span
+          class="fw-600 smalltext fs-14 w-50 d-flex justify-content-center text-center"
+          >اجمالي سعر الجمهور</span
+        >
+        <hr class="h-100 lightGreen-border" />
+        <span class="fw-600 fs-16 w-50 d-flex justify-content-center">{{
+          subTotal
+        }}</span>
+      </div>
+      <div
+        class="width-16 h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+      >
+        <span
+          class="fw-600 smalltext fs-14 w-50 d-flex justify-content-center text-center"
+          >الحساب السابق
+        </span>
+        <hr class="h-100 lightGreen-border" />
+        <span class="fw-600 fs-16 w-50 d-flex justify-content-center">{{
+          totalCartData.previous_balance
+        }}</span>
+      </div>
+      <div
+        class="width-20 h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+      >
+        <span
+          class="fw-600 smalltext fs-16 w-50 d-flex justify-content-center text-center"
+          >الرصيد الحالي</span
+        >
+        <hr class="h-100 lightGreen-border" />
+        <span class="fw-600 fs-18 w-50 d-flex justify-content-center">{{
+          totalCartData.current_balance
+        }}</span>
+      </div>
+      <div class="smallScreen h-60px borderRadius_20px justify-center-sm">
+        <button
+          appDisableButton
+          data-bs-toggle="modal"
+          data-bs-target="#confirmationFinishModel"
+          style="width: 150px !important"
+          class="darkGreen-bg borderRadius_20px border-0 w-100 h-50px fw-600 fs-16"
+        >
+          غلق الأذن للتجهيز
+        </button>
+      </div>
+      <div
+        class="flex-fill h-60px borderRadius_20px d-flex align-items-center canclebtn justify-center-sm"
+      >
+        <button
+          appDisableButton
+          (click)="deleteConfirm()"
+          class="darkRed-bg color-white borderRadius_10px border-0 h-31px fw-600 fs-18"
+        >
+          حذف الأذن
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- filter model -->
+<button
+  hidden
+  #filterModel
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#filterModel"
+></button>
+
+<div
+  class="modal fade"
+  id="filterModel"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog p-3">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex justify-content-center mb-1 w-100">
+          <span class="text-center fs-24 fw-700">فلتر</span>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="filterForm" (ngSubmit)="filter()" action="">
+          <div
+            class="w-100 d-flex flex-wrap justify-content-between align-items-end mb-5 gap-4"
+          >
+            <div class="width-47">
+              <label class="mb-2">تصنيع شركة</label>
+              <p-dropdown
+                [options]="Manufacturers"
+                formControlName="manufactured_by"
+                [showClear]="true"
+                placeholder=" "
+                optionLabel="name"
+                optionValue="id"
+              ></p-dropdown>
+            </div>
+            <div class="width-47">
+              <label class="mb-2">التصنيف</label>
+              <p-dropdown
+                [options]="productsType"
+                formControlName="product_type"
+                [showClear]="true"
+                placeholder=" "
+                optionLabel="name"
+                optionValue="value"
+              ></p-dropdown>
+            </div>
+          </div>
+          <div class="d-flex flex-wrap align-items-end mb-4">
+            <div class="p-field-checkbox d-flex gap-2 align-items-center">
+              <input
+                class="form-check-input"
+                name="quantity"
+                formControlName="quantity_more_than_zero"
+                checked
+                style="width: 2.4em; height: 2.4em"
+                type="checkbox"
+                value=""
+                id="quantityCheckDefault"
+              />
+              <label class="mb-2">الكمية أكبر من صفر</label>
+            </div>
+          </div>
+          <div class="d-flex flex-wrap align-items-end gap-5 mb-3">
+            <div
+              class="width-45 d-flex flex-wrap justify-content-between align-items-end gap-2"
+            >
+              <div class="width-45">
+                <label class="mb-2">الخصم</label>
+                <input
+                  type="text"
+                  placeholder="من"
+                  formControlName="discount_from"
+                  class="form-control"
+                />
+              </div>
+              <div class="width-45">
+                <input
+                  type="text"
+                  placeholder="الي"
+                  formControlName="discount_to"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="width-45 d-flex flex-wrap align-items-end gap-3">
+              <div class="width-45">
+                <label class="mb-2">سعر الجمهور</label>
+                <input
+                  type="text"
+                  placeholder="من"
+                  formControlName="price_from"
+                  class="form-control"
+                />
+              </div>
+              <div class="width-45">
+                <input
+                  type="text"
+                  placeholder="الي"
+                  formControlName="price_to"
+                  class="form-control"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex h-100 flex-wrap align-items-end gap-5 mb-3">
+            <div class="width-50">
+              <label class="mb-2">ترتيب الدواء</label>
+              <p-dropdown
+                [showClear]="true"
+                [options]="sortArr"
+                formControlName="sort_data"
+                placeholder=" "
+                optionLabel="name"
+                optionValue="value"
+              ></p-dropdown>
+            </div>
+            <div
+              class="d-flex justify-content-between h-100 align-items-center gap-3"
+            >
+              <div class="p-field-checkbox d-flex gap-2 align-items-center">
+                <input
+                  name="sortRadios"
+                  checked
+                  id="sortRadios2"
+                  class="form-check-input check_input"
+                  (change)="onItemChange($event.target)"
+                  type="radio"
+                  value="asc"
+                />
+                <label class="">تصاعدي</label>
+              </div>
+              <div class="p-field-checkbox d-flex gap-2 align-items-center">
+                <input
+                  name="sortRadios"
+                  id="sortRadios1"
+                  class="form-check-input check_input"
+                  (change)="onItemChange($event.target)"
+                  type="radio"
+                  value="desc"
+                />
+                <label class="">تنازلي </label>
+              </div>
+            </div>
+          </div>
+          <div
+            class="d-flex flex-wrap align-items-end justify-content-center gap-5"
+          >
+            <div style="width: 40%">
+              <button
+                appDisableButton
+                type="submit"
+                class="w-100 h-60px border-0 borderRadius_20px text-white darkGreen-bg"
+              >
+                فلترة
+              </button>
+              <button
+                hidden
+                #closeFilterModal
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div style="width: 40%">
+              <button
+                appDisableButton
+                type="button"
+                (click)="getAllProducts()"
+                data-bs-dismiss="modal"
+                class="w-100 h-60px border-0 borderRadius_20px text-white red-bg"
+              >
+                الغاء الفلترة
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  hidden
+  #clientInfoModel
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#staticBackdrop"
+></button>
+<div
+  class="modal fade"
+  id="staticBackdrop"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <span class="text-dark">العربة موجودة بالفعل</span>
+      </div>
+      <div class="modal-footer">
+        <button
+          (click)="closeModalClick()"
+          #closePoPModal
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        >
+          ok
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  hidden
+  #clientNoteModel
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#clientNote"
+></button>
+<div
+  class="modal fade"
+  id="clientNote"
+  data-bs-backdrop="static"
+  tabindex="-1"
+  aria-labelledby="staticBackdropLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header justify-content-center">
+        <span class="text-dark">ملحوظة علي العميل</span>
+      </div>
+      <div class="modal-body">
+        <span class="text-dark">{{ pharmacy_note }}</span>
+      </div>
+      <div class="modal-footer">
+        <button
+          (click)="closeModal()"
+          #closeNoteModal
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        >
+          قرأت
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--confirmation on delete-->
+
+<button
+  hidden
+  #openConfirmationModel
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#confirmation1Model"
+></button>
+<div
+  class="modal fade"
+  id="confirmation1Model"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content" style="margin-top: 30%">
+      <div class="modal-header">
+        <h1
+          class="modal-title fs-5 text-center w-100"
+          id="confirmationModalLabel"
+        >
+          تأكيد العملية
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div
+        style="height: 10vh"
+        class="d-flex justify-content-center align-items-center"
+      >
+        <span class="text-center">هل انت متاكد انك تريد حذف الاذن؟ </span>
+      </div>
+      <div class="modal-footer d-flex justify-content-center gap-2">
+        <button
+          appDisableButton
+          (click)="
+            deleteAllProducts(addProductForm.controls['client_id'].value)
+          "
+          class="btn w-40 h-60px border-0 borderRadius_20px text-white redbg fs-4"
+          data-bs-dismiss="modal"
+          data-bs-target="#confirmation1Model"
+        >
+          حذف
+        </button>
+
+        <button
+          type="button"
+          class="btn w-40 h-60px btn-color border-0 borderRadius_20px text-white darkGrey-bg fs-5"
+          data-bs-dismiss="modal"
+        >
+          الغاء
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--confirmation on finish-->
+<div
+  class="modal fade"
+  id="confirmationFinishModel"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content" style="margin-top: 30%">
+      <div class="modal-header">
+        <h1
+          class="modal-title fs-5 text-center w-100"
+          id="confirmationModalLabel"
+        >
+          تأكيد العملية
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div
+        style="height: 10vh"
+        class="d-flex justify-content-center align-items-center"
+      >
+        <span class="text-center"
+          >هل انت متاكد انك تريد غلق الأذن للتجهيز ؟
+        </span>
+      </div>
+      <div class="modal-footer d-flex justify-content-center gap-2">
+        <button
+          appDisableButton
+          (click)="finishInvoice()"
+          class="btn w-40 h-60px border-0 borderRadius_20px text-white brightGreen-bg fs-4"
+          data-bs-dismiss="modal"
+          data-bs-target="#confirmationFinishModel"
+        >
+          غلق
+        </button>
+
+        <button
+          type="button"
+          class="btn w-40 h-60px btn-color border-0 borderRadius_20px text-white darkGrey-bg fs-5"
+          data-bs-dismiss="modal"
+        >
+          الغاء
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

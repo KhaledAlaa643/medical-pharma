@@ -1,0 +1,161 @@
+@import 'generalTableStyle.scss';
+.preparingCont {
+
+
+    .waitingNum {
+        width: 30px;
+        height: 30px;
+        top: -12px;
+        right: -8px;
+        left: unset;
+    }
+
+}
+
+
+
+.bottomArea {
+    @media screen and (max-width:769px) {
+        flex-direction: column;
+    }
+}
+#detailsModel {
+    .modal-dialog {
+        padding-top: 6% !important;
+        max-width: 80vw !important;
+        .modal-content {
+            border-radius: 30px !important;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+            .modal-header {
+                border-bottom: none;
+            }
+
+            .modal-body {
+                padding: 0% 5% 5vh 5%;
+
+                .Title {
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+        }
+
+        @media only screen and (max-width:768px) {
+            max-width: 100% !important;
+            margin: 4% auto !important;
+
+            ::ng-deep .p-datatable-tbody>tr {
+
+                :first-child {
+                    font-size: small;
+                }
+            }
+        }
+
+        ::ng-deep .p-datatable table {
+            //min-width: 100% !important;
+            overflow-y: auto;
+
+            @media only screen and (max-width: 768px) {
+                //min-width: 50% !important;
+
+            }
+        }
+
+        ::ng-deep .p-datatable .p-datatable-tbody>tr>td {
+            text-align: center !important;
+        }
+
+        ::ng-deep .p-datatable .p-datatable-thead>tr>th {
+            text-align: center !important;
+        }
+
+        ::ng-deep .p-datatable-thead>tr>th {
+            background-color: transparent !important;
+            border: none !important;
+            padding: 0 10px !important;
+        }
+
+        ::ng-deep .p-datatable-tbody>tr>td {
+            background-color: transparent;
+            border-bottom: none !important;
+            border-left: 1px solid #E4E4E4 !important;
+            padding: 12px !important;
+        }
+
+        ::ng-deep .p-datatable-tbody>tr {
+
+            :first-child {
+                border-radius: 0 10px 10px 0;
+            }
+
+            :last-child {
+                border-radius: 10px 0 0 10px;
+            }
+        }
+
+        ::ng-deep {
+            .p-checkbox .p-checkbox-box {
+                border-radius: 5px !important;
+            }
+        }
+
+        ::ng-deep .p-datatable.p-datatable-scrollable>.p-datatable-wrapper>.p-datatable-table>.p-datatable-thead {
+            background-color: transparent !important;
+        }
+
+        ::ng-deep .p-datatable table {
+            border-collapse: separate !important;
+            border-spacing: 0 20px !important;
+            border-radius: 20px !important;
+        }
+
+        @media screen and (max-width: 961px) {
+            ::ng-deep .p-datatable-tbody>tr>td {
+                display: table-cell !important;
+                width: 40% !important;
+            }
+
+            ::ng-deep .p-datatable-wrapper {
+                overflow-x: scroll;
+                overflow-x: auto;
+            }
+        }
+
+        ::ng-deep .p-datatable-wrapper {
+            overflow-y: auto;
+        }
+    }
+
+    .green-bg {
+        ::ng-deep .p-datatable-tbody>tr>td {
+            background-color: #28DF99 !important;
+            border-bottom: none !important;
+            border-left: 1px solid #E4E4E4 !important;
+            padding: 12px !important;
+        }
+    }
+}
+
+
+::ng-deep {
+    .greenBG #detailsModel .modal-dialog .p-datatable .p-datatable-tbody>tr>td {
+        background-color: #28DF99 !important;
+        border-bottom: none !important;
+        border-left: 1px solid #E4E4E4 !important;
+        padding: 12px !important;
+    }
+}
+
+::ng-deep .p-checkbox .p-checkbox-box.p-highlight {
+    border-color: #11C387 !important;
+    background: #11C387 !important;
+    box-shadow: none !important;
+
+}
+
+::ng-deep.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover {
+    border-color: #11C387 !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}

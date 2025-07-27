@@ -1,0 +1,928 @@
+<!-- table area  -->
+
+<div class="d-flex gap-2 justify-content-between">
+  <div
+    #pharmacyInvoice
+    id="pharmacyInvoice"
+    dir="rtl"
+    style="display: flex"
+    [ngStyle]="{
+      width:
+        paperSize === 'a4portrait'
+          ? '240mm'
+          : paperSize === 'a5portrait'
+          ? '128mm'
+          : 'auto',
+      height:
+        paperSize === 'a4portrait'
+          ? '210mm'
+          : paperSize === 'a5portrait'
+          ? '183mm'
+          : 'auto'
+    }"
+  >
+    <div #fullTable2 id=" fulltable2 " style="width: 100%; height: 100%">
+      <!-- upper info -->
+
+      <table
+        #table
+        id="table"
+        style="
+          background-color: white;
+          text-align: center;
+          border-collapse: collapse;
+          font-family: sans-serif;
+          width: 100%;
+        "
+      >
+        <thead style="padding: 1mm 1mm; font-size: 2.25mm">
+          <tr>
+            <th colspan=" 10">
+              <div
+                style="
+                  background-color: white;
+                  border-radius: 10px;
+                  padding: 0.25mm;
+                  display: flex;
+                  flex-direction: row;
+                  justify-content: space-between;
+                  direction: rtl;
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    width: 50%;
+                  "
+                >
+                  <div style="display: flex; justify-content: space-between">
+                    <span>اذن : </span
+                    ><span>{{ invoiceData?.data?.order_number }}</span>
+                    <span style="text-align: center">
+                      {{
+                        invoiceData.data.created_at | date : "dd/MM/yyyy"
+                      }}</span
+                    >
+                    <span dir="ltr" style="text-align: end">{{
+                      invoiceData.data.created_at | date : "hh:mm:ss a"
+                    }}</span>
+                  </div>
+                  <span class="text-start"
+                    >اسم العميل: {{ invoiceData?.data?.pharmacy?.name }}</span
+                  >
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      width: 80%;
+                    "
+                  >
+                    <span>المندوب : </span
+                    ><span>{{ invoiceData?.data?.created_by?.name }}</span>
+                    <span>كود العميل:</span>
+                    <span>{{ invoiceData?.data?.pharmacy?.code }}</span>
+                  </div>
+                  <span class="text-start"
+                    >محمول:{{ invoiceData?.data?.pharmacy?.phone_number }}\\{{
+                      invoiceData?.data?.pharmacy?.optional_phone_number
+                    }}</span
+                  >
+                  <span class="text-start"
+                    >العنوان :{{ invoiceData?.data?.pharmacy?.address }}
+                  </span>
+                </div>
+                <div
+                  style="
+                    justify-content: space-between;
+                    display: flex;
+                    gap: 2mm;
+                    width: 50%;
+                  "
+                >
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                      justify-content: space-between;
+                      width: 80%;
+                    "
+                  >
+                    <div
+                      style="
+                        border: 0.25mm solid;
+                        height: 25px;
+                        width: 90%;
+                        padding: 2mm;
+                      "
+                    ></div>
+                    <span>لتجارة و توزيع الأدوية</span>
+                    <div
+                      style="
+                        display: flex;
+                        flex-direction: column;
+                        align-items: end;
+                      "
+                    >
+                      <span> رخصة رقم : {{ settings?.license_number }} </span>
+                      <span> س . ت : {{ settings?.commercial_record }} </span>
+                    </div>
+                  </div>
+                  <div style="display: flex; flex-direction: column">
+                    <span style="font-size: 1.7mm">خدمة المبيعات</span>
+                    <span>{{ settings?.sales_service[0] }}</span>
+                    <span>{{ settings?.sales_service[1] }}</span>
+                    <span>{{ settings?.sales_service[2] }}</span>
+                    <span>{{ settings?.sales_service[3] }}</span>
+                    <div style="display: flex; justify-content: end">
+                      <span>{{ invoiceData?.data?.invoice?.printed_num }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </th>
+          </tr>
+
+          <tr style="font-size: 1.7mm">
+            <th
+              style="
+                border: 1px solid #aaaaaa;
+                font-weight: bold;
+                text-align: center;
+                width: 3%;
+              "
+            >
+              م
+            </th>
+            <th
+              style="
+                border: 1px solid #aaaaaa;
+                font-weight: bold;
+                text-align: center;
+                width: 10%;
+              "
+            >
+              الصالحية<br />التشغيل
+            </th>
+            <th
+              style="
+                border: 1px solid #aaaaaa;
+                font-weight: bold;
+                text-align: center;
+                width: 10%;
+              "
+            >
+              الموقع
+            </th>
+            <th
+              style="
+                border: 1px solid #aaaaaa;
+                font-weight: bold;
+                text-align: center;
+                width: 1%;
+              "
+            >
+              البونص
+            </th>
+            <th
+              colspan="2"
+              style="
+                border: 1px solid #aaaaaa;
+                font-weight: bold;
+                text-align: center;
+                width: 24%;
+              "
+            >
+              الصنف
+            </th>
+            <th
+              style="
+                border: 1px solid #aaaaaa;
+                font-weight: bold;
+                text-align: center;
+                width: 2%;
+              "
+            >
+              الكمية
+            </th>
+            <th
+              style="
+                border: 1px solid #aaaaaa;
+                font-weight: bold;
+                text-align: center;
+                width: 4%;
+              "
+            >
+              السعر
+            </th>
+            <th
+              style="
+                border: 1px solid #aaaaaa;
+                font-weight: bold;
+                text-align: center;
+                width: 0%;
+              "
+            >
+              الخصم
+            </th>
+            <th
+              style="
+                border: 1px solid #aaaaaa;
+                font-weight: bold;
+                text-align: center;
+                width: 4%;
+              "
+            >
+              االجمالى
+            </th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr style="font-size: 1.8mm; font-weight: 600">
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              عدد الاصناف
+            </td>
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              {{ invoiceData.additional_data.totals.inventoried_items_number }}
+            </td>
+
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              صافي الفاتورة
+            </td>
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              {{ invoiceData.additional_data.totals.net_price }}
+            </td>
+
+            <td
+              colspan="1"
+              style="border: 1px solid #aaaaaa; text-align: center"
+            >
+              الحساب السابق
+            </td>
+            <td
+              colspan="1"
+              style="border: 1px solid #aaaaaa; text-align: center"
+            >
+              {{ invoiceData.additional_data.totals.previous_balance }}
+            </td>
+
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              الاجمالي
+            </td>
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              {{ invoiceData.additional_data.totals.total }}
+            </td>
+
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              المسدد
+            </td>
+
+            <td style="border: 1px solid #aaaaaa; text-align: center">0</td>
+          </tr>
+          <tr style="font-size: 1.8mm; font-weight: 600">
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              اجمالى الجمهور
+            </td>
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              {{ invoiceData.additional_data.totals.subtotal }}
+            </td>
+
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              مطلوب فقط و قدرة
+            </td>
+
+            <td
+              colspan="2"
+              style="
+                border: 1px solid #aaaaaa;
+                text-align: center;
+                font-size: 1.8mm;
+              "
+            >
+              {{ invoiceData.additional_data.totals.total_text }}
+            </td>
+
+            <td
+              colspan="1"
+              style="border: 1px solid #aaaaaa; text-align: center"
+            >
+              اشعار الخصم
+            </td>
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              {{ invoiceData.additional_data.totals.extra_discount }}
+            </td>
+
+            <td
+              colspan="2"
+              style="border: 1px solid #aaaaaa; text-align: center"
+            >
+              الرصيد الحالى
+            </td>
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              {{ invoiceData.additional_data.totals.current_balance }}
+            </td>
+          </tr>
+          <tr style="border: none; font-size: 1.8mm; font-weight: bold">
+            <td colspan="4" style="border: none; text-align: center">
+              <span
+                >استلمت انا :
+                .....................................................................
+                الكميات الموضحة بالفاتورة بعد المراجعة</span
+              >
+            </td>
+            <td colspan="2" style="border: none; text-align: center">
+              عدد الباكت :.....
+            </td>
+            <td colspan="2" style="border: none; text-align: center">
+              <span>عدد الشنط :.....</span>
+            </td>
+            <td colspan="2" style="border: none; text-align: center">
+              <span>المحضر:....</span>
+            </td>
+          </tr>
+
+          <tr style="font-size: 1.8mm; font-weight: bold">
+            <td colspan="2" style="text-align: center">
+              <span dir="ltr" style="text-align: end">{{
+                invoiceData.data.closed_at | date : "hh:mm:ss a"
+              }}</span>
+            </td>
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              {{ invoiceData?.data?.pharmacy?.payment_type.name }}
+            </td>
+            <td style="text-align: center"></td>
+            <td
+              colspan="2"
+              style="border: 1px solid #aaaaaa; text-align: center"
+            >
+              <span *ngIf="invoiceData?.data?.pharmacy?.invoices_num >= 1">
+                يوجد فواتير أخرى للعميل
+              </span>
+              <span *ngIf="!(invoiceData?.data?.pharmacy?.invoices_num >= 1)">
+                لا يوجد فواتير أخرى للعميل
+              </span>
+            </td>
+            <td style="text-align: center; border: none"></td>
+
+            <td
+              colspan="6"
+              style="border: 1px solid #aaaaaa; text-align: center"
+            ></td>
+          </tr>
+          <tr>
+            <td colspan="10"></td>
+          </tr>
+
+          <tr style="font-size: 1.8mm; font-weight: bold">
+            <td style="text-align: center"></td>
+            <td
+              colspan="8"
+              style="border: 1px solid #aaaaaa; text-align: center"
+            >
+              {{ settings?.returned_roles }}
+            </td>
+            <td style="text-align: center"></td>
+          </tr>
+          <tr style="font-size: 1.8mm; font-weight: bold">
+            <td colspan="4" style="text-align: center">
+              المستخدم : {{ invoiceData?.data?.created_by?.name }}
+            </td>
+            <td colspan="4" style="text-align: center">
+              {{ settings?.address }}
+            </td>
+            <td colspan="4" style="text-align: center">
+              توقيع العميل / ختم المنشأة
+            </td>
+          </tr>
+        </tfoot>
+        <tbody style="font-size: 1.95mm; line-height: 2.01mm">
+          <tr *ngFor="let invoice of invoiceData.data.cart; let i = index">
+            <td style="border: 0.1mm solid #aaaaaa; text-align: center">
+              {{ i + 1 }}
+            </td>
+            <td
+              style="
+                border: 0.1mm solid #aaaaaa;
+                font-weight: 600;
+                text-align: center;
+                font-size: 1.95mm;
+                letter-spacing: 0.07mm;
+              "
+            >
+              {{ invoice.operating_number }} <br />
+              {{ invoice.expired_at }}
+            </td>
+            <td
+              dir="ltr"
+              style="
+                border: 0.1mm solid #aaaaaa;
+                font-weight: 600;
+                text-align: center;
+                font-size: 1.9mm;
+                letter-spacing: 0.07mm;
+              "
+            >
+              {{ invoice.location }}
+            </td>
+            <td style="border: 0.1mm solid #aaaaaa; text-align: center">
+              {{ invoice.bonus }}
+            </td>
+            <td
+              colspan="2"
+              style="
+                border: 0.1mm solid #aaaaaa;
+                text-align: center;
+                font-weight: 600;
+                font-size: 1.95mm;
+              "
+            >
+              {{ invoice.product_name }}
+            </td>
+            <td style="border: 0.1mm solid #aaaaaa; text-align: center">
+              {{ invoice.quantity }}
+            </td>
+
+            <td style="border: 0.1mm solid #aaaaaa; text-align: center">
+              {{ invoice.price }}
+            </td>
+            <td style="border: 0.1mm solid #aaaaaa; text-align: center">
+              {{ invoice.discount }}
+            </td>
+            <td style="border: 0.1mm solid #aaaaaa; text-align: center">
+              {{ invoice.total }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div *ngIf="a4Landscape" style="border: 0.2mm dotted grey"></div>
+  <div
+    *ngIf="a4Landscape"
+    #pharmacyInvoice
+    id="pharmacyInvoice"
+    dir="rtl"
+    style="display: flex"
+    [ngStyle]="{
+      width:
+        paperSize === 'a4portrait'
+          ? '240mm'
+          : paperSize === 'a5portrait'
+          ? '128mm'
+          : 'auto',
+      height:
+        paperSize === 'a4portrait'
+          ? '210mm'
+          : paperSize === 'a5portrait'
+          ? '183mm'
+          : 'auto'
+    }"
+  >
+    <div #fullTable2 id=" fulltable2 width: 100%;height: 100%;">
+      <!-- upper info -->
+
+      <table
+        #table
+        id="table"
+        style="
+          background-color: white;
+          text-align: center;
+          border-collapse: collapse;
+          font-family: sans-serif;
+          width: 100%;
+          height: 100%;
+        "
+      >
+        <thead style="padding: 1mm 1mm; font-size: 2.25mm">
+          <tr>
+            <th colspan=" 10">
+              <div
+                style="
+                  background-color: white;
+                  border-radius: 10px;
+                  padding: 0.25mm;
+                  display: flex;
+                  flex-direction: row;
+                  justify-content: space-between;
+                  direction: rtl;
+                "
+              >
+                <div
+                  style="
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    width: 50%;
+                  "
+                >
+                  <div style="display: flex; justify-content: space-between">
+                    <span>اذن : </span
+                    ><span>{{ invoiceData?.data?.order_number }}</span>
+                    <span style="text-align: center">
+                      {{
+                        invoiceData.data.created_at | date : "dd/MM/yyyy"
+                      }}</span
+                    >
+                    <span dir="ltr" style="text-align: end">{{
+                      invoiceData.data.created_at | date : "hh:mm:ss a"
+                    }}</span>
+                  </div>
+                  <span class="text-start"
+                    >اسم العميل: {{ invoiceData?.data?.pharmacy?.name }}</span
+                  >
+                  <div
+                    style="
+                      display: flex;
+                      justify-content: space-between;
+                      width: 80%;
+                    "
+                  >
+                    <span>المندوب : </span
+                    ><span>{{ invoiceData?.data?.created_by?.name }}</span>
+                    <span>كود العميل:</span>
+                    <span>{{ invoiceData?.data?.pharmacy?.code }}</span>
+                  </div>
+                  <span class="text-start"
+                    >محمول:{{ invoiceData?.data?.pharmacy?.phone_number }}\\{{
+                      invoiceData?.data?.pharmacy?.optional_phone_number
+                    }}</span
+                  >
+                  <span class="text-start"
+                    >العنوان :{{ invoiceData?.data?.pharmacy?.address }}
+                  </span>
+                </div>
+                <div
+                  style="
+                    justify-content: space-between;
+                    display: flex;
+                    gap: 2mm;
+                    width: 50%;
+                  "
+                >
+                  <div
+                    style="
+                      display: flex;
+                      flex-direction: column;
+                      align-items: center;
+                      justify-content: space-between;
+                      width: 80%;
+                    "
+                  >
+                    <div
+                      style="
+                        border: 0.25mm solid;
+                        height: 25px;
+                        width: 90%;
+                        padding: 2mm;
+                      "
+                    ></div>
+                    <span>لتجارة و توزيع الأدوية</span>
+                    <div
+                      style="
+                        display: flex;
+                        flex-direction: column;
+                        align-items: end;
+                      "
+                    >
+                      <span> رخصة رقم : {{ settings?.license_number }} </span>
+                      <span> س . ت : {{ settings?.commercial_record }} </span>
+                    </div>
+                  </div>
+                  <div style="display: flex; flex-direction: column">
+                    <span style="font-size: 1.7mm">خدمة المبيعات</span>
+                    <span>{{ settings?.sales_service[0] }}</span>
+                    <span>{{ settings?.sales_service[1] }}</span>
+                    <span>{{ settings?.sales_service[2] }}</span>
+                    <span>{{ settings?.sales_service[3] }}</span>
+                    <div style="display: flex; justify-content: end">
+                      <span>{{ invoiceData?.data?.invoice?.printed_num }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </th>
+          </tr>
+
+          <tr style="font-size: 1.7mm">
+            <th
+              style="
+                border: 1px solid #aaaaaa;
+                font-weight: bold;
+                text-align: center;
+                width: 3%;
+              "
+            >
+              م
+            </th>
+            <th
+              style="
+                border: 1px solid #aaaaaa;
+                font-weight: bold;
+                text-align: center;
+                width: 10%;
+              "
+            >
+              الصالحية<br />التشغيل
+            </th>
+            <th
+              style="
+                border: 1px solid #aaaaaa;
+                font-weight: bold;
+                text-align: center;
+                width: 10%;
+              "
+            >
+              الموقع
+            </th>
+            <th
+              style="
+                border: 1px solid #aaaaaa;
+                font-weight: bold;
+                text-align: center;
+                width: 1%;
+              "
+            >
+              البونص
+            </th>
+            <th
+              colspan="2"
+              style="
+                border: 1px solid #aaaaaa;
+                font-weight: bold;
+                text-align: center;
+                width: 24%;
+              "
+            >
+              الصنف
+            </th>
+            <th
+              style="
+                border: 1px solid #aaaaaa;
+                font-weight: bold;
+                text-align: center;
+                width: 2%;
+              "
+            >
+              الكمية
+            </th>
+            <th
+              style="
+                border: 1px solid #aaaaaa;
+                font-weight: bold;
+                text-align: center;
+                width: 4%;
+              "
+            >
+              السعر
+            </th>
+            <th
+              style="
+                border: 1px solid #aaaaaa;
+                font-weight: bold;
+                text-align: center;
+                width: 0%;
+              "
+            >
+              الخصم
+            </th>
+            <th
+              style="
+                border: 1px solid #aaaaaa;
+                font-weight: bold;
+                text-align: center;
+                width: 4%;
+              "
+            >
+              االجمالى
+            </th>
+          </tr>
+        </thead>
+        <tfoot>
+          <tr style="font-size: 1.8mm; font-weight: 600">
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              عدد الاصناف
+            </td>
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              {{invoiceData.additional_data.totals.items_number}
+            </td>
+
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              صافي الفاتورة
+            </td>
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              {{ invoiceData.additional_data.totals.net_price }}
+            </td>
+
+            <td
+              colspan="1"
+              style="border: 1px solid #aaaaaa; text-align: center"
+            >
+              الحساب السابق
+            </td>
+            <td
+              colspan="1"
+              style="border: 1px solid #aaaaaa; text-align: center"
+            >
+              {{ invoiceData.additional_data.totals.previous_balance }}
+            </td>
+
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              الاجمالي
+            </td>
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              {{ invoiceData.additional_data.totals.total }}
+            </td>
+
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              المسدد
+            </td>
+
+            <td style="border: 1px solid #aaaaaa; text-align: center">0</td>
+          </tr>
+          <tr style="font-size: 1.8mm; font-weight: 600">
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              اجمالى الجمهور
+            </td>
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              {{ invoiceData.additional_data.totals.subtotal }}
+            </td>
+
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              مطلوب فقط و قدرة
+            </td>
+
+            <td
+              colspan="2"
+              style="
+                border: 1px solid #aaaaaa;
+                text-align: center;
+                font-size: 1.8mm;
+              "
+            >
+              {{ invoiceData.additional_data.totals.total_text }}
+            </td>
+
+            <td
+              colspan="1"
+              style="border: 1px solid #aaaaaa; text-align: center"
+            >
+              اشعار الخصم
+            </td>
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              {{ invoiceData.additional_data.totals.extra_discount }}
+            </td>
+
+            <td
+              colspan="2"
+              style="border: 1px solid #aaaaaa; text-align: center"
+            >
+              الرصيد الحالى
+            </td>
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              {{ invoiceData.additional_data.totals.current_balance }}
+            </td>
+          </tr>
+          <tr style="border: none; font-size: 1.8mm; font-weight: bold">
+            <td colspan="4" style="border: none; text-align: center">
+              <span
+                >استلمت انا :
+                .....................................................................
+                الكميات الموضحة بالفاتورة بعد المراجعة</span
+              >
+            </td>
+            <td colspan="2" style="border: none; text-align: center">
+              عدد الباكت :.....
+            </td>
+            <td colspan="2" style="border: none; text-align: center">
+              <span>عدد الشنط :.....</span>
+            </td>
+            <td colspan="2" style="border: none; text-align: center">
+              <span>المحضر:....</span>
+            </td>
+          </tr>
+
+          <tr style="font-size: 1.8mm; font-weight: bold">
+            <td colspan="2" style="text-align: center">
+              <span dir="ltr" style="text-align: end">{{
+                invoiceData.data.closed_at | date : "hh:mm:ss a"
+              }}</span>
+            </td>
+            <td style="border: 1px solid #aaaaaa; text-align: center">
+              {{ invoiceData?.data?.pharmacy?.payment_type.name }}
+            </td>
+            <td style="text-align: center"></td>
+            <td
+              colspan="2"
+              style="border: 1px solid #aaaaaa; text-align: center"
+            >
+              <span *ngIf="invoiceData?.data?.pharmacy?.invoices_num >= 1">
+                يوجد فواتير أخرى للعميل
+              </span>
+              <span *ngIf="!(invoiceData?.data?.pharmacy?.invoices_num >= 1)">
+                لا يوجد فواتير أخرى للعميل
+              </span>
+            </td>
+            <td style="text-align: center; border: none"></td>
+
+            <td
+              colspan="6"
+              style="border: 1px solid #aaaaaa; text-align: center"
+            ></td>
+          </tr>
+          <tr>
+            <td colspan="10"></td>
+          </tr>
+
+          <tr style="font-size: 1.8mm; font-weight: bold">
+            <td style="text-align: center"></td>
+            <td
+              colspan="8"
+              style="border: 1px solid #aaaaaa; text-align: center"
+            >
+              {{ settings?.returned_roles }}
+            </td>
+            <td style="text-align: center"></td>
+          </tr>
+          <tr style="font-size: 1.8mm; font-weight: bold">
+            <td colspan="4" style="text-align: center">
+              المستخدم : {{ invoiceData?.data?.created_by?.name }}
+            </td>
+            <td colspan="4" style="text-align: center">
+              {{ settings?.address }}
+            </td>
+            <td colspan="4" style="text-align: center">
+              توقيع العميل / ختم المنشأة
+            </td>
+          </tr>
+        </tfoot>
+        <tbody style="font-size: 1.95mm; line-height: 2.01mm">
+          <tr *ngFor="let invoice of invoiceData.data.cart; let i = index">
+            <td style="border: 0.1mm solid #aaaaaa; text-align: center">
+              {{ i + 1 }}
+            </td>
+            <td
+              style="
+                border: 0.1mm solid #aaaaaa;
+                font-weight: 600;
+                text-align: center;
+                font-size: 1.95mm;
+                letter-spacing: 0.07mm;
+              "
+            >
+              {{ invoice.batches[0].operating_number }} <br />
+              {{ invoice.batches[0].expired_at }}
+            </td>
+            <td
+              dir="ltr"
+              style="
+                border: 0.1mm solid #aaaaaa;
+                font-weight: 600;
+                text-align: center;
+                font-size: 1.9mm;
+                letter-spacing: 0.07mm;
+              "
+            >
+              {{
+                invoice.batches[0]?.corridor?.number +
+                  "/" +
+                  invoice.batches[0]?.stand +
+                  "-" +
+                  invoice.batches[0]?.shelf
+              }}
+            </td>
+            <td style="border: 0.1mm solid #aaaaaa; text-align: center">
+              {{ invoice.bonus }}
+            </td>
+            <td
+              colspan="2"
+              style="
+                border: 0.1mm solid #aaaaaa;
+                text-align: center;
+                font-weight: 600;
+                font-size: 1.95mm;
+              "
+            >
+              {{ invoice.product.name }}
+            </td>
+            <td style="border: 0.1mm solid #aaaaaa; text-align: center">
+              {{ invoice.quantity }}
+            </td>
+
+            <td style="border: 0.1mm solid #aaaaaa; text-align: center">
+              {{ invoice.price }}
+            </td>
+            <td style="border: 0.1mm solid #aaaaaa; text-align: center">
+              {{ invoice.discount }}
+            </td>
+            <td style="border: 0.1mm solid #aaaaaa; text-align: center">
+              {{ invoice.total }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

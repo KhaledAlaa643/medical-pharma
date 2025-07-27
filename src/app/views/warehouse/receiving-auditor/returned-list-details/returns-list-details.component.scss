@@ -1,0 +1,121 @@
+@import 'generalTableStyle.scss';
+@import 'generalInputsStyle.scss';
+
+
+.returns-list {
+    padding: 1%;
+
+
+    .head {
+        margin-top: 10px;
+        margin-bottom: 10px;
+
+        @media screen and (max-width: 768px) {
+            width: 100%;
+            flex-direction: column;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .input-area {
+            .name {
+                width: 25%;
+
+                @media screen and (max-width: 768px) {
+                    width: 100%;
+                }
+            }
+
+            .order-number {
+
+                width: 25%;
+
+                @media screen and (max-width: 768px) {
+                    width: 100%;
+                }
+
+                input {
+                    border-radius: 6px;
+                    height: 40px;
+                }
+            }
+        }
+
+        .print-button {
+            justify-content: center;
+            width: 15%;
+            margin-top: 1rem;
+            border: 1px solid #e4e4e4;
+            border-radius: 8px;
+            padding: 5px 5px;
+            color: #3F497F;
+            margin-left: 10px;
+
+            @media screen and (max-width: 768px) {
+                width: 100%;
+                padding: 14px 7px;
+                margin-left: 0px;
+            }
+
+        }
+    }
+
+    .table {
+        border: 1px solid #e4e4e4;
+        border-radius: 20px;
+        padding: 1rem;
+
+    }
+
+    .return-handins {
+
+        border: 1px solid #e4e4e4;
+        border-radius: 20px;
+
+        .title {
+            width: 100%;
+        }
+
+        .handins-inputs {
+            .receiver_name {
+                width: 30%;
+
+                @media screen and (max-width:991px) {
+                    width: 100% !important;
+                }
+            }
+
+            .id_number {
+                width: 70%;
+
+                @media screen and (max-width:991px) {
+                    width: 100% !important;
+                }
+            }
+
+
+        }
+
+        .handin-button {
+            button {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border-radius: 20px;
+                background-color: #28DF99;
+                color: white;
+                border: none !important;
+
+                p {
+                    margin-top: 0.3rem !important;
+                    margin-bottom: 0.3rem !important;
+                }
+            }
+
+            button:focus:not(:focus-visible) {
+                outline: none;
+            }
+        }
+
+    }
+}

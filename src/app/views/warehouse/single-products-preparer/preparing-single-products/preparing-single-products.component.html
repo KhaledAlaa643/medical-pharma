@@ -1,0 +1,338 @@
+<div class="preparingSingleProducts"></div>
+
+<div
+  class="modal modalContent fade show d-block bg-black bg-opacity-25 font-montserrat"
+  id="subscription"
+  data-bs-backdrop="static"
+  data-bs-keyboard="false"
+  tabindex="-1"
+  *ngIf="toggleModal.showModal"
+>
+  <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-content">
+      <button
+        (click)="toggleModal.showModal = false"
+        type="button"
+        class="btn-close m-4"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+      <div class="modal-body">
+        <div class="title position-relative pt-2">
+          <h5 class="text-center">محتويات الأذن</h5>
+          <!-- <span (click)="toggleModal.showModal=false" style="top: 0%; left: 0.5%; cursor: pointer;"
+            class="d-flex fs-3 position-absolute">x</span> -->
+          <div
+            *ngIf="multiple_corridors_enabled == 'true'"
+            class="basket-area row mt-3"
+          >
+            <div
+              class="col-md-4 add-basket d-flex justify-content-around align-items-center flex-fill gap-2"
+            >
+              <form class="d-flex gap-2" [formGroup]="addNewBasketNumber">
+                <div class="w-50 my-2 text-start">
+                  <label class="fw-400 mb-2"> ادخل باسكت </label>
+                  <input
+                    formControlName="basket_id"
+                    type="number"
+                    placeholder=" "
+                    class="form-control"
+                  />
+                </div>
+                <div class="w-50 my-2 text-start">
+                  <button
+                    appDisableButton
+                    (click)="createBasket()"
+                    (keyup.enter)="createBasket()"
+                    style="
+                      background-color: var(--darkGreen);
+                      height: 40px;
+                      border-radius: 10px;
+                      margin-top: calc(1.5rem + 7px);
+                    "
+                    type="text"
+                    class="btn w-100"
+                  >
+                    <p class="fw-400 fs-5">اضافة</p>
+                  </button>
+                </div>
+              </form>
+            </div>
+
+            <div class="col-md-8 basket-viewer m-auto">
+              <label
+                style="margin-right: 20px"
+                for="box-container "
+                class="mb-2 d-flex"
+                >ارقام الباسكت</label
+              >
+              <div class="container">
+                <div class="box-container gap-2">
+                  <!-- Loop for creating baskets -->
+                  <div *ngFor="let basket of invoiceBaskets" class="box">
+                    {{ basket.basket_number }}
+
+                    <span
+                      *ngIf="basket.corridor_id == currentCorridorID"
+                      (click)="removeBasket(basket.basket_id)"
+                      class="close"
+                      >X</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngIf="multiple_corridors_enabled == 'true'"
+            class="station-basket my-4"
+          >
+            <div
+              class="large-div d-flex justify-content-center align-items-center"
+            >
+              <!-- Loop through all corridors -->
+              <div
+                *ngFor="let corridorData of basketsByCorridor"
+                class="sub-div"
+              >
+                <div *ngIf="corridorData.corridor != '0'" class="basket-title">
+                  {{ corridorData.corridor }}
+                </div>
+                <div *ngIf="corridorData.corridor == '0'" class="basket-title">
+                  الكل
+                </div>
+                <div class="basket-content">
+                  <!-- Loop through baskets in the current corridor -->
+                  <div
+                    *ngFor="let basket of corridorData.baskets"
+                    class="small-box"
+                  >
+                    {{ basket }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="table-area">
+            <app-shared_table
+              [columnsArray]="columnsArrayPopup"
+              [columnsNames]="columnsNamePopup"
+              [RowsData]="orderContentList"
+              (openModalEvent)="openModal($event)"
+              (sortEvent)="onSortEvent($event)"
+              (dropdownCheck)="updateBatchIDs($event)"
+            ></app-shared_table>
+          </div>
+
+          <div class="bottomArea d-flex justify-content-between">
+            <div
+              class="totalarea d-flex justify-content-center align-items-center"
+            >
+              <div
+                class="leftarea d-flex justify-content-center align-items-center px-3 text-center p-3"
+              >
+                اجمالي عدد الأصناف
+              </div>
+              <hr class="h-100 lightGreen-border" />
+              <div
+                class="d-flex justify-content-center align-items-center px-3"
+              >
+                {{ this.orderContentList.length }}
+              </div>
+            </div>
+            <div class="submitArea text-end">
+              <button
+                hidden
+                #closeModal
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+              <button
+                appDisableButton
+                (click)="finalizeAndPrint()"
+                type="text"
+                class="btn fs-4 buttonStyling"
+              >
+                تم التحضير
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="distribution-agent main_card_margen">
+  <div class="mainBorderTab">
+    <div class="card borderRadius_10px boxShadow-10 responsiveTabs p-2">
+      <div
+        class="d-flex flexFix justify-content-start align-items-start displayBlockResponsive"
+      >
+        <div
+          style="padding: 0.9rem"
+          class="d-flex flex-wrap flex-fill text-center justify-content-start align-items-start gap-3"
+        >
+          <div class="width-12" *ngFor="let corridor of corridorsUsed">
+            <div
+              *ngIf="corridor.is_main_corridor"
+              appDisableButton
+              (click)="changeActiveTap(corridor.number)"
+              class="position-relative responsiveFix w-100 cursor-pointer border-radius-20px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+              [ngClass]="{ active: isActiveTapArray[corridor.number] }"
+            >
+              <div
+                class="pop-up position-absolute d-flex justify-content-center align-items-center"
+              >
+                {{ corridor.count }}
+              </div>
+              <p
+                [ngStyle]="{ color: corridor.color }"
+                class="text-center m-auto"
+              >
+                الكل
+              </p>
+            </div>
+            <div
+              *ngIf="
+                !corridor.is_main_corridor &&
+                multiple_corridors_enabled == 'true'
+              "
+              appDisableButton
+              (click)="changeActiveTap(corridor.number)"
+              class="position-relative responsiveFix w-100 cursor-pointer border-radius-20px tab boxShadow-10 m-2 p-3 defaultBg d-flex align-items-center justify-content-center"
+              [ngClass]="{ active: isActiveTapArray[corridor.number] }"
+            >
+              <div
+                class="pop-up position-absolute d-flex justify-content-center align-items-center"
+              >
+                {{ corridor.count }}
+              </div>
+              <p
+                [ngStyle]="{ color: corridor.color }"
+                class="text-center m-auto"
+              >
+                محطة {{ corridor.number }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <form
+          *ngIf="multiple_corridors_enabled == 'true'"
+          [formGroup]="basketSearch"
+        >
+          <div
+            class="d-flex justify-content-around align-items-end flex-fill gap-2 ms-auto displayBlockResponsive"
+          >
+            <div class="w-15 text-start">
+              <label class="fw-400 mb-2"> رقم الباسكت </label>
+              <input
+                type="text"
+                formControlName="basket_value"
+                placeholder=" "
+                class="form-control"
+              />
+            </div>
+            <div class="w-15 text-start">
+              <button
+                appDisableButton
+                (click)="getSearchByBasket()"
+                (keyup.enter)="getSearchByBasket()"
+                style="
+                  background-color: var(--darkGreen);
+                  height: 40px;
+                  border-radius: 10px;
+                "
+                type="text"
+                class="btn w-100 mt-2"
+              >
+                <span style="font-size: 20px">بحث</span>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <app-shared_table
+        [columnsArray]="columnsArrayAll"
+        [columnsNames]="columnsNameAll"
+        [RowsData]="allInvoices"
+        (openModalEvent)="openModal($event)"
+      ></app-shared_table>
+
+      <div class="bottomArea d-flex">
+        <div class="totalarea d-flex justify-content-center align-items-center">
+          <div
+            class="leftarea d-flex justify-content-center align-items-center px-3 text-center p-3"
+          >
+            اجمالي عدد الأذونات
+          </div>
+          <hr class="h-100 lightGreen-border" />
+          <div class="d-flex justify-content-center align-items-center px-3">
+            {{ this.allInvoices.length }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  hidden
+  #openConfirmation1Model
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#confirmation1Model"
+></button>
+<div
+  class="modal fade"
+  id="confirmation1Model"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content" style="margin-top: 30%">
+      <div class="modal-header">
+        <h1
+          class="modal-title fs-5 text-center w-100"
+          id="confirmationModalLabel"
+        >
+          تأكيد العملية
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div
+        style="height: 10vh"
+        class="d-flex justify-content-center align-items-center"
+      >
+        <span class="text-center"> هل انت متأكد من اجراء استلام الاصناف؟ </span>
+      </div>
+      <div class="modal-footer d-flex justify-content-center gap-2">
+        <button
+          (click)="completeInvoice()"
+          class="btn w-40 h-60px border-0 borderRadius_20px text-white brightGreen-bg fs-4"
+        >
+          تم التحضير
+        </button>
+
+        <button
+          type="button"
+          class="w-40 h-60px btn-color border-0 borderRadius_20px text-white darkGrey-bg fs-5"
+          data-bs-dismiss="modal"
+        >
+          الغاء
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

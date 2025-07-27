@@ -1,0 +1,359 @@
+@import 'generalTableStyle.scss';
+@import 'generalInputsStyle.scss';
+
+.distribution-agent {
+
+    .buttonStyling {
+        background-color: var(--darkGreen);
+        color: white;
+        height: 40px;
+        font-weight: 600;
+        margin-top: 10px;
+        width: 60%;
+        border-radius: 20px;
+
+        @media screen and (max-width:769px) {
+            height: 70px;
+            width: 100%;
+
+
+        }
+    }
+
+    .submitArea {
+        width: 75%;
+        text-align: left;
+
+        @media screen and (max-width:769px) {
+            width: 100% !important;
+            text-align: center !important;
+        }
+    }
+
+    .totalarea {
+        border: 1px solid var(--lightGreen);
+        margin-top: 10px;
+        border-radius: 20px;
+    }
+
+
+
+    .leftarea {
+        @media screen and (max-width:769px) {
+            height: 60px;
+
+        }
+    }
+
+    .h-80vh {
+        height: 80vh !important;
+    }
+
+    .responsiveTabs {
+        font-size: 18px;
+        font-weight: 600;
+
+        .border-radius-20px {
+            border-radius: 20px 20px;
+        }
+
+        .station-one-color {
+            color: #333333;
+        }
+
+        .station-two-color {
+            color: #BB0000;
+        }
+
+        .station-three-color {
+            color: #008253;
+        }
+
+        .station-four-color {
+            color: #1700A7;
+        }
+
+        .station-five-color {
+            color: #F6C000;
+        }
+
+        .active {
+            background-color: var(--darkGreen);
+            color: black;
+            font-weight: 600;
+        }
+
+        .btn {
+            outline: none !important;
+            box-shadow: none !important;
+            border: none !important;
+            border-color: none !important;
+            transition: none;
+        }
+
+        .pop-up {
+            width: 30px;
+            height: 30px;
+            top: -12px;
+            right: -8px;
+            left: unset;
+
+            font-weight: 400;
+            font-size: 12px;
+            background-color: #FFEF5C;
+            border-radius: 50%;
+        }
+
+
+        .filter-width {
+            width: 12.5%;
+            border-radius: 20px 20px !important;
+            color: var(--darkGreen);
+            font-weight: 600;
+
+            @media screen and (max-width:769px) {
+                width: 100% !important;
+            }
+        }
+
+
+        .responsiveFix {
+            @media screen and (max-width:769px) {
+                width: 100% !important;
+            }
+        }
+
+        .clickable-text {
+            text-decoration: underline !important;
+            color: #3F497F !important;
+            cursor: pointer;
+        }
+
+
+
+    }
+
+}
+
+::ng-deep {
+
+    .p-checkbox .p-checkbox-box {
+        border: 2px solid #ced4da;
+        background: #ffffff;
+        width: 22px;
+        height: 22px;
+        color: #495057;
+        border-radius: 6px !important;
+        transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .p-checkbox .p-checkbox-box.p-highlight {
+        border-color: #2ab514;
+        background: #2ab514;
+    }
+
+    .p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+        border-color: #2ab514;
+        background: #2ab514;
+        color: #FFFFFF;
+    }
+
+    .brightGreen-bg {
+        background-color: #1DD23A !important;
+    }
+
+    .btn-color {
+        background-color: var(--red);
+    }
+
+    .w-40 {
+        width: 40%;
+    }
+
+
+
+}
+
+
+
+::ng-deep {
+
+
+    .bottomArea {
+        @media screen and (max-width:769px) {
+            flex-direction: column;
+        }
+    }
+
+
+    .table-area {
+        width: 100%;
+    }
+
+    .box-container {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .box {
+        width: 200px;
+        height: 50px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        background-color: #3F497F;
+        color: white;
+        border-radius: 10px;
+        font-weight: bold;
+    }
+
+    .box .close {
+        position: absolute;
+        top: 29%;
+        left: 15%;
+        cursor: pointer;
+
+    }
+
+
+
+    .sub-div {
+        flex: 1;
+        border: 1px solid #e4e4e4;
+        position: relative;
+        border-top-right-radius: 10px;
+        border-top-left-radius: 10px;
+
+        @media screen and (max-width:769px) {
+            width: 50% !important;
+        }
+    }
+
+
+
+    .basket-title {
+        background-color: #3F497F;
+        text-align: center;
+        padding: 10px;
+        color: white;
+        font-size: 19px;
+        border-radius: 0px 0px 0px 0px;
+    }
+
+
+
+    .basket-content {
+        background-color: white;
+        padding: 10px;
+        display: flex;
+        gap: 5px;
+        height: 70px;
+    }
+
+    .small-box {
+        background-color: #3F497F;
+        width: 50px;
+        /* Adjust as needed */
+        height: 50px;
+        /* Adjust as needed */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        border-radius: 10px;
+    }
+
+    .sub-div:last-child {
+        border-right: none;
+    }
+
+
+    .sub-div:first-child .basket-title {
+        border-top-right-radius: 10px;
+    }
+
+    .sub-div:first-child .basket-content {
+        border-bottom-right-radius: 10px;
+    }
+
+    .sub-div:last-child .basket-title {
+        border-top-left-radius: 10px;
+    }
+
+    .sub-div:last-child .basket-content {
+        border-bottom-left-radius: 10px;
+    }
+
+}
+
+::ng-deep .highlighted-text {
+    background-color: #28DF99;
+
+}
+
+.submitArea {
+    width: 75%;
+    text-align: left;
+
+    @media screen and (max-width:769px) {
+        width: 100% !important;
+        text-align: center !important;
+    }
+}
+
+.totalarea {
+    border: 2px solid var(--lightGreen);
+    margin-top: 10px;
+    border-radius: 20px;
+}
+
+
+
+.leftarea {
+    @media screen and (max-width:769px) {
+        height: 60px;
+    }
+}
+
+.add-basket {
+    @media screen and (max-width:769px) {
+        width: 100%;
+    }
+
+    ;
+}
+
+.lightGreen-border {
+    border: 1px solid var(--darkGreen);
+
+
+}
+
+.buttonStyling {
+    background-color: var(--darkGreen);
+    color: white;
+    height: 40px;
+    font-weight: 600;
+    margin-top: 10px;
+    width: 60%;
+    border-radius: 20px;
+
+    @media screen and (max-width:769px) {
+        height: 70px;
+        width: 100%;
+
+
+    }
+}
+
+.modalContent {
+    --bs-modal-width: 85% !important;
+}
+
+.displayBlockResponsive {
+    @media screen and (max-width:991px) {
+        display: block !important;
+        width: 100% !important;
+    }
+}

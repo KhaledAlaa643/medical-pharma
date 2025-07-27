@@ -1,0 +1,494 @@
+<div class="main_card_margen">
+  <div class="card boxShadow-15 borderRadius_20px">
+    <div class="ps-5 py-4">
+      <div
+        data-bs-toggle="modal"
+        data-bs-target="#filterModel"
+        class="cursor-pointer width-120px defaultBg h-50px boxShadow-15 borderRadius_20px d-flex align-items-center justify-content-center"
+      >
+        <span class="fw-500 fs-20">فلتر</span>
+      </div>
+    </div>
+    <div class="borderRadius_20px p-3 mx-3 mb-3 mt-1">
+      <div class="borderRadius_20px p-3 pt-0 row">
+        <div class="col-md-12">
+          <app-shared_table
+            [columnsArray]="columnsArray"
+            [columnsNames]="columnsName"
+            [RowsData]="data"
+            (editOrderEvent)="editOrder($event)"
+            (productClickEvent)="openInvoiceDetails($event)"
+          ></app-shared_table>
+        </div>
+        <p-paginator
+          #paginator
+          class="pagination d-flex justify-content-center"
+          (onPageChange)="changePage($event)"
+          [first]="1"
+          [rows]="rows"
+          [totalRecords]="totalItems"
+        ></p-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="filterModel"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog p-3">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex justify-content-center mb-1 w-100">
+          <span class="text-center fs-24 fw-700">فلتر</span>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <form [formGroup]="filterForm">
+            <div class="row m-2 align-items-end">
+              <div class="col-md-12 col-lg-4">
+                <div class="d-flex flex-wrap align-items-end">
+                  <label class="mb-2">رقم الطلب</label>
+                  <input
+                    type="text"
+                    formControlName="order_number"
+                    placeholder=" "
+                    class="form-control"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-12 col-lg-4">
+                <div class="d-flex flex-wrap align-items-end">
+                  <label class="mb-2">التاريخ</label>
+                  <div
+                    class="d-flex position-relative align-content-center flex-wrap w-100"
+                  >
+                    <p-calendar
+                      [dir]="'ltr'"
+                      #calendarFrom
+                      [showClear]="this.filterForm.controls['from'].value"
+                      placeholder=" من"
+                      formControlName="from"
+                      class="w-100"
+                    ></p-calendar>
+                    <img
+                      (click)="calendarFrom.toggle()"
+                      style="left: 0px"
+                      class="position-absolute p-2"
+                      src="../../../../assets/images/input/calender.svg"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-4">
+                <div class="d-flex flex-wrap align-items-end">
+                  <label class="mb-2"></label>
+                  <div
+                    class="d-flex position-relative align-content-center flex-wrap w-100"
+                  >
+                    <p-calendar
+                      [dir]="'ltr'"
+                      #calendarTo
+                      [showClear]="this.filterForm.controls['to'].value"
+                      placeholder=" الى"
+                      formControlName="to"
+                      class="w-100"
+                    ></p-calendar>
+                    <img
+                      (click)="calendarTo.toggle()"
+                      class="calendar-icon position-absolute p-2"
+                      src="../../../../assets/images/input/calender.svg"
+                      alt=""
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row m-2">
+              <div class="col-md-12 col-lg-6">
+                <label class="mb-2">كود العميل</label>
+                <div class=" ">
+                  <input
+                    #userCode
+                    (keydown.enter)="getClientidFromCode('code')"
+                    class="form-control"
+                    placeholder=" "
+                    formControlName="code"
+                    type="text"
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-12 col-lg-6">
+                <label class="mb-2">اسم العميل</label>
+                <div class=" ">
+                  <p-dropdown
+                    [filter]="true"
+                    #userDropdown
+                    [showClear]="true"
+                    (click)="getclientDrop('clientId', userDropdown)"
+                    (keydown.enter)="getclientDrop('clientId', userDropdown)"
+                    formControlName="pharmacy_id"
+                    [options]="groupPharmacied"
+                    placeholder=" "
+                    optionLabel="name"
+                    optionValue="id"
+                  ></p-dropdown>
+                </div>
+              </div>
+            </div>
+
+            <div class="row m-2">
+              <div class="col-md-12 col-lg-4">
+                <div class="ms-1">
+                  <label class="mb-2">المحافظة</label>
+                  <p-dropdown
+                    [filter]="true"
+                    [showClear]="true"
+                    [options]="citiesID"
+                    placeholder=" "
+                    formControlName="city_id"
+                    optionLabel="name"
+                    optionValue="id"
+                    (onChange)="getArea($event)"
+                    optionLabel="name"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-4">
+                <div class="mx-1">
+                  <label class="mb-2">المدينة</label>
+                  <p-dropdown
+                    [filter]="true"
+                    [showClear]="true"
+                    [options]="areaID"
+                    placeholder=" "
+                    optionLabel="name"
+                    formControlName="area_id"
+                    optionValue="id"
+                    class="my-1 mx-0 py-2"
+                    optionLabel="name"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="col-md-12 col-lg-4">
+                <div class="ms-1">
+                  <label class="mb-2">خط السير</label>
+                  <p-dropdown
+                    [filter]="true"
+                    [showClear]="true"
+                    [options]="tracksID"
+                    placeholder=" "
+                    formControlName="track_id"
+                    optionLabel="name"
+                    optionValue="id"
+                    optionLabel="name"
+                  ></p-dropdown>
+                </div>
+              </div>
+            </div>
+            <div class="row m-2">
+              <div class="col-md-12 col-lg-6">
+                <label class="mb-2">المخزن</label>
+                <p-dropdown
+                  [filter]="true"
+                  [showClear]="true"
+                  [options]="warehousesId"
+                  placeholder=" "
+                  formControlName="warehouse_id"
+                  optionLabel="name"
+                  optionValue="id"
+                  optionLabel="name"
+                ></p-dropdown>
+              </div>
+              <div class="col-md-12 col-lg-6">
+                <label class="mb-2">نوع التعامل</label>
+                <p-dropdown
+                  [showClear]="true"
+                  [options]="payment_type"
+                  optionValue="value"
+                  optionLabel="name"
+                  placeholder=" "
+                  formControlName="payment_type"
+                ></p-dropdown>
+              </div>
+            </div>
+            <div class="row m-2">
+              <div class="col-md-12 col-lg-6">
+                <label class="mb-2">الموزع</label>
+                <p-dropdown
+                  [filter]="true"
+                  [showClear]="true"
+                  [options]="deliveryID"
+                  placeholder=" "
+                  formControlName="delivery_id"
+                  optionLabel="name"
+                  optionValue="id"
+                ></p-dropdown>
+              </div>
+              <div class="col-md-12 col-lg-6">
+                <label class="mb-2">مندوب المبيعات</label>
+                <p-dropdown
+                  [filter]="true"
+                  [showClear]="true"
+                  [options]="salesID"
+                  placeholder=" "
+                  formControlName="sales_id"
+                  optionLabel="name"
+                  optionValue="id"
+                  optionLabel="name"
+                ></p-dropdown>
+              </div>
+            </div>
+            <div class="row m-2">
+              <div class="col-md-12 col-lg-6">
+                <label class="mb-2">مندوب الكاتب</label>
+                <p-dropdown
+                  [filter]="true"
+                  [showClear]="true"
+                  [options]="salesID"
+                  placeholder=" "
+                  formControlName="created_by"
+                  optionLabel="name"
+                  optionValue="id"
+                  optionLabel="name"
+                ></p-dropdown>
+              </div>
+            </div>
+            <div class="row m-2">
+              <div class="w-70 d-flex gap-2">
+                <button
+                  appDisableButton
+                  (click)="resetForm()"
+                  type="button"
+                  data-bs-dismiss="modal"
+                  class="w-50 h-60px btn-color border-0 borderRadius_20px text-white darkGrey-bg fs-5"
+                >
+                  الغاء الفلترة
+                </button>
+                <button
+                  appDisableButton
+                  type="button"
+                  data-bs-dismiss="modal"
+                  (click)="submitForm()"
+                  class="w-100 h-60px border-0 borderRadius_20px text-white darkGreen-bg fs-4"
+                >
+                  فلترة
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  hidden
+  #invoiceDetailsModel
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#invoiceDetailsModel"
+></button>
+
+<div
+  class="modal fade"
+  id="invoiceDetailsModel"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog p-3">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex justify-content-center w-100">
+          <span class="text-center fs-16 fw-600">محتويات الفاتورة</span>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="borderRadius_20px mx-3 p-2 row">
+          <div #scrollMe class="h-100 col-md-12">
+            <app-shared_table
+              [columnsNames]="columnsNamePopup"
+              [columnsArray]="columnsArrayPopup"
+              [RowsData]="cartData"
+              (sortEvent)="sortEvent($event)"
+            ></app-shared_table>
+          </div>
+
+          <div>
+            <div class="d-flex flex-wrap gap-3 align-items-center mt-3 mx-3">
+              <div
+                class="width-20 fullScreen-1024px h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+              >
+                <span
+                  class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center text-center"
+                  >عدد الأصناف</span
+                >
+                <hr class="h-100 lightGreen-border" />
+                <span
+                  class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center"
+                  >{{ totals.items_number }}</span
+                >
+              </div>
+              <div
+                class="width-16 fullScreen-1024px h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+              >
+                <span
+                  class="fw-600 smalltext fs-19 w-50 d-flex justify-content-center text-center"
+                  >اجمالي الفاتورة
+                </span>
+                <hr class="h-100 lightGreen-border" />
+                <span
+                  class="fw-600 smalltext fs-16 w-50 d-flex justify-content-center"
+                  >{{ totals.total }}</span
+                >
+              </div>
+              <div
+                class="width-16 fullScreen-1024px h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+              >
+                <span
+                  class="fw-600 fs-19 smalltext w-50 d-flex justify-content-center text-center"
+                  >اجمالي الضريبة
+                </span>
+                <hr class="h-100 lightGreen-border" />
+                <span
+                  class="fw-600 smalltext fs-16 w-50 d-flex justify-content-center"
+                  >{{ totals.taxes }}</span
+                >
+              </div>
+              <div
+                class="width-18 fullScreen-1024px h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+              >
+                <span
+                  class="fw-600 smalltext fs-16 w-50 d-flex justify-content-center text-center"
+                >
+                  صافي بعد الضريبة
+                </span>
+                <hr class="h-100 lightGreen-border" />
+                <span
+                  class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center"
+                  >{{ totals.net_price }}</span
+                >
+              </div>
+              <div
+                *ngIf="ClientType == 1"
+                class="width-18 fullScreen-1024px h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+              >
+                <span
+                  class="fw-600 fs-12 smallertext w-50 d-flex justify-content-center text-center"
+                >
+                  صافي ربح فرق خصم المندوب
+                </span>
+                <hr class="h-100 lightGreen-border" />
+                <span
+                  class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center"
+                  >{{ totals.client_net_discount_difference_value }}</span
+                >
+              </div>
+              <div
+                *ngIf="ClientType != 1"
+                class="width-18 fullScreen-1024px h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+              >
+                <span
+                  class="fw-600 fs-12 smallertext w-50 d-flex justify-content-center text-center"
+                >
+                  خصم نقدي اضافي</span
+                >
+                <hr class="h-100 lightGreen-border" />
+                <span
+                  class="fw-600 smalltext fs-18 w-50 d-flex justify-content-center"
+                  >{{ totals.extra_discount }}</span
+                >
+              </div>
+            </div>
+
+            <div
+              class="d-flex flex-wrap gap-3 align-items-center justify-content-center mt-3 mx-3 mb-3"
+            >
+              <div
+                class="width-19 fullScreen-1024px h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+              >
+                <span
+                  class="fw-600 fs-15 smalltext w-50 d-flex justify-content-center text-center"
+                  >خصم نقدي اضافي
+                </span>
+                <hr class="h-100 lightGreen-border" />
+                <span
+                  class="fw-600 fs-18 smalltext w-50 d-flex justify-content-center"
+                  >{{ totals.extra_discount_value }}</span
+                >
+              </div>
+
+              <div
+                class="width-20 fullScreen-1024px h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+              >
+                <span
+                  class="fw-600 smalltext fs-14 w-50 d-flex justify-content-center text-center"
+                  >اجمالي سعر الجمهور</span
+                >
+                <hr class="h-100 lightGreen-border" />
+                <span
+                  class="fw-600 fs-16 smalltext w-50 d-flex justify-content-center"
+                  >{{ totals.subtotal }}</span
+                >
+              </div>
+              <div
+                class="width-16 fullScreen-1024px h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+              >
+                <span
+                  class="fw-600 smalltext fs-14 w-50 d-flex justify-content-center text-center"
+                  >الحساب السابق
+                </span>
+                <hr class="h-100 lightGreen-border" />
+                <span
+                  class="fw-600 fs-16 smalltext w-50 d-flex justify-content-center"
+                  >{{ totals.previous_balance }}</span
+                >
+              </div>
+              <div
+                class="width-20 fullScreen-1024px h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+              >
+                <span
+                  class="fw-600 smalltext fs-16 w-50 d-flex justify-content-center text-center"
+                  >الرصيد الحالي</span
+                >
+                <hr class="h-100 lightGreen-border" />
+                <span
+                  class="fw-600 fs-18 smalltext w-50 d-flex justify-content-center"
+                  >{{ totals.current_balance }}</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

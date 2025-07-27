@@ -1,0 +1,10 @@
+@import "generalTableStyle.scss";
+@import "generalInputsStyle.scss";
+@import "generalPaginationStyle.scss";
+
+.delete-all {
+  background-color: transparent;
+  color: red;
+  border: none;
+  text-decoration: underline;
+}

@@ -1,0 +1,234 @@
+<form [formGroup]="filterForm" (ngSubmit)="submitFilterForm()">
+  <div class="row align-items-end">
+    <div class="col-md-12 col-lg-3">
+      <label class="mb-2">المحافظة</label>
+      <p-dropdown
+        [filter]="true"
+        [options]="cities"
+        #citiesDropdown
+        (click)="getArea(citiesDropdown)"
+        formControlName="city_id"
+        placeholder=" "
+        optionLabel="name"
+        optionValue="id"
+      ></p-dropdown>
+    </div>
+    <div class="col-md-12 col-lg-3">
+      <label class="mb-2">المدينة<span class="red_color">*</span></label>
+      <p-dropdown
+        [filter]="true"
+        [options]="areas"
+        formControlName="area_id"
+        placeholder=" "
+        optionLabel="name"
+        optionValue="id"
+      ></p-dropdown>
+    </div>
+    <div class="col-md-12 col-lg-4">
+      <label class="mb-2">خط السير </label>
+      <p-dropdown
+        [filter]="true"
+        #trackDropdown
+        [options]="trackData"
+        optionLabel="name"
+        optionValue="id"
+        placeholder=" "
+        formControlName="track_id"
+        (click)="fieldSelector(3, trackDropdown)"
+        (keydown.enter)="fieldSelector(3, trackDropdown)"
+      >
+      </p-dropdown>
+    </div>
+
+    <div class="col-md-12 col-lg-4">
+      <label class="mb-2"> التاريخ </label>
+      <div class="calendar-holder position-relative">
+        <p-calendar
+          #calendarFrom
+          [dir]="'ltr'"
+          dateFormat="yy-mm-dd"
+          placeholder=" "
+          formControlName="from"
+          placeholder=" من "
+          [showClear]="this.filterForm.controls['from'].value"
+        >
+        </p-calendar>
+        <img
+          (click)="calendarFrom.toggle()"
+          class="cursor-pointer position-absolute top-0 end-0 me-2 my-1"
+          src="../../../../assets/images/input/calender.svg"
+          alt=""
+        />
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-4">
+      <div class="calendar-holder position-relative">
+        <p-calendar
+          #calendarTo
+          [dir]="'ltr'"
+          dateFormat="yy-mm-dd"
+          placeholder=" "
+          formControlName="to"
+          placeholder=" الى "
+          [showClear]="this.filterForm.controls['to'].value"
+        >
+        </p-calendar>
+        <img
+          (click)="calendarTo.toggle()"
+          class="cursor-pointer position-absolute top-0 end-0 me-2 my-1"
+          src="../../../../assets/images/input/calender.svg"
+          alt=""
+        />
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-12 col-lg-4">
+      <button
+        appDisableButton
+        type="submit"
+        placeholder=" "
+        class="btnStyling h-40px form-control w-100"
+      >
+        <p class="fw-semibold">بحث</p>
+      </button>
+    </div>
+  </div>
+</form>
+
+<div class="m-2">
+  <div class="d-inline-block float-end w-50 responsiveFixTables">
+    <div class="w-100">
+      <div class="w-100 titleBGColor titleBoderRadiusLeft-20px text-white">
+        <span
+          class="w-100 d-flex justify-content-center align-items-center h-60px overflow-visible h5 text-center tableHeader"
+        >
+          مبيعات العملاء الغير متعاملين
+        </span>
+      </div>
+      <div class="cityClientSalesTable w-100 h-50vh overflow-auto">
+        <app-shared_table
+          [columnsArray]="columnsArray"
+          [columnsNames]="columnsNameNon"
+          (productClickEvent)="navigateToReports($event)"
+          [RowsData]="cityCustomerSalesNonDeal"
+        ></app-shared_table>
+      </div>
+    </div>
+  </div>
+  <!-- 2nd Table -->
+  <div class="d-inline-block float-end w-50 responsiveFixTables">
+    <div class="w-100">
+      <div class="w-100 titleBGColor titleBoderRadiusRight-20px text-white">
+        <span
+          class="w-100 d-flex justify-content-center align-items-center h-60px overflow-visible h5 text-center tableHeader"
+        >
+          مبيعات العملاء المتعاملين
+        </span>
+      </div>
+      <div class="cityClientSalesTable w-100 h-50vh overflow-auto">
+        <app-shared_table
+          [columnsArray]="columnsArrayTableTwo"
+          [columnsNames]="columnsName"
+          [RowsData]="cityCustomerSales"
+          (productClickEvent)="navigateToReports($event)"
+        ></app-shared_table>
+
+        <!-- <p-table [responsive]="true" [scrollable]="true" [value]="cityCustomerSales" [columns]="tableData">
+
+          <ng-template pTemplate="header">
+            <tr class="mb-1" *ngIf="IsDataAvailable">
+              <th> كود العميل</th>
+              <th>اسم العميل</th>
+              <th> المدينة </th>
+              <th>اخر فاتورة بيع</th>
+              <th>التاريخ </th>
+
+            </tr>
+          </ng-template>
+
+          <ng-template pTemplate="body" let-agentProduction>
+            <tr *ngIf="IsDataAvailable">
+              <td class="fs-14 fw-700 color-black x-small-sm">{{agentProduction?.pharmacy?.code}}</td>
+              <td class="fw-600 color-black">{{agentProduction?.pharmacy?.name}}</td>
+              <td class="fw-600 color-black">{{agentProduction?.pharmacy?.area?.name}}</td>
+              <td class="fw-600 color-black">{{agentProduction?.pharmacy?.last_invoice}}</td>
+              <td class="fw-600 color-black">{{agentProduction?.created_at}}</td>
+
+            </tr>
+          </ng-template>
+
+        </p-table> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex flex-wrap justify-content-between w-100 m-2 p-2">
+  <div class="mt-2 width-30">
+    <div
+      class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+    >
+      <span
+        class="fw-600 smalltext borderline fs-18 w-50 d-flex justify-content-center text-center p-1"
+      >
+        عدد عملاء
+      </span>
+      <span
+        *ngIf="IsDataAvailable"
+        class="fw-600 fs-18 w-50 d-flex justify-content-center"
+        >{{ additional_data.total_pharmacies_count }}</span
+      >
+      <span
+        *ngIf="!IsDataAvailable"
+        class="fw-600 fs-18 w-50 d-flex justify-content-center"
+        >0</span
+      >
+    </div>
+  </div>
+  <div class="mt-2 width-30">
+    <div
+      class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+    >
+      <span
+        class="fw-600 smalltext borderline fs-18 w-50 d-flex justify-content-center text-center p-1"
+      >
+        عدد عملاء المتعاملين
+      </span>
+      <span
+        *ngIf="IsDataAvailable"
+        class="fw-600 fs-18 w-50 d-flex justify-content-center"
+        >{{ additional_data.pharmacies_count_sum }}</span
+      >
+      <span
+        *ngIf="!IsDataAvailable"
+        class="fw-600 fs-18 w-50 d-flex justify-content-center"
+        >0</span
+      >
+    </div>
+  </div>
+  <div class="mt-2 width-30">
+    <div
+      class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+    >
+      <span
+        class="fw-600 smalltext borderline fs-18 w-50 d-flex justify-content-center text-center p-1"
+      >
+        عدد العملاء الغير متعاملين
+      </span>
+      <span
+        *ngIf="IsDataAvailable"
+        class="fw-600 fs-18 w-50 d-flex justify-content-center"
+        >{{
+          additional_data.total_pharmacies_count
+            ? additional_data.total_pharmacies_count -
+              additional_data.pharmacies_count_sum
+            : 0
+        }}</span
+      >
+      <span
+        *ngIf="!IsDataAvailable"
+        class="fw-600 fs-18 w-50 d-flex justify-content-center"
+        >0</span
+      >
+    </div>
+  </div>
+</div>

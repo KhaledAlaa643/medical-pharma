@@ -1,0 +1,16 @@
+@media print {
+    @page {
+        size: 10cm 10cm;
+        /* Set the custom page size */
+        margin: 0mm;
+        /* Adjust margin as needed, maybe set to 0 for full-size printing */
+        scale: 100
+    }
+
+    body {
+        width: 10cm;
+        height: 10cm;
+    }
+
+    /* Add other print styles as needed */
+}

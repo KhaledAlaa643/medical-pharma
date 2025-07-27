@@ -1,0 +1,151 @@
+<!-- <div class="ContDiv d-flex flex-wrap borderRadius_20px border border-1 gap-2 ">
+  <div class="width-48 border-left-1  p-2 pb-0">
+    <h2 class="fs-18 fw-700 mb-3 mt-2 mx-3">النواقص</h2>
+     <app-shared_table
+     [columnsArray]="columnsArrayShortage"
+      [columnsNames]="columnsNameShortage"
+      [RowsData]="searchResults"
+      [componentSearch]="false"
+      (sendSearchDataEvent)="search($event)"
+      (productClickEvent)="getproductIdFromChild($event)"
+      ></app-shared_table>
+  </div>
+  <div class="width-50  table2 p-2 pb-0">
+    <h2 class="fs-18 fw-700 mb-3 mt-2">البونص</h2>
+    <app-shared_table
+    [columnsArray]="columnsArrayBonus"
+     [columnsNames]="columnsNameBonus"
+     [RowsData]="searchBonusResults"
+     [componentSearch]="false"
+     (sendSearchDataEvent)="searchBonuses($event)"
+     (productClickEvent)="getproductIdFromChild($event)"
+     ></app-shared_table>
+  </div>
+</div> -->
+
+<div class="ContDiv d-flex flex-wrap borderRadius_20px border border-1 gap-2">
+  <div class="width-48 table1 p-2 pb-0">
+    <h2 class="fs-18 fw-700 mb-3 mt-2 mx-3">النواقص</h2>
+    <p-table [responsive]="true" [value]="searchResults">
+      <ng-template pTemplate="header">
+        <tr>
+          <th
+            class="fs-16 fw-400"
+            style="display: table-cell !important; width: 290px !important"
+          >
+            <div class="d-flex titleSearch align-items-center">
+              <span>اسم الصنف</span>
+              <input
+                [(ngModel)]="searchShortage"
+                (input)="search()"
+                (keydown.enter)="search()"
+                class="form-control h-33px borderRadius_10px"
+                placeholder="بحث بأسم الدواء"
+                type="text"
+              />
+              <i
+                *ngIf="loaderBooleans['searchS']"
+                class="pi pi-spin pi-spinner"
+              ></i>
+            </div>
+          </th>
+          <th class="fs-16 fw-400" style="display: table-cell !important">
+            رقم الكوتة
+          </th>
+          <th class="fs-16 fw-400" style="display: table-cell !important">
+            خصم الصنف
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-shortages>
+        <tr
+          style="
+            background: #ffffff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+            cursor: pointer;
+          "
+        >
+          <td
+            (click)="getproductIdFromChild(shortages.id)"
+            class="fs-16 fw-600 color-black x-small-sm"
+            style="text-decoration: underline; cursor: pointer"
+          >
+            {{ shortages.name }}
+          </td>
+          <td class="fw-600 fs-16 color-black">
+            {{ shortages.limited_quantity }}
+          </td>
+          <td class="fw-600 fs-16 color-black">
+            {{ shortages.normal_discount }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+  <!-- <div class="smallScreen HLine"></div> -->
+  <div class="width-50 table2 p-2 pb-0">
+    <h2 class="fs-18 fw-700 mb-3 mt-2">البونص</h2>
+    <p-table [responsive]="true" [value]="searchBonusResults">
+      <ng-template pTemplate="header">
+        <tr>
+          <th class="fs-16 fw-400" style="display: table-cell !important">
+            <div class="d-flex titleSearch align-items-center">
+              <span>اسم الصنف</span>
+
+              <input
+                [(ngModel)]="searchBonus"
+                (input)="searchBonuses()"
+                (keydown.enter)="searchBonuses()"
+                class="form-control h-33px borderRadius_10px"
+                placeholder="بحث "
+                type="text"
+              />
+              <i
+                *ngIf="loaderBooleans['searchB']"
+                class="pi pi-spin pi-spinner"
+              ></i>
+            </div>
+          </th>
+          <th class="fs-16 fw-400" style="display: table-cell !important">
+            شريحة أولي
+          </th>
+          <th class="fs-16 fw-400" style="display: table-cell !important">
+            بونص 1
+          </th>
+          <th class="fs-16 fw-400" style="display: table-cell !important">
+            شريحة ثانية
+          </th>
+          <th class="fs-16 fw-400" style="display: table-cell !important">
+            بونص 2
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-bonuses>
+        <tr
+          style="
+            background: #ffffff;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+            border-radius: 20px;
+          "
+        >
+          <td
+            style="text-decoration: underline; cursor: pointer"
+            class="fs-16 fw-600 color-black x-small-sm"
+            (click)="getproductIdFromChild(bonuses.id)"
+          >
+            {{ bonuses.producct_name }}
+          </td>
+          <td class="fw-600 fs-15 color-black">{{ bonuses.quantity_1 }}</td>
+          <td class="fw-600 fs-15 color-black">
+            {{ bonuses.bonus_1 }}
+          </td>
+          <td class="fw-600 fs-15 color-black">{{ bonuses.quantity_2 }}</td>
+          <td class="fw-600 fs-15 color-black">
+            {{ bonuses.bonus_2 }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

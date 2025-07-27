@@ -1,0 +1,57 @@
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#notesModal">
+    Launch demo modal
+</button> -->
+
+<!-- Modal -->
+<div class="modal fade " #notesModal id="notesModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content " style="border-radius: 20px;">
+            <div class="modal-header border-0 d-flex justify-content-center position-relative">
+
+                <h2 class="modal-title fs-5 text-center" id="exampleModalLabel">ملاحظات</h2>
+                <button type="button" class="btn-close m-0 position-absolute" data-bs-dismiss="modal" style="left: 3%;"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body border-0 m-3">
+                <span *ngIf="!editable">ملاحظات</span>
+                <span *ngIf="editable">تعديل ملحوظة</span>
+                <textarea [readonly]="!editable" name="" id="" [(ngModel)]="note" cols="70" rows="5" class="form-control "
+                    style="resize: none; border-radius: 20px; font-weight: 600;font-size: 16px;"></textarea>
+
+                <div *ngIf="editable" class="m-3 d-flex justify-content-between">
+                   <button (click)="emitNewNote()" type="button" class="brightGreen_bg_black_txt_btn text-center border-0 borderRadius_10px p-3  width-40">
+                       <span class="fw-600" >حفظ</span>
+                   </button>
+                   <button (click)="hideModal()" type="button" class="brightRed_bg_black_txt_btn text-center border-0 borderRadius_10px p-3  width-40">
+                       <span class="fw-600" >الغاء</span>
+                   </button>
+                </div>
+
+                <div class="mt-2" *ngIf="imageUrls.length >0">
+                    <span>الصور المرفقة </span>
+                    <div class="mt-2">
+                        <div class="d-flex flex-row mt-2">
+                            <a *ngFor="let imageUrl of imageUrls" href="{{imageUrl}}" download class="me-2">
+                                <img [src]="imageUrl" alt="Image" style="width: 100px; height: auto; cursor: pointer;">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-2" *ngIf="fileUrls.length > 0">
+                    <span > عرض الملفات المرفقة </span>
+                    <div class="mt-2">
+                        <div class="d-flex flex-row mt-2 ">
+                            <a *ngFor="let fileUrl of fileUrls ; let i=index" href="{{fileUrl}}" target="_blank"
+                                class="mb-2">
+                                <span class="cursor-pointer text-decoration-underline text-primary mx-1"> عرض الملف {{i+1}}
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

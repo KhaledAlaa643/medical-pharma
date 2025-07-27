@@ -1,0 +1,356 @@
+<div class="main_card_margen">
+  <div class="card boxShadow-15 borderRadius_20px p-3">
+    <div id="header" class="mb-3">
+      <form
+        [formGroup]="searchForm"
+        id="header"
+        class="d-flex gap-2 flex-wrap align-items-end"
+      >
+        <div class="width-15 d-flex flex-column">
+          <label class="mb-2"> اسم الخزينة</label>
+          <p-dropdown
+            [showClear]="true"
+            [options]="safes"
+            formControlName="safe_id"
+            placeholder=" "
+            optionLabel="name"
+            optionValue="id"
+          ></p-dropdown>
+        </div>
+        <div *ngIf="activeTab === 2" class="width-25 d-flex flex-column">
+          <label class="mb-2"> الخزينة المحول منها /إليها </label>
+          <p-dropdown
+            [showClear]="true"
+            [options]="safes"
+            placeholder=" "
+            formControlName="safe_from_to_id"
+            optionLabel="name"
+            optionValue="id"
+          ></p-dropdown>
+        </div>
+        <div *ngIf="activeTab === 1" class="width-15 d-flex flex-column">
+          <label class="mb-2">نوع الحساب</label>
+          <p-dropdown
+            [options]="accountType"
+            [showClear]="true"
+            (onChange)="getAccounts($event)"
+            placeholder=" "
+            formControlName="account_type"
+            optionLabel="name"
+            optionValue="value"
+          ></p-dropdown>
+        </div>
+        <div *ngIf="activeTab === 1" class="flex-fill d-flex flex-column">
+          <label class="mb-2">اسم الحساب</label>
+          <p-dropdown
+            [showClear]="true"
+            placeholder=" "
+            #accountInput
+            formControlName="account_id"
+            optionLabel="name"
+            [options]="updatedPharmacyNames"
+            optionValue="id"
+          ></p-dropdown>
+        </div>
+        <div *ngIf="activeTab === 1" class="width-15 d-flex flex-column">
+          <label class="mb-2"> خط السير</label>
+          <p-dropdown
+            [showClear]="true"
+            [options]="tracks"
+            placeholder=" "
+            formControlName="track_id"
+            optionLabel="name"
+            optionValue="id"
+          ></p-dropdown>
+        </div>
+        <div class="width-15 d-flex flex-column">
+          <label class="mb-2">الكاتب</label>
+          <p-dropdown
+            [options]="created_by"
+            [showClear]="true"
+            formControlName="created_by"
+            placeholder=" "
+            optionLabel="name"
+            optionValue="id"
+          ></p-dropdown>
+        </div>
+
+        <div class="width-12">
+          <label class="mb-2"> التاريخ </label>
+          <div class="calendar-holder position-relative">
+            <p-calendar
+              #calendarFrom
+              [dir]="'ltr'"
+              dateFormat="yy-mm-dd"
+              placeholder=" "
+              formControlName="date_from"
+              placeholder=" من "
+            >
+              <!-- [showClear]="this.filterForm.controls['from'].value" -->
+            </p-calendar>
+            <img
+              (click)="calendarFrom.toggle()"
+              class="cursor-pointer position-absolute top-0 end-0 me-2 my-1"
+              src="../../../../assets/images/input/calender.svg"
+              alt=""
+            />
+          </div>
+        </div>
+        <div class="width-12">
+          <div class="calendar-holder position-relative">
+            <p-calendar
+              #calendarTo
+              [dir]="'ltr'"
+              dateFormat="yy-mm-dd"
+              placeholder=" "
+              formControlName="date_to"
+              placeholder=" الى "
+            >
+              <!-- [showClear]="this.filterForm.controls['to'].value" -->
+            </p-calendar>
+            <img
+              (click)="calendarTo.toggle()"
+              class="cursor-pointer position-absolute top-0 end-0 me-2 my-1"
+              src="../../../../assets/images/input/calender.svg"
+              alt=""
+            />
+          </div>
+        </div>
+      </form>
+      <div class="w d-flex justify-content-end my-2 mt-5">
+        <button
+          (click)="changeParam()"
+          class="green_bg_black_txt_btn width-10 p-2 h-40px borderRadius_10px border-0"
+        >
+          بحث
+        </button>
+      </div>
+      <div
+        class="d-flex flex-wrap justify-content-start text-center p-1 overflow-auto displayMediaFix my-3"
+      >
+        <div
+          (click)="changeTab(1)"
+          [ngClass]="{ active: activeTab === 1 }"
+          class="w-15 responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 py-3 px-5 defaultBg d-flex align-items-center justify-content-center"
+        >
+          <p class="text-center m-auto">النقدية</p>
+        </div>
+
+        <div
+          (click)="changeTab(2)"
+          [ngClass]="{ active: activeTab === 2 }"
+          class="w-15 responsiveFix cursor-pointer borderRadius_10px tab boxShadow-10 m-2 py-3 px-5 defaultBg d-flex align-items-center justify-content-center"
+        >
+          <p class="text-center m-auto">تحويلات</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="table">
+      <div
+        *ngIf="activeTab === 1"
+        class="TableResoponsiveFix justify-content-center align-items-center gap-1"
+      >
+        <div class="width-50Percent">
+          <div>
+            <h3
+              class="w-100 d-flex justify-content-center align-items-center h-60px overflow-visible h5 text-center tableHeader"
+            >
+              استلام نقدية
+            </h3>
+            <app-shared_table
+              [columnsArray]="columnsArrayReceipt"
+              [columnsNames]="columnsNameReceipt"
+              (openModalEvent)="openNoteModal($event)"
+              [RowsData]="receipts"
+            ></app-shared_table>
+          </div>
+          <div>
+            <p-paginator
+              (onPageChange)="changePage($event, 'receipts')"
+              [first]="1"
+              [rows]="rowsReceipts"
+              [totalRecords]="totalReceipts"
+            ></p-paginator>
+          </div>
+        </div>
+        <div class="width-50Percent">
+          <div>
+            <h3
+              class="w-100 d-flex justify-content-center align-items-center h-60px overflow-visible h5 text-center tableHeader2"
+            >
+              دفع نقدية
+            </h3>
+            <app-shared_table
+              [columnsArray]="columnsArrayPayment"
+              [columnsNames]="columnsNamePayment"
+              [RowsData]="payments"
+              (openModalEvent)="openNoteModal($event)"
+            ></app-shared_table>
+          </div>
+          <div>
+            <p-paginator
+              (onPageChange)="changePage($event, 'payment')"
+              [first]="1"
+              [rows]="rowsPayments"
+              [totalRecords]="totalPayments"
+            ></p-paginator>
+          </div>
+        </div>
+      </div>
+      <div
+        *ngIf="activeTab === 2"
+        class="TableResoponsiveFix justify-content-center align-items-center gap-1"
+      >
+        <div class="width-50Percent">
+          <div>
+            <h3
+              class="w-100 d-flex justify-content-center align-items-center h-60px overflow-visible h5 text-center tableHeader"
+            >
+              تحويلات من
+            </h3>
+            <app-shared_table
+              [columnsArray]="columnsArrayTransferFrom"
+              [columnsNames]="columnsNameTransferFrom"
+              [RowsData]="transfersFrom"
+            ></app-shared_table>
+          </div>
+          <div>
+            <p-paginator
+              (onPageChange)="changePage($event, 'transfer_from')"
+              [first]="1"
+              [rows]="rowsTransferFrom"
+              [totalRecords]="totalTransferFrom"
+            ></p-paginator>
+          </div>
+        </div>
+        <div class="width-50Percent">
+          <div>
+            <h3
+              class="w-100 d-flex justify-content-center align-items-center h-60px overflow-visible h5 text-center tableHeader2"
+            >
+              تحويلات إلي
+            </h3>
+            <app-shared_table
+              [columnsArray]="columnsArrayTransferTo"
+              [columnsNames]="columnsNameTransferTo"
+              [RowsData]="transfersTo"
+            ></app-shared_table>
+          </div>
+          <div>
+            <p-paginator
+              (onPageChange)="changePage($event, 'transfer_to')"
+              [first]="1"
+              [rows]="rowsTransferTo"
+              [totalRecords]="totalTransferTo"
+            ></p-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      *ngIf="activeTab === 1"
+      #pagination
+      class="d-flex flex-wrap justify-content-between text-center align-items-center w-100"
+    >
+      <div
+        class="d-flex width-20 h-60px lightGreen-border borderRadius_15px p-2 justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600 w-100">
+          اجمالي استلام النقدية :
+          {{ additional_data_receipts.total_cash_receipt }}
+        </span>
+      </div>
+      <div
+        class="d-flex width-20 h-60px lightGreen-border borderRadius_15px p-2 justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600 w-100"
+          >رصيد الخزنة : {{ additional_data_receipts.current_balance }}
+        </span>
+      </div>
+
+      <div
+        class="d-flex width-20 h-60px lightGreen-border borderRadius_15px p-2 justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600 w-100"
+          >اجمالي دفع النقدية :
+          {{ additional_data_Payments.total_cash_payment }}
+        </span>
+      </div>
+    </div>
+    <div
+      #pagination
+      *ngIf="activeTab === 2"
+      class="d-flex flex-wrap justify-content-between text-center align-items-center w-100"
+    >
+      <div
+        class="d-flex width-20 h-60px lightGreen-border borderRadius_15px p-2 justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600 w-100">
+          اجمالي المحول من :
+          {{ additional_data_transfer_from.total_transferred_from_amount }}
+        </span>
+      </div>
+      <div
+        class="d-flex width-20 h-60px lightGreen-border borderRadius_15px p-2 justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600 w-100"
+          >رصيد الخزنة : {{ additional_data_transfer_from.current_balance }}
+        </span>
+      </div>
+
+      <div
+        class="d-flex width-20 h-60px lightGreen-border borderRadius_15px p-2 justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600 w-100"
+          >اجمالي المحول الي :
+          {{ additional_data_transfer_to.total_transferred_to_amount }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  hidden
+  #noteModel
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#noteModel"
+></button>
+
+<div
+  class="modal fade"
+  id="noteModel"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+  #myModal
+>
+  <div class="modal-dialog p-3 w-100">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex justify-content-center w-100">
+          <h3 class="text-center fs-16 fw-600">الملاحظة</h3>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="d-flex justify-content-center py-5">
+          <h4 class="text-center fs-16 fw-600">
+            {{ note }}
+          </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

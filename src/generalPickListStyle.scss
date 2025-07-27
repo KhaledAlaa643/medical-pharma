@@ -1,0 +1,68 @@
+::ng-deep {
+
+    .p-picklist .p-picklist-buttons {
+        display: none;
+    }
+
+    .p-picklist .p-picklist-filter-container .p-picklist-filter-input {
+        height: 40px !important;
+    }
+
+    .p-picklist .p-picklist-header {
+        background: transparent !important;
+        color: #343A40;
+        border: none !important;
+        padding: 1.25rem;
+        height: 40px;
+        border-bottom: 0 none;
+        border-top-right-radius: 6px;
+        border-top-left-radius: 6px;
+    }
+
+    .p-picklist .p-picklist-list {
+        border: #3F497F solid 5px !important;
+        border-radius: 5px;
+        width: 89%;
+
+        @media screen and (max-width:769px) {
+            width: 100%;
+        }
+    }
+
+    .p-picklist {
+        display: flex;
+        gap: 10px;
+    }
+
+    .p-picklist .p-picklist-list .p-picklist-item {
+        padding: 0 0;
+        margin: 0;
+        border: 0 none;
+        color: #495057;
+        background: transparent;
+        transition: box-shadow 0.2s;
+    }
+
+    ::-webkit-scrollbar {
+        height: 5px;
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: #3F497F;
+    }
+
+    .p-picklist .p-picklist-filter-container {
+        border: none !important;
+        padding: 0.65rem 0 !important;
+    }
+
+    .p-picklist-filter-input {
+        width: 89% !important;
+
+        @media screen and (max-width:769px) {
+            width: 100% !important;
+        }
+    }
+
+}

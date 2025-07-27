@@ -1,0 +1,16 @@
+@import 'generalTableStyle.scss';
+@import 'generalInputsStyle.scss';
+.count{
+    background-color: var(--darkBlue);
+    border-radius: 45%;
+    color :white;
+    left: 3px !important;
+    padding: 5px;
+}
+.count{
+    background-color: white;
+    border-radius: 45%;
+    color :var(--darkBlue);
+    left: 3px !important;
+    padding: 5px;
+}

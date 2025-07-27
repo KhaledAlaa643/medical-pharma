@@ -1,0 +1,8 @@
+@import 'generalTableStyle.scss';
+@import 'generalInputsStyle.scss';
+@import 'generalPaginationStyle.scss';
+.btnStyling {
+    background-color: var(--darkGreen);
+    border-radius: 10px;
+    font-size: 18px;
+}

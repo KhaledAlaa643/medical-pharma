@@ -1,0 +1,921 @@
+<!-- supply-order-details -->
+<div>
+  <div class="main_card_margen supply-order-details">
+    <div class="card boxShadow-15 borderRadius_10px p-2">
+      <!-- edit order modal button -->
+      <button
+        hidden
+        #openEditConfigrations
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#editOrderModal"
+      ></button>
+      <div
+        class="modal fade"
+        id="editOrderModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+          <div
+            style="margin-top: 30%; border-radius: 30px"
+            class="modal-content"
+          >
+            <div style="border-bottom: none !important" class="modal-header">
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+              <div class="d-flex justify-content-center w-100">
+                <span class="text-center fs-16 fw-600"> تعديل التشغيله</span>
+              </div>
+            </div>
+            <div class="modal-body">
+              <div class="title position-relative pt-2">
+                <form [formGroup]="editOrder" class="d-flex gap-2">
+                  <div class="basket-area row my-3">
+                    <div
+                      class="col-md-12 add-basket d-flex justify-content-around align-items-center gap-2"
+                    >
+                      <div class="w-100 my-2 text-start">
+                        <label class="fw-400 fs-16 mb-2"> اسم الصنف </label>
+                        <input
+                          formControlName="product_name"
+                          type="text"
+                          placeholder=" "
+                          class="h-50px disabled form-control defaultBg borderRadius_10px w-100"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-12 add-basket d-flex justify-content-around align-items-center gap-2"
+                    >
+                      <div class="w-100 my-2 text-start">
+                        <label class="fw-400 fs-16 mb-2"> التاريخ</label>
+                        <input
+                          formControlName="expired_at"
+                          placeholder=" "
+                          class="h-50px form-control defaultBg borderRadius_10px w-100"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-12 add-basket d-flex justify-content-around align-items-center gap-2"
+                    >
+                      <div class="w-100 my-2 text-start">
+                        <label class="fw-400 fs-16 mb-2"> التشغيلة </label>
+                        <input
+                          formControlName="operating_number"
+                          type="text"
+                          placeholder=" "
+                          class="h-50px form-control defaultBg borderRadius_10px w-100"
+                        />
+                      </div>
+                    </div>
+                    <div
+                      class="col-md-12 add-basket d-flex justify-content-center align-items-center gap-2"
+                    >
+                      <button
+                        (click)="changeBatchData()"
+                        style="
+                          background-color: var(--darkGreen);
+                          height: 50px;
+                          border-radius: 10px;
+                          margin-top: calc(1.5rem + 7px);
+                        "
+                        type="button"
+                        class="btn buttonResponsiveFix"
+                      >
+                        <p class="fw-400 fs-5">تأكيد</p>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button
+        hidden
+        #openEditBarcode
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#editBarcodeModal"
+      ></button>
+      <div
+        class="modal fade"
+        id="editBarcodeModal"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+          <div
+            style="margin-top: 30%; border-radius: 30px"
+            class="modal-content"
+          >
+            <div style="border-bottom: none !important" class="modal-header">
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+              <div class="d-flex justify-content-center w-100">
+                <span class="text-center fs-16 fw-600"> اختيار الصنف</span>
+              </div>
+            </div>
+            <div class="modal-body">
+              <div class="title position-relative pt-2">
+                <form [formGroup]="editBarcode" class="d-flex gap-2">
+                  <div class="basket-area row my-3">
+                    <div
+                      class="col-md-12 add-basket d-flex justify-content-around align-items-center gap-2"
+                    >
+                      <div class="w-100 my-2 text-start">
+                        <label class="fw-400 fs-16 mb-2"> اسم الصنف </label>
+
+                        <p-dropdown
+                          [filter]="true"
+                          [options]="products"
+                          [showClear]="true"
+                          formControlName="product_id"
+                          placeholder=" "
+                          class="dropdown-style"
+                          optionLabel="name"
+                          optionValue="id"
+                        ></p-dropdown>
+                      </div>
+                    </div>
+
+                    <div
+                      class="col-md-12 add-basket d-flex justify-content-around align-items-center gap-2"
+                    >
+                      <div class="w-100 my-2 text-start">
+                        <label class="fw-400 fs-16 mb-2"> الباركود</label>
+                        <input
+                          formControlName="barcode"
+                          #barCode
+                          placeholder=" "
+                          (focus)="onFocus($event)"
+                          class="h-50px form-control defaultBg borderRadius_10px w-100"
+                        />
+                      </div>
+                    </div>
+
+                    <div
+                      class="col-md-12 add-basket d-flex justify-content-center align-items-center gap-2"
+                    >
+                      <button
+                        (click)="changeBarecodeData()"
+                        style="
+                          background-color: var(--darkGreen);
+                          height: 50px;
+                          border-radius: 10px;
+                          margin-top: calc(1.5rem + 7px);
+                        "
+                        type="button"
+                        class="btn buttonResponsiveFix"
+                      >
+                        <p class="fw-400 fs-5">حفظ الباركود</p>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- confirmation modal -->
+      <button
+        hidden
+        #openConfirmation1Model
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#confirmation1Model"
+      ></button>
+      <div
+        class="modal fade"
+        id="confirmation1Model"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content" style="margin-top: 30%">
+            <div class="modal-header">
+              <h1
+                class="modal-title fs-5 text-center w-100"
+                id="confirmationModalLabel"
+              >
+                تأكيد العملية
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div
+              style="height: 10vh"
+              class="d-flex justify-content-center align-items-center"
+            >
+              <span class="text-center">
+                هل انت متأكد من استلامك لأصناف المورد؟
+              </span>
+            </div>
+            <div class="modal-footer d-flex justify-content-center gap-2">
+              <button
+                appDisableButton
+                (click)="convertToPurchaseInvoice()"
+                class="btn w-40 h-60px border-0 borderRadius_20px text-white brightGreen-bg fs-4"
+                data-bs-dismiss="modal"
+                data-bs-target="#confirmation1Model"
+              >
+                تم الاستلام
+              </button>
+
+              <button
+                type="button"
+                class="btn w-40 h-60px btn-color border-0 borderRadius_20px text-white darkGrey-bg fs-5"
+                data-bs-dismiss="modal"
+              >
+                الغاء
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button
+        hidden
+        #openConfirmation2Model
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#confirmation2Model"
+      ></button>
+      <div
+        class="modal fade"
+        id="confirmation2Model"
+        tabindex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content" style="margin-top: 30%">
+            <div class="modal-header border-0">
+              <h1
+                class="modal-title fs-5 text-center w-100"
+                id="confirmationModalLabel"
+              >
+                تأكيد العملية
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div
+              style="height: 10vh"
+              class="d-flex justify-content-center align-items-center"
+            >
+              <form [formGroup]="returnsForm" class="w-100">
+                <div class="modal-body border-0">
+                  <div class="my-2">
+                    <label class="fw-500 fs-16 mb-1"> سبب المرتجع </label>
+                    <p-dropdown
+                      [options]="settings"
+                      formControlName="global_reason"
+                      class="d-block"
+                      optionLabel="name"
+                      optionValue="value"
+                      [showClear]="true"
+                      [filter]="true"
+                    ></p-dropdown>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div
+              class="modal-footer d-flex justify-content-center gap-2 border-0"
+            >
+              <button
+                [disabled]="!returnsForm.controls['global_reason'].valid"
+                (click)="openFinalConfirmation()"
+                data-bs-dismiss="modal"
+                class="btn w-40 h-60px border-0 borderRadius_20px text-white brightGreen-bg fs-4"
+              >
+                تأكيد
+              </button>
+
+              <button
+                type="button"
+                class="btn w-40 h-60px btn-color border-0 borderRadius_20px text-white darkGrey-bg fs-5"
+                data-bs-dismiss="modal"
+              >
+                الغاء
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button
+        hidden
+        #returnCartButton
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#returnCartModal"
+      >
+        Launch demo modal
+      </button>
+
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="returnCartModal"
+        tabindex="-1"
+        aria-labelledby="cancelReturnCartModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header border-0">
+              <h1 class="modal-title fs-5 ms-auto" id="returnCartModalLabel">
+                اسباب المرتجع
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <form [formGroup]="returnsForm">
+              <div class="modal-body border-0">
+                <div class="my-2">
+                  <label class="fw-500 fs-16 mb-1"> سبب المرتجع </label>
+                  <p-dropdown
+                    [options]="settings"
+                    formControlName="reason"
+                    class="d-block"
+                    optionLabel="name"
+                    optionValue="value"
+                    [showClear]="true"
+                    [filter]="true"
+                  ></p-dropdown>
+                </div>
+              </div>
+              <div class="modal-footer border-0">
+                <div
+                  class="col-md-12 w-100 add-basket d-flex justify-content-center align-items-center gap-2"
+                >
+                  <button
+                    (click)="ReturnReason()"
+                    [disabled]="!returnsForm.controls['reason'].valid"
+                    style="
+                      width: 75%;
+                      background-color: var(--darkGreen);
+                      height: 50px;
+                      border-radius: 10px;
+                      margin-top: calc(1.5rem + 7px);
+                    "
+                    type="button"
+                    class="btn text-white buttonResponsiveFix"
+                  >
+                    <p class="fw-400 fs-5" data-bs-dismiss="modal">تأكيد</p>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <button
+        hidden
+        #cancelReturnCartButton
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#cancelReturnCartModal"
+      >
+        Launch demo modal
+      </button>
+
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="cancelReturnCartModal"
+        tabindex="-1"
+        aria-labelledby="cancelReturnCartModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header border-0">
+              <h1 class="modal-title fs-5 ms-auto" id="returnCartModalLabel">
+                اسباب المرتجع
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <form [formGroup]="returnsForm">
+              <div
+                class="align-items-center border-0 d-flex justify-content-center modal-body"
+              >
+                <span> هل انت متاكد من الغاء المرتجع ؟</span>
+              </div>
+              <div class="modal-footer border-0">
+                <div
+                  class="col-md-12 add-basket d-flex justify-content-center align-items-center gap-2"
+                >
+                  <button
+                    (click)="cancelReturn()"
+                    style="
+                      width: 75%;
+                      background-color: var(--darkGreen);
+                      height: 50px;
+                      border-radius: 10px;
+                      margin-top: calc(1.5rem + 7px);
+                    "
+                    type="button"
+                    class="btn text-white buttonResponsiveFix"
+                  >
+                    <p class="fw-400 fs-5" data-bs-dismiss="modal">تأكيد</p>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <button
+        hidden
+        #cancelReviewed
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#cancelReviewedModal"
+      >
+        Launch demo modal
+      </button>
+
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="cancelReviewedModal"
+        tabindex="-1"
+        aria-labelledby="cancelReviewedModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header border-0">
+              <h1
+                class="modal-title fs-5 ms-auto"
+                id="cancelReviewedModalLabel"
+              >
+                تأكيد إلغاء الأصناف المجرودة
+              </h1>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body border-0 m-auto">
+              <span class="">{{ cancleReviewPopupText }}</span>
+            </div>
+
+            <div class="modal-footer border-0">
+              <div
+                class="col-md-12 w-100 add-basket d-flex justify-content-center align-items-center gap-2"
+              >
+                <button
+                  type="button"
+                  class="btn w-40 h-60px btn-color border-0 borderRadius_20px text-white darkGrey-bg fs-5"
+                  data-bs-dismiss="modal"
+                >
+                  الغاء
+                </button>
+                <button
+                  appDisableButton
+                  (click)="cancelReviewedItems()"
+                  class="btn w-40 h-60px border-0 borderRadius_20px text-white brightGreen-bg fs-4"
+                  data-bs-dismiss="modal"
+                  data-bs-target="#cancelReviewedModal"
+                >
+                  تأكيد
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button
+        hidden
+        #confirmReviewModalBtn
+        type="button"
+        class="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#confirmReviewModal"
+      >
+        Launch demo modal
+      </button>
+
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="confirmReviewModal"
+        tabindex="-1"
+        aria-labelledby="confirmReviewModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header border-0">
+              <h1
+                class="modal-title fs-5 ms-auto"
+                id="cancelReviewedModalLabel"
+              >
+                تأكيد جرد الأصناف
+              </h1>
+              <button
+                #closeConfirmReviewModalBtn
+                id="closeConfirmReviewModalBtn"
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body border-0 m-auto">
+              <span class="">هل أنت متأكد من جرد الأصناف ؟</span>
+            </div>
+
+            <div class="modal-footer border-0">
+              <div
+                class="col-md-12 w-100 add-basket d-flex justify-content-center align-items-center gap-2"
+              >
+                <button
+                  type="button"
+                  class="btn w-40 h-60px btn-color border-0 borderRadius_20px text-white darkGrey-bg fs-5"
+                  data-bs-dismiss="modal"
+                >
+                  الغاء
+                </button>
+                <button
+                  appDisableButton
+                  (click)="ReviewItems()"
+                  class="btn w-40 h-60px border-0 borderRadius_20px text-white brightGreen-bg fs-4"
+                  data-bs-dismiss="modal"
+                  data-bs-target="#cancelReviewedModal"
+                >
+                  تأكيد
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="singleProductsReviewer backArea">
+        <div class="upperArea">
+          <form [formGroup]="warehouseFilter">
+            <div
+              class="upperFilterArea displayBlockResposiveFix d-flex justify-content-start gap-4"
+            >
+              <div class="my-2 preparingDropdown">
+                <label class="fw-500 fs-16 mb-1"> اسم المورد </label>
+                <p-dropdown
+                  [options]="suppliers"
+                  formControlName="supplier_id"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder="   "
+                  [showClear]="true"
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+              <div class="orderNumberArea my-2">
+                <label class="fw-500 fs-16 mb-1"> رقم الطلب </label>
+                <input
+                  (focus)="onFocus($event)"
+                  type="text"
+                  placeholder=" "
+                  class="h-50px form-control defaultBg borderRadius_10px w-100"
+                  formControlName="invoice_number"
+                />
+              </div>
+
+              <div class="calendarArea d-block position-relative mt-2">
+                <label class="form-label mb-1"> التاريخ </label>
+                <input
+                  #calendarFrom
+                  (focus)="onFocus($event)"
+                  type="text"
+                  placeholder=" "
+                  class="h-50px form-control defaultBg borderRadius_10px w-100"
+                  formControlName="created_at"
+                />
+                <img
+                  style="left: 0; top: 35%"
+                  class="calendar-icon position-absolute me-3 p-2"
+                  src="../../../../assets/images/input/calender.svg"
+                  alt=""
+                />
+              </div>
+            </div>
+          </form>
+
+          <div class="upperMiddleArea">
+            <span class="title">بيانات الصنف</span>
+          </div>
+        </div>
+
+        <div class="itemInfoArea">
+          <form [formGroup]="productCode">
+            <div
+              class="upperFilterArea displayBlockResposiveFix d-flex justify-content-between gap-2"
+            >
+              <div class="orderNumberArea my-2 width-15percent">
+                <label class="fw-500 fs-16 mb-1"> السعر </label>
+                <input
+                  readonly
+                  type="text"
+                  placeholder=" "
+                  class="disabled h-50px form-control defaultBg borderRadius_10px w-100"
+                  formControlName="price"
+                />
+              </div>
+              <div class="orderNumberArea my-2 width-30percent">
+                <label class="fw-500 fs-16 mb-1"> الباركود </label>
+                <input
+                  readonly
+                  type="text"
+                  (input)="handleBarcodeScan($event.target)"
+                  placeholder=" "
+                  class="disabled h-50px form-control defaultBg borderRadius_10px w-100"
+                  formControlName="barcode"
+                />
+              </div>
+              <div class="orderNumberArea my-2 width-15percent">
+                <label class="fw-500 fs-16 mb-1"> الكمية </label>
+                <!-- [disabled]="quantityBarcodeCanceller" -->
+                <input
+                  #quantityInput
+                  type=" text"
+                  (keydown.enter)="activateAdd($event)"
+                  (focus)="onFocus($event)"
+                  placeholder=" "
+                  class="h-50px form-control defaultBg borderRadius_10px w-100"
+                  formControlName="quantity"
+                />
+                <!-- [formControl]="quantity" -->
+              </div>
+              <div class="orderNumberArea my-2 width-15percent">
+                <label class="fw-500 fs-16 mb-1"> التاريخ </label>
+                <input
+                  #monthInput
+                  (keydown.enter)="activateYear()"
+                  type="text"
+                  placeholder="شهر "
+                  (focus)="onFocus($event)"
+                  class="h-50px form-control defaultBg borderRadius_10px w-100"
+                  formControlName="month"
+                  maxlength="2"
+                />
+              </div>
+              <div class="orderNumberArea my-2 width-15percent">
+                <label class="fw-500 fs-16 mb-1 mt-3"> </label>
+                <input
+                  #yearInput
+                  (keydown.enter)="activateOperatingNumber()"
+                  type="text"
+                  placeholder="سنة "
+                  (focus)="onFocus($event)"
+                  class="h-50px form-control defaultBg borderRadius_10px w-100"
+                  formControlName="year"
+                  maxlength="4"
+                />
+              </div>
+              <div class="orderNumberArea my-2 width-25percent">
+                <label class="fw-500 fs-16 mb-1"> التشغيلة </label>
+                <input
+                  #operatingNumber
+                  (keydown.enter)="activateCloseButton($event)"
+                  type="text"
+                  placeholder=" "
+                  class="h-50px form-control defaultBg borderRadius_10px w-100"
+                  formControlName="operating_number"
+                />
+              </div>
+              <div
+                *ngIf="isActiveTapArray[0]"
+                class="orderNumberArea my-2 width-15percent"
+              >
+                <label class="fw-500 fs-16 mb-1"> باكت </label>
+                <input
+                  type="text"
+                  placeholder=" "
+                  class="h-50px form-control defaultBg borderRadius_10px w-100"
+                  formControlName="items_number_in_packet"
+                />
+              </div>
+              <div
+                *ngIf="isActiveTapArray[0]"
+                class="orderNumberArea my-2 width-15percent"
+              >
+                <label class="fw-500 fs-16 mb-1"> كرتونة </label>
+                <input
+                  type="text"
+                  placeholder=" "
+                  class="h-50px form-control defaultBg borderRadius_10px w-100"
+                  formControlName="packets_number_in_package"
+                />
+              </div>
+
+              <div class="d-flex width-10percent">
+                <button
+                  appDisableButton
+                  [disabled]="!addNewOperatingNumber"
+                  #confirmBtn
+                  type="button"
+                  (click)="confirmReview()"
+                  [ngStyle]="
+                    !addNewOperatingNumber
+                      ? { 'background-color': '#e4e4e4' }
+                      : {}
+                  "
+                  class="borderRadius_10px btnStylingConfirm fs-4"
+                >
+                  اضافة
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="threeTabsArea p-3 displayBlockResposiveFix">
+          <div
+            class="threeTabBox d-flex justify-content-start w-75 gap-2 displayBlockResposiveFix"
+          >
+            <div
+              (click)="changeActiveTab(0)"
+              [ngClass]="{ active: isActiveTapArray[0] }"
+              class="nonListedItems cursor-pointer tabStyling"
+            >
+              <span> أصناف لم يتم جردها </span>
+            </div>
+            <div
+              (click)="changeActiveTab(1)"
+              [ngClass]="{ active: isActiveTapArray[1] }"
+              class="invoiceItems cursor-pointer tabStyling"
+            >
+              <span> أصناف الفاتورة </span>
+            </div>
+            <div
+              (click)="changeActiveTab(2)"
+              [ngClass]="{ active: isActiveTapArray[2] }"
+              class="listedItems cursor-pointer tabStyling"
+            >
+              <span> أصناف تم جردها </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tableArea">
+          <!-- [IdToHighlight]="activeProductId" -->
+          <!-- (productClickEvent)="openReturnCartModal($event)" -->
+          <!-- (openModalOfCancelReturnEvent)="openCancelReturnModal($event)" -->
+          <app-shared_table
+            [columnsArray]="columnsArray"
+            [columnsNames]="columnsName"
+            [RowsData]="data"
+            [ProductToHighlight]="ProductId"
+            (productClickEvent)="setProductData($event)"
+            (productClickToReview)="openReturnCartModal($event)"
+            (productClickEventOfReturn)="openCancelReturnModal($event)"
+            (openModalOfCancelReturnEvent)="checkBeforCancleReview($event)"
+          ></app-shared_table>
+        </div>
+
+        <div style="gap: 7rem" class="lowerTripleArea d-flex">
+          <div class="itemCount py-2 width-25percent">
+            <div
+              class="h-60px borderRadius_20px lightGreen-border mb-3 d-flex align-items-center"
+            >
+              <span
+                class="fw-600 smalltext fs-16 w-50 d-flex justify-content-center text-center"
+              >
+                عدد الأصناف التي تم جردها</span
+              >
+              <hr class="h-100 lightGreen-border" />
+
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">{{
+                total_inventoried_cart_items
+              }}</span>
+            </div>
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+            >
+              <span
+                class="fw-600 smalltext fs-16 w-50 d-flex justify-content-center text-center"
+              >
+                عدد الأصناف غير المجرودة
+              </span>
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">{{
+                total_non_inventoried_cart_items
+              }}</span>
+            </div>
+          </div>
+          <div class="itemCount py-2 width-25percent">
+            <div
+              class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+            >
+              <span
+                class="fw-600 smalltext fs-16 w-50 d-flex justify-content-center text-center p-2"
+              >
+                اجمالي مبلغ الطلب
+              </span>
+              <hr class="h-100 lightGreen-border" />
+              <span class="fw-600 fs-18 w-50 d-flex justify-content-center">{{
+                total_purchase_price
+              }}</span>
+            </div>
+          </div>
+
+          <div
+            class="printButton d-flex flex-column justify-content-around align-items-center w-100 py-2"
+          >
+            <div class="d-flex w-100 gap-2">
+              <button
+                appDisableButton
+                type="button"
+                (click)="openInventingModel()"
+                class="borderRadius_10px width-35 blue_bg_white_txt_btn fs-5"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+              >
+                تم الجرد
+              </button>
+              <button
+                appDisableButton
+                type="button"
+                (click)="openConfirmPopup()"
+                class="borderRadius_10px width-60 btnStylingPrint fs-5"
+                data-bs-toggle="modal"
+                data-bs-target="#exampleModal"
+              >
+                تحويل الي فاتورة شراء
+              </button>
+            </div>
+            <div class="d-flex w-75">
+              <div class="itemCount py-2 w-100">
+                <div
+                  class="h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+                >
+                  <span
+                    class="fw-600 smalltext fs-16 w-50 d-flex justify-content-center text-center"
+                  >
+                    اسم المخزن المحول اليه
+                  </span>
+                  <hr class="h-100 lightGreen-border" />
+                  <span
+                    class="fw-600 fs-18 w-50 d-flex justify-content-center"
+                    >{{ warehouse_name }}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

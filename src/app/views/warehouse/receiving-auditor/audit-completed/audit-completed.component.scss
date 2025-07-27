@@ -1,0 +1,104 @@
+@import 'generalTableStyle.scss';
+@import 'generalPaginationStyle.scss';
+@import 'generalInputsStyle.scss';
+
+
+
+
+
+
+.toCalenderLabelFix {
+    margin: 1.27rem
+}
+
+.audit-complete{
+
+
+
+    .form {
+        .head {
+            .name {
+                width: 20%;
+
+                @media screen and (max-width: 992px) {
+                    width: 100%;
+                }
+            }
+
+            .order-number {
+
+                width: 20%;
+
+                @media screen and (max-width: 992px) {
+                    width: 100%;
+                }
+
+                input {
+                    border-radius: 6px;
+                    height: 40px;
+                }
+            }
+
+            .calendar {
+                width: 20%;
+
+                @media screen and (max-width: 992px) {
+                    width: 100%;
+                }
+
+                .calendar-holder {
+
+
+
+                    img {
+                        left: 7% !important;
+                        top: 14% !important;
+                    }
+                }
+            }
+
+            .filter-button {
+                width: 10%;
+
+                @media screen and (max-width: 992px) {
+                    width: 100%;
+                }
+
+                .buttonlabelfix {
+                    margin: 15px;
+                }
+
+                button {
+                    width: 100%;
+                    height: 40px;
+                    background-color: #28DF99;
+                    border: none;
+
+
+                }
+            }
+
+            .print-button {
+                justify-content: center;
+                width: 10%;
+                margin-top: 2rem;
+                border: 1px solid #e4e4e4;
+                border-radius: 8px;
+                padding: 14px 7px;
+                color: #3F497F;
+
+                @media screen and (max-width: 992px) {
+                    width: 100%;
+                }
+
+            }
+
+        }
+    }
+
+    .title {
+        font-weight: 600;
+        font-size: 18px;
+        padding-top: 1rem;
+    }
+}

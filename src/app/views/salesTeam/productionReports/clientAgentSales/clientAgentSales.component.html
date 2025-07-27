@@ -1,0 +1,115 @@
+<form [formGroup]="filterForm" (ngSubmit)="submit()">
+  <div class="row align-items-end">
+    <div class="col-xs-12 col-md-12 col-lg-4">
+      <label class="mb-2">اسم المندوب</label>
+      <p-dropdown
+        [filter]="true"
+        #userDropdown
+        class="h-100"
+        optionLabel="name"
+        optionValue="id"
+        [options]="sellers"
+        placeholder=" "
+        formControlName="sales_id"
+        [showClear]="this.filterForm.controls['sales_id'].value"
+      >
+      </p-dropdown>
+    </div>
+
+    <div class="col-md-12 col-lg-3">
+      <label class="mb-2"> التاريخ </label>
+      <div class="calendar-holder position-relative">
+        <p-calendar
+          #calendarFrom
+          [dir]="'ltr'"
+          dateFormat="yy-mm-dd"
+          placeholder=" "
+          formControlName="from"
+          placeholder=" من "
+          [showClear]="this.filterForm.controls['from'].value"
+        >
+        </p-calendar>
+        <img
+          (click)="calendarFrom.toggle()"
+          class="cursor-pointer position-absolute top-0 end-0 me-2 my-1"
+          src="../../../../assets/images/input/calender.svg"
+          alt=""
+        />
+      </div>
+    </div>
+    <div class="col-md-12 col-lg-3">
+      <div class="calendar-holder position-relative">
+        <p-calendar
+          #calendarTo
+          [dir]="'ltr'"
+          dateFormat="yy-mm-dd"
+          placeholder=" "
+          formControlName="to"
+          placeholder=" الى "
+          [showClear]="this.filterForm.controls['to'].value"
+        >
+        </p-calendar>
+        <img
+          (click)="calendarTo.toggle()"
+          class="cursor-pointer position-absolute top-0 end-0 me-2 my-1"
+          src="../../../../assets/images/input/calender.svg"
+          alt=""
+        />
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-12 col-lg-2">
+      <button
+        appDisableButton
+        type="submit"
+        placeholder=" "
+        class="btnStyling h-40px form-control w-100"
+      >
+        <p class="fw-semibold">بحث</p>
+      </button>
+    </div>
+  </div>
+</form>
+
+<div class="m-2">
+  <div class="d-inline-block float-end w-50 responsiveFixTables">
+    <div class="w-100">
+      <div class="w-100 titleBGColor titleBoderRadiusLeft-20px text-white">
+        <span
+          class="w-100 d-flex justify-content-center align-items-center h-60px overflow-visible h5 text-center tableHeader"
+          >مبيعات عملاء غير مربوطة بالمندوب</span
+        >
+      </div>
+      <div class="clientAgentSalesTable w-100">
+        <app-shared_table
+          [columnsArray]="columnsArray"
+          [showTotal]="true"
+          [columnsNames]="columnsName"
+          [footerData]="SellerSalesWithoutHisClientsFooter"
+          [columnsFooterName]="columnsFooters"
+          [RowsData]="SellerSalesWithoutHisClients"
+        ></app-shared_table>
+      </div>
+    </div>
+  </div>
+  <!-- 2nd Table -->
+  <div class="d-inline-block float-end w-50 responsiveFixTables">
+    <div class="w-100">
+      <div class="w-100 titleBGColor titleBoderRadiusRight-20px text-white">
+        <span
+          class="w-100 d-flex justify-content-center align-items-center h-60px overflow-visible h5 text-center tableHeader"
+          >مبيعات المندوب مع عملائه</span
+        >
+      </div>
+      <div class="clientAgentSalesTable w-100">
+        <app-shared_table
+          [columnsArray]="columnsArray"
+          [showTotal]="true"
+          [columnsNames]="columnsName"
+          [footerData]="SellerSalesWithHisClientsFooter"
+          [columnsFooterName]="columnsFooters"
+          [RowsData]="SellerSalesWithHisClients"
+        ></app-shared_table>
+      </div>
+    </div>
+  </div>
+</div>

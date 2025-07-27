@@ -1,0 +1,403 @@
+<div class="main_card_margen">
+  <div class="card card boxShadow-15 borderRadius_20px">
+    <form [formGroup]="warehouseForm">
+      <div class="w-100 p-3">
+        <div
+          class="w-100 d-flex flex-wrap align-items-end justify-content-between gap-3"
+        >
+          <div class="width-30">
+            <label class="mb-2">اسم المخزن</label>
+            <input formControlName="name" type="text" class="form-control" />
+          </div>
+          <div class="width-30">
+            <label class="mb-2">رقم الهاتف 1</label>
+            <input
+              formControlName="phone_number"
+              type="text"
+              class="form-control"
+            />
+          </div>
+          <div class="width-30">
+            <label class="mb-2">رقم الهاتف 2</label>
+            <input
+              formControlName="phone_number_2"
+              type="text"
+              class="form-control"
+            />
+          </div>
+
+          <div class="width-20">
+            <label class="mb-2">العنوان</label>
+            <input formControlName="address" type="text" class="form-control" />
+          </div>
+
+          <div class="width-20">
+            <label class="mb-2">المحافظة</label>
+            <p-dropdown
+              formControlName="city_id"
+              [filter]="true"
+              [options]="cities"
+              #citiesDropdown
+              (click)="getArea(citiesDropdown)"
+              placeholder=" "
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+          </div>
+          <div class="width-20">
+            <label class="mb-2">المدينة</label>
+            <p-dropdown
+              formControlName="area_id"
+              [filter]="true"
+              [options]="area"
+              placeholder=" "
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+          </div>
+          <div class="width-20">
+            <label class="mb-2">الموقع علي الخريطة</label>
+            <input
+              formControlName="location"
+              type="text"
+              class="form-control"
+            />
+          </div>
+          <div class="width-17 fullScreenWidth mx-0 my-4">
+            <label class="mb-2">رقم الرخصة</label>
+            <input
+              formControlName="license_number"
+              type="text"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+          <div class="width-16 fullScreenWidth mx-0 my-4">
+            <label class="mb-2">رقم السجل التجاري</label>
+            <input
+              type="text"
+              formControlName="registration_number"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+          <div class="flex-fill fullScreenWidth mx-0 my-4">
+            <label class="mb-2">رقم البطاقة الضريبية</label>
+            <input
+              type="text"
+              formControlName="tax_number"
+              placeholder=" "
+              class="form-control"
+            />
+          </div>
+          <div class="width-29 position-relative fullScreenWidth mx-0 my-4">
+            <label class="mb-2">صور أوراق التسجيل</label>
+            <input
+              (change)="validateImage($event)"
+              type="file"
+              hidden
+              #fileInput
+              accept=".png, .jpg, .jpeg, .pdf"
+              id="fileInput"
+              class="d-none"
+            />
+            <div
+              (click)="fileInput.click()"
+              class="form-control defaultBg borderRadius_10px h-41px my-1 mx-0 py-2 py-2 w-100"
+            ></div>
+            <svg
+              class="clip_icon position-absolute"
+              width="20"
+              height="20"
+              viewBox="0 0 20 20"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g clip-path="url(#clip0_2417_609)">
+                <path
+                  d="M12.5012 5.83339L7.08455 11.2501C6.75303 11.5816 6.56678 12.0312 6.56678 12.5001C6.56678 12.9689 6.75303 13.4185 7.08455 13.7501C7.41607 14.0816 7.86571 14.2678 8.33455 14.2678C8.80339 14.2678 9.25303 14.0816 9.58455 13.7501L15.0012 8.33339C15.6643 7.67034 16.0368 6.77107 16.0368 5.83339C16.0368 4.8957 15.6643 3.99643 15.0012 3.33339C14.3382 2.67034 13.4389 2.29785 12.5012 2.29785C11.5635 2.29785 10.6643 2.67034 10.0012 3.33339L4.58455 8.75005C3.58999 9.74461 3.03125 11.0935 3.03125 12.5001C3.03125 13.9066 3.58999 15.2555 4.58455 16.2501C5.57911 17.2446 6.92803 17.8034 8.33455 17.8034C9.74107 17.8034 11.09 17.2446 12.0846 16.2501L17.5012 10.8334"
+                  stroke="#333333"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </g>
+              <defs>
+                <clipPath id="clip0_2417_609">
+                  <rect width="20" height="20" fill="white" />
+                </clipPath>
+              </defs>
+            </svg>
+            <span
+              data-bs-toggle="modal"
+              data-bs-target="#allImagesModel"
+              *ngIf="files.length > 0"
+              class="position-absolute cursor-pointer justify-content-center align-items-center d-flex"
+              >رؤية الصور</span
+            >
+          </div>
+        </div>
+
+        <div class="w-100 mb-5">
+          <label class="mb-2">شاشات الظهور</label>
+          <div class="radiobuttons d-flex flex-wrap gap-5">
+            <div class="radiobutton gap-2 d-flex align-items-center">
+              <input
+                class="form-check-input mx-1 borderRadius_10px"
+                style="width: 40px; height: 40px"
+                name="selling_status"
+                type="checkbox"
+                formControlName="retail_sales"
+              />
+              <label class="form-check-label"> مبيعات قطاعي </label>
+            </div>
+            <div class="radiobutton gap-2 d-flex align-items-center">
+              <input
+                class="form-check-input mx-1 borderRadius_10px"
+                style="width: 40px; height: 40px"
+                name="selling_status"
+                type="checkbox"
+                formControlName="bulk_sales"
+              />
+              <label class="form-check-label"> مبيعات جملة </label>
+            </div>
+            <div class="radiobutton gap-2 d-flex align-items-center">
+              <input
+                class="form-check-input mx-1 borderRadius_10px"
+                style="width: 40px; height: 40px"
+                name="selling_status"
+                type="checkbox"
+                formControlName="sales_return"
+              />
+              <label class="form-check-label"> مردود مبيعات </label>
+            </div>
+            <div class="radiobutton gap-2 d-flex align-items-center">
+              <input
+                class="form-check-input mx-1 borderRadius_10px"
+                style="width: 40px; height: 40px"
+                name="selling_status"
+                type="checkbox"
+                formControlName="purchases"
+              />
+              <label class="form-check-label"> مشتريات </label>
+            </div>
+            <div class="radiobutton gap-2 d-flex align-items-center">
+              <input
+                class="form-check-input mx-1 borderRadius_10px"
+                style="width: 40px; height: 40px"
+                name="selling_status"
+                type="checkbox"
+                formControlName="purchases_return"
+              />
+              <label class="form-check-label"> مردود مشتريات </label>
+            </div>
+            <div class="radiobutton gap-2 d-flex align-items-center">
+              <input
+                class="form-check-input mx-1 borderRadius_10px"
+                style="width: 40px; height: 40px"
+                name="selling_status"
+                type="checkbox"
+                formControlName="transfers"
+              />
+              <label class="form-check-label"> تحويلات </label>
+            </div>
+            <div class="radiobutton gap-2 d-flex align-items-center">
+              <input
+                class="form-check-input mx-1 borderRadius_10px"
+                style="width: 40px; height: 40px"
+                name="selling_status"
+                type="checkbox"
+                formControlName="inventory"
+              />
+              <label class="form-check-label"> جرد </label>
+            </div>
+            <div class="radiobutton gap-2 d-flex align-items-center">
+              <input
+                class="form-check-input mx-1 borderRadius_10px"
+                style="width: 40px; height: 40px"
+                name="selling_status"
+                type="checkbox"
+                formControlName="is_main"
+              />
+              <label class="form-check-label"> افتراضي في المبيعات </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="HLine"></div>
+
+        <div class="w-100 mb-3 p-3 align-items-center d-flex flex-wrap gap-3">
+          <label class="fw-bolder fs-20"
+            >تحديد المطروح من المرجح الافتراضي من كل شريحة</label
+          >
+          <!-- <div class="radiobuttons align-items-center flex-wrap d-flex gap-5">
+          <div  *ngFor="let radioBtn of testData3">
+              <div class="radiobutton d-flex  align-items-center">
+                  <input class="form-check-input mx-1" style="width: 40px;height: 40px;"
+                      name="selling_status" type="radio" id="radio1" [value]="radioBtn.value">
+                  <label class="form-check-label" for="radio1">
+                      {{radioBtn.name}}
+                  </label>
+              </div>
+          </div>
+      </div> -->
+        </div>
+
+        <div class="mb-4 p-3 align-items-center d-flex flex-wrap gap-3">
+          <div class="align-items-end flex-wrap d-flex gap-2">
+            <div class="width-70 d-flex flex-column flex-wrap gap-2">
+              <label class="fs-16 pb-2">شرائح الخصم المتغير </label>
+              <div
+                formArrayName="discount_tiers"
+                class="d-flex flex-wrap gap-2"
+              >
+                <div
+                  formGroupName="discount_slat"
+                  *ngFor="let discount_tier of discount_slat; let i = index"
+                  [formGroupName]="i"
+                >
+                  <input
+                    class="width-5 form-control"
+                    formControlName="discount_value"
+                    type="text"
+                    [placeholder]="'خصم' + i"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="width-13">
+              <label class="fs-16 pb-2">مطروح من المرجح</label>
+              <input
+                type="text"
+                (change)="setTierValue()"
+                formControlName="subtracted_from_weighted_discount"
+                class="form-control"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-2 d-flex flex-wrap w-100 mb-4">
+          <div
+            class="d-flex flex-wrap align-items-center justify-content-between w-100 gap-2"
+          >
+            <div class="width-16">
+              <label class="mb-2">حالة المخزن</label>
+              <p-dropdown
+                [filter]="true"
+                [options]="warehouseSatatus"
+                formControlName="status"
+                placeholder=" "
+                optionLabel="name"
+                optionValue="value"
+              ></p-dropdown>
+            </div>
+
+            <div class="width-40">
+              <label class="mb-2">النوع</label>
+              <p-dropdown
+                formControlName="type"
+                [options]="EnumData.warehouse_type"
+                [filter]="true"
+                placeholder=" "
+                optionLabel="name"
+                optionValue="value"
+              ></p-dropdown>
+            </div>
+
+            <div class="width-40">
+              <label class="mb-2">ملاحظة علي المخزن</label>
+              <input type="text" formControlName="notes" class="form-control" />
+            </div>
+          </div>
+
+          <div
+            class="d-flex flex-wrap w-100 mt-4 d-flex justify-content-center align-items-center"
+          >
+            <div class="width-35 fullScreenWidth mx-0">
+              <button
+                [disabled]="warehouseForm.invalid"
+                *ngIf="!edit"
+                (click)="addWarehouse()"
+                appDisableButton
+                type="button"
+                class="w-100 borderRadius_20px darkGreen-bg border-0 text-light fw-bold h-60px"
+              >
+                إضافة
+              </button>
+              <button
+                [disabled]="warehouseForm.invalid"
+                *ngIf="edit"
+                (click)="editWarehouse()"
+                appDisableButton
+                type="button"
+                class="w-100 borderRadius_20px darkGreen-bg border-0 text-light fw-bold h-60px"
+              >
+                تعديل
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="allImagesModel"
+  tabindex="-1"
+  aria-labelledby="allImagesModelLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header mb-4">
+        <button
+          appDisableButton
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+        <div class="d-flex justify-content-center w-100">
+          <span class="text-center fs-16 fw-600"></span>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="files" class="d-flex flex-wrap gap-3">
+          <div *ngFor="let file of files; let i = index">
+            <div
+              class="position-relative d-flex flex-column justify-content-center"
+            >
+              <img
+                *ngIf="filesUrl[i]?.type == 'image'"
+                width="80px"
+                height="80px"
+                [src]="filesUrl[i].name"
+                alt=""
+              />
+              <img
+                *ngIf="filesUrl[i]?.type == 'file'"
+                (click)="openPdf(i)"
+                width="80px"
+                height="80px"
+                src="../../../../assets/images/add-client/pdf-logo.png"
+                alt=""
+              />
+              <span>{{ file.name }}</span>
+              <img
+                *ngIf="!filesUrl[i]?.old"
+                class="clearBtn position-relative"
+                (click)="removeImage(i, filesUrl[i]?.type)"
+                src="../../../../assets/images/add-client/close-button.png"
+                alt=""
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div></div>
+    </div>
+  </div>
+</div>

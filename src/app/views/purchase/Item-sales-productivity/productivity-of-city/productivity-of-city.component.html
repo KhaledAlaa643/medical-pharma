@@ -1,0 +1,106 @@
+<form [formGroup]="filterForm" (ngSubmit)="submitFilterForm()">
+  <div class="row align-items-end">
+    <div class=" col-md-12 col-lg-3 ">
+      <label class="mb-2">اسم الصنف </label>
+      <p-dropdown [filter]="true" #userDropdown [options]="governateData" optionLabel="name" optionValue="id"
+        placeholder=" " formControlName="area_id" [showClear]="this.filterForm.controls[ 'area_id' ].value">
+      </p-dropdown>
+      <app-Form-errors [control]="this.filterForm.controls[ 'area_id' ]"></app-Form-errors>
+
+    </div>
+    <div class=" col-md-12 col-lg-3 ">
+      <label class="mb-2">المحافظة </label>
+      <p-dropdown [filter]="true" #userDropdown [options]="governateData" optionLabel="name" optionValue="id"
+        placeholder=" " formControlName="area_id" [showClear]="this.filterForm.controls[ 'area_id' ].value">
+      </p-dropdown>
+      <app-Form-errors [control]="this.filterForm.controls[ 'area_id' ]"></app-Form-errors>
+
+    </div>
+
+    <div class="col-md-12 col-lg-2 ">
+      <label class="mb-2"> التاريخ </label>
+      <div class="calendar-holder position-relative">
+        <p-calendar #calendarFrom [dir]="'ltr'"  dateFormat="yy-mm-dd" placeholder=" "
+          formControlName="from" placeholder=" من " [showClear]="this.filterForm.controls[ 'from' ].value">
+
+        </p-calendar>
+        <img (click)="calendarFrom.toggle()" class="cursor-pointer position-absolute top-0 end-0 me-2 my-1"
+          src="../../../../assets/images/input/calender.svg" alt="">
+      </div>
+    </div>
+    <div  class="col-md-12 col-lg-2 ">
+      <div class="calendar-holder position-relative">
+        <p-calendar #calendarTo [dir]="'ltr'"  dateFormat="yy-mm-dd" placeholder=" "
+          formControlName="to" placeholder=" الى " [showClear]="this.filterForm.controls[ 'to' ].value">
+
+        </p-calendar>
+        <img (click)="calendarFrom.toggle()" class="cursor-pointer position-absolute top-0 end-0 me-2 my-1"
+          src="../../../../assets/images/input/calender.svg" alt="">
+      </div>
+    </div>
+    <div class="  col-md-12 col-lg-2 ">
+      <label class=" mb-2"></label>
+      <button appDisableButton type="submit" placeholder="" class="btnStyling h-40px form-control   w-100">
+        <p class="fw-semibold ">بحث</p>
+      </button>
+    </div>
+  </div>
+</form>
+
+
+<div class="citySalesTable ">
+  <app-shared_table [columnsArray]="columnsArray" [columnsNames]="columnsName"
+    [RowsData]="citySalesData"></app-shared_table>
+</div>
+
+
+<div id="pagination" class="w-100 d-flex justify-content-center">
+  <div class="d-flex width-60 justify-content-center">
+    <p-paginator #paginator [first]="1" [rows]="rows" (onPageChange)="changePage($event)"
+        [totalRecords]="total"></p-paginator>
+</div>
+</div>
+
+<div class="Hline"></div>
+
+<div>
+  <header>الاجمالي</header>
+  <app-shared_table [columnsArray]="columnsFootersArray" [columnsNames]="columnsFootersName"
+     [RowsData]="footerData"></app-shared_table>
+</div>
+
+
+<div class="row  m-2 p-2">
+  <div class="col-lg-4 mt-2 ">
+    <div class=" h-60px borderRadius_20px lightGreen-border d-flex align-items-center">
+      <span class="fw-600 smalltext borderline  fs-18 w-50 d-flex justify-content-center text-center p-1">عدد عملاء
+        المدينة</span>
+      <span *ngIf="IsDataAvailable"
+        class="fw-600 fs-18 w-50 d-flex justify-content-center">{{citiesDataTotal?.pharmacies_count_sum}}
+      </span>
+      <span *ngIf="!IsDataAvailable" class="fw-600 fs-18 w-50 d-flex justify-content-center">0
+      </span>
+    </div>
+  </div>
+  <div class="col-lg-4 mt-2 ">
+    <div class=" h-60px borderRadius_20px lightGreen-border d-flex align-items-center">
+      <span class="fw-600 smalltext borderline  fs-18 w-50 d-flex justify-content-center text-center p-1 ">عدد عملاء
+        الذين
+        طلبوا </span>
+      <span *ngIf="IsDataAvailable"
+        class="fw-600 fs-18 w-50 d-flex justify-content-center ">{{citySalesDataTotal?.salesmen_count}}</span>
+      <span *ngIf="!IsDataAvailable" class="fw-600 fs-18 w-50 d-flex justify-content-center">0</span>
+
+    </div>
+  </div>
+  <div class="col-lg-4 mt-2 ">
+    <div class=" h-60px borderRadius_20px lightGreen-border d-flex align-items-center">
+      <span class="fw-600 smalltext borderline  fs-18 w-50 d-flex justify-content-center text-center p-1"> عدد العملاء
+        الذين لم يطلبوا </span>
+      <span *ngIf="IsDataAvailable"
+        class="fw-600 fs-18 w-50 d-flex justify-content-center">
+        {{citiesDataTotal?.pharmacies_count_sum ? citiesDataTotal?.pharmacies_count_sum - citySalesDataTotal?.salesmen_count : 0 }}</span>
+      <span *ngIf="!IsDataAvailable" class="fw-600 fs-18 w-50 d-flex justify-content-center">0</span>
+    </div>
+  </div>
+</div>

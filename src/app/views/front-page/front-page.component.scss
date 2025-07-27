@@ -1,0 +1,32 @@
+.mainLayoutBody{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#mainLayout{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    background: #F5F5F5;
+    .SidNavDiv{
+        width: var(--sideNavWidth);
+        height: 100%;
+        margin-top: auto;
+
+        @media screen and (max-width: 1220px) {
+            width: 100%;
+        }
+    }
+    .MainDiv{
+        width: calc(100% - var(--sideNavWidth));
+
+        @media screen and (max-width: 1220px) {
+            width: 100%;
+        }
+    }
+}
+
+:root {
+    --sideNavWidth : 25%;
+}

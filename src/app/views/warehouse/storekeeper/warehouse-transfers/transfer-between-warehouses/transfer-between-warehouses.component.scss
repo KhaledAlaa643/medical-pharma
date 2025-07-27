@@ -1,0 +1,186 @@
+@import 'generalTableStyle.scss';
+@import 'generalPaginationStyle.scss';
+@import 'generalInputsStyle.scss';
+
+.product-movement {
+    .upper-area {
+        form {
+            width: 100%;
+
+            @media screen and (max-width:769px) {
+                flex-direction: column;
+
+            }
+
+            .calendar {
+                @media screen and (max-width:769px) {
+                    width: 100% !important;
+                }
+            }
+        }
+
+    }
+
+    .tabs-print {
+        padding-left: 3rem;
+
+        .active {
+            background-color: var(--darkGreen);
+            color: black;
+            font-weight: 600;
+        }
+    }
+
+    .second-row {
+        .print-button {
+            justify-content: center;
+            width: 18.5%;
+            border: 1px solid #e4e4e4;
+            border-radius: 20px;
+            padding: 14px 7px;
+            color: #3F497F;
+            margin-left: 0.4rem;
+
+            @media screen and (max-width: 991px) {
+                width: 100% !important;
+            }
+
+        }
+    }
+
+    .tables {
+        .reports {
+            border: 1px solid #e4e4e4;
+            border-radius: 10px;
+
+            @media screen and (max-width: 991px) {
+                flex-direction: column;
+
+            }
+
+            .inputArea-right {
+                width: 50%;
+                border-left: 1px solid #e4e4e4;
+                padding-left: 1rem;
+                padding-right: 1rem;
+
+                @media screen and (max-width: 991px) {
+                    width: 100% !important;
+                    border-bottom: 1px solid #e4e4e4;
+                }
+            }
+
+            .inputArea-left {
+                width: 50%;
+                padding-left: 1rem;
+                padding-right: 1rem;
+
+                @media screen and (max-width: 991px) {
+                    width: 100% !important;
+                    border-bottom: 1px solid #e4e4e4;
+                }
+            }
+        }
+    }
+
+    .lower-area {
+        padding: 4%;
+
+        @media screen and (max-width: 991px) {
+            flex-direction: column !important;
+
+        }
+
+        .public-price {
+            border: 1px solid #99F3BD;
+            width: 30%;
+
+            @media screen and (max-width: 769px) {
+                width: 100%;
+            }
+
+        }
+    }
+
+}
+
+.print-button {
+    justify-content: center;
+    width: 18.5%;
+    border: 1px solid #e4e4e4;
+    border-radius: 20px;
+    padding: 14px 7px;
+    color: #3F497F;
+    margin-left: 0.4rem;
+
+    @media screen and (max-width: 991px) {
+        width: 100% !important;
+    }
+
+}
+
+.w-40 {
+    width: 40% !important;
+
+    @media screen and (max-width: 991px) {
+        width: 100% !important;
+
+    }
+}
+
+:host::ng-deep {
+    // .p-dropdown {
+    //     width: 100% !important;
+    //     height: 50px;
+    //     border-radius: 10px !important;
+    // }
+
+    // .p-dropdown-panel .p-dropdown-header .p-dropdown-filter {
+    //     padding-right: 0;
+    //     margin-right: 0;
+    // }
+
+    // .p-calendar {
+    //     width: 100% !important;
+    //     height: 50px;
+    //     direction: ltr;
+    //     border-radius: 10px !important;
+
+    //     cursor: pointer
+    // }
+
+    // .p-calendar .p-inputtext {
+    //     direction: rtl !important;
+    // }
+
+    // .p-dropdown .p-dropdown-clear-icon {
+    //     color: #6c757d;
+    //     right: unset !important;
+    //     left: 32px !important;
+    // }
+
+    // .p-calendar-clear-icon {
+    //     color: #6c757d;
+    //     right: unset !important;
+    //     left: 35px !important;
+    // }
+
+    // .p-calendar-clearable .p-inputtext {
+    //     padding-right: 1rem;
+    // }
+}
+
+
+
+.darkBlue-bg {
+    background-color: #3F497F;
+    color: white;
+}
+
+.width-17 {
+    width: 17%;
+
+    @media screen and (max-width:768px) {
+        width: 100%;
+    }
+}

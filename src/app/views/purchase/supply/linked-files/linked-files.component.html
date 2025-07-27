@@ -1,0 +1,70 @@
+<div class="main_card_margen">
+  <div class="card card boxShadow-15 borderRadius_20px">
+    <form [formGroup]="filterForm" action="">
+      <div id="filter" class="p-3">
+          <div class="d-flex flex-wrap align-items-end gap-2">
+            <div class="width-10">
+              <label class="mb-2">كود المورد</label> 
+              <input  [(ngModel)]="supplier.id" [ngModelOptions]="{standalone: true}"  type="number" class="form-control">
+            </div>
+            <div class="width-30">
+              <label class="mb-2">اسم المورد</label>
+              <p-dropdown [options]="suppliers" formControlName="supplier_id" [(ngModel)]="supplier.id"  optionLabel="name" optionValue="id" placeholder=" " [showClear]="true"
+                [filter]="true"></p-dropdown>
+            </div>
+            <div class="width-20">
+              <label class="mb-2">الكاتب</label>
+              <p-dropdown [options]="created_by" formControlName="created_by"  optionLabel="name" optionValue="id" placeholder=" " [showClear]="true"
+                [filter]="true"></p-dropdown>
+            </div>
+            <div class="width-30 d-flex align-items-end gap-2">
+              <!-- [showClear]="this.filterForm.controls[ 'from' ].value" -->
+              <div class="width-45">
+                <label class="m-2">التاريخ </label>
+                <div class="calendar-holder position-relative">
+                    <p-calendar #calendarFrom [dir]="'ltr'" formControlName="from"
+                        placeholder=" من" [showClear]="this.filterForm.controls[ 'from' ].value">
+                    </p-calendar>
+                    <img (click)="calendarFrom.toggle()" class="cursor-pointer position-absolute top_5px end-0"
+                        src="../../../../assets/images/input/calender.svg" alt="">
+                </div>
+                
+              </div>
+              <div class="width-45">
+                <div class="calendar-holder position-relative">
+                    <p-calendar #calendarFrom [dir]="'ltr'" 
+                        placeholder=" الي" formControlName="to" [showClear]="this.filterForm.controls[ 'to' ].value">
+                    </p-calendar>
+                    <img (click)="calendarFrom.toggle()" class="cursor-pointer position-absolute top_5px end-0"
+                        src="../../../../assets/images/input/calender.svg" alt="">
+                </div>
+            </div>
+          </div>
+          <div class="flex-fill d-flex gap-2 justify-content-end">
+            <button (click)="filter()" appDisableButton type="button" class="green_bg_black_txt_btn h-40px borderRadius_10px w-100">
+              <span class="fw-600" >بحث</span>
+            </button>
+          </div>
+        </div>
+  
+    </div> 
+    </form>
+  <div id="table" class="p-3">
+    <app-shared_table 
+    [columnsArray]="columnsArray"
+     [columnsNames]="columnsName"
+     [RowsData]="files"
+     (sortEvent)="sortBySupplier($event)"
+     ></app-shared_table>
+  </div>
+  <div id="pagination" class="p-3 flex-wrap d-flex align-items-center ">
+    <div class="d-flex width-17 h-50px lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center">
+      <span class="fs-14 fw-600">عدد المقارنات</span>
+      <span class="fw-600">{{total}}</span>
+    </div>
+    <div class="width-65">
+      <p-paginator #paginator class="d-flex justify-content-center mb-2" (onPageChange)="changePage($event)"
+      [first]="1" [rows]="rows" [totalRecords]="total"></p-paginator>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+#popupModal {
+    .modal-dialog {
+        padding-top: 7% !important;
+
+
+        @media only screen and (max-width:768px) {
+            max-width: 100% !important;
+            margin: 4% auto !important;
+            padding-top: 10% !important;
+        }
+
+    }
+
+}

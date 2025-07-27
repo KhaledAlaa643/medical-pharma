@@ -1,0 +1,63 @@
+@import 'generalInputsStyle.scss';
+.settings_container {
+    padding: 20px;
+
+    .header {
+        padding: 10px;
+        background-color: #99F3BD;
+        border-radius: 10px;
+
+        .name {
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+    }
+
+    .header_disabled {
+        padding: 10px;
+        background-color: #E3E3E3 !important;
+        border-radius: 10px;
+
+        .name {
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+    }
+
+    .activeTab {
+        background-color: #28DF99 !important;
+        font-weight: 600;
+    }
+
+    .border_red {
+        border-color: red;
+    }
+
+    .border_green {
+        border-color: #28DF99;
+    }
+
+    .red-delete {
+        border-radius: 50%;
+        background-color: #FD4747;
+        width: 30px;
+        height: 30px;
+    }
+
+    .basket {
+        width: max-content !important;
+    }
+    .border_left{
+        border-left: 1px solid #BEBEBE;
+        @media screen and (max-width:769px) {
+            border-left: none !important;
+        }
+    }
+}
+
+::ng-deep .p-multiselect {
+    height: 40px !important;
+    border-radius: 10px !important;
+}

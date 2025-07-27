@@ -1,0 +1,87 @@
+<div class="main_card_margen">
+  <div class="card borderRadius_20px boxShadow-15">
+    <div id="header" class="align-items-end p-4 gap-2 d-flex flex-wrap">
+      <form
+        [formGroup]="filterForm"
+        class="d-flex gap-2 w-100 justify-content-between align-items-center"
+      >
+        <div class="w-75 d-flex justify-content-start align-items-center gap-2">
+          <div class="width-30">
+            <button
+              type="button"
+              class="green_bg_black_txt_btn h-40px borderRadius_20px w-100"
+              [routerLink]="['/accounting/supervisor-clients/add']"
+            >
+              انشاء قائمة جديدة
+            </button>
+          </div>
+          <div class="width-25">
+            <label class="mb-2">اسم القائمة </label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="list_name"
+            />
+          </div>
+          <div class="width-20">
+            <label class="mb-2"> مشرف الحسابات</label>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="supervisor_name"
+            />
+          </div>
+        </div>
+
+        <div class="width-10">
+          <button
+            type="button"
+            class="green_bg_black_txt_btn h-40px borderRadius_10px w-100"
+            (click)="filter()"
+          >
+            بحث
+          </button>
+        </div>
+      </form>
+    </div>
+    <div id="table" class="p-4">
+      <app-shared_table
+        [columnsArray]="columnsArray"
+        [columnsNames]="columnsName"
+        [RowsData]="data"
+        (productClickEvent)="editButton($event)"
+      ></app-shared_table>
+    </div>
+    <div class="w-100 ps-4 pe-4">
+      <div
+        class="row m-2 p-2 align-items-center d-flex justify-content-between"
+      >
+        <div class="col-lg-3 mt-2">
+          <div
+            class="h-60px borderRadius_20px justify-content-center p-2 lightGreen-border d-flex align-items-center"
+          >
+            عدد قوائم العملاء : {{ additional_data.count }}
+          </div>
+        </div>
+
+        <div class="col-lg-6 mt-2">
+          <p-paginator
+            #paginator
+            [first]="1"
+            [rows]="rows"
+            (onPageChange)="changepage($event)"
+            [totalRecords]="total"
+          ></p-paginator>
+        </div>
+
+        <div class="col-lg-3 mt-2">
+          <div
+            class="h-60px borderRadius_20px p-2 justify-content-center lightGreen-border d-flex align-items-center"
+          >
+            اجمالي عدد العملاء : {{ additional_data.pharmacies_in_lists }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

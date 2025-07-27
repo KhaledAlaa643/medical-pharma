@@ -1,0 +1,79 @@
+<button hidden #AddModal type="button"  class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#chooseTypeModel">
+
+</button>
+<div class="modal fade" id="chooseTypeModel" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+aria-labelledby="chooseTypeModelLabel" aria-hidden="true">
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header mb-4">
+      <div class="d-flex justify-content-center w-100">
+        <span  class="text-center fs-16 fw-600">اختر نوع العميل</span>
+      </div>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div class="d-flex flex-wrap justify-content-center align-items-center gap-5">
+        <div (click)="navigateTo('sales')" class="d-flex cursor-pointer flex-column justify-content-center align-items-center">
+          <div class="typeCards borderRadius_15px d-flex justify-content-center align-items-center card mainBlue-bg">
+            <svg width="104" height="104" viewBox="0 0 104 104" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_2417_482)">
+              <path d="M34.668 30.3333C34.668 34.9304 36.4942 39.3392 39.7448 42.5899C42.9954 45.8405 47.4042 47.6667 52.0013 47.6667C56.5984 47.6667 61.0072 45.8405 64.2578 42.5899C67.5085 39.3392 69.3346 34.9304 69.3346 30.3333C69.3346 25.7362 67.5085 21.3274 64.2578 18.0768C61.0072 14.8262 56.5984 13 52.0013 13C47.4042 13 42.9954 14.8262 39.7448 18.0768C36.4942 21.3274 34.668 25.7362 34.668 30.3333Z" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M26 91V82.3333C26 77.7362 27.8262 73.3274 31.0768 70.0768C34.3274 66.8262 38.7362 65 43.3333 65H60.6667C65.2638 65 69.6726 66.8262 72.9232 70.0768C76.1738 73.3274 78 77.7362 78 82.3333V91" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+              <defs>
+              <clipPath id="clip0_2417_482">
+              <rect width="104" height="104" fill="white"/>
+              </clipPath>
+              </defs>
+              </svg>
+            </div>
+            <span class="my-1 fw-700 fs-24 mainBlue-text">مندوب</span>
+        </div>
+        <div (click)="navigateTo('group')" class="d-flex cursor-pointer flex-column justify-content-center align-items-center">
+          <div class="typeCards borderRadius_15px d-flex justify-content-center align-items-center card mainBlue-bg">
+             <svg width="104" height="104" viewBox="0 0 104 104" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_2417_474)">
+              <path d="M43.332 56.3334C43.332 58.632 44.2451 60.8364 45.8704 62.4617C47.4958 64.087 49.7002 65.0001 51.9987 65.0001C54.2972 65.0001 56.5016 64.087 58.127 62.4617C59.7523 60.8364 60.6654 58.632 60.6654 56.3334C60.6654 54.0349 59.7523 51.8305 58.127 50.2052C56.5016 48.5798 54.2972 47.6667 51.9987 47.6667C49.7002 47.6667 47.4958 48.5798 45.8704 50.2052C44.2451 51.8305 43.332 54.0349 43.332 56.3334Z" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M34.668 91V86.6667C34.668 84.3681 35.5811 82.1637 37.2064 80.5384C38.8317 78.9131 41.0361 78 43.3346 78H60.668C62.9665 78 65.1709 78.9131 66.7962 80.5384C68.4215 82.1637 69.3346 84.3681 69.3346 86.6667V91" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M65 21.6667C65 23.9652 65.9131 26.1696 67.5384 27.7949C69.1637 29.4202 71.3681 30.3333 73.6667 30.3333C75.9652 30.3333 78.1696 29.4202 79.7949 27.7949C81.4202 26.1696 82.3333 23.9652 82.3333 21.6667C82.3333 19.3681 81.4202 17.1637 79.7949 15.5384C78.1696 13.9131 75.9652 13 73.6667 13C71.3681 13 69.1637 13.9131 67.5384 15.5384C65.9131 17.1637 65 19.3681 65 21.6667Z" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M73.668 43.3333H82.3346C84.6332 43.3333 86.8376 44.2463 88.4629 45.8717C90.0882 47.497 91.0013 49.7014 91.0013 51.9999V56.3333" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M21.668 21.6667C21.668 23.9652 22.5811 26.1696 24.2064 27.7949C25.8317 29.4202 28.0361 30.3333 30.3346 30.3333C32.6332 30.3333 34.8376 29.4202 36.4629 27.7949C38.0882 26.1696 39.0013 23.9652 39.0013 21.6667C39.0013 19.3681 38.0882 17.1637 36.4629 15.5384C34.8376 13.9131 32.6332 13 30.3346 13C28.0361 13 25.8317 13.9131 24.2064 15.5384C22.5811 17.1637 21.668 19.3681 21.668 21.6667Z" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M13 56.3333V51.9999C13 49.7014 13.9131 47.497 15.5384 45.8717C17.1637 44.2463 19.3681 43.3333 21.6667 43.3333H30.3333" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+              <defs>
+              <clipPath id="clip0_2417_474">
+              <rect width="104" height="104" fill="white"/>
+              </clipPath>
+              </defs>
+              </svg>
+            </div>
+            <span class="my-1 fw-700 fs-24 mainBlue-text">مجموعة</span>
+            
+        </div>
+        <div (click)="navigateTo('pharmacy')" class="d-flex cursor-pointer flex-column justify-content-center align-items-center">
+         <div class="typeCards borderRadius_15px d-flex justify-content-center align-items-center card mainBlue-bg">
+          <svg width="104" height="104" viewBox="0 0 104 104" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_2417_467)">
+            <path d="M39 17.3333C39 16.1841 39.4565 15.0819 40.2692 14.2692C41.0819 13.4565 42.1841 13 43.3333 13H60.6667C61.8159 13 62.9181 13.4565 63.7308 14.2692C64.5435 15.0819 65 16.1841 65 17.3333V21.6667C65 22.8159 64.5435 23.9181 63.7308 24.7308C62.9181 25.5435 61.8159 26 60.6667 26H43.3333C42.1841 26 41.0819 25.5435 40.2692 24.7308C39.4565 23.9181 39 22.8159 39 21.6667V17.3333Z" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M43.332 26V30.2467C43.332 34.047 40.5847 37.2927 36.832 37.9167C33.0794 38.5407 30.332 41.7863 30.332 45.5867V82.3333C30.332 84.6319 31.2451 86.8363 32.8704 88.4616C34.4958 90.0869 36.7002 91 38.9987 91H64.9987C67.2972 91 69.5016 90.0869 71.127 88.4616C72.7523 86.8363 73.6654 84.6319 73.6654 82.3333V45.5867C73.6654 41.7863 70.918 38.5407 67.1654 37.9167C65.3495 37.6141 63.6998 36.6774 62.5096 35.273C61.3195 33.8686 60.666 32.0876 60.6654 30.2467V26" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M30.332 52H73.6654" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M30.332 78H73.6654" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M47.668 65H56.3346" stroke="white" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+            <defs>
+            <clipPath id="clip0_2417_467">
+            <rect width="104" height="104" fill="white"/>
+            </clipPath>
+            </defs>
+            </svg>
+         </div>
+         <span class="my-1 fw-700 fs-24 mainBlue-text">صيدلية</span>
+        </div>
+      </div>
+    </div>
+    <div >
+      <button hidden  #closeModal type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+  </div>
+</div>
+</div>

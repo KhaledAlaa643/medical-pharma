@@ -1,0 +1,189 @@
+<form [formGroup]="productData">
+  <div class="drugInfoContainer d-grid gap-4 my-3">
+    <div class="d-flex flex-wrap gap-3 align-items-end">
+      <div class="flex-fill">
+        <label class="mb-2"> اسم الدواء</label>
+        <input
+          type="text"
+          formControlName="name"
+          readonly
+          class="form-control readonly-input"
+        />
+      </div>
+      <div class="width-25">
+        <label class="mb-2"> تصنيع شركة </label>
+        <input
+          type="text"
+          formControlName="manufacture_company_name"
+          class="form-control readonly-input"
+        />
+      </div>
+      <div class="width-20">
+        <label class="mb-2">التصنيف</label>
+        <input
+          type="text"
+          readonly
+          formControlName="product_type"
+          class="form-control readonly-input"
+        />
+      </div>
+    </div>
+    <div class="d-flex flex-wrap gap-3 align-items-end">
+      <div class="flex-fill">
+        <label class="mb-2"> السعر </label>
+        <input
+          type="text"
+          readonly
+          formControlName="price"
+          class="form-control readonly-input"
+        />
+      </div>
+      <div class="width-14">
+        <label class="mb-2">الخصم</label>
+        <input
+          type="text"
+          readonly
+          formControlName="normal_discount"
+          class="form-control readonly-input"
+        />
+      </div>
+      <div class="width-15">
+        <label class="mb-2">الضريبة</label>
+        <input
+          type="text"
+          readonly
+          formControlName="taxes"
+          class="form-control readonly-input"
+        />
+      </div>
+      <div class="width-18">
+        <label class="mb-2">الباكت</label>
+        <input
+          type="text"
+          readonly
+          formControlName="items_number_in_packet"
+          class="form-control readonly-input"
+        />
+      </div>
+      <div class="width-18">
+        <label class="mb-2">الكرتونة</label>
+        <input
+          type="text"
+          readonly
+          formControlName="packets_number_in_package"
+          class="form-control readonly-input"
+        />
+      </div>
+    </div>
+    <div class="d-flex flex-wrap gap-3 align-items-end">
+      <div class="width-31">
+        <label class="mb-2">كمية المخزن</label>
+        <input
+          type="text"
+          readonly
+          formControlName="warehouseQuantity"
+          class="form-control readonly-input"
+        />
+      </div>
+      <div class="width-31">
+        <label class="mb-2">اجمالي كمية المخازن</label>
+        <input
+          type="text"
+          readonly
+          formControlName="totalWarehouseQuantity"
+          class="form-control readonly-input"
+        />
+      </div>
+    </div>
+    <div
+      class="d-flex flex-wrap gap-5 align-items-center justify-content-center"
+    >
+      <div
+        (click)="changeTab(2)"
+        class="cursor-pointer d-flex openCardBtn darkGreen-border borderRadius_20px text-center align-items-center justify-content-center"
+        data-bs-toggle="modal"
+        data-bs-target="#alternativesModel"
+      >
+        <span class="darkGreen-color fw-600 fs-16">
+          مثيل الدواء بالمادة الفعالة
+        </span>
+      </div>
+      <div
+        (click)="changeTab(1)"
+        class="cursor-pointer d-flex openCardBtn borderRadius_20px darkGreen-bg text-center align-items-center justify-content-center"
+        data-bs-toggle="modal"
+        data-bs-target="#alternativesModel"
+      >
+        <span class="color-white fw-600 fs-16">
+          بدائل الدواء والمادة الفعالة
+        </span>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div
+  class="modal fade"
+  id="alternativesModel"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog p-3">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex justify-content-center w-100">
+          <span *ngIf="activeTap1" class="text-center fs-16 fw-600"
+            >بدائل الدواء والمادة الفعالة</span
+          >
+          <span *ngIf="activeTap2" class="text-center fs-16 fw-600"
+            >مثيل الدواء بالمادة الفعالة</span
+          >
+        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+      <div *ngIf="activeTap1" class="modal-body">
+        <div class="borderRadius_20px p-3 row">
+          <div class="col-md-12">
+            <app-shared_table
+              [columnsArray]="columnsArray"
+              [columnsNames]="columnsName"
+              [RowsData]="alternativeProductDataArray"
+            ></app-shared_table>
+            <p-paginator
+              (onPageChange)="onPageChangeAlternative($event)"
+              [first]="1"
+              [rows]="rows"
+              [totalRecords]="totalItems"
+            ></p-paginator>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="activeTap2" class="modal-body">
+        <div class="borderRadius_20px p-3 row">
+          <div class="col-md-12">
+            <app-shared_table
+              [columnsArray]="columnsArray"
+              [columnsNames]="columnsName"
+              [RowsData]="relatedProductArray"
+            ></app-shared_table>
+            <p-paginator
+              (onPageChange)="onPageChangeRelated($event)"
+              [first]="1"
+              [rows]="relatedRows"
+              [totalRecords]="relatedTotalItems"
+            ></p-paginator>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

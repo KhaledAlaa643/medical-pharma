@@ -1,0 +1,28 @@
+@import "generalTableStyle.scss";
+@import "generalInputsStyle.scss";
+@import "generalPaginationStyle.scss";
+
+.employee-list {
+  border: 1px solid #e1e1e1;
+  padding: 10px;
+  border-radius: 10px;
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    li {
+      margin-bottom: 10px;
+    }
+    p {
+      margin: 0;
+    }
+    button {
+      background: none;
+      border: none;
+      border-radius: 10px;
+      padding: 10px;
+      margin: 0 10px;
+      cursor: pointer;
+    }
+  }
+}

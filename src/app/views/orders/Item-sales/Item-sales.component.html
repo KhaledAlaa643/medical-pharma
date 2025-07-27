@@ -1,0 +1,25 @@
+<div class="contDiv">
+  <div class="d-flex gap-2 mb-2 tabs">
+    <button (click)="changeTab(1)"  class="h-55px w-140 borderRadius_10px border-0 bg-white text-dark fw-500 fs-16 boxShadow-10" [ngClass]="{'activeTab':activeTap1}"> مبيعات الصنف</button>
+    <button (click)="changeTab(2)" class="h-55px w-140 borderRadius_10px border-0 bg-white text-dark fw-500 fs-16 boxShadow-10" [ngClass]="{'activeTab':activeTap2}">أصناف يطلبها العميل</button>
+  </div>
+  <div *ngIf="activeTap1" class="borderRadius_20px border border-1 p-2 row">
+    <div class="col-md-12">
+      <app-shared_table 
+      [columnsArray]="columnsArray1"
+       [columnsNames]="columnsName1"
+       [RowsData]="productDataArray"
+       ></app-shared_table>
+    </div>
+  </div>
+  <div *ngIf="activeTap2" class="borderRadius_20px border border-1 p-2 row">
+    <div class="col-md-12">
+      <app-shared_table 
+      [columnsArray]="columnsArray2"
+       [columnsNames]="columnsName2"
+       [RowsData]="clientProductArray"
+       ></app-shared_table>
+    </div>
+  </div>
+
+</div>

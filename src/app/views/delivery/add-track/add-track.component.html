@@ -1,0 +1,256 @@
+<div class="main_card_margen">
+  <div class="card borderRadius_20px boxShadow-15">
+    <form [formGroup]="trackForm">
+      <div class="d-flex flex-wrap p-4 gap-4">
+        <div class="width-23">
+          <label class="mb-2">اسم خط السير العربي</label>
+          <input formControlName="name_ar" type="text" class="form-control" />
+        </div>
+        <div class="width-23">
+          <label class="mb-2"> اسم خط السير الانجليزي</label>
+          <input type="text" formControlName="name_en" class="form-control" />
+        </div>
+        <div class="width-23">
+          <label class="mb-2">مندوب خط السير</label>
+          <p-dropdown
+            [showClear]="true"
+            formControlName="user_1"
+            [options]="distributer_employees"
+            placeholder=" "
+            optionLabel="name"
+            optionValue="id"
+          ></p-dropdown>
+        </div>
+        <div class="flex-fill">
+          <label class="mb-2">سائق خط السير</label>
+          <p-dropdown
+            [showClear]="true"
+            placeholder=" "
+            optionLabel="name"
+            formControlName="user_2"
+            [options]="distributer_employees"
+            optionValue="id"
+          ></p-dropdown>
+        </div>
+      </div>
+      <div class="d-flex">
+        <div class="width-20 p-2">
+          <label class="mb-2">عدد دورات التوزيع</label>
+          <p-dropdown
+            [options]="cycleOptions"
+            optionLabel="name"
+            optionValue="id"
+            formControlName="selectedShifts"
+            (onChange)="updateCycles($event.value)"
+            [showClear]="true"
+            placeholder=" "
+          ></p-dropdown>
+        </div>
+
+        <!-- عرض الدورات بناءً على العدد المختار -->
+        <div class="width-full" formArrayName="shifts">
+          <div
+            *ngFor="let cycle of shiftsArray.controls; let i = index"
+            [formGroupName]="i"
+            class="p-4"
+          >
+            <div class="">
+              <span class="mb-2 fw-bold">الدورة {{ i + 1 }}</span>
+              <div class="d-flex flex-wrap gap-3 align-items-end">
+                <div class="width-17">
+                  <label class="mb-2">وقت تسجيل الأذن</label>
+
+                  <input
+                    class="form-control"
+                    type="time"
+                    formControlName="order_from"
+                  />
+                </div>
+                <div class="width-17">
+                  <input
+                    class="form-control"
+                    type="time"
+                    formControlName="order_to"
+                  />
+                </div>
+                <div class="width-30">
+                  <label class="mb-2">وقت خروج الدورة</label>
+                  <input
+                    class="form-control"
+                    type="time"
+                    formControlName="start"
+                  />
+                </div>
+                <div class="flex-fill">
+                  <label class="mb-2">عدد ساعات التوصيل</label>
+                  <input
+                    class="form-control"
+                    type="number"
+                    formControlName="expected_time"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+
+    <div class="pickList p-4">
+      <div>
+        <p-pickList
+          [source]="source"
+          [target]="target"
+          sourceHeader="قائمة العملاء"
+          [targetHeader]="listTitle"
+          [dragdrop]="true"
+          [responsive]="true"
+          [sourceStyle]="{ height: '30rem' }"
+          filterBy="pharmacy_name,area_id,city_id"
+          [targetStyle]="{ height: '30rem' }"
+          (onMoveToSource)="updateSourceLength($event)"
+          targetFilterPlaceholder="بحث باسم الصيدلية"
+          (onMoveToTarget)="updateTargetLength($event)"
+        >
+          <!-- Source Filter -->
+          <ng-template pTemplate="sourceFilter">
+            <div class="p-picklist-filter d-flex flex-wrap gap-2">
+              <p-dropdown
+                class="width-30"
+                [showClear]="true"
+                placeholder="المحافظة"
+                [options]="cities"
+                optionLabel="name"
+                optionValue="id"
+                [(ngModel)]="selectedCitySource"
+                (onChange)="filterSource()"
+              ></p-dropdown>
+
+              <p-dropdown
+                class="width-30"
+                [showClear]="true"
+                placeholder="المدينة"
+                [options]="areas"
+                optionLabel="name"
+                optionValue="id"
+                [(ngModel)]="selectedAreaSource"
+                (onChange)="filterSource()"
+              ></p-dropdown>
+
+              <input
+                type="text"
+                role="textbox"
+                placeholder="بحث باسم العميل"
+                class="width-30 form-control"
+                [(ngModel)]="searchQuerySource"
+                (keyup)="filterSource()"
+              />
+            </div>
+          </ng-template>
+
+          <!-- Target Filter -->
+          <!-- <ng-template pTemplate="targetFilter">
+            <div class="p-picklist-filter d-flex flex-wrap gap-2">
+              <p-dropdown
+                class="width-30"
+                [showClear]="true"
+                placeholder="المحافظة"
+                [options]="cities"
+                optionLabel="name"
+                optionValue="id"
+                [(ngModel)]="selectedCityTarget"
+                (onChange)="filterTarget()"
+              ></p-dropdown>
+
+              <p-dropdown
+                class="width-30"
+                [showClear]="true"
+                placeholder="المدينة"
+                [options]="areas"
+                optionLabel="name"
+                optionValue="id"
+                [(ngModel)]="selectedAreaTarget"
+                (onChange)="filterTarget()"
+              ></p-dropdown>
+
+              <input
+                type="text"
+                role="textbox"
+                placeholder="بحث باسم العميل"
+                class="width-30 form-control"
+                [(ngModel)]="searchQueryTarget"
+                (keyup)="filterTarget()"
+              />
+            </div>
+          </ng-template> -->
+
+          <!-- Item Template -->
+          <ng-template let-pharmacy pTemplate="item">
+            <div
+              [ngClass]="{
+                'disabled-item': checkDisablePharmacy(pharmacy)
+              }"
+              class="flex flex-wrap p-2 align-items-center gap-3"
+            >
+              <div class="flex-1 flex flex-column gap-2">
+                <span class="font-bold">
+                  {{ pharmacy.client_name }} - {{ pharmacy.pharmacy_name }}
+                </span>
+              </div>
+            </div>
+            <hr class="m-0" />
+          </ng-template>
+        </p-pickList>
+      </div>
+    </div>
+
+    <div class="row d-flex flex-wrap m-2 p-2 align-items-center">
+      <div class="col-lg-4 mt-2">
+        <div
+          class="h-60px borderRadius_20px darkBlue-border d-flex align-items-center"
+        >
+          <span
+            class="fw-600 smalltext fs-16 d-flex justify-content-center text-center m-2"
+          >
+            عدد العملاء بدون خط سير
+          </span>
+          <hr class="h-100 darkBlue-border" />
+          <span class="fw-600 fs-18 w-50 d-flex justify-content-center">{{
+            additional_data?.pharmacies_without_track
+          }}</span>
+        </div>
+      </div>
+      <div *ngIf="!id" class="col-lg-4 mt-2 d-flex justify-content-center">
+        <button
+          (click)="addTrack()"
+          class="green_bg_black_txt_btn text-white border-0 width-60 h-50px borderRadius_20px d-flex align-items-center justify-content-center"
+        >
+          اضافة خط السير
+        </button>
+      </div>
+      <div *ngIf="id" class="col-lg-4 mt-2 d-flex justify-content-center">
+        <button
+          (click)="editTrack()"
+          class="green_bg_black_txt_btn text-white border-0 width-60 h-50px borderRadius_20px d-flex align-items-center justify-content-center"
+        >
+          تعديل خط السير
+        </button>
+      </div>
+      <div class="col-lg-4 mt-2">
+        <div
+          class="h-60px borderRadius_20px darkBlue-border d-flex align-items-center"
+        >
+          <span
+            class="fw-600 smalltext fs-16 d-flex justify-content-center text-center m-2"
+          >
+            عدد عملاء خط السير
+          </span>
+          <hr class="h-100 darkBlue-border" />
+          <span class="fw-600 fs-18 w-50 d-flex justify-content-center">{{
+            targetPharmaciesLength
+          }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

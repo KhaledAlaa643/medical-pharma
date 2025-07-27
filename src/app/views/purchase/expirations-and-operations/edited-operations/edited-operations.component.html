@@ -1,0 +1,253 @@
+<div class="edit-operation-container main_card_margen">
+  <div class="card boxShadow-15 borderRadius_20px p-3">
+      <div class="header p-3 w-100 flex-wrap d-flex justify-content-between">
+          <div class="width-20 p-sm cursor-pointer">
+              <div (click)="openOptionsModal()"
+                  class="boxShadow-15 h-60px borderRadius_20px d-flex align-items-center justify-content-center">
+                  <span class="fw-400 fs-18 text-center  mainBlue-text">طباعة</span>
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <g clip-path="url(#clip0_5900_794)">
+                          <path
+                              d="M22.6667 22.6667H25.3333C26.0406 22.6667 26.7189 22.3857 27.219 21.8856C27.719 21.3855 28 20.7072 28 20V14.6667C28 13.9594 27.719 13.2811 27.219 12.781C26.7189 12.281 26.0406 12 25.3333 12H6.66667C5.95942 12 5.28115 12.281 4.78105 12.781C4.28095 13.2811 4 13.9594 4 14.6667V20C4 20.7072 4.28095 21.3855 4.78105 21.8856C5.28115 22.3857 5.95942 22.6667 6.66667 22.6667H9.33333"
+                              stroke="#3F497F" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" />
+                          <path
+                              d="M22.6673 12V6.66667C22.6673 5.95942 22.3864 5.28115 21.8863 4.78105C21.3862 4.28095 20.7079 4 20.0007 4H12.0007C11.2934 4 10.6151 4.28095 10.115 4.78105C9.61494 5.28115 9.33398 5.95942 9.33398 6.66667V12"
+                              stroke="#3F497F" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" />
+                          <path
+                              d="M9.33398 19.9997C9.33398 19.2924 9.61494 18.6142 10.115 18.1141C10.6151 17.614 11.2934 17.333 12.0007 17.333H20.0007C20.7079 17.333 21.3862 17.614 21.8863 18.1141C22.3864 18.6142 22.6673 19.2924 22.6673 19.9997V25.333C22.6673 26.0403 22.3864 26.7185 21.8863 27.2186C21.3862 27.7187 20.7079 27.9997 20.0007 27.9997H12.0007C11.2934 27.9997 10.6151 27.7187 10.115 27.2186C9.61494 26.7185 9.33398 26.0403 9.33398 25.333V19.9997Z"
+                              stroke="#3F497F" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" />
+                      </g>
+                      <defs>
+                          <clipPath id="clip0_5900_794">
+                              <rect width="32" height="32" fill="white" />
+                          </clipPath>
+                      </defs>
+                  </svg>
+              </div>
+          </div>
+          <div class="width-20  cursor-pointer">
+              <div (click)="openfilterModel()"
+                  class="boxShadow-15 h-60px borderRadius_20px d-flex align-items-center justify-content-center">
+                  <span class="fw-400 fs-18 text-center lightGreen-color">فلتر</span>
+              </div>
+          </div>
+      </div>
+      <div class="table">
+          <app-shared_table [columnsArray]="columnsArray" [columnsNames]="columnsName" [RowsData]="batches"
+              (sortEvent)="sorting($event)"></app-shared_table>
+      </div>
+
+      <div class="lower-area d-flex justify-content-between align-items-center gap-1 w-100">
+          <div
+              class=" w-40 public-price borderRadius_20px  h-50px  fw-bold fs-16 d-flex justify-content-center align-items-center">
+              <span class="d-flex justify-content-center align-items-center ">
+                  أجمالي الأصناف : {{total}}
+              </span>
+          </div>
+          <div class="pagination w-100 d-flex justify-content-center">
+              <p-paginator #paginator class="pagination d-flex justify-content-center"
+                  (onPageChange)="changePage($event)" [first]="1" [rows]="rows" [totalRecords]="total"></p-paginator>
+          </div>
+          <div
+              class="w-40 public-price borderRadius_20px  h-50px  fw-bold fs-16 d-flex justify-content-center align-items-center">
+              <span class="d-flex justify-content-center align-items-center">
+                  أجمالي الكميات : {{total_quantity}}
+              </span>
+          </div>
+
+      </div>
+
+
+  </div>
+</div>
+
+
+<!--filter modal-->
+
+<button hidden #openFilterModel type="button" class="btn btn-primary" data-bs-toggle="modal"
+  data-bs-target="#filterModel">
+
+</button>
+<div class="modal fade" id="filterModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header border-0  justify-content-center position-relative">
+              <h1 class="modal-title fs-5" id="exampleModalLabel"> فلتر</h1>
+              <button type="button" class="btn-close position-absolute" style="left: 3%;" data-bs-dismiss="modal"
+                  aria-label="Close"></button>
+          </div>
+          <div class=" modal-body border-0 ">
+              <p class="modal-title fs-2 text-center" id="exampleModalLabel"></p>
+              <form [formGroup]="productsFilterForm">
+                  <div class="row">
+
+                      <div class="col-md-12 col-lg-6 mb-3 ">
+                          <div class="w-100 ">
+                              <label class=" mb-2">اسم المخزن </label>
+                              <p-dropdown
+                                  [showClear]="productsFilterForm.controls['warehouse_id'].value || (productsFilterForm.controls['warehouse_id'].value===0)"
+                                  [options]="Manufacturers" formControlName="warehouse_id" class="d-block "
+                                  optionLabel="name" optionValue="value" placeholder=" " [filter]="true"></p-dropdown>
+                          </div>
+                      </div>
+                      <div class=" col-md-12 col-lg-6 d-flex gap-1 position-relative align-items-end mb-3 ">
+                          <label *ngIf="multiple_corridors_enabled=='true'" class=" fw-500 fs-16  position-absolute"
+                              style="top: -22%;">الموقع
+                          </label>
+
+                          <div *ngIf="multiple_corridors_enabled=='true'" class="col-4">
+
+                              <div class="w-100 ">
+                                  <label class=" fw-400 fs-14 mb-1 text-center w-100">محطة </label>
+                                  <p-dropdown [showClear]="productsFilterForm.controls['corridor_id'].value"
+                                      [options]="corridors" formControlName="corridor_id" class="d-block "
+                                      optionLabel="number" optionValue="id" placeholder=" "
+                                      [filter]="true"></p-dropdown>
+                              </div>
+                          </div>
+                          <div *ngIf="multiple_corridors_enabled=='true'" class="col-4">
+                              <div class="w-100 ">
+                                  <label class=" fw-400 fs-14 mb-1 text-center w-100">استاند </label>
+                                  <p-dropdown [showClear]="productsFilterForm.controls['stand'].value"
+                                      [options]="stands" formControlName="stand" class="d-block " optionLabel="number"
+                                      optionValue="number" placeholder=" " [filter]="true"></p-dropdown>
+                              </div>
+                          </div>
+                          <div *ngIf="multiple_corridors_enabled=='true'" class="col-4">
+                              <div class="w-100 ">
+                                  <label class=" fw-400 fs-14 mb-1 text-center w-100">رف </label>
+                                  <p-dropdown [showClear]="productsFilterForm.controls['shelf'].value"
+                                      [options]="shelves" formControlName="shelf" class="d-block "
+                                      optionLabel="number" optionValue="number" placeholder=" "
+                                      [filter]="true"></p-dropdown>
+                              </div>
+                          </div>
+                      </div>
+
+
+
+                      <div class="col-md-12 col-lg-4">
+                          <div class="w-100 ">
+                              <label class=" mb-2">الشركة المصنعه </label>
+                              <p-dropdown [options]="Manufacturers"
+                                  [showClear]="productsFilterForm.controls['manufacturer_id'].value"
+                                  formControlName="manufacturer_id" class="d-block " optionLabel="name"
+                                  optionValue="id" placeholder=" " [filter]="true"></p-dropdown>
+                          </div>
+                      </div>
+                      <div class="col-md-12 col-lg-4">
+                          <div class="w-100 ">
+                              <label class=" mb-2">اسم المورد </label>
+                              <p-dropdown [options]="suppliers"
+                                  [showClear]="productsFilterForm.controls['supplier_id'].value || productsFilterForm.controls['supplier_id'].value===0"
+                                  formControlName="supplier_id" class="d-block " optionLabel="name" optionValue="id"
+                                  placeholder=" " [filter]="true"></p-dropdown>
+                          </div>
+                      </div>
+
+                      <div class="col-md-12 col-lg-4">
+                          <div class="w-100 ">
+                              <label class=" mb-2"> تاريخ التوريد </label>
+                              <div class="d-flex  position-relative">
+                                  <p-calendar [dir]="'ltr'"
+                                      [showClear]="productsFilterForm.controls['supplied_at'].value" #supplied_at
+                                      dateFormat="mm-dd-yy"
+                                      class="w-100  borderRadius_10px position-relative w-100 dateDropdown "
+                                      formControlName="supplied_at" placeholder="  ">
+                                  </p-calendar>
+                                  <img style="left: 0%; top: 0%;" (click)="supplied_at.toggle()"
+                                      class="calendar-icon position-absolute  cursor-pointer p-2"
+                                      src="../../../../assets/images/input/calender.svg" alt="">
+                              </div>
+                          </div>
+                      </div>
+
+                      <div class=" col-md-12 col-lg-4">
+                          <div class="w-100 ">
+                              <label class=" mb-2"> الكمية </label>
+                              <p-dropdown [options]="allFixedData.quantity_more_than_zero"
+                                  [showClear]="productsFilterForm.controls['quantity_more_than_zero'].value || productsFilterForm.controls['quantity_more_than_zero'].value==0"
+                                  formControlName="quantity_more_than_zero" class="d-block " optionLabel="name"
+                                  optionValue="value" placeholder=" " [filter]="true"></p-dropdown>
+                          </div>
+                      </div>
+                      <div class=" col-md-12 col-lg-8">
+                          <div class="w-100 ">
+                              <label class=" mb-2"> مراجع الاستلامات </label>
+                              <p-dropdown [options]="receiversAuditor"
+                                  [showClear]="productsFilterForm.controls['receiver_auditor_id'].value || (productsFilterForm.controls['receiver_auditor_id'].value===0)"
+                                  formControlName="receiver_auditor_id" class="d-block " optionLabel="name"
+                                  optionValue="id" placeholder=" " [filter]="true"></p-dropdown>
+                          </div>
+                      </div>
+
+                      <div class=" col-md-12 col-lg-6">
+                          <div class="w-100 ">
+                              <label class=" mb-2"> عامل التسكين </label>
+                              <p-dropdown [options]="StoringWorker"
+                                  [showClear]="productsFilterForm.controls['storing_worker_id'].value"
+                                  formControlName="storing_worker_id" class="d-block " optionLabel="name"
+                                  optionValue="id" placeholder=" " [filter]="true"></p-dropdown>
+                          </div>
+                      </div>
+                      <div class=" col-md-12 col-lg-6">
+                          <div class="w-100 ">
+                              <label class=" mb-2"> المحضر </label>
+                              <p-dropdown [options]="preparers"
+                                  [showClear]="productsFilterForm.controls['second_user_id'].value || (productsFilterForm.controls['second_user_id'].value===0)"
+                                  formControlName="second_user_id" class="d-block " optionLabel="name"
+                                  optionValue="value" placeholder=" " [filter]="true"></p-dropdown>
+                          </div>
+                      </div>
+
+                      <div class=" col-md-12 col-lg-6">
+                          <div class="w-100 ">
+                              <label class=" mb-2"> مراجع البيع </label>
+                              <p-dropdown [options]="reviewers"
+                                  [showClear]="productsFilterForm.controls['updated_by'].value"
+                                  formControlName="updated_by" class="d-block " optionLabel="name" optionValue="id"
+                                  placeholder=" " [filter]="true"></p-dropdown>
+                          </div>
+                      </div>
+
+                      <div class=" col-md-12 col-lg-6 d-flex position-relative gap-2">
+                          <label class=" mb-2 position-absolute">سعر الجمهور </label>
+
+                          <div class="d-flex gap-5">
+                              <div class=" col-md-6 col-lg-5">
+                                  <div class="w-100  ">
+                                      <label class=" mb-2"> </label>
+                                      <input type="text" placeholder="من "
+                                          class=" form-control defaultBg borderRadius_10px  w-100 mt-1"
+                                          formControlName="price_from">
+                                  </div>
+                              </div>
+                              <div class="col-md-6 col-lg-5">
+                                  <div class="w-100  ">
+                                      <label class=" mb-2"> </label>
+                                      <input type="text" placeholder="الي"
+                                          class=" form-control defaultBg borderRadius_10px  w-100 mt-1"
+                                          formControlName="price_to">
+                                  </div>
+                              </div>
+                          </div>
+
+                      </div>
+
+                      <div class="w-100 mt-3 d-flex justify-content-center">
+                          <button (click)="filter()" appDisableButton style="height: 60px;color: white;border: none;"
+                              class="darkGreen-bg borderRadius_20px w-75">فلترة</button>
+                      </div>
+                  </div>
+              </form>
+          </div>
+
+      </div>
+  </div>
+</div>
+
+<button hidden #OpenOptionsModal type="button" (click)="choosePrintTypePopup.openAddModal()">
+
+</button>
+<app-printing-options-popup [paginated]="true" (printData)="print($event)"
+  #choosePrintTypePopup></app-printing-options-popup>

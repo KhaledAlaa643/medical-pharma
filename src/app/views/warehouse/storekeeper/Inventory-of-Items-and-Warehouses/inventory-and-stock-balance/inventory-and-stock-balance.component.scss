@@ -1,0 +1,144 @@
+@import 'generalTableStyle.scss';
+@import 'generalPaginationStyle.scss';
+@import 'generalInputsStyle.scss';
+
+.inventory-stock-balance {
+    .upper-Area {
+        gap: 1rem;
+
+        @media screen and (max-width: 768px) {
+            width: 100%;
+            flex-direction: column;
+        }
+
+        .bottomHolder {
+
+            .add-prohibited-item {
+                width: 100%;
+
+                .print-button {
+                    justify-content: center;
+                    width: 13%;
+                    border: 1px solid #e4e4e4;
+                    border-radius: 20px;
+                    padding: 14px 7px;
+                    color: #3F497F;
+
+                    @media screen and (max-width: 991px) {
+                        width: 100%;
+                    }
+
+                }
+
+                .add-prohibited-button {
+                    @media screen and (max-width: 768px) {
+                        width: 100%;
+                    }
+
+                    button {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 20px;
+                        background-color: #28DF99;
+                        color: white;
+                        border: none !important;
+                        padding: 0.9rem;
+
+                        @media screen and (max-width: 768px) {
+                            width: 100%;
+                        }
+
+                        p {
+                            margin-top: 0.3rem !important;
+                            margin-bottom: 0.3rem !important;
+                        }
+                    }
+
+                    button:focus:not(:focus-visible) {
+                        outline: none;
+                    }
+                }
+
+                .filter-button {
+                    @media screen and (max-width: 768px) {
+                        width: 100%;
+                    }
+
+                    button {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border-radius: 20px;
+                        background-color: white;
+                        color: #28DF99;
+                        border: none;
+                        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15) !important;
+                        padding: 0.9rem 3.5rem;
+
+                        @media screen and (max-width: 768px) {
+                            width: 100%;
+                        }
+
+                        p {
+                            margin-top: 0.3rem !important;
+                            margin-bottom: 0.3rem !important;
+                        }
+                    }
+
+                    button:focus:not(:focus-visible) {
+                        outline: none;
+                    }
+                }
+
+
+            }
+        }
+    }
+
+}
+
+
+
+
+
+
+#InventoryStockBalanceModal {
+    .modal-dialog {
+        padding-top: 6% !important;
+        max-width: 56vw;
+
+        @media screen and (max-width:768px) {
+            max-width: 100% !important;
+        }
+
+        .modal-content {
+            border-radius: 30px !important;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+
+            .modal-header {
+                border-bottom: none;
+            }
+
+            .modal-body {
+                padding: 0% 5% 5vh 5%;
+
+                .Title {
+                    width: 100%;
+                    text-align: center;
+                }
+            }
+        }
+
+
+    }
+
+}
+
+.modal-dialog-width {
+    max-width: 65vw !important;
+
+    @media screen and (max-width:768px) {
+        max-width: 99vw !important;
+    }
+}

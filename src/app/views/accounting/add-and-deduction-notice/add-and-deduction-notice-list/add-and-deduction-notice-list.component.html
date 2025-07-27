@@ -1,0 +1,206 @@
+<div class="main_card_margen">
+  <div class="card borderRadius_10px boxShadow-10 p-3">
+    <div id="header" class="mb-3">
+      <form [formGroup]="searchForm">
+        <div class="d-flex gap-2 flex-wrap align-items-end my-3">
+          <div class="width-20 d-flex flex-column">
+            <label class="mb-2"> نوع الحساب</label>
+            <p-dropdown
+              [showClear]="true"
+              formControlName="account_type"
+              placeholder=" "
+              [options]="accountTypes"
+              (onChange)="getAccountsDropdown()"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+          </div>
+          <div class="width-20 d-flex flex-column">
+            <label class="mb-2"> اسم الحساب</label>
+            <p-dropdown
+              [showClear]="true"
+              formControlName="account_id"
+              placeholder=" "
+              [options]="accounts"
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+          </div>
+          <div class="d-flex flex-column width-20">
+            <label class="mb-2"> نوع الإشعار</label>
+            <p-dropdown
+              [showClear]="true"
+              formControlName="type"
+              placeholder=" "
+              [options]="types"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+          </div>
+          <div class="d-flex flex-column width-20">
+            <label class="mb-2"> حالة الإشعار</label>
+            <p-dropdown
+              [showClear]="true"
+              formControlName="status"
+              placeholder=" "
+              [options]="status"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+          </div>
+          <div class="width-30 d-flex align-items-end gap-1">
+            <div class="width-50">
+              <label class="m-2">التاريخ </label>
+              <div class="calendar-holder position-relative">
+                <p-calendar
+                  #calendarFrom
+                  [dir]="'ltr'"
+                  formControlName="from"
+                  placeholder=" من"
+                  dateFormat="yy-mm-dd"
+                  [showClear]="true"
+                >
+                </p-calendar>
+                <img
+                  (click)="calendarFrom.toggle()"
+                  class="cursor-pointer position-absolute top_5px end-0"
+                  src="../../../../assets/images/input/calender.svg"
+                  alt=""
+                />
+              </div>
+            </div>
+            <div class="width-50">
+              <div class="calendar-holder position-relative">
+                <p-calendar
+                  #calendarTo
+                  [dir]="'ltr'"
+                  placeholder=" الي"
+                  dateFormat="yy-mm-dd"
+                  formControlName="to"
+                  [showClear]="true"
+                >
+                </p-calendar>
+                <img
+                  (click)="calendarTo.toggle()"
+                  class="cursor-pointer position-absolute top_5px end-0"
+                  src="../../../../assets/images/input/calender.svg"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-column flex-fill">
+            <label class="mb-2"> الكاتب</label>
+            <p-dropdown
+              [showClear]="true"
+              formControlName="created_by"
+              placeholder=" "
+              [options]="created_by"
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+          </div>
+        </div>
+        <div class="d-flex gap-2 flex-wrap align-items-end my-3">
+          <div
+            class="flex-fill d-flex gap-1 justify-content-end align-items-center"
+          >
+            <button
+              (click)="filter()"
+              type="button"
+              class="green_bg_black_txt_btn h-40px borderRadius_10px width-40"
+            >
+              بحث
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div id="table" class="mb-3">
+      <app-shared_table
+        [columnsArray]="columnsArray"
+        [columnsNames]="columnsName"
+        [RowsData]="data"
+        (openModalEvent)="openNoteModal($event)"
+        (productClickEvent)="acceptOrDecline($event)"
+      ></app-shared_table>
+    </div>
+    <div class="w-100 ps-4 pe-4">
+      <div
+        class="row m-2 p-2 align-items-center d-flex justify-content-between"
+      >
+        <div class="col-lg-3 mt-2">
+          <div
+            class="h-60px borderRadius_20px justify-content-center p-2 lightGreen-border d-flex align-items-center"
+          >
+            العدد : {{ additional_data.count }}
+          </div>
+        </div>
+
+        <div class="col-lg-6 mt-2">
+          <p-paginator
+            #paginator
+            [first]="1"
+            [rows]="rows"
+            (onPageChange)="changepage($event)"
+            [totalRecords]="total"
+          ></p-paginator>
+        </div>
+
+        <div class="col-lg-3 mt-2">
+          <div
+            class="h-60px borderRadius_20px p-2 justify-content-center lightGreen-border d-flex align-items-center"
+          >
+            اجمالي المبلغ : {{ additional_data.total }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- notes model -->
+<button
+  hidden
+  #noteModel
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#noteModel"
+></button>
+
+<div
+  class="modal fade"
+  id="noteModel"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+  #myModal
+>
+  <div class="modal-dialog p-3 w-100">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="d-flex justify-content-center w-100">
+          <h3 class="text-center fs-16 fw-600">الملاحظة</h3>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="d-flex justify-content-center py-5">
+          <h4 class="text-center fs-16 fw-600">
+            {{ note }}
+          </h4>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

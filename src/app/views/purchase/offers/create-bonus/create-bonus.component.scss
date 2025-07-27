@@ -1,0 +1,17 @@
+@import "generalInputsStyle.scss";
+@import "generalPaginationStyle.scss";
+@import "generalTableStyle.scss";
+
+.print-button {
+  justify-content: center;
+  // width: 15%;
+  margin-top: 1rem;
+  border: 1px solid #e4e4e4;
+  border-radius: 20px;
+  padding: 14px 38px;
+  color: #3f497f;
+
+  @media screen and (max-width: 992px) {
+    width: 100%;
+  }
+}

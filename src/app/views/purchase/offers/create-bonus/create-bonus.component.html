@@ -1,0 +1,793 @@
+<div class="main_card_margen">
+  <div class="card boxShadow-15 borderRadius_20px p-3">
+    <form [formGroup]="addBonusForm" action="">
+      <div class="p-2 w-100 gap-2">
+        <div class="d-flex flex-wrap mb-3 gap-2 align-items-end">
+          <div class="width-25 d-flex flex-column justify-content-end">
+            <label class="mb-2">اسم المخزن </label>
+            <p-dropdown
+              [showClear]="true"
+              [options]="warehouses"
+              class="d-block"
+              (onChange)="injectDiscountTierIntoDropDown()"
+              optionLabel="name"
+              optionValue="id"
+              formControlName="warehouse_id"
+              placeholder=" "
+              [filter]="true"
+            ></p-dropdown>
+          </div>
+          <div class="width-12 d-flex flex-column">
+            <label class="mb-2">كمية المخزن</label>
+            <input
+              formControlName="total_quantity"
+              readonly
+              type="text"
+              class="form-control"
+            />
+          </div>
+          <div class="width-11 calendar d-flex flex-column">
+            <label class="mb-2"> التاريخ </label>
+            <div class="d-flex position-relative">
+              <p-calendar
+                [dir]="'ltr'"
+                [showClear]="true"
+                #calendarFrom
+                dateFormat="mm-dd-yy"
+                class="w-100 borderRadius_10px position-relative w-100 dateDropdown"
+                formControlName="start_date"
+                placeholder="  "
+              >
+              </p-calendar>
+              <img
+                style="left: 0%; top: 0%"
+                (click)="calendarFrom.toggle()"
+                class="calendar-icon position-absolute cursor-pointer p-2"
+                src="../../../../assets/images/input/calender.svg"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="width-11 calendar d-flex flex-column">
+            <div class="d-flex position-relative" style="margin-top: 1.75rem">
+              <p-calendar
+                [dir]="'ltr'"
+                [showClear]="true"
+                #calendarTo
+                dateFormat="mm-dd-yy"
+                formControlName="end_date"
+                class="w-100 borderRadius_10px position-relative w-100 dateDropdown"
+                placeholder="  "
+              >
+              </p-calendar>
+              <img
+                style="left: 0%; top: 0%"
+                (click)="calendarTo.toggle()"
+                class="calendar-icon position-absolute cursor-pointer p-2"
+                src="../../../../assets/images/input/calender.svg"
+                alt=""
+              />
+            </div>
+          </div>
+          <div class="width-12">
+            <label class="mb-2">شرائح الخصم</label>
+            <p-multiSelect
+              [disabled]="true"
+              [filter]="true"
+              optionLabel="title"
+              [options]="discount_slat"
+              formControlName="discount_tier_ids"
+              optionValue="id"
+              display="chip"
+            ></p-multiSelect>
+          </div>
+          <div class="width-12 d-flex flex-column">
+            <label class="mb-2">خصم الشريحة</label>
+            <input
+              readonly
+              formControlName="max_discount_tier"
+              type="text"
+              class="form-control"
+            />
+          </div>
+          <div class="width-12 d-flex flex-wrap gap-5">
+            <div class="radiobutton d-flex align-items-center">
+              <input
+                style="width: 40px !important; height: 40px !important"
+                class="form-check-input mx-1 borderRadius_10px"
+                name="accept_return"
+                type="checkbox"
+                formControlName="till_finished"
+              />
+              <label class="form-check-label"> حتي نفاذ الكمية </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex flex-wrap gap-2 align-items-end">
+          <div class="width-25 d-flex flex-column">
+            <label class="mb-2">اسم الصنف</label>
+            <p-dropdown
+              [options]="products"
+              [showClear]="true"
+              class="d-block"
+              formControlName="product_id"
+              optionLabel="name"
+              (onChange)="injectDiscountTierIntoDropDown()"
+              optionValue="id"
+              placeholder=" "
+              [filter]="true"
+            ></p-dropdown>
+          </div>
+          <div class="width-12 d-flex flex-column">
+            <label class="mb-2">خصم المرجح </label>
+            <input
+              formControlName="avg_discount_percent"
+              type="text"
+              readonly
+              class="form-control"
+            />
+          </div>
+          <div class="width-15 d-flex flex-column">
+            <label class="mb-2">قيمة المرجح بالجنيه</label>
+            <input
+              type="text"
+              formControlName="avg_discount"
+              readonly
+              class="form-control"
+            />
+          </div>
+          <div class="width-12 d-flex flex-column">
+            <label class="mb-2"> سعر التكلفة بالجنيه</label>
+            <input
+              type="text"
+              formControlName="supply_price"
+              readonly
+              class="form-control"
+            />
+          </div>
+          <div class="width-12 d-flex flex-column">
+            <label class="mb-2">سعر الجمهور</label>
+            <input
+              type="text"
+              readonly
+              formControlName="public_price"
+              class="form-control"
+            />
+          </div>
+
+          <div class="width-12 d-flex flex-column">
+            <label class="mb-2"> الخصم الأساسي</label>
+            <input
+              type="text"
+              formControlName="normal_discount"
+              readonly
+              class="form-control"
+            />
+          </div>
+          <div class="width-12 d-flex flex-column">
+            <label class="mb-2"> الضريبة</label>
+            <input
+              readonly
+              formControlName="taxes"
+              type="text"
+              class="form-control"
+            />
+          </div>
+        </div>
+
+        <div class="d-flex flex-column mb-3">
+          <span class="my-2">اختبار البونص</span>
+          <div class="d-flex flex-wrap gap-2">
+            <div class="width-10 d-flex flex-column">
+              <label class="mb-2">الكمية</label>
+              <input
+                formControlName="quantity"
+                type="text"
+                class="form-control"
+              />
+            </div>
+            <div class="width-10 d-flex flex-column">
+              <label class="mb-2">بونص</label>
+              <input formControlName="bonus" type="text" class="form-control" />
+            </div>
+            <div
+              class="width-12 d-flex align-items-center justify-content-center"
+            >
+              <button (click)="checkBonus()" class="p-2 bluebtnStyles w-75">
+                اختبار
+              </button>
+            </div>
+            <div class="width-10 d-flex flex-column">
+              <label class="mb-2">ربح الكمية</label>
+              <input
+                formControlName="quantity_profit"
+                readonly
+                type="text"
+                class="form-control"
+              />
+            </div>
+            <div class="width-12 d-flex flex-column">
+              <label class="mb-2 w-100">تكلفة العبوة البونص</label>
+              <input
+                formControlName="bonus_cost"
+                readonly
+                type="text"
+                class="width-75 form-control"
+              />
+            </div>
+            <div class="width-10 pe-2 d-flex flex-column">
+              <label class="mb-2">صافي الربح</label>
+              <input
+                formControlName="net_profit"
+                readonly
+                type="text"
+                class="form-control"
+              />
+            </div>
+            <div class="border_left"></div>
+            <div class="d-flex flex-column gap-2 mb-1">
+              <span>ناتج حساب البونص</span>
+              <div
+                *ngIf="addBonusForm.value.net_profit < 0"
+                class="red-border align-items-center d-flex borderRadius_10px px-3 py-1"
+              >
+                الصنف مع البونص = خسارة {{ lossPercent }}
+              </div>
+              <div
+                *ngIf="addBonusForm.value.net_profit >= 0"
+                class="lightGreen-border align-items-center d-flex borderRadius_10px px-3 py-1"
+              >
+                الصنف مع البونص = مكسب {{ profitPercent }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="w-100 mt-3">
+          <header class="my-3">تسجيل البونص</header>
+          <div class="w-100 gap-1 d-flex flex-wrap">
+            <div class="width-25">
+              <span class="mb-2">شريحة 1</span>
+              <div class="d-flex flex-wrap border_left gap-2 align-items-end">
+                <div class="width-45">
+                  <label class="mb-2">عدد</label>
+                  <input
+                    type="text"
+                    placeholder=" "
+                    formControlName="quantity1"
+                    readonly
+                    class="form-control"
+                  />
+                </div>
+                <div class="width-45">
+                  <label class="mb-2">بونص</label>
+                  <input
+                    type="text"
+                    placeholder=" "
+                    readonly
+                    formControlName="bonus1"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="width-25">
+              <span class="mb-2">شريحة2</span>
+              <div class="d-flex flex-wrap border_left gap-2 align-items-end">
+                <div class="width-45">
+                  <label class="mb-2">عدد</label>
+                  <input
+                    type="text"
+                    placeholder=" "
+                    formControlName="quantity2"
+                    readonly
+                    class="form-control"
+                  />
+                </div>
+                <div class="width-45">
+                  <label class="mb-2">بونص</label>
+                  <input
+                    type="text"
+                    placeholder=" "
+                    formControlName="bonus2"
+                    readonly
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="width-25">
+              <span class="mb-2">شريحة 3</span>
+              <div class="d-flex flex-wrap gap-2 align-items-end">
+                <div class="width-45">
+                  <label class="mb-2">عدد</label>
+                  <input
+                    type="text"
+                    placeholder=" "
+                    readonly
+                    formControlName="quantity3"
+                    class="form-control"
+                  />
+                </div>
+                <div class="width-45">
+                  <label class="mb-2">بونص</label>
+                  <input
+                    type="text"
+                    placeholder=" "
+                    readonly
+                    formControlName="bonus3"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="width-25">
+              <span class="mb-2">شريحة 4</span>
+              <div class="d-flex flex-wrap gap-2 align-items-end">
+                <div class="width-45">
+                  <label class="mb-2">عدد</label>
+                  <input
+                    type="text"
+                    placeholder=" "
+                    readonly
+                    formControlName="quantity4"
+                    class="form-control"
+                  />
+                </div>
+                <div class="width-45">
+                  <label class="mb-2">بونص</label>
+                  <input
+                    type="text"
+                    placeholder=" "
+                    readonly
+                    formControlName="bonus4"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            class="w-100 d-flex justify-content-end gap-2 align-items-center"
+          >
+            <!-- (click)="filter()" -->
+            <button
+              (click)="addBonus()"
+              appDisableButton
+              style="height: 40px; color: white; border: none"
+              class="darkGreen-bg borderRadius_10px width-20"
+            >
+              حفظ
+            </button>
+            <button
+              appDisableButton
+              style="height: 40px; background-color: white"
+              data-bs-toggle="modal"
+              data-bs-target="#filterShortageModel"
+              class="darkGreen-border darkGreen-color borderRadius_10px width-15"
+            >
+              فلتر
+            </button>
+            <div
+              (click)="openPrintModal()"
+              class="print-button cursor-pointer d-flex align-items-center ms-auto boxShadow-15"
+            >
+              <div class="textarea d-flex gap-2 align-items-center">
+                <svg
+                  width="32"
+                  height="32"
+                  viewBox="0 0 32 32"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_5900_794)">
+                    <path
+                      d="M22.6667 22.6667H25.3333C26.0406 22.6667 26.7189 22.3857 27.219 21.8856C27.719 21.3855 28 20.7072 28 20V14.6667C28 13.9594 27.719 13.2811 27.219 12.781C26.7189 12.281 26.0406 12 25.3333 12H6.66667C5.95942 12 5.28115 12.281 4.78105 12.781C4.28095 13.2811 4 13.9594 4 14.6667V20C4 20.7072 4.28095 21.3855 4.78105 21.8856C5.28115 22.3857 5.95942 22.6667 6.66667 22.6667H9.33333"
+                      stroke="#3F497F"
+                      stroke-width="2.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M22.6673 12V6.66667C22.6673 5.95942 22.3864 5.28115 21.8863 4.78105C21.3862 4.28095 20.7079 4 20.0007 4H12.0007C11.2934 4 10.6151 4.28095 10.115 4.78105C9.61494 5.28115 9.33398 5.95942 9.33398 6.66667V12"
+                      stroke="#3F497F"
+                      stroke-width="2.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                    <path
+                      d="M9.33398 19.9997C9.33398 19.2924 9.61494 18.6142 10.115 18.1141C10.6151 17.614 11.2934 17.333 12.0007 17.333H20.0007C20.7079 17.333 21.3862 17.614 21.8863 18.1141C22.3864 18.6142 22.6673 19.2924 22.6673 19.9997V25.333C22.6673 26.0403 22.3864 26.7185 21.8863 27.2186C21.3862 27.7187 20.7079 27.9997 20.0007 27.9997H12.0007C11.2934 27.9997 10.6151 27.7187 10.115 27.2186C9.61494 26.7185 9.33398 26.0403 9.33398 25.333V19.9997Z"
+                      stroke="#3F497F"
+                      stroke-width="2.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_5900_794">
+                      <rect width="32" height="32" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+                <span class="fw-bold">طباعة</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div #table>
+      <app-shared_table
+        [columnsArray]="columnsArray"
+        [columnsNames]="columnsName"
+        (openModalEvent)="openModal($event)"
+        [RowsData]="shortageData"
+        [showActionsArray]="true"
+        [showActionsArrayType]="5"
+      ></app-shared_table>
+    </div>
+
+    <div #pagination class="d-flex align-items-center gap-1 w-100">
+      <div
+        class="d-flex width-17 h-50px lightGreen-border borderRadius_20px p-2 justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600 w-50">اجمالي عدد الأصناف : </span>
+        <span class="fw-600">{{ total }}</span>
+      </div>
+      <div class="d-flex w-65-lg justify-content-center">
+        <p-paginator
+          #paginator
+          class="pagination d-flex justify-content-center"
+          (onPageChange)="changepages($event)"
+          [first]="1"
+          [rows]="rows"
+          [totalRecords]="total"
+        ></p-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button
+  hidden
+  #updateShortageModelbtn
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#updateShortageModel"
+></button>
+
+<div
+  class="modal fade"
+  id="updateShortageModel"
+  tabindex="-1"
+  aria-labelledby="updateShortageModelLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div
+        class="modal-header border-0 justify-content-center position-relative"
+      >
+        <h2 class="modal-title fs-5" id="exampleModalLabel">تعديل</h2>
+        <button
+          type="button"
+          class="btn-close position-absolute"
+          style="left: 3%"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body border-0">
+        <p
+          class="modal-title fs-2 text-center"
+          id="updateShortageModelLabel"
+        ></p>
+        <form [formGroup]="updateBonusForm">
+          <div
+            class="d-flex flex-wrap align-items-end justify-content-start gap-1"
+          >
+            <div class="width-48">
+              <div class="w-100 my-2">
+                <label class="mb-2"> اسم الصنف </label>
+                <input
+                  type="text"
+                  readonly
+                  formControlName="product_name"
+                  class="form-control readonly-input"
+                />
+              </div>
+            </div>
+
+            <div class="width-48">
+              <div class="w-100 my-2">
+                <label class="mb-2"> المخزن </label>
+                <input
+                  type="text"
+                  readonly
+                  formControlName="warehouse_name"
+                  class="form-control readonly-input"
+                />
+              </div>
+            </div>
+
+            <div class="width-48">
+              <div class="w-100 my-2">
+                <label class="mb-2"> تاريخ البدأ </label>
+                <div class="d-flex position-relative">
+                  <!-- <p-calendar [dir]="'ltr'" [showClear]="updateBonusForm.controls['begin_at'].value" dateFormat="yy-mm-dd" #toDate
+                                      class="w-100 " [disabled]="true" formControlName="begin_at" placeholder=" من ">
+                                  </p-calendar> -->
+                  <input
+                    type="text"
+                    readonly
+                    formControlName="start_date"
+                    class="form-control readonly-input"
+                  />
+
+                  <img
+                    style="left: 0%; top: 0%"
+                    class="calendar-icon position-absolute cursor-pointer p-2"
+                    src="../../../../assets/images/input/calender.svg"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="width-48">
+              <div class="w-100 my-2">
+                <label class="mb-2"> تاريخ الانتهاء</label>
+                <div class="d-flex position-relative">
+                  <p-calendar
+                    [dir]="'ltr'"
+                    [showClear]="updateBonusForm.controls['end_date'].value"
+                    #registration_date
+                    dateFormat="yy-mm-dd"
+                    class="w-100"
+                    formControlName="end_date"
+                    placeholder="الي  "
+                  >
+                  </p-calendar>
+                  <img
+                    style="left: 0%; top: 0%"
+                    (click)="registration_date.toggle()"
+                    class="calendar-icon position-absolute cursor-pointer p-2"
+                    src="../../../../assets/images/input/calender.svg"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="width-48 d-flex text-center align-items-center gap-1">
+              <div class="d-flex justify-content-center my-2">
+                <input
+                  name="quantity_more"
+                  class="form-check-input cursor-pointer check_input"
+                  type="checkbox"
+                  formControlName="till_finished"
+                  id="quantity_more"
+                />
+              </div>
+              <label class="mb-2"> حتي نفاذ الكمية </label>
+            </div>
+
+            <button
+              hidden
+              #closeModal
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+
+            <div class="w-100 d-flex justify-content-center">
+              <!-- (click)="filter()" -->
+              <button
+                (click)="updateShortage()"
+                appDisableButton
+                style="height: 60px; color: white; border: none"
+                class="darkGreen-bg borderRadius_20px w-75"
+                data-bs-dismiss="modal"
+              >
+                حفظ
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="modal fade"
+  id="filterShortageModel"
+  tabindex="-1"
+  aria-labelledby="filterShortageModelLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div
+        class="modal-header border-0 justify-content-center position-relative"
+      >
+        <h2 class="modal-title fs-5" id="exampleModalLabel">فلتر</h2>
+        <button
+          type="button"
+          class="btn-close position-absolute"
+          style="left: 3%"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body border-0">
+        <p
+          class="modal-title fs-2 text-center"
+          id="filterShortageModelLabel"
+        ></p>
+        <form [formGroup]="filterBonusForm">
+          <div
+            class="d-flex flex-wrap align-items-end justify-content-start gap-2"
+          >
+            <div class="width-48">
+              <div class="w-100 my-2">
+                <label class="mb-2"> اسم الصنف </label>
+                <p-dropdown
+                  [options]="products"
+                  [showClear]="true"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  formControlName="product_id"
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+
+            <div class="width-23">
+              <div class="w-100 my-2">
+                <label class="mb-2"> تاريخ البدء </label>
+                <div class="d-flex position-relative">
+                  <p-calendar
+                    [dir]="'ltr'"
+                    [showClear]="filterBonusForm.controls['start'].value"
+                    dateFormat="yy-mm-dd"
+                    #toDate
+                    class="w-100"
+                    [disabled]="true"
+                    formControlName="start"
+                    placeholder=" من "
+                  >
+                  </p-calendar>
+                  <img
+                    style="left: 0%; top: 0%"
+                    class="calendar-icon position-absolute cursor-pointer p-2"
+                    src="../../../../assets/images/input/calender.svg"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="width-23">
+              <div class="w-100 my-2">
+                <label class="mb-2"></label>
+                <div class="d-flex position-relative">
+                  <p-calendar
+                    [dir]="'ltr'"
+                    [showClear]="filterBonusForm.controls['end'].value"
+                    #registration_date
+                    dateFormat="yy-mm-dd"
+                    class="w-100"
+                    formControlName="end"
+                    placeholder="الي  "
+                  >
+                  </p-calendar>
+                  <img
+                    style="left: 0%; top: 0%"
+                    (click)="registration_date.toggle()"
+                    class="calendar-icon position-absolute cursor-pointer p-2"
+                    src="../../../../assets/images/input/calender.svg"
+                    alt=""
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="width-30">
+              <div class="w-100 my-2">
+                <label class="mb-2"> تصنيع شركة </label>
+                <p-dropdown
+                  [options]="manufacturers"
+                  [showClear]="true"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  formControlName="manufactured_by"
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+            <div class="width-30">
+              <div class="w-100 my-2">
+                <label class="mb-2"> الكاتب </label>
+                <p-dropdown
+                  [options]="created_by"
+                  [showClear]="true"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="id"
+                  placeholder=" "
+                  formControlName="created_by"
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+            <div class="width-32">
+              <div class="w-100 my-2">
+                <label class="mb-2"> الحالة </label>
+                <p-dropdown
+                  [options]="status"
+                  [showClear]="true"
+                  class="d-block"
+                  optionLabel="name"
+                  optionValue="value"
+                  placeholder=" "
+                  formControlName="status"
+                  [filter]="true"
+                ></p-dropdown>
+              </div>
+            </div>
+
+            <button
+              hidden
+              #closeModal
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+            <div class="width-32">
+              <input
+                style="width: 40px !important; height: 40px !important"
+                class="form-check-input mx-1 borderRadius_10px"
+                name="accept_return"
+                type="checkbox"
+                formControlName="till_finished"
+              />
+              <label class="form-check-label"> حتي نفاذ الكمية </label>
+            </div>
+            <div class="w-100 d-flex justify-content-center">
+              <!-- (click)="filter()" -->
+              <button
+                (click)="filterShortage()"
+                appDisableButton
+                style="height: 60px; color: white; border: none"
+                class="darkGreen-bg borderRadius_20px w-75"
+                data-bs-dismiss="modal"
+              >
+                فلترة
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<button
+  hidden
+  #OpenOptionsModal
+  type="button"
+  (click)="chooseTypePopup.openAddModal()"
+></button>
+<app-printing-options-popup
+  [inSharedTable]="false"
+  [paginated]="true"
+  (printData)="print($event)"
+  [RowsData]="shortageData"
+  #chooseTypePopup
+></app-printing-options-popup>

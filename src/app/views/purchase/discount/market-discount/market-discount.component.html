@@ -1,0 +1,125 @@
+<div class="main_card_margen">
+  <div class="card card boxShadow-15 borderRadius_20px">
+    <form [formGroup]="filterForm" action="">
+      <div id="filter" class="p-3">
+        <div class="d-flex flex-wrap align-items-end gap-2">
+          <div class="width-30 position-relative">
+            <label class="mb-2">اسم الصنف</label>
+            <p-dropdown
+              [options]="products"
+              formControlName="product_id"
+              optionLabel="name"
+              optionValue="id"
+              placeholder=" "
+              [showClear]="true"
+              [filter]="true"
+            ></p-dropdown>
+            <app-Form-errors
+              class="position-absolute error"
+              [control]="filterForm.controls['product_id']"
+            ></app-Form-errors>
+          </div>
+          <div class="width-30">
+            <label class="mb-2">اسم المورد</label>
+            <p-dropdown
+              [options]="suppliers"
+              formControlName="supplier_id"
+              optionLabel="name"
+              optionValue="id"
+              placeholder=" "
+              [showClear]="true"
+              [filter]="true"
+            ></p-dropdown>
+          </div>
+          <div class="width-25 d-flex align-items-end gap-2">
+            <div class="width-45">
+              <label class="m-2">التاريخ </label>
+              <div class="calendar-holder position-relative">
+                <p-calendar
+                  #calendarFrom
+                  [dir]="'ltr'"
+                  formControlName="from"
+                  placeholder=" من"
+                  dateFormat="yy-mm-dd"
+                  [showClear]="this.filterForm.controls['from'].value"
+                >
+                </p-calendar>
+                <img
+                  (click)="calendarFrom.toggle()"
+                  class="cursor-pointer position-absolute top_5px end-0"
+                  src="../../../../assets/images/input/calender.svg"
+                  alt=""
+                />
+              </div>
+            </div>
+            <div class="width-45">
+              <div class="calendar-holder position-relative">
+                <p-calendar
+                  #calendarTo
+                  [dir]="'ltr'"
+                  placeholder=" الي"
+                  dateFormat="yy-mm-dd"
+                  formControlName="to"
+                  [showClear]="this.filterForm.controls['to'].value"
+                >
+                </p-calendar>
+                <img
+                  (click)="calendarTo.toggle()"
+                  class="cursor-pointer position-absolute top_5px end-0"
+                  src="../../../../assets/images/input/calender.svg"
+                  alt=""
+                />
+              </div>
+            </div>
+          </div>
+          <div class="flex-fill d-flex gap-2">
+            <button
+              (click)="filter()"
+              type="button"
+              class="green_bg_black_txt_btn h-40px borderRadius_10px width-50"
+            >
+              <span class="fw-600">بحث</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div *ngIf="Discounts.length > 0" id="table" class="p-3">
+      <app-shared_table
+        [columnsArray]="columnsArray"
+        [columnsNames]="columnsName"
+        [RowsData]="Discounts"
+        (sortEvent)="sort($event)"
+      ></app-shared_table>
+    </div>
+    <div
+      *ngIf="Discounts.length > 0"
+      id="pagination"
+      class="p-3 bottom-part flex-wrap d-flex align-items-center"
+    >
+      <div class="d-flex width-18">
+        <div
+          class="w-100 h-60px borderRadius_20px lightGreen-border d-flex align-items-center"
+        >
+          <span class="w-50 d-flex justify-content-center text-center p-1">
+            اجمالي عدد الموردين</span
+          >
+          <hr class="h-100 lightGreen-border" />
+          <span class="fw-600 fs-18 w-50 d-flex justify-content-center">{{
+            total
+          }}</span>
+        </div>
+      </div>
+      <div class="width-65">
+        <p-paginator
+          #paginator
+          class="d-flex justify-content-center mb-2"
+          (onPageChange)="changePage($event)"
+          [first]="1"
+          [rows]="rows"
+          [totalRecords]="total"
+        ></p-paginator>
+      </div>
+    </div>
+  </div>
+</div>

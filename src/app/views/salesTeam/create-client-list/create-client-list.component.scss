@@ -1,0 +1,135 @@
+@import 'generalInputsStyle.scss';
+@import 'generalPickListStyle.scss';
+
+
+.createClinetListCont {
+    .fullScreenWidth {
+        @media screen and (max-width:769px) {
+            width: 100% !important;
+        }
+    }
+
+    .row1 {
+        gap: 15px;
+
+        .inputField {
+            width: 20%;
+        }
+
+        .dropdowns {
+            width: 30%;
+        }
+    }
+
+    .row2 {
+        gap: 15px;
+
+        .lgDropdown {
+            width: 15%;
+        }
+
+        .smDropdown {
+            width: 13%;
+        }
+
+        .delivery {
+            width: 11%;
+        }
+
+        .cancelbtn {
+            background-color: var(--red);
+            color: #FFF;
+        }
+
+        .searchbtn {
+            width: 9%;
+            border: none;
+
+            button {
+                border: none;
+                height: 40px;
+            }
+
+        }
+    }
+
+    .search {
+        .table {
+            width: 50%;
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .table2 {
+            width: 50%;
+        }
+
+        input {
+            @media screen and (max-width:321px) {
+                font-size: 12px;
+            }
+        }
+    }
+
+    .pickList {
+
+
+        @media screen and (max-width:426px) {
+            margin-right: 15px;
+        }
+    }
+
+    .totalNumbers {
+        @media screen and (max-width:769px) {
+            gap: 20px;
+        }
+    }
+}
+
+
+
+.disabled-item {
+    opacity: 0.5;
+    cursor: not-allowed !important;
+    pointer-events: none !important;
+}
+
+.width-23 {
+    width: 23%;
+
+    @media screen and (max-width:769px) {
+        width: 100%;
+    }
+
+}
+
+.width-95 {
+    width: 96%;
+
+    @media screen and (max-width:1024px) {
+        width: 91%;
+    }
+
+    @media screen and (max-width:769px) {
+        width: 100%;
+    }
+
+}
+
+.marginResponsiveFix {
+    margin-left: 10px;
+
+    @media screen and (max-width:769px) {
+        margin: 0px;
+    }
+}
+
+.disabled:hover {
+    ::ng-deep {
+        .p-dropdown:not(.p-disabled):hover {
+            border-color: #ced4da !important;
+            outline: 0;
+            box-shadow: none;
+        }
+    }
+}

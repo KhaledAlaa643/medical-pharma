@@ -1,0 +1,169 @@
+<div class="main_card_margen card boxShadow-10 borderRadius_10px p-3">
+  <form [formGroup]="clientDataForm">
+    <div class="row">
+      <div class="col-xs-12 col-md-12 col-lg-2">
+        <div>
+          <label class="mb-2">كود العميل</label>
+          <i *ngIf="loaderBooleans['code']" class="pi pi-spin pi-spinner"></i>
+          <input
+            [(ngModel)]="clientCode"
+            [ngModelOptions]="{ standalone: true }"
+            (keydown.enter)="getClient('code'); goFromCodeToPharmacy()"
+            pInputText
+            type="text"
+            placeholder=" "
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-12 col-lg-6">
+        <div class="">
+          <label class="mb-2">اسم العميل</label>
+          <i
+            *ngIf="loaderBooleans['client_name']"
+            class="pi pi-spin pi-spinner"
+          ></i>
+
+          <p-dropdown
+            #userDropdown
+            #pharmacyName
+            (click)="
+              getClient('clientId', clientID);
+              goToSalesAgentFromPharmacy(pharmacyName);
+              getwarehouse(userDropdown)
+            "
+            (keydown.enter)="
+              getClient('clientId', clientID);
+              goToSalesAgentFromPharmacy(pharmacyName);
+              getwarehouse(userDropdown)
+            "
+            [options]="groupPharmacied"
+            [ngModelOptions]="{ standalone: true }"
+            [(ngModel)]="clientID"
+            optionLabel="name"
+            optionValue="id"
+            [filter]="true"
+            filterBy="name"
+            [showClear]="true"
+            placeholder=" "
+          >
+            <ng-template pTemplate="selectedItem" let-selectedItem>
+              <div class="flex align-items-center gap-2">
+                <div>{{ selectedItem.name }}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-md-12 col-lg-4">
+        <div class="">
+          <label class="mb-2">مندوب المبيعات</label>
+          <i *ngIf="" class="pi pi-spin pi-spinner"></i>
+        </div>
+
+        <p-dropdown
+          #salesAgent
+          optionLabel="name"
+          optionValue="id"
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          placeholder=" "
+          [options]="sales"
+          formControlName="sales_id"
+          (keydown.enter)="goToRoleFromSalesAgent(salesAgent, $event)"
+          (click)="goToRoleFromSalesAgent(salesAgent, $event)"
+        >
+          <ng-template pTemplate="selectedItem" let-selectedItem>
+            <div>
+              <div>{{ selectedItem.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+
+      <div class="col-xs-12 col-md-12 col-lg-3 my-2">
+        <div>
+          <label class="mb-2">القسم</label>
+          <i *ngIf="roleBoolean" class="pi pi-spin pi-spinner"></i>
+        </div>
+        <p-dropdown
+          #role_id
+          optionLabel="name"
+          optionValue="value"
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          placeholder=" "
+          [(ngModel)]="usersFromDepartment"
+          [options]="allDepartment"
+          (keydown.enter)="goToAccusedEmployeeFromRole(role_id, $event)"
+          (click)="goToAccusedEmployeeFromRole(role_id, $event)"
+          formControlName="department"
+        >
+          <ng-template pTemplate="selectedItem" let-selectedItem>
+            <div>
+              <div>{{ selectedItem.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="col-xs-12 col-md-12 col-lg-4 my-2">
+        <div>
+          <label class="mb-2">الموظف المشكو في حقه </label>
+          <i *ngIf="userDepartmentBoolean" class="pi pi-spin pi-spinner"></i>
+        </div>
+
+        <p-dropdown
+          #accusedEmployee
+          optionLabel="name"
+          optionValue="id"
+          [filter]="true"
+          filterBy="name"
+          [showClear]="true"
+          placeholder=" "
+          (click)="
+            onFocusSwitchercomplaintBox(accusedEmployee, $event);
+            getUserRoleData()
+          "
+          (keydown.enter)="onFocusSwitchercomplaintBox(accusedEmployee, $event)"
+          [options]="allUserDepartments"
+          formControlName="userID"
+        >
+          <ng-template pTemplate="selectedItem" let-selectedItem>
+            <div>
+              <div>{{ selectedItem.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <label for="complaintBox" class="mb-2"> نص الشكاوي </label>
+        <textarea
+          #complaintBox
+          type="textarea"
+          name="complaintBox"
+          id="complaintBox"
+          formControlName="complaintBox"
+          class="form-control"
+          rows="15"
+          cols="50"
+        ></textarea>
+      </div>
+    </div>
+  </form>
+  <button
+    appDisableButton
+    type="click"
+    [disabled]="isButtonDisabled"
+    [disabled]="!clientDataForm.valid"
+    (click)="postComplaint()"
+    class="btn btn-success text-white border rounded-pill d-flex justify-content-center align-items-center mx-auto my-2 py-2 w-25"
+  >
+    تسجيل الشكوى
+    <i *ngIf="activateLoader" class="pi pi-spin pi-spinner text-end mx-1"></i>
+  </button>
+</div>

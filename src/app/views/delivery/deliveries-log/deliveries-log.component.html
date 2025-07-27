@@ -1,0 +1,156 @@
+<div class="main_card_margen">
+  <div class="card borderRadius_20px boxshadow-15 p-3">
+    <div id="header" class="d-flex gap-2 flex-wrap align-items-end">
+      <div class="width-20 d-flex flex-column  ">
+        <label class=" mb-2">اسم العميل</label>
+        <p-dropdown [showClear]="true" class="d-block " optionLabel="name" optionValue="id" placeholder=" " ></p-dropdown>
+      </div>
+      <div class="width-20 d-flex flex-column">
+        <label class="m-2">التاريخ </label>
+        <div class="calendar-holder position-relative">
+            <p-calendar  #calendarFrom [dir]="'ltr'" placeholder=" " ></p-calendar>
+            <img (click)="calendarFrom.toggle()" class="cursor-pointer position-absolute top_5px end-0" src="../../../../assets/images/input/calender.svg" alt="">
+        </div>
+      </div>
+      <div class="width-20 d-flex flex-column  ">
+        <label class=" mb-2">اسم المندوب 1</label>
+        <p-dropdown [showClear]="true" class="d-block " optionLabel="name" optionValue="id" placeholder=" " ></p-dropdown>
+      </div>
+      <div class="width-20 d-flex flex-column  ">
+        <label class=" mb-2">السائق</label>
+        <p-dropdown [showClear]="true" class="d-block " optionLabel="name" optionValue="id" placeholder=" " ></p-dropdown>
+      </div>
+      <div class="flex-fill d-flex justify-content-end">
+        <button data-bs-toggle="modal" data-bs-target="#deliveryModal"
+          class="printBtn fullScreen-768px d-flex fs-19 h-60px borderRadius_15px p-3 align-items-center text-center justify-content-center boxShadow-15">
+          طباعة
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_5900_794)">
+              <path
+                d="M22.6667 22.6667H25.3333C26.0406 22.6667 26.7189 22.3857 27.219 21.8856C27.719 21.3855 28 20.7072 28 20V14.6667C28 13.9594 27.719 13.2811 27.219 12.781C26.7189 12.281 26.0406 12 25.3333 12H6.66667C5.95942 12 5.28115 12.281 4.78105 12.781C4.28095 13.2811 4 13.9594 4 14.6667V20C4 20.7072 4.28095 21.3855 4.78105 21.8856C5.28115 22.3857 5.95942 22.6667 6.66667 22.6667H9.33333"
+                stroke="#3F497F" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" />
+              <path
+                d="M22.6673 12V6.66667C22.6673 5.95942 22.3864 5.28115 21.8863 4.78105C21.3862 4.28095 20.7079 4 20.0007 4H12.0007C11.2934 4 10.6151 4.28095 10.115 4.78105C9.61494 5.28115 9.33398 5.95942 9.33398 6.66667V12"
+                stroke="#3F497F" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" />
+              <path
+                d="M9.33398 19.9997C9.33398 19.2924 9.61494 18.6142 10.115 18.1141C10.6151 17.614 11.2934 17.333 12.0007 17.333H20.0007C20.7079 17.333 21.3862 17.614 21.8863 18.1141C22.3864 18.6142 22.6673 19.2924 22.6673 19.9997V25.333C22.6673 26.0403 22.3864 26.7185 21.8863 27.2186C21.3862 27.7187 20.7079 27.9997 20.0007 27.9997H12.0007C11.2934 27.9997 10.6151 27.7187 10.115 27.2186C9.61494 26.7185 9.33398 26.0403 9.33398 25.333V19.9997Z"
+                stroke="#3F497F" stroke-width="2.75" stroke-linecap="round" stroke-linejoin="round" />
+            </g>
+            <defs>
+              <clipPath id="clip0_5900_794">
+                <rect width="32" height="32" fill="white" />
+              </clipPath>
+            </defs>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="w-100 my-2">
+      <div class="d-flex mb-2 gap-2 flex-wrap gap-2">
+        <div [ngClass]="{'darkGreen-bg':popupTabs[0]}" (click)="changeTab(0)" class="width-30 cursor-pointer d-flex justify-content-center align-items-center h-50px borderRadius_15px boxShadow-15  p-1 my-2 ">
+          استلام من التوزيع
+        </div>
+        <div [ngClass]="{'darkGreen-bg':popupTabs[1]}" (click)="changeTab(1)" class="width-30 cursor-pointer d-flex justify-content-center align-items-center h-50px borderRadius_15px boxShadow-15 p-1 my-2">
+          تسليم العميل
+      </div>
+
+       </div>
+    </div>
+
+    <div id="table">
+      <app-shared_table 
+      [columnsArray]="columnsArray" 
+      [columnsNames]="columnsName"
+      [RowsData]="data"
+      ></app-shared_table>
+    </div>
+
+    <div  class="w-100 my-2">
+      <div class="row  m-2 p-2 align-items-center d-flex justify-content-between">
+        <div class="col-lg-4 mt-2 ">
+          <div class=" h-60px borderRadius_20px justify-content-center p-2 lightGreen-border d-flex align-items-center">
+            اجمالي عدد الأذونات : 2000 
+          </div>
+        </div>
+
+        <div class="col-lg-4 mt-2 ">
+          <p-paginator #paginator [first]="1" [rows]="rows" (onPageChange)="changePage($event)"
+          [totalRecords]="total"></p-paginator>
+        </div>
+
+        <div class="col-lg-4 mt-2 ">
+          <div class=" h-60px borderRadius_20px p-2 justify-content-center lightGreen-border d-flex align-items-center">
+            اجمالي المبلغ : 2000
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="deliveryModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+aria-hidden="true">
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header border-0  justify-content-center position-relative">
+            <h1 class="modal-title fs-5" id="exampleModalLabel"> تسليم العميل</h1>
+            <button type="button" class="btn-close position-absolute" style="left: 3%;" data-bs-dismiss="modal"
+                aria-label="Close"></button>
+        </div>
+        <div class=" modal-body border-0 ">
+          <form>
+            <div class="p-2">
+                <div class="w-100 my-2 ">
+                  <label class="  mb-2">اسم العميل</label>
+                  <input  type="text" placeholder=" " class=" form-control" style="direction: rtl;">
+                </div>
+               <div class="d-flex mb-2 gap-2 flex-wrap justify-content-between">
+                <div [ngClass]="{'darkGreen-bg':popupTabs[0]}" (click)="changeTab(0)" class="width-30 cursor-pointer d-flex justify-content-center align-items-center h-40px borderRadius_15px boxShadow-15  p-1 my-2 ">
+                  تسليم بنقدية
+                </div>
+                <div [ngClass]="{'darkGreen-bg':popupTabs[1]}" (click)="changeTab(1)" class="width-30 cursor-pointer d-flex justify-content-center align-items-center h-40px borderRadius_15px boxShadow-15 p-1 my-2">
+                  تسليم بدون نقدية
+              </div>
+                <div [ngClass]="{'darkGreen-bg':popupTabs[2]}" (click)="changeTab(2)" class="width-30 cursor-pointer d-flex justify-content-center align-items-center h-40px borderRadius_15px boxShadow-15 p-1 my-2">
+                  لم يتم التسليم
+              </div>
+               </div>
+               <div class="d-flex mb-2 gap-2 flex-wrap justify-content-between">
+                <div *ngIf="popupTabs[0]" class="w-100 my-2 ">
+                  <label class="  mb-2">قيمة النقدية </label>
+                  <input type="text" placeholder=" " class=" form-control" name="" id="">
+        
+                </div>
+                <div *ngIf="popupTabs[2]" class="w-100 my-2 ">
+                  <label class="  mb-2">سبب عدم التسليم </label>
+                  <p-dropdown
+                  [showClear]="true" class="d-block "
+                  optionLabel="name" optionValue="id" placeholder=" "
+                  [filter]="true"></p-dropdown>
+        
+                </div>
+               </div>
+
+
+
+
+
+               <div class="d-flex flex-wrap w-100  mt-4 d-flex justify-content-center align-items-center">
+                <div class="width-75 fullScreenWidth mx-0">
+                  <button appDisableButton type="button" class="w-100 borderRadius_20px darkGreen-bg border-0 text-light fw-bold h-60px"
+                  data-bs-dismiss="modal"
+                aria-label="Close"
+                    >تم التسليم</button>
+                </div>
+              </div>
+
+            </div>
+          </form>
+
+
+        </div>
+
+    </div>
+</div>
+</div>

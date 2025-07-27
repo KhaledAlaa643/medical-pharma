@@ -1,0 +1,393 @@
+<!--
+<div class="  ">
+  <div class=" w-100 ">
+    <form [formGroup]="ReportForm">
+      <div class="d-flex w-100 justify-content-center align-items-center responsive-fix">
+        <div class=" width-50 mb-5">
+          <div class="table  w-100 mb-5">
+            <p class=" text-center tableHeaderone p-3 fw-500 fs-18"> تقارير دائن له</p>
+
+            <div class="m-2">
+                <div class="responsiveFix my-2 p-2">
+                  <label class="form-label  fw-500 fs-16 "> اجمالي مرتجعات المبيعات </label>
+
+                  <input type="text" placeholder=" " [value]="ReportData.returnsTotal ==undefined? 0:ReportData.returns_total" formControlName="returnsTotal"
+                    class="form-control cusror-default  w-100" readonly>
+                </div>
+                <div class="responsiveFix my-2 p-2">
+                  <label class="mb-2 ">اجمالي المشتريات </label>
+
+                  <input type="text" placeholder=" " [value]="ReportData.purchasesTotal == undefined? 0:ReportData.purchasesTotal"
+                    formControlName="purchasesTotal" class="form-control cusror-default  w-100" readonly>
+                </div>
+
+                <div class="responsiveFix my-2 p-2">
+                  <label class="form-label  fw-500 fs-16 "> اجمالي استلام نقدية </label>
+                  <input type="text" placeholder=" " [value]="0"
+                    formControlName="cash_Receives_total" class="form-control cusror-default  w-100" readonly>
+                </div>
+
+                <div class="responsiveFix my-2 p-2">
+                  <label class="form-label  fw-500 fs-16 "> اجمالي اشعارات الخصم </label>
+                  <input type="text" placeholder=" " [value]="0"
+                    formControlName="adjustment_note_discount" class="form-control  cusror-default w-100" readonly>
+                </div>
+
+                <div class="responsiveFix my-2 p-2">
+                  <label class="mb-2 ">اجمالي رصيد صادر منه  </label>
+                  <input type="text" placeholder=" " [value]="0"
+                    formControlName="transferred_balance_to" class="form-control cusror-default  w-100" readonly>
+                </div>
+
+                <div class="responsiveFix my-2 p-2">
+                  <label class="form-label  fw-500 fs-16 ">اجمالي رصيد أول المدة دائن </label>
+                  <input type="text" placeholder=" "
+                    [value]="0"
+                    formControlName="debt" class="form-control cusror-default  w-100 mb-5" readonly>
+                </div>
+
+
+            </div>
+
+          </div>
+
+          <div class="row m-2 p-2">
+            <div class="col-md-12 col-lg-6 d-flex justify-content-evenly w-100">
+              <span class="d-flex  align-items-center justify-content-center fw-600 fs-18">الرصيد الحالي</span>
+              <div
+                class=" h-60px p-3 borderRadius_20px lightGreen-border d-flex align-items-center justify-content-center ">
+                <span
+                  class="fw-600 smalltext   fs-18 text-center d-flex justify-content-center align-items-center text-center whitespace ">
+                  دائن له :</span>
+                <span class="fw-600 fs-18 w-100 d-flex text-center justify-content-center align-items-center">
+                  {{ReportData.credit < 0 ? ReportData.credit *-1: 0}} </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class=" width-50 mb-5">
+
+          <div class="table  w-100 mb-5">
+            <p class=" text-center tableHeadertwo p-3 fw-500 fs-18"> تقارير مدين عليه </p>
+            <div class="m-2">
+                <div class="responsiveFix my-2 p-2">
+                  <label class="mb-2 ">اجمالي المبيعات </label>
+
+                  <input type="text" placeholder=" " [value]="ReportData.ordersTotal==undefined?0:ReportData.ordersTotal" formControlName="ordersTotal"
+                    class="form-control cusror-default " readonly>
+                </div>
+
+                <div class="responsiveFix my-2 p-2">
+                  <label class="form-label  fw-500 fs-16 "> اجمالي مرتجعات المشتريات </label>
+
+                  <input type="text" placeholder=" " [value]="ReportData.purchasesReturnsTotal==undefined?0:ReportData.purchasesReturnsTotal"
+                    formControlName="purchasesReturnsTotal" class="form-control cusror-default  w-100" readonly>
+                </div>
+                <div class="responsiveFix my-2 p-2">
+                  <label class="mb-2 ">اجمالي دفع النقدية </label>
+                  <input type="text" placeholder=" " [value]="0"
+                    formControlName="cash_payments_total" class="form-control cusror-default  w-100" readonly>
+                </div>
+                <div class="responsiveFix my-2 p-2">
+                  <label class="mb-2 ">اجمالي اشعارات الاضافة </label>
+                  <input type="text" placeholder=" " [value]="0"
+                    formControlName="adjustment_notes_total " class="form-control cusror-default  w-100" readonly>
+                </div>
+
+                <div class="responsiveFix my-2 p-2">
+                  <label class="form-label  fw-500 fs-16 "> اجمالي رصيد محول عليه </label>
+                  <input type="text" placeholder=" " [value]="0"
+                    formControlName="transferred_balance_from" class="form-control cusror-default  w-100" readonly>
+                </div>
+                <div class="responsiveFix my-2 p-2">
+                  <label class="form-label  fw-500 fs-16 "> اجمالي رصيد أول المدة مدين </label>
+                  <input type="text" placeholder=" "
+                    [value]="0"
+                    formControlName="credit" class="form-control cusror-default  w-100 mb-5" readonly>
+                </div>
+
+
+              </div>
+
+          </div>
+          <div class="row m-2 p-2">
+            <div class="col-md-12 col-lg-6 d-flex justify-content-evenly w-100">
+              <span style="white-space: nowrap;"
+                class="d-flex SpanShow align-items-center justify-content-center fw-600 fs-18">الرصيد الحالي</span>
+              <div
+                class=" h-60px p-3 borderRadius_20px lightGreen-border d-flex align-items-center justify-content-center ">
+                <span
+                  class="fw-600 smalltext   fs-18 text-center d-flex justify-content-center align-items-center text-center whitespace ">
+                  مدين عليه :</span>
+                <span class="fw-600 fs-18 w-100 d-flex text-center justify-content-center align-items-center">
+                  {{ReportData.debt >= 0 ? ReportData.debt : 0}}</span>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </form>
+
+
+  </div>
+
+</div> -->
+
+<div class="  ">
+  <div class="w-100">
+    <div
+      class="d-flex w-100 justify-content-center align-items-center responsive-fix"
+    >
+      <div class="width-50 mb-5">
+        <div class="table w-100 mb-5">
+          <p class="text-center tableHeaderone p-3 fw-500 fs-18">
+            تقارير دائن له
+          </p>
+
+          <div class="m-2">
+            <form [formGroup]="ReportForm">
+              <div class="responsiveFix my-2 p-2">
+                <label class="form-label fw-500 fs-16">
+                  اجمالي مرتجعات المبيعات
+                </label>
+
+                <input
+                  type="text"
+                  placeholder=" "
+                  [value]="ReportData?.returnsTotal"
+                  formControlName="returnsTotal"
+                  class="form-control cusror-default w-100"
+                  readonly
+                />
+              </div>
+              <div class="responsiveFix my-2 p-2">
+                <label class="mb-2">اجمالي المشتريات </label>
+
+                <input
+                  type="text"
+                  placeholder=" "
+                  [value]="ReportData?.purchasesTotal"
+                  formControlName="purchasesTotal"
+                  class="form-control cusror-default w-100"
+                  readonly
+                />
+              </div>
+
+              <div class="responsiveFix my-2 p-2">
+                <label class="form-label fw-500 fs-16">
+                  اجمالي استلام نقدية
+                </label>
+
+                <input
+                  type="text"
+                  placeholder=" "
+                  [value]="ReportData?.cash_Receives_total"
+                  formControlName="cash_Receives_total"
+                  class="form-control cusror-default w-100"
+                  readonly
+                />
+              </div>
+
+              <div class="responsiveFix my-2 p-2">
+                <label class="form-label fw-500 fs-16">
+                  اجمالي اشعارات الخصم
+                </label>
+
+                <input
+                  type="text"
+                  placeholder=" "
+                  [value]="ReportData?.adjustment_note_discount"
+                  formControlName="adjustment_note_discount"
+                  class="form-control cusror-default w-100"
+                  readonly
+                />
+              </div>
+
+              <div class="responsiveFix my-2 p-2">
+                <label class="mb-2">اجمالي رصيد صادر منه </label>
+
+                <input
+                  type="text"
+                  placeholder=" "
+                  [value]="ReportData?.transferred_balance_to"
+                  formControlName="transferred_balance_to"
+                  class="form-control cusror-default w-100"
+                  readonly
+                />
+              </div>
+
+              <div class="responsiveFix my-2 p-2">
+                <label class="form-label fw-500 fs-16"
+                  >اجمالي رصيد أول المدة دائن
+                </label>
+
+                <input
+                  type="text"
+                  placeholder=" "
+                  [value]="ReportData?.initial_debit"
+                  formControlName="debit"
+                  class="form-control cusror-default w-100 mb-5"
+                  readonly
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="row m-2 p-2">
+          <div class="col-md-12 col-lg-6 d-flex justify-content-evenly w-100">
+            <span
+              class="d-flex align-items-center justify-content-center fw-600 fs-18"
+              >الرصيد الحالي</span
+            >
+            <div
+              class="h-60px p-3 borderRadius_20px lightGreen-border d-flex align-items-center justify-content-center"
+            >
+              <span
+                class="fw-600 smalltext fs-18 text-center d-flex justify-content-center align-items-center text-center whitespace"
+              >
+                دائن له :</span
+              >
+              <span
+                class="fw-600 fs-18 w-100 d-flex text-center justify-content-center align-items-center"
+              >
+                {{ ReportData.total_credit ? ReportData?.total_credit : 0 }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="width-50 mb-5">
+        <div class="table w-100 mb-5">
+          <p class="text-center tableHeadertwo p-3 fw-500 fs-18">
+            تقارير مدين عليه
+          </p>
+          <div class="m-2">
+            <form [formGroup]="ReportForm">
+              <div class="responsiveFix my-2 p-2">
+                <label class="mb-2">اجمالي المبيعات </label>
+
+                <input
+                  type="text"
+                  placeholder=" "
+                  [value]="ReportData?.ordersTotal"
+                  formControlName="ordersTotal"
+                  class="form-control cusror-default"
+                  readonly
+                />
+              </div>
+
+              <div class="responsiveFix my-2 p-2">
+                <label class="form-label fw-500 fs-16">
+                  اجمالي مرتجعات المشتريات
+                </label>
+
+                <input
+                  type="text"
+                  placeholder=" "
+                  [value]="ReportData?.purchasesReturnsTotal"
+                  formControlName="purchasesReturnsTotal"
+                  class="form-control cusror-default w-100"
+                  readonly
+                />
+              </div>
+              <div class="responsiveFix my-2 p-2">
+                <label class="mb-2">اجمالي دفع النقدية </label>
+
+                <input
+                  type="text"
+                  placeholder=" "
+                  [value]="
+                    ReportData?.cash_payments_total
+                      ? 0
+                      : ReportData?.cash_payments_total
+                  "
+                  formControlName="cash_payments_total"
+                  class="form-control cusror-default w-100"
+                  readonly
+                />
+              </div>
+              <div class="responsiveFix my-2 p-2">
+                <label class="mb-2">اجمالي اشعارات الاضافة </label>
+
+                <input
+                  type="text"
+                  placeholder=" "
+                  [value]="
+                    ReportData?.adjustment_notes_total
+                      ? 0
+                      : ReportData?.adjustment_notes_total
+                  "
+                  formControlName="adjustment_notes_total"
+                  class="form-control cusror-default w-100"
+                  readonly
+                />
+              </div>
+
+              <div class="responsiveFix my-2 p-2">
+                <label class="form-label fw-500 fs-16">
+                  اجمالي رصيد محول عليه
+                </label>
+
+                <input
+                  type="text"
+                  placeholder=" "
+                  [value]="ReportData?.transferred_balance_from"
+                  formControlName="transferred_balance_from"
+                  class="form-control cusror-default w-100"
+                  readonly
+                />
+              </div>
+              <div class="responsiveFix my-2 p-2">
+                <label class="form-label fw-500 fs-16">
+                  اجمالي رصيد أول المدة مدين
+                </label>
+
+                <input
+                  type="text"
+                  placeholder=" "
+                  [value]="ReportData?.initial_credit"
+                  formControlName="credit"
+                  class="form-control cusror-default w-100 mb-5"
+                  readonly
+                />
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row m-2 p-2">
+          <div class="col-md-12 col-lg-6 d-flex justify-content-evenly w-100">
+            <span
+              style="white-space: nowrap"
+              class="d-flex SpanShow align-items-center justify-content-center fw-600 fs-18"
+              >الرصيد الحالي</span
+            >
+            <div
+              class="h-60px p-3 borderRadius_20px lightGreen-border d-flex align-items-center justify-content-center"
+            >
+              <span
+                class="fw-600 smalltext fs-18 text-center d-flex justify-content-center align-items-center text-center whitespace"
+              >
+                مدين عليه :</span
+              >
+              <span
+                class="fw-600 fs-18 w-100 d-flex text-center justify-content-center align-items-center"
+              >
+                {{
+                  ReportData?.total_debit ? ReportData?.total_debit : 0
+                }}</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

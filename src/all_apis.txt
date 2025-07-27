@@ -1,0 +1,447 @@
+Base URL: http://medical-bd.restart-technology.com/api/
+List of APIs used in the project:
+
+File: ..\src\app\core\services\general.service.ts
+  GET - http://medical-bd.restart-technology.com/api/api/v2/cities (Line 17)
+  GET - http://medical-bd.restart-technology.com/api/api/v2/categories (Line 20)
+  GET - http://medical-bd.restart-technology.com/api/api/v2/sub-categories (Line
+ 23)
+  GET - http://medical-bd.restart-technology.com/api/products (Line 26)
+  GET - http://medical-bd.restart-technology.com/api/cities (Line 31)
+  GET - http://medical-bd.restart-technology.com/api/tracks (Line 34)
+  GET - http://medical-bd.restart-technology.com/api/warehouses (Line 38)
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 42)
+  GET - http://medical-bd.restart-technology.com/api/users/sales (Line 48)
+  GET - http://medical-bd.restart-technology.com/api/clients (Line 52)
+  GET - http://medical-bd.restart-technology.com/api/pharmacies (Line 56)
+  GET - http://medical-bd.restart-technology.com/api/users/roles (Line 60)
+  GET - http://medical-bd.restart-technology.com/api/users/roles/users (Line 64)
+  GET - http://medical-bd.restart-technology.com/api/products/manufacturers (Line 68)
+  GET - http://medical-bd.restart-technology.com/api/users/suppliers (Line 72)
+  GET - http://medical-bd.restart-technology.com/api/warehouses/corridors (Line76)
+  GET - http://medical-bd.restart-technology.com/api/users/receivers-auditor (Line 80)
+  GET - http://medical-bd.restart-technology.com/api/areas (Line 84)
+  GET - http://medical-bd.restart-technology.com/api/users/receivers-auditor-store-keepers (Line 87)
+  GET - http://medical-bd.restart-technology.com/api/users/retail-sales-auditor(Line 91)
+  GET - http://medical-bd.restart-technology.com/api/settings/enums (Line 95)
+  GET - http://medical-bd.restart-technology.com/api/users/retail-preparation (Line 100)
+  GET - http://medical-bd.restart-technology.com/api/settings/filters (Line 109)
+
+File: ..\src\app\views\auth\login\login.component.ts
+  POST - http://medical-bd.restart-technology.com/api/auth/login (Line 46)
+  GET - http://medical-bd.restart-technology.com/api/settings/warehouses/system(Line 92)
+
+File: ..\src\app\views\clients\add-client\add-client.component.ts
+  GET - http://medical-bd.restart-technology.com/api/tracks (Line 292)
+  GET - http://medical-bd.restart-technology.com/api/tracks (Line 302)
+  POST - http://medical-bd.restart-technology.com/api/pharmacies/store (Line 420)
+
+File: ..\src\app\views\clients\Add-sub-client\Add-sub-client.component.ts
+  GET - http://medical-bd.restart-technology.com/api/tracks (Line 276)
+  GET - http://medical-bd.restart-technology.com/api/tracks (Line 286)
+  POST - http://medical-bd.restart-technology.com/api/pharmacies/add-pharmacy-to-client (Line 434)
+
+File: ..\src\app\views\clients\clients-list\clients-list.component.ts
+  GET - http://medical-bd.restart-technology.com/api/clients/dropdown (Line 342)
+  PUT - http://medical-bd.restart-technology.com/api/pharmacies/add-extra-discount (Line 480)
+
+File: ..\src\app\views\clients\edit-client-info\edit-client-info.component.ts
+  GET - http://medical-bd.restart-technology.com/api/clients/dropdown (Line 158)
+  GET - http://medical-bd.restart-technology.com/api/tracks (Line 295)
+  GET - http://medical-bd.restart-technology.com/api/tracks (Line 307)
+  DELETE - http://medical-bd.restart-technology.com/api/pharmacies/delete-media(Line 493)
+  POST - http://medical-bd.restart-technology.com/api/pharmacies/update/${this.editPharmacyForm.controls[  (Line 564)
+
+File: ..\src\app\views\clients\transaction-volume-cash\transaction-volume-cash.component.ts
+  GET - http://medical-bd.restart-technology.com/api/clients/dropdown (Line 353)
+  GET - http://medical-bd.restart-technology.com/api/pharmacies (Line 366)
+  GET - http://medical-bd.restart-technology.com/api/cash_payment (Line 604)
+  GET - http://medical-bd.restart-technology.com/api/cash_receive (Line 622)
+  GET - http://medical-bd.restart-technology.com/api/transactions/sales (Line 638)
+  GET - http://medical-bd.restart-technology.com/api/orders/returns (Line 649)
+  GET - http://medical-bd.restart-technology.com/api/transactions/purchases (Line 663)
+  GET - http://medical-bd.restart-technology.com/api/transactions/purchase-returns (Line 676)
+  GET - http://medical-bd.restart-technology.com/api/transactions/adjustment-notes (Line 690)
+  GET - http://medical-bd.restart-technology.com/api/transactions/adjustment-notes (Line 702)
+  GET - http://medical-bd.restart-technology.com/api/balance/transferred (Line 714)
+  GET - http://medical-bd.restart-technology.com/api/balance/received (Line 727)
+  GET - http://medical-bd.restart-technology.com/api/transactions/reports (Line738)
+  GET - http://medical-bd.restart-technology.com/api/transactions/reports-owe (Line 743)
+  GET - http://medical-bd.restart-technology.com/api/orders/invoice-content (Line 775)
+
+File: ..\src\app\views\complains\complain-request\complain-request.component.ts
+  GET - http://medical-bd.restart-technology.com/api/clients/dropdown (Line 91)
+  POST - http://medical-bd.restart-technology.com/api/settings/complains/create(Line 259)
+
+File: ..\src\app\views\delivery\register-return-permission\register-return-permission.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/invoice-content-inventoried (Line 150)
+  POST - http://medical-bd.restart-technology.com/api/orders/returns/validate-quantity (Line 250)
+  POST - http://medical-bd.restart-technology.com/api/orders/returns/create (Line 291)
+
+File: ..\src\app\views\delivery\search-order\search-order.component.ts
+  GET - http://medical-bd.restart-technology.com/api/clients/dropdown (Line 232)
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 249)
+
+File: ..\src\app\views\general-settings\settings\settings.component.ts
+  GET - http://medical-bd.restart-technology.com/api/settings/warehouses (Line 166)
+  POST - http://medical-bd.restart-technology.com/api/settings/warehouses/baskets/set-total-count (Line 226)
+  POST - http://medical-bd.restart-technology.com/api/settings/warehouses/baskets/mark-damaged (Line 243)
+  POST - http://medical-bd.restart-technology.com/api/settings/warehouses/baskets/${id}/restore (Line 257)
+  POST - http://medical-bd.restart-technology.com/api/settings/warehouses/high-price (Line 273)
+  POST - http://medical-bd.restart-technology.com/api/settings/warehouses/expiration-warning (Line 289)
+  POST - http://medical-bd.restart-technology.com/api/settings/warehouses/system(Line 305)
+
+File: ..\src\app\views\orders\all-orders\all-orders.component.ts
+  GET - http://medical-bd.restart-technology.com/api/clients/dropdown (Line 284)
+  GET - http://medical-bd.restart-technology.com/api/users/delivers (Line 323)
+  GET - http://medical-bd.restart-technology.com/api/pharmacies/view (Line 407)
+  GET - http://medical-bd.restart-technology.com/api/orders/invoice-content (Line 557)
+
+File: ..\src\app\views\orders\drug-info\drug-info.component.ts
+  GET - http://medical-bd.restart-technology.com/api/products/view (Line 191)
+
+File: ..\src\app\views\orders\invoice-details\invoice-details.component.ts
+  GET - http://medical-bd.restart-technology.com/api/clients/view (Line 362)
+
+File: ..\src\app\views\orders\register-request\register-request.component.ts
+  GET - http://medical-bd.restart-technology.com/api/products/offers/check (Line 216)
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 246)
+  GET - http://medical-bd.restart-technology.com/api/clients/dropdown (Line 258)
+  GET - http://medical-bd.restart-technology.com/api/clients (Line 325)
+  GET - http://medical-bd.restart-technology.com/api/pharmacies/view (Line 350)
+  GET - http://medical-bd.restart-technology.com/api/products/view (Line 420)
+  POST - http://medical-bd.restart-technology.com/api/carts/create (Line 802)
+  DELETE - http://medical-bd.restart-technology.com/api/carts/${cart_id}/batches/${batch_id}/delete (Line 916)
+  POST - http://medical-bd.restart-technology.com/api/carts/delete-all (Line 961)
+  POST - http://medical-bd.restart-technology.com/api/orders/create (Line 1017)
+  GET - http://medical-bd.restart-technology.com/api/waiting-list (Line 1148)
+  GET - http://medical-bd.restart-technology.com/api/products (Line 1238)
+
+File: ..\src\app\views\orders\track-delivery\track-delivery.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/follow-up (Line 104)
+  GET - http://medical-bd.restart-technology.com/api/clients/dropdown (Line 134)
+
+File: ..\src\app\views\orders\waiting-clients\waiting-clients.component.ts
+  GET - http://medical-bd.restart-technology.com/api/waiting-list (Line 88)
+  GET - http://medical-bd.restart-technology.com/api/pharmacies (Line 101)
+  GET - http://medical-bd.restart-technology.com/api/clients/dropdown (Line 116)
+  POST - http://medical-bd.restart-technology.com/api/waiting-list/create (Line 143)
+
+File: ..\src\app\views\purchase\discount\market-discount\market-discount.component.ts
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 77)
+
+File: ..\src\app\views\purchase\expirations-and-operations\edit-operations\edit-operations.component.ts
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 203)
+  POST - http://medical-bd.restart-technology.com/api/products/batches/update (Line 343)
+
+File: ..\src\app\views\purchase\expirations-and-operations\expirations-and-operations-reports\expirations-and-operations-reports.component.ts
+  GET - http://medical-bd.restart-technology.com/api/products/batches/almost-expired (Line 192)
+
+File: ..\src\app\views\purchase\expirations-and-operations\prohibited-expirations\prohibited-expirations.component.ts
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 71)
+  POST - http://medical-bd.restart-technology.com/api/products/batches/prohibited/store (Line 159)
+  GET - http://medical-bd.restart-technology.com/api/products/batches/prohibited(Line 175)
+
+File: ..\src\app\views\purchase\Item-sales-productivity\area-sales\area-sales.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/city-sales (Line 211)
+
+File: ..\src\app\views\purchase\Item-sales-productivity\item-sales\item-sales.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/salesman-productivity (Line 278)
+
+File: ..\src\app\views\purchase\Item-sales-productivity\productivity-of-area\productivity-of-area.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/city-sales (Line 226)
+
+File: ..\src\app\views\purchase\Item-sales-productivity\productivity-of-city\productivity-of-city.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/city-sales (Line 223)
+
+File: ..\src\app\views\purchase\Item-sales-productivity\Productivity-of-company\Productivity-of-company.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/salesman-productivity (Line 281)
+
+File: ..\src\app\views\purchase\Item-sales-productivity\Productivity-of-item-sales\Productivity-of-item-sales.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/salesman-productivity (Line 282)
+
+File: ..\src\app\views\purchase\Item-sales-productivity\productivity-of-track\productivity-of-track.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/city-sales (Line 228)
+
+File: ..\src\app\views\purchase\Item-sales-productivity\Sales-of-items-by-active-ingredient\Sales-of-items-by-active-ingredient.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/salesman-productivity (Line 288)
+
+File: ..\src\app\views\purchase\Item-sales-productivity\track-sales\track-sales.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/city-sales (Line 228)
+
+File: ..\src\app\views\purchase\logs\item-logs\item-logs.component.ts
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 160)
+
+File: ..\src\app\views\purchase\logs\order-logs\order-logs.component.ts
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 226)
+
+File: ..\src\app\views\purchase\returns\create-purchase-returns\create-purchase-returns.component.ts
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 202)
+
+File: ..\src\app\views\purchase\returns\purchase_return\purchase_return.component.ts
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/get-cart-items (Line 149)
+  POST - http://medical-bd.restart-technology.com/api/purchases/returns/validate-quantity (Line 247)
+  POST - http://medical-bd.restart-technology.com/api/purchases/returns/warehouse (Line 296)
+
+File: ..\src\app\views\purchase\returns\return-details\return-details.component.ts
+  GET - http://medical-bd.restart-technology.com/api/purchases/returns/requests-report (Line 100)
+  POST - http://medical-bd.restart-technology.com/api/purchases/returns/received(Line 135)
+  POST - http://medical-bd.restart-technology.com/api/purchases/returns/printed(Line 152)
+
+File: ..\src\app\views\purchase\supply\combined-supply-request\combined-supply-request.component.ts
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/dropdown-products (Line 341)
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/product-details (Line 412)
+  POST - http://medical-bd.restart-technology.com/api/purchases/supply-request/add-to-cart (Line 446)
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/searching (Line 761)
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/get-suppliers-discount (Line 782)
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/get-calculate-bonus-history (Line 902)
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/get-cart-items (Line 1011)
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/get-net-discount (Line 1058)
+  POST - http://medical-bd.restart-technology.com/api/purchases/supply-request/calculate-bonus (Line 1088)
+
+File: ..\src\app\views\purchase\supply\product-linking\product-linking.component.ts
+  POST - http://medical-bd.restart-technology.com/api/purchases/supplier-products/compare-products (Line 196)
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 311)
+  GET - http://medical-bd.restart-technology.com/api/purchases/supplier-products/get-by-status (Line 433)
+
+File: ..\src\app\views\purchase\supply\supply-request\supply-request.component.ts
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/dropdown-products (Line 397)
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/product-details (Line 467)
+  POST - http://medical-bd.restart-technology.com/api/purchases/supply-request/add-to-cart (Line 502)
+  DELETE - http://medical-bd.restart-technology.com/api/purchases/supply-request/delete-items-by-quantity (Line 526)
+  DELETE - http://medical-bd.restart-technology.com/api/purchases/supply-request/delete-item (Line 633)
+  DELETE - http://medical-bd.restart-technology.com/api/purchases/supply-request/delete-all-cart (Line 657)
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/searching (Line 768)
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/get-calculate-bonus-history (Line 898)
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/get-cart-items (Line 1007)
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/get-net-discount (Line 1054)
+  POST - http://medical-bd.restart-technology.com/api/purchases/supply-request/calculate-bonus (Line 1084)
+
+File: ..\src\app\views\purchase\supply\supply-request-edit\supply-request-edit.component.ts
+  DELETE - http://medical-bd.restart-technology.com/api/purchases/supply-request/delete-item (Line 484)
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/get-cart-items (Line 537)
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/product-details (Line 616)
+  POST - http://medical-bd.restart-technology.com/api/purchases/supply-request/add-to-cart (Line 652)
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/dropdown-products (Line 726)
+  POST - http://medical-bd.restart-technology.com/api/purchases/supply-request/update-request (Line 834)
+  POST - http://medical-bd.restart-technology.com/api/purchases/returns/supply-request (Line 878)
+  POST - http://medical-bd.restart-technology.com/api/purchases/returns/supply-request/cancel (Line 911)
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/get-calculate-bonus-history (Line 970)
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/get-calculate-bonus-history (Line 1003)
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/get-net-discount (Line 1056)
+  POST - http://medical-bd.restart-technology.com/api/purchases/supply-request/calculate-bonus (Line 1086)
+
+File: ..\src\app\views\purchase\warehouses-transfers\register-new\register-new.component.ts
+  GET - http://medical-bd.restart-technology.com/api/purchases/transfers/searching (Line 229)
+  GET - http://medical-bd.restart-technology.com/api/purchases/transfers/product-details (Line 276)
+  POST - http://medical-bd.restart-technology.com/api/purchases/transfers/add-batch (Line 327)
+  DELETE - http://medical-bd.restart-technology.com/api/purchases/transfers/delete-batch (Line 419)
+  POST - http://medical-bd.restart-technology.com/api/purchases/transfers/submit(Line 499)
+
+File: ..\src\app\views\purchase\warehouses-transfers\transfers-products\transfers-products.component.ts
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 353)
+
+File: ..\src\app\views\salesTeam\create-client-list\create-client-list.component.ts
+  GET - http://medical-bd.restart-technology.com/api/listings (Line 277)
+  PUT - http://medical-bd.restart-technology.com/api/listings/update (Line 334)
+  POST - http://medical-bd.restart-technology.com/api/listings/create (Line 363)
+
+File: ..\src\app\views\salesTeam\productionReports\agent-productivity\agent-productivity.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/salesman-productivity (Line 263)
+
+File: ..\src\app\views\salesTeam\productionReports\agentSales\agentSales.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/salesman-sales (Line 189)
+
+File: ..\src\app\views\salesTeam\productionReports\city-productivity\city-productivity.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/city-sales (Line 171)
+
+File: ..\src\app\views\salesTeam\productionReports\cityAgentTrackSales\cityAgentTrackSales.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/city-customer-sales (Line 211)
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/city-customer-sales-non-deal (Line 233)
+
+File: ..\src\app\views\salesTeam\productionReports\cityGovernateProduction\cityGovernateProduction.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/governorate-productivity (Line 205)
+
+File: ..\src\app\views\salesTeam\productionReports\citySales\citySales.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/city-productivity (Line 158)
+
+File: ..\src\app\views\salesTeam\productionReports\clientAgentSales\clientAgentSales.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/seller-sales-with-his-clients (Line 182)
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/seller-sales-with-non-his-clients (Line 228)
+
+File: ..\src\app\views\salesTeam\productionReports\clientSales\clientSales.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/client-sales(Line 161)
+  GET - http://medical-bd.restart-technology.com/api/clients/dropdown (Line 191)
+
+File: ..\src\app\views\salesTeam\productionReports\track-productivity\track-productivity.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/track-productivity (Line 161)
+
+File: ..\src\app\views\salesTeam\productionReports\trackSales\trackSales.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/reports/track-sales(Line 177)
+
+File: ..\src\app\views\salesTeam\Sales-man-clients\Sales-man-clients.component.ts
+  GET - http://medical-bd.restart-technology.com/api/listings (Line 68)
+  DELETE - http://medical-bd.restart-technology.com/api/listings/delete (Line 86)
+
+File: ..\src\app\views\shared-module\pharmacy-invoice-template\pharmacy-invoice-template.component.ts
+  GET - http://medical-bd.restart-technology.com/api/settings (Line 42)
+
+File: ..\src\app\views\shared-module\shared_table\shared_table.component.ts
+  GET - http://medical-bd.restart-technology.com/api/purchases/supply-request/get-cart-items (Line 389)
+  DELETE - http://medical-bd.restart-technology.com/api/purchases/supply-request/delete-all-cart (Line 467)
+
+File: ..\src\app\views\warehouse\bulk-products-preparer\preparding\preparding.component.ts
+  GET - http://medical-bd.restart-technology.com/api/warehouses/orders/unprepared (Line 242)
+  GET - http://medical-bd.restart-technology.com/api/warehouses/orders/retail/view-unprepared (Line 283)
+  POST - http://medical-bd.restart-technology.com/api/warehouses/orders/prepare(Line 384)
+  POST - http://medical-bd.restart-technology.com/api/warehouses/orders/bulk/complete (Line 403)
+
+File: ..\src\app\views\warehouse\bulk-products-preparer\prepared\prepared.component.ts
+  GET - http://medical-bd.restart-technology.com/api/warehouses/orders/bulk/listing-prepared (Line 244)
+  POST - http://medical-bd.restart-technology.com/api/warehouses/orders/bulk/print (Line 276)
+  GET - http://medical-bd.restart-technology.com/api/pharmacies (Line 306)
+  GET - http://medical-bd.restart-technology.com/api/clients/dropdown (Line 320)
+  GET - http://medical-bd.restart-technology.com/api/warehouses/orders/bulk/listing-prepared (Line 352)
+  GET - http://medical-bd.restart-technology.com/api/warehouses/orders/retail/view-prepared (Line 401)
+
+File: ..\src\app\views\warehouse\housing-worker\todays-housed\todays-housed.component.ts
+  GET - http://medical-bd.restart-technology.com/api/warehouses/batches/stored (Line 383)
+  GET - http://medical-bd.restart-technology.com/api/warehouses/batches/stored (Line 451)
+
+File: ..\src\app\views\warehouse\housing-worker\todays-housing\todays-housing.component.ts
+  GET - http://medical-bd.restart-technology.com/api/warehouses/batches/storing(Line 419)
+  GET - http://medical-bd.restart-technology.com/api/warehouses/batches/storing(Line 484)
+  POST - http://medical-bd.restart-technology.com/api/warehouses/batches/complete-storing (Line 556)
+
+File: ..\src\app\views\warehouse\products-sales-reviewer\preparing-list\preparing-list.component.ts
+  GET - http://medical-bd.restart-technology.com/api/clients/dropdown (Line 125)
+
+File: ..\src\app\views\warehouse\products-sales-reviewer\products-reviewer\products-reviewer.component.ts
+  GET - http://medical-bd.restart-technology.com/api/clients/dropdown (Line 640)
+  POST - http://medical-bd.restart-technology.com/api/warehouses/orders/complete-inventorying (Line 724)
+  GET - http://medical-bd.restart-technology.com/api/products/view-by-barcode (Line 909)
+  POST - http://medical-bd.restart-technology.com/api/warehouses/orders/inventorying (Line 948)
+  POST - http://medical-bd.restart-technology.com/api/warehouses/orders/duplicate (Line 1007)
+  POST - http://medical-bd.restart-technology.com/api/products/update/${this.editBarcode.controls[  (Line 1049)
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 1064)
+
+File: ..\src\app\views\warehouse\products-sales-reviewer\reviewed-details\reviewed-details.component.ts
+  GET - http://medical-bd.restart-technology.com/api/warehouses/orders/retail/view-reviewed (Line 122)
+
+File: ..\src\app\views\warehouse\products-sales-reviewer\reviewed-list\reviewed-list.component.ts
+  GET - http://medical-bd.restart-technology.com/api/clients/dropdown (Line 197)
+
+File: ..\src\app\views\warehouse\receipts-worker\todays-deliveries\todays-deliveries.component.ts
+  GET - http://medical-bd.restart-technology.com/api/warehouses/batches/received(Line 341)
+  GET - http://medical-bd.restart-technology.com/api/warehouses/batches/received(Line 417)
+
+File: ..\src\app\views\warehouse\receipts-worker\todays-receipts\todays-receipts.component.ts
+  GET - http://medical-bd.restart-technology.com/api/warehouses/batches/receiving (Line 356)
+  GET - http://medical-bd.restart-technology.com/api/warehouses/batches/receiving (Line 409)
+  POST - http://medical-bd.restart-technology.com/api/warehouses/batches/complete-receiving (Line 470)
+
+File: ..\src\app\views\warehouse\receiving-auditor\audit-completed\audit-completed.component.ts
+  GET - http://medical-bd.restart-technology.com/api/purchases/receiving-reviewer/reviewed (Line 163)
+
+File: ..\src\app\views\warehouse\receiving-auditor\audit-completed-details\audit-completed-details.component.ts
+  GET - http://medical-bd.restart-technology.com/api/purchases/${param} (Line 153)
+
+File: ..\src\app\views\warehouse\receiving-auditor\operating-expiry-report\operating-expiry-report.component.ts
+  GET - http://medical-bd.restart-technology.com/api/products/batches/almost-expired (Line 191)
+
+File: ..\src\app\views\warehouse\receiving-auditor\prohibited-batch\prohibited-batch.component.ts
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 73)
+  POST - http://medical-bd.restart-technology.com/api/products/batches/prohibited/store (Line 161)
+  GET - http://medical-bd.restart-technology.com/api/products/batches/prohibited(Line 177)
+
+File: ..\src\app\views\warehouse\receiving-auditor\receiving-completed\receiving-completed.component.ts
+  GET - http://medical-bd.restart-technology.com/api/purchases/returns/receiving-paginated (Line 158)
+  GET - http://medical-bd.restart-technology.com/api/purchases/returns/receiving-paginated (Line 243)
+
+File: ..\src\app\views\warehouse\receiving-auditor\returned-list-details\returns-list-details.component.ts
+  GET - http://medical-bd.restart-technology.com/api/purchases/returns/view (Line 137)
+  POST - http://medical-bd.restart-technology.com/api/purchases/returns/received(Line 183)
+
+File: ..\src\app\views\warehouse\receiving-auditor\returns-list\returns-list.component.ts
+  GET - http://medical-bd.restart-technology.com/api/purchases/returned-purchases (Line 163)
+
+File: ..\src\app\views\warehouse\receiving-auditor\supply-order-details\supply-order-details.component.ts
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 306)
+  GET - http://medical-bd.restart-technology.com/api/purchases/${purchase_id} (Line 382)
+  GET - http://medical-bd.restart-technology.com/api/products/view-by-barcode (Line 706)
+  POST - http://medical-bd.restart-technology.com/api/purchases/cart/inventorying (Line 767)
+  POST - http://medical-bd.restart-technology.com/api/warehouses/batches/duplicate (Line 898)
+  POST - http://medical-bd.restart-technology.com/api/products/update/${product_id}  (Line 929)
+  POST - http://medical-bd.restart-technology.com/api/purchases/returns/reviewer-store (Line 957)
+  GET - http://medical-bd.restart-technology.com/api/purchases/returns/reviewer-cancel (Line 983)
+  POST - http://medical-bd.restart-technology.com/api/purchases/cart/remove-inventoried (Line 1012)
+  POST - http://medical-bd.restart-technology.com/api/purchases/returns/store (Line 1080)
+  POST - http://medical-bd.restart-technology.com/api/purchases/reviewing (Line1096)
+  POST - http://medical-bd.restart-technology.com/api/purchases/mark-as-reviewed(Line 1113)
+
+File: ..\src\app\views\warehouse\receiving-auditor\supply-order-list\supply-order-list.component.ts
+  GET - http://medical-bd.restart-technology.com/api/purchases/receiving-reviewer (Line 175)
+  GET - http://medical-bd.restart-technology.com/api/purchases/${id} (Line 252)
+  GET - http://medical-bd.restart-technology.com/api/purchases/print (Line 299)
+
+File: ..\src\app\views\warehouse\single-products-preparer\prepared-single-products\prepared-single-products.component.ts
+  GET - http://medical-bd.restart-technology.com/api/warehouses/orders/retail/view-prepared (Line 346)
+  GET - http://medical-bd.restart-technology.com/api/warehouses/settings (Line 389)
+  GET - http://medical-bd.restart-technology.com/api/warehouses/orders/retail/listing-prepared (Line 415)
+  GET - http://medical-bd.restart-technology.com/api/clients/dropdown (Line 550)
+  GET - http://medical-bd.restart-technology.com/api/warehouses/orders/retail/listing-prepared (Line 585)
+
+File: ..\src\app\views\warehouse\single-products-preparer\preparing-single-products\preparing-single-products.component.ts
+  GET - http://medical-bd.restart-technology.com/api/warehouses/orders/unprepared (Line 325)
+  GET - http://medical-bd.restart-technology.com/api/warehouses/orders/retail/view-unprepared (Line 388)
+  POST - http://medical-bd.restart-technology.com/api/warehouses/baskets/create(Line 474)
+  DELETE - http://medical-bd.restart-technology.com/api/warehouses/baskets/${basketId}/delete (Line 498)
+  POST - http://medical-bd.restart-technology.com/api/warehouses/orders/retail/complete (Line 547)
+  GET - http://medical-bd.restart-technology.com/api/warehouses/orders/unprepared (Line 571)
+
+File: ..\src\app\views\warehouse\storekeeper\customer-returns\register-return-permission\register-return-permission.component.ts
+  GET - http://medical-bd.restart-technology.com/api/clients/dropdown (Line 233)
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 250)
+
+File: ..\src\app\views\warehouse\storekeeper\customer-returns\register-return-permission-details\register-return-permission-details.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/invoice-content-inventoried (Line 151)
+  POST - http://medical-bd.restart-technology.com/api/orders/returns/validate-quantity (Line 251)
+  POST - http://medical-bd.restart-technology.com/api/orders/returns/create (Line 292)
+
+File: ..\src\app\views\warehouse\storekeeper\customer-returns\register-return-without-permission\register-return-without-permission.component.ts
+  GET - http://medical-bd.restart-technology.com/api/clients/dropdown (Line 133)
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 157)
+  GET - http://medical-bd.restart-technology.com/api/products (Line 334)
+  POST - http://medical-bd.restart-technology.com/api/orders/returns/validate-returns (Line 373)
+  POST - http://medical-bd.restart-technology.com/api/orders/returns/create (Line 423)
+
+File: ..\src\app\views\warehouse\storekeeper\customer-returns\return-permission-details\return-permission-details.component.ts
+  GET - http://medical-bd.restart-technology.com/api/orders/returns/get-return (Line 82)
+
+File: ..\src\app\views\warehouse\storekeeper\edit-operation\edit-date-operation\edit-date-operation.component.ts
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 209)
+  POST - http://medical-bd.restart-technology.com/api/products/batches/update (Line 356)
+
+File: ..\src\app\views\warehouse\storekeeper\inventory\warehouse-inventory\warehouse-inventory.component.ts
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 165)
+
+File: ..\src\app\views\warehouse\storekeeper\Inventory-of-Items-and-Warehouses\inventory-and-stock-balance-details\inventory-and-stock-balance-details.component.ts
+  GET - http://medical-bd.restart-technology.com/api/products (Line 169)
+  POST - http://medical-bd.restart-technology.com/api/products/update/${product_id} (Line 252)
+
+File: ..\src\app\views\warehouse\storekeeper\product-movement\product-movement.component.ts
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 712)
+  GET - http://medical-bd.restart-technology.com/api/clients/dropdown (Line 720)
+
+File: ..\src\app\views\warehouse\storekeeper\warehouse-settlement\unsettled\unsettled.component.ts
+  POST - http://medical-bd.restart-technology.com/api/warehouses/settlement/update (Line 411)
+  GET - http://medical-bd.restart-technology.com/api/clients/dropdown (Line 436)
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 453)
+
+File: ..\src\app\views\warehouse\storekeeper\warehouse-transfers\transfer-between-warehouses\transfer-between-warehouses.component.ts
+  POST - http://medical-bd.restart-technology.com/api/warehouses/transfers/confirmed-transfers (Line 349)
+  GET - http://medical-bd.restart-technology.com/api/warehouses/corridors (Line376)
+
+File: ..\src\app\views\warehouse\storekeeper\warehouse-transfers\transferred-product-based\transferred-product-based.component.ts
+  GET - http://medical-bd.restart-technology.com/api/products/dropdown (Line 333)
+

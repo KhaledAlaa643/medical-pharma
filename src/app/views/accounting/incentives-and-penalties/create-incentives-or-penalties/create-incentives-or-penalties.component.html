@@ -1,0 +1,87 @@
+<div class="main_card_margen">
+  <div class="card boxShadow-15 borderRadius_20px p-3">
+    <div id="header" class="mb-3">
+      <form id="header" [formGroup]="addForm">
+        <div class="d-flex gap-2 flex-wrap align-items-end">
+          <div class="width-25 d-flex flex-column">
+            <label class="mb-2">نوع العملية</label>
+            <p-dropdown
+              [showClear]="true"
+              [options]="types"
+              placeholder=" "
+              formControlName="type"
+              optionLabel="name"
+              optionValue="value"
+            ></p-dropdown>
+          </div>
+          <div class="width-25 d-flex flex-column">
+            <label class="mb-2"> الموظف</label>
+            <p-dropdown
+              [showClear]="true"
+              [options]="employees"
+              formControlName="user_id"
+              placeholder=" "
+              optionLabel="name"
+              optionValue="id"
+            ></p-dropdown>
+          </div>
+          <div class="width-25 d-flex flex-column">
+            <label class="mb-2"> قيمة العملية</label>
+            <p-dropdown
+              [showClear]="true"
+              [options]="transaction_value"
+              placeholder=" "
+              optionLabel="name"
+              formControlName="transaction_value"
+              optionValue="value"
+            ></p-dropdown>
+          </div>
+
+          <div class="flex-fill d-flex flex-column">
+            <label class="mb-2"> مبلغ العملية </label>
+            <input
+              type="number"
+              class="form-control"
+              formControlName="amount"
+            />
+          </div>
+        </div>
+        <div class="d-flex gap-5 flex-wrap align-items-end mt-3">
+          <div class="flex-fill d-flex flex-column">
+            <label class="mb-2"> ملاحظات </label>
+            <textarea type="text" class="form-control" formControlName="note">
+            </textarea>
+          </div>
+
+          <div *ngIf="!id" class="width-10">
+            <!-- (click)="filter()" -->
+            <button
+              (click)="onSubmit()"
+              class="green_bg_black_txt_btn width-60 p-2 h-40px borderRadius_10px border-0"
+            >
+              حفظ
+            </button>
+          </div>
+        </div>
+        <div
+          *ngIf="id"
+          class="d-flex align-items-end justify-content-end gap-2 flex-column mt-2"
+        >
+          <!-- (click)="filter()" -->
+          <button
+            (click)="updateOperation()"
+            class="greenbtnStyles width-30 p-2 h-40px borderRadius_10px border-0"
+          >
+            حفظ التعديل
+          </button>
+          <button
+            (click)="cancelOperation()"
+            class="redbtnStyles width-30 p-2 h-30px borderRadius_10px border-0"
+          >
+            إلغاء العملية
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

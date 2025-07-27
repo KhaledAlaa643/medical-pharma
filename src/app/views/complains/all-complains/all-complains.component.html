@@ -1,0 +1,23 @@
+<div class="contDiv main_card_margen">
+  <div
+    class="card boxShadow-15 justify-content-center align-items-center borderRadius_20px"
+  >
+    <div class="card boxShadow-15 borderRadius_20px border border-1 p-3 w-100">
+      <div class="borderRadius_20px p-3 pt-0 row">
+        <div class="col-md-12">
+          <app-shared_table
+            (navigateEvent)="viewComplainContent($event)"
+            [columnsArray]="columnsArray"
+            [columnsNames]="columnsName"
+            [RowsData]="allComplaintsArray"
+          ></app-shared_table>
+          <p-paginator
+            (onPageChange)="onPageChange($event)"
+            [totalRecords]="total_rec"
+            [rows]="per_page"
+          ></p-paginator>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

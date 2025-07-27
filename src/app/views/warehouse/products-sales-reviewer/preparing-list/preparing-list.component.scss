@@ -1,0 +1,115 @@
+@import 'generalTableStyle.scss';
+@import 'generalPaginationStyle.scss';
+@import 'generalInputsStyle.scss';
+
+.preparingList {
+
+    .lower-area {
+        width: 30%;
+
+        @media screen and (max-width:991px) {
+            width: 100%;
+
+        }
+    }
+
+    .lower-area-box {
+        border: 2px solid var(--darkGreen);
+        border-radius: 10px;
+        @media screen and (max-width:991px) {
+            width: 100% !important;
+        }
+    }
+
+    .lower-area-title {
+        border-left: 2px solid var(--darkGreen);
+
+        @media screen and (max-width:991px) {
+            width: 50%;
+        }
+    }
+
+    .numbers {
+
+        @media screen and (max-width:991px) {
+            width: 50% !important;
+        }
+    }
+
+    .btnStyling {
+        margin-top: 25px;
+        background-color: var(--darkGreen);
+        border-radius: 10px;
+        width: 150px;
+        height: 60px;
+        color: black;
+        border: none;
+        font-weight: 600;
+
+        @media screen and (max-width:991px) {
+            width: 100%;
+        }
+
+    }
+
+    .backArea {
+        border: 1px solid #e4e4e4;
+        border-radius: 20px;
+        margin: 1%;
+        padding: 1%;
+        background-color: white;
+        box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1)
+    }
+
+
+
+    ::ng-deep {
+        .p-datatable .p-datatable-tbody>tr {
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        .p-datatable-scrollable .p-datatable-wrapper {
+            height: 77vh;
+        }
+
+        .p-dropdown .p-dropdown-clear-icon {
+            right: 7px;
+        }
+
+        .p-datatable .p-datatable-thead>tr {
+            width: 100%;
+        }
+
+        .p-datatable-scrollable .p-datatable-thead>tr {
+            font-family: "NOTO"
+        }
+
+        .p-datatable .p-datatable-thead>tr>th {
+            background-color: white;
+            font-weight: 500;
+            padding: 10px 10px;
+
+        }
+
+        .p-datatable-scrollable .p-datatable-thead>tr>th {
+            padding-top: 2rem;
+            width: 100px;
+        }
+
+        .p-datatable-scrollable .p-datatable-thead>tr>th {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+
+
+
+        .bottomArea {
+            @media screen and (max-width:769px) {
+                flex-direction: column;
+            }
+        }
+
+    }
+}

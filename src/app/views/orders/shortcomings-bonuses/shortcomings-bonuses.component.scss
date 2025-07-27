@@ -1,0 +1,29 @@
+@import 'generalTableStyle.scss';
+
+.ContDiv {
+
+    .titleSearch {
+        @media screen and (max-width:426px) {
+            flex-wrap: wrap !important;
+        }
+    }
+
+}
+
+
+.flex-col-sm {
+    @media screen and (max-width:768px) {
+        flex-direction: column !important;
+    }
+}
+
+
+
+::ng-deep .p-datatable-wrapper{
+    max-height: 300px;
+    overflow-y: auto;
+ }
+
+ .pi-spin{
+    margin-right: 10px;
+}

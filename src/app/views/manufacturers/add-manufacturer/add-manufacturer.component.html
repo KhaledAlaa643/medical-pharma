@@ -1,0 +1,137 @@
+<div class="main_card_margen">
+  <div class="card boxShadow-15 borderRadius_10px">
+    <form
+      [formGroup]="manufacturerForm"
+      (ngSubmit)="edit ? updateManufacturer() : addManufacturer()"
+      class="d-flex flex-wrap p-3"
+    >
+      <div class="d-flex flex-wrap w-100 gap-2">
+        <div class="width-40 my-2">
+          <label class="mb-2">اسم الشركة عربي</label>
+          <input
+            type="text"
+            formControlName="name_ar"
+            placeholder=" "
+            class="form-control"
+          />
+        </div>
+        <div class="width-15 my-2">
+          <label class="mb-2">رقم ترتيب الشركة</label>
+          <input
+            formControlName="order"
+            type="text"
+            placeholder=" "
+            class="form-control"
+          />
+        </div>
+        <div class="flex-fill my-2">
+          <label class="mb-2">اسم الشركة انجليزي</label>
+          <input
+            type="text"
+            formControlName="name_en"
+            placeholder=" "
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="d-flex flex-wrap w-100 gap-2">
+        <div class="width-35 my-2">
+          <label class="mb-2">رقم الهاتف 1</label>
+          <input
+            type="text"
+            formControlName="phone_1"
+            placeholder=" "
+            class="form-control"
+          />
+        </div>
+        <div class="width-35 my-2">
+          <label class="mb-2">رقم الهاتف 2</label>
+          <input
+            formControlName="phone_2"
+            type="text"
+            placeholder=" "
+            class="form-control"
+          />
+        </div>
+        <div class="flex-fill my-2">
+          <label class="mb-2">المدير المسئول</label>
+          <input
+            type="text"
+            placeholder=" "
+            formControlName="manager"
+            class="form-control"
+          />
+        </div>
+        <div class="w-100 my-2">
+          <label class="mb-2">العنوان</label>
+          <input
+            formControlName="address"
+            type="text"
+            placeholder=" "
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="d-flex flex-wrap w-100 gap-4">
+        <div class="width-15 my-2">
+          <label class="mb-2">المحافظة</label>
+          <p-dropdown
+            formControlName="city_id"
+            class="d-block"
+            optionLabel="name"
+            optionValue="id"
+            placeholder=" "
+            [options]="cites"
+            [filter]="true"
+          ></p-dropdown>
+        </div>
+        <div class="width-15 my-2">
+          <label class="mb-2">المدينة</label>
+          <p-dropdown
+            class="d-block"
+            optionLabel="name"
+            optionValue="id"
+            [options]="areas"
+            formControlName="area_id"
+            placeholder=" "
+            [filter]="true"
+          ></p-dropdown>
+        </div>
+        <div class="flex-fill my-2">
+          <label class="mb-2">الموقع علي الخريطة</label>
+          <input
+            type="text"
+            placeholder=" "
+            formControlName="location"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <!-- <div class="d-flex flex-wrap w-100 gap-4">
+        <div class="width-35 my-2">
+          <label class="mb-2">نوع الشركة</label>
+          <p-dropdown
+            class="d-block"
+            optionLabel="number"
+            optionValue="id"
+            placeholder=" "
+            [filter]="true"
+          ></p-dropdown>
+        </div>
+      </div> -->
+
+      <div
+        class="mt-5 mb-3 p-3 w-100 d-flex flex-wrap gap-2 justify-content-center"
+      >
+        <button
+          appDisableButton
+          type="submit"
+          placeholder=" "
+          class="border-0 borderRadius_20px px-5 width-30 darkGreen-bg h-50px text-white fw-bolder fs-18"
+        >
+          اضافة
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

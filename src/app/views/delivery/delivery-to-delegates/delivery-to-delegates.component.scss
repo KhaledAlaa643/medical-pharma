@@ -1,0 +1,22 @@
+@import "generalTableStyle.scss";
+@import "generalInputsStyle.scss";
+
+.radio {
+  width: 25px !important;
+  height: 25px !important;
+}
+
+.round-socket {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  background-color: #3f497f;
+  color: white;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 21.94px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+}

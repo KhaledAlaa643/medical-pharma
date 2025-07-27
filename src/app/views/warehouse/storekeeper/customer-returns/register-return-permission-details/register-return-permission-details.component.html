@@ -1,0 +1,208 @@
+<div class="contDiv main_card_margen">
+  <div class="card boxShadow-15 borderRadius_20px">
+    <div class="header">
+      <form [formGroup]="OrderDetailsForm" class="h-100">
+        <div class="align-items-center h-100 p-4 gap-2 d-flex flex-wrap">
+          <div class="width-15">
+            <span class="mb-2">كود العميل</span>
+            <input
+              readonly
+              formControlName="code"
+              class="disabled form-control w-100 filterInput"
+              type="text"
+            />
+          </div>
+          <div class="width-30">
+            <span class="mb-2">اسم العميل</span>
+            <input
+              readonly
+              formControlName="pharmacy_name"
+              class="disabled form-control w-100 filterInput"
+              type="text"
+            />
+          </div>
+          <div class="width-30">
+            <span class="mb-2">التاريخ والوقت</span>
+            <input
+              readonly
+              formControlName="created_at"
+              class="disabled form-control w-100 filterInput"
+              type="text"
+            />
+          </div>
+          <div class="width-15">
+            <span class="mb-2"> رقم الأذن</span>
+            <input
+              readonly
+              formControlName="order_number"
+              class="disabled form-control w-100 filterInput"
+              type="text"
+            />
+          </div>
+        </div>
+        <div class="align-items-center h-100 p-4 gap-2 d-flex flex-wrap">
+          <div class="width-21">
+            <span class="mb-2">المخزن</span>
+            <input
+              readonly
+              formControlName="warehouse_id"
+              class="disabled form-control w-100 filterInput"
+              type="text"
+            />
+          </div>
+          <div class="width-35">
+            <span class="mb-2">اسم المندوب</span>
+            <input
+              readonly
+              formControlName="sales_id"
+              class="disabled form-control w-100 filterInput"
+              type="text"
+            />
+          </div>
+          <div class="width-35">
+            <span class="mb-2">اسم الموزع</span>
+            <input
+              readonly
+              formControlName="delivery_id"
+              class="disabled form-control w-100 filterInput"
+              type="text"
+            />
+          </div>
+        </div>
+      </form>
+      <span class="my-2 p-3 fw-bold">المرتجعات</span>
+    </div>
+    <form [formGroup]="addReturnProductForm" class="h-100">
+      <div class="h-100 p-4 gap-2 d-flex flex-wrap">
+        <div class="width-22">
+          <span class="mb-2">اسم الصنف</span>
+          <p-dropdown
+            (click)="setProductData(productsDropdown)"
+            (keydown.enter)="setProductData(productsDropdown)"
+            #productsDropdown
+            [options]="orderProducts"
+            formControlName="batch_id"
+            placeholder=" "
+            class="dropdown-style"
+            optionLabel="product_name"
+            optionValue="batch_id"
+          ></p-dropdown>
+        </div>
+        <div class="width-7">
+          <span class="mb-2">الصلاحية</span>
+
+          <input
+            formControlName="expired_at"
+            class="disabled form-control w-100 filterInput"
+            type="text"
+          />
+        </div>
+        <div class="width-7">
+          <span class="mb-2">التشغيلة</span>
+          <input
+            formControlName="operating_number"
+            class="disabled form-control w-100 filterInput"
+            type="text"
+          />
+        </div>
+        <div class="width-7">
+          <span class="mb-2">الكمية</span>
+          <input
+            formControlName="quantity"
+            #priceInput
+            (keydown.enter)="setNewTotal($event)"
+            class="form-control w-100 filterInput"
+            type="text"
+          />
+        </div>
+        <div class="width-15">
+          <span class="mb-2">السعر</span>
+          <input
+            readonly
+            formControlName="price"
+            class="disabled form-control w-100 filterInput"
+            type="text"
+          />
+        </div>
+        <div class="width-7">
+          <span class="mb-2">الخصم</span>
+          <input
+            readonly
+            formControlName="discount"
+            (change)="setNewTotal()"
+            class="disabled form-control w-100 filterInput"
+            type="text"
+          />
+        </div>
+        <div class="width-13">
+          <span class="mb-2">سبب المرتجع</span>
+          <p-dropdown
+            formControlName="reason"
+            (click)="focusSubmit(reasonDropdown)"
+            (keydown.enter)="focusSubmit(reasonDropdown)"
+            #reasonDropdown
+            [options]="reasons"
+            placeholder=""
+            class="dropdown-style"
+            optionLabel="name"
+            optionValue="value"
+          ></p-dropdown>
+        </div>
+
+        <div class="flex-fill d-flex align-items-end mb-1">
+          <div class="w-100 d-flex justify-content-end">
+            <button
+              appDisableButton
+              (click)="addReturn()"
+              #submitbtn
+              appDisableButton
+              class="searchBtn"
+            >
+              اضافة
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div
+      *ngIf="returnList.length > 0"
+      class="my-2 p-4 d-flex justify-content-between"
+    >
+      <span class="fw-bold">أصناف المرتجع</span>
+      <span
+        (click)="deleteAll()"
+        class="text-decoration-underline red-color cursor-pointer"
+        >حذف جميع الأصناف</span
+      >
+    </div>
+    <div *ngIf="returnList.length > 0" class="p-4 pt-0">
+      <app-shared_table
+        [columnsArray]="columnsArray"
+        [columnsNames]="columnsName"
+        [RowsData]="returnList"
+        (deleteEvent)="deleteReturn($event)"
+      ></app-shared_table>
+
+      <div class="d-flex justify-content-between align-items-center my-2 p-3">
+        <div class="width-30 mt-2">
+          <div
+            class="h-60px borderRadius_20px justify-content-center p-2 lightGreen-border d-flex align-items-center"
+          >
+            اجمالي عدد المرتجعات : {{ returnList.length }}
+          </div>
+        </div>
+        <div class="width-70 d-flex justify-content-end">
+          <button
+            appDisableButton
+            (click)="finishReturnPermission()"
+            class
+            appDisableButton
+            class="searchBtn text-white"
+          >
+            حفظ الاشعار
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

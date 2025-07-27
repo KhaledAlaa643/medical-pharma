@@ -1,0 +1,43 @@
+@import "generalTableStyle.scss";
+@import "generalInputsStyle.scss";
+@import "generalPaginationStyle.scss";
+
+.TableResoponsiveFix {
+  display: flex;
+
+  @media screen and (max-width: 769px) {
+    display: block !important;
+  }
+}
+
+.width-50Percent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 50%;
+  height: 500px;
+
+  @media screen and (max-width: 769px) {
+    width: 100% !important;
+    display: block !important;
+  }
+}
+.tableHeader {
+  background-color: #3f497f;
+  color: white;
+  border: 0px 10px 0px 0px;
+  border-radius: 0px 10px 0px 0px;
+}
+
+.tableHeader2 {
+  background-color: #3f497f;
+  color: white;
+  border: 0px 0px 10px 0px;
+  border-radius: 10px 0px 0px 0px;
+}
+
+::ng-deep .p-datatable-scrollable .p-datatable-tbody {
+  overflow-y: auto;
+  display: block;
+  margin-right: 15px;
+}

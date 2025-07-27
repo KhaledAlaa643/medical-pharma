@@ -1,0 +1,119 @@
+<div class="main_card_margen">
+  <div *ngIf="Complain" class="card borderRadius_10px boxShadow-10 p-3">
+    <div class="row">
+      <div class="col-xs-12 col-md-6 col-lg-2">
+        <div>
+          <label class="form-label fw-500 fs-16 mb-1">كود العميل</label>
+          <input
+            [(ngModel)]="Complain.client.code"
+            pInputText
+            type="text"
+            placeholder=" "
+            disabled
+            class="h-40px form-control defaultBg w-100"
+          />
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6 col-lg-3">
+        <div class="">
+          <label class="form-label fw-500 fs-16 mb-1">اسم العميل</label>
+          <input
+            [(ngModel)]="Complain.client.name"
+            pInputText
+            type="text"
+            placeholder=" "
+            disabled
+            class="h-40px form-control defaultBg w-100"
+          />
+        </div>
+      </div>
+      <div class="col-xs-12 col-md-6 col-lg-3">
+        <div class="">
+          <label class="form-label fw-500 fs-16 mb-1">اسم الصيدلية </label>
+        </div>
+        <input
+          [(ngModel)]="Complain.pharmacy.name"
+          pInputText
+          type="text"
+          placeholder=" "
+          disabled
+          class="h-40px form-control defaultBg w-100"
+        />
+      </div>
+      <div class="col-xs-12 col-md-6 col-lg-4">
+        <div class="">
+          <label class="form-label fw-500 fs-16 mb-1">مندوب المبيعات</label>
+        </div>
+        <input
+          [(ngModel)]="Complain.sales.name"
+          pInputText
+          type="text"
+          placeholder=" "
+          disabled
+          class="form-control defaultBg w-100 h-40px"
+        />
+      </div>
+      <div class="row my-4">
+        <div class="col-xs-12 col-md-6 col-lg-3">
+          <div class="">
+            <label class="form-label fw-500 fs-16 mb-1">قسم </label>
+          </div>
+          <input
+            [(ngModel)]="Complain.department.name"
+            pInputText
+            type="text"
+            placeholder=" "
+            disabled
+            class="form-control defaultBg w-100 h-40px"
+          />
+        </div>
+        <div class="col-xs-12 col-md-6 col-lg-4">
+          <div class="">
+            <label class="form-label fw-500 fs-16 mb-1"
+              >الموظف المشكو في حقه
+            </label>
+          </div>
+          <input
+            [(ngModel)]="Complain.user.name"
+            pInputText
+            type="text"
+            placeholder=" "
+            disabled
+            class="form-control defaultBg w-100 h-40px"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-12">
+        <label for="complaintBox"> نص الشكاوي </label>
+        <textarea
+          type="textarea"
+          name="complaintBody"
+          id="complaintBody"
+          disabled
+          [(ngModel)]="Complain.body"
+          class="form-control defaultBg borderRadius_10px my-1 mx-0 py-2 w-100"
+          rows="15"
+          cols="50"
+        ></textarea>
+      </div>
+    </div>
+    <div *ngIf="type && type == 'unsolved'">
+      <button
+        (click)="completeComplaint()"
+        appDisableButton
+        class="btn btn-success text-white border rounded-pill d-flex justify-content-center mx-auto my-2 py-2 w-25"
+      >
+        تسجيل تم حل الشكوي
+      </button>
+    </div>
+    <div *ngIf="type && type == 'solved'">
+      <button
+        class="btn btn-success text-white h-60 border solve_button rounded-pill d-flex justify-content-center mx-auto my-2 py-2 w-50"
+      >
+        تم الحل بواسطة {{ Complain.solver.name }}
+      </button>
+    </div>
+  </div>
+</div>

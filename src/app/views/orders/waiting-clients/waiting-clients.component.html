@@ -1,0 +1,60 @@
+<div class="divCont mt-4">
+  <div class="HLine"></div>
+
+  <div
+    style="border-left: 1px solid #e4e4e4"
+    class="d-flex w-100 flex-wrap justify-content-between gap-3"
+  >
+    <div class="row w-100 align-items-end">
+      <div class="col-md-12 col-lg-6">
+        <label class="mb-2">اسم العميل المنتظر </label>
+        <p-dropdown
+          [options]="groupPharmacied"
+          [(ngModel)]="pharmacyID"
+          placeholder=" "
+          [showClear]="true"
+          class="my-1 mx-0 py-2 w-100"
+          optionLabel="name"
+          optionValue="id"
+        >
+          <ng-template pTemplate="selectedItem" let-selectedItem>
+            <div class="flex align-items-center gap-2">
+              <div>{{ selectedItem.name }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class="col-md-12 col-lg-4">
+        <div class="mt-4">
+          <div
+            (click)="addWaitingClient()"
+            class="cursor-pointer d-flex openCardBtn borderRadius_20px h-40px darkGreen-bg text-center align-items-center justify-content-center"
+          >
+            <span class="color-white fw-600 fs-16">
+              حفظ في قائمة الانتظار
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="HLine"></div>
+    <div class="w-100">
+      <div class="py-3">
+        <span>قائمة العملاء المنتظرون</span>
+      </div>
+      <div>
+        <div class="borderRadius_20px p-3 pt-0 row">
+          <div class="col-md-12 waitinglistTableResposinveFix">
+            <app-shared_table
+              [columnsArray]="columnsArray"
+              [columnsNames]="columnsName"
+              [RowsData]="waitingClients"
+              (productClickEvent)="getClientIds($event)"
+            ></app-shared_table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

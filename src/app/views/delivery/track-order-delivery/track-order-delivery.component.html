@@ -1,0 +1,53 @@
+<div class="main_card_margen">
+  <div class="card boxShadow-15 borderRadius_20px p-3">
+   <div id="header" class="d-flex flex-wrap gap-2 align-items-end">
+    <div class="width-20 my-2 ">
+      <label class="  mb-2">كود العميل</label>
+      <input  type="text" placeholder=" " class=" form-control" style="direction: rtl;">
+    </div>
+    <div class="width-20 my-2 ">
+      <label class="  mb-2">اسم العميل</label>
+      <input  type="text" placeholder=" " class=" form-control" style="direction: rtl;">
+    </div>
+    <div class="width-20 my-2 ">
+      <label class="  mb-2">رقم الأذن</label>
+      <input  type="text" placeholder=" " class=" form-control" style="direction: rtl;">
+    </div>
+    <div class="width-10 my-2">
+      <button class="green_bg_black_txt_btn w-100  p-2 h-40px borderRadius_10px border-0">بحث</button>
+    </div>
+   </div>
+    <div  id="tabs" class="d-flex flex-wrap align-items-center">
+      <div class=" d-flex flex-wrap flex-fill text-center gap-1 ">
+        <div class="p-2 width-12"  *ngFor="let track of tracks">
+          <div appDisableButton (click)="changeActiveTap(track.number)"  [ngClass]="{'activeTab':isActiveTapArray[track.number]}"
+            class="fw-bold position-relative flex-wrap w-100 cursor-pointer borderRadius_10px tab boxShadow-15 m-2 py-3 px-4  defaultBg d-flex align-items-center justify-content-center">
+            <p class="text-center   m-auto "> {{track.name}} </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+        <!--table-->
+        <div id="table">
+          <app-shared_table 
+          [columnsArray]="columnsArray" 
+          [columnsNames]="columnsName"
+          [RowsData]="data"
+          ></app-shared_table>
+        </div>
+    
+        <div  class="w-100 my-2">
+          <div class="row  m-2 p-2 align-items-center">
+            <div class="col-lg-4 mt-2 ">
+              <div class=" h-60px borderRadius_20px justify-content-center p-2 lightGreen-border d-flex align-items-center">
+                اجمالي عدد الأذونات : 2000   
+              </div>
+            </div>
+          </div>
+          
+        </div>
+
+  </div>
+</div>
