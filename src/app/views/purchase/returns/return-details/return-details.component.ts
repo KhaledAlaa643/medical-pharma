@@ -70,7 +70,7 @@ export class ReturnDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.return_id=Number(this.activatedRoute.snapshot.paramMap.get('return_id'))
-
+      
     this.ReturnDetailsForm=this.fb.group({
       supplier_code:[''],
       supplier_name:[''],
@@ -88,7 +88,7 @@ export class ReturnDetailsComponent implements OnInit {
       note:['']
     })
 
-    this.getreturnData()
+    this.getreturnData()    
 
     this.acceptReturnForm.controls['purchases_return_id'].setValue(this.return_id)
 
@@ -99,6 +99,7 @@ export class ReturnDetailsComponent implements OnInit {
   getreturnData(){
     this.subs.add(this.http.getReq('purchases/returns/requests-report',{params:{'purchases_return_id':this.return_id}}).subscribe({
       next:res=>{
+        this.ReturnDetailsForm.get('status')?.setValue(res.data[0].status.name);
        this.returnData=res.data[0]
       },complete:()=>{
           this.returnData.returned_items.forEach((returnable:any) => {
@@ -151,7 +152,7 @@ export class ReturnDetailsComponent implements OnInit {
   changeStatus(){
     this.subs.add(this.http.postReq('purchases/returns/printed',{purchases_return_id:this.return_id}).subscribe({
       next:res=>{
-
+        
       },complete:()=>{
         if(this.ReturnDetailsForm.controls['status'].value!='تم الطباعة'){
           this.return_status=2
