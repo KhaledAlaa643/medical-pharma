@@ -128,7 +128,8 @@ export class SupplyRequestEditComponent implements OnInit {
 
   cartUpdated: boolean = false;
   returnUpdated: boolean = false;
-
+  
+  hasStatusTwo: boolean = false;
   constructor(
     private http: HttpService,
     private auth: AuthService,
@@ -602,6 +603,11 @@ export class SupplyRequestEditComponent implements OnInit {
               total_supply_price: res.additional_data.total_supply_price,
               order_note: res.data.note,
             };
+            this.hasStatusTwo = res.data.status.value === 2 || res.data.status.value === 3
+            
+            if (this.hasStatusTwo) {
+              this.supply_request_details.total_returns = res.additional_data.total_returns;
+            }
             res.data.cart.forEach((item: any) => {
               if (item.status.value == 2) {
                 this.returns.push(item);

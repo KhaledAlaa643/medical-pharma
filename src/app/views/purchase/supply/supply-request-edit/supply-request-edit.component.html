@@ -487,6 +487,12 @@
         <span class="fs-14 fw-600">صافي الطلب</span>
         <span class="fw-600">{{ supplyRequestTotals.total_net }}</span>
       </div>
+      <div *ngIf="hasStatusTwo"
+        class="d-flex width-14 h-50px text-center lightGreen-border borderRadius_20px p-2 flex-column justify-content-center align-items-center"
+      >
+        <span class="fs-14 fw-600">اجمالي المرتجع</span>
+        <span class="fw-600">{{ supplyRequestTotals.total_returns }}</span>
+      </div>
       <div class="d-flex gap-2 justify-content-end flex-fill">
         <div class="h-50px width-15">
           <button
